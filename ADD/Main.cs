@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -31,7 +29,7 @@ namespace ADD
         public static Dictionary<string, int> coinTransactionSize;
         public static Dictionary<string, Boolean> coinGetRawSupport;
         public static Dictionary<string, Boolean> coinFeePerAddress;
-        public static Form mainForm;
+        public static Dictionary<string, Boolean> coinDisabled;
         IDictionary<string, decimal> allAccounts;
         Dictionary<string, IEnumerable<string>> coinLastMemoryDump;
 
@@ -97,12 +95,12 @@ namespace ADD
 
         }
 
-        private void CreateLedgerFile(int PayloadByteSize, string Signature, string WalletRPCIP, string WalletRPCPort, string WalletRPCUser, string WalletRPCPassword, string WalletLabel, byte CoinVersion, decimal CoinMinTransaction, string FilePath = null, string ledgerId = null, string TextMessage = null)
+        private void CreateLedgerFile(int PayloadByteSize, string Padding, string WalletRPCIP, string WalletRPCPort, string WalletRPCUser, string WalletRPCPassword, string WalletLabel, byte CoinVersion, decimal CoinMinTransaction, string FilePath = null, string ledgerId = null, string TextMessage = null)
         {
 
             Guid processId = Guid.NewGuid();
             byte[] arcPayloadBytes = new byte[PayloadByteSize + 1];
-            byte[] arcPadding = UTF8Encoding.UTF8.GetBytes(Signature);
+            byte[] arcPadding = UTF8Encoding.UTF8.GetBytes(Padding);
             arcPayloadBytes[0] = CoinVersion;
             int payloadBytePosition = 1;
             byte[] fileBytes = null;
@@ -262,6 +260,7 @@ namespace ADD
                 arcLedger.Close();
                 readARC.Close();
 
+                //Wait for the wallet to catch up.
                 System.Threading.Thread.Sleep(2000);
                 processLedger(processId.ToString());
 
@@ -294,12 +293,12 @@ namespace ADD
         private void btnAttachFiles_Click(object sender, EventArgs e)
         {
 
-            DialogResult result = attachFiles.ShowDialog(); // Show the dialog.
-            if (result == DialogResult.OK) // Test result.
+            DialogResult result = attachFiles.ShowDialog();
+            if (result == DialogResult.OK)
             {
                 fileSize = (decimal)0;
                 txtFileName.Text = String.Join(",", attachFiles.FileNames);
-
+                
                 foreach (var f in attachFiles.FileNames)
                 {
                     var fileBytes = System.IO.File.ReadAllBytes(f);
@@ -324,7 +323,6 @@ namespace ADD
         {
             try
             {
-
                 coinVersion = new Dictionary<string, byte>();
                 coinPayloadByteSize = new Dictionary<string, int>();
                 coinTransactionFee = new Dictionary<string, decimal>();
@@ -336,15 +334,16 @@ namespace ADD
                 coinPassword = new Dictionary<string, string>();
                 coinGetRawSupport = new Dictionary<string, bool>();
                 coinFeePerAddress = new Dictionary<string, bool>();
+                coinDisabled = new Dictionary<string, bool>();
                 coinLastMemoryDump = new Dictionary<string, IEnumerable<string>>();
                 string confLine;
 
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin-Wallet 0 20 .0001 .000055 164 8332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True False");
-                    writeCoinConf.WriteLine("Litecoin-Wallet 48 20 .001 .00000001 164 9332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True True");
-                    writeCoinConf.WriteLine("Devcoin-Wallet 0 20 1 .00000001 328 6333 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD False True");
+                    writeCoinConf.WriteLine("Bitcoin-Wallet 0 20 .0001 .000055 164 8332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True False False");
+                    writeCoinConf.WriteLine("Litecoin-Wallet 48 20 .001 .00000001 164 9332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True True False");
+                    writeCoinConf.WriteLine("Devcoin-Wallet 0 20 1 .00000001 328 6333 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD False True False");
                     writeCoinConf.Close();
                 }
 
@@ -363,7 +362,7 @@ namespace ADD
                     coinPassword.Add(coins[0], coins[9]);
                     if (coins[10].ToUpper() == "TRUE") { coinGetRawSupport.Add(coins[0], true); } else { coinGetRawSupport.Add(coins[0], false); }
                     if (coins[11].ToUpper() == "TRUE") { coinFeePerAddress.Add(coins[0], true); } else { coinFeePerAddress.Add(coins[0], false); }
-
+                    if (coins[12].ToUpper() == "TRUE") { coinDisabled.Add(coins[0], true); } else { coinDisabled.Add(coins[0], false); }
                     coinLastMemoryDump.Add(coins[0], null);
 
                 }
@@ -372,7 +371,10 @@ namespace ADD
                 cmbCoinType.Items.Add("Select Wallet");
                 foreach (string item in coinVersion.Keys)
                 {
-                    cmbCoinType.Items.Add(item.ToString());
+                    if (!coinDisabled[item])
+                    {
+                        cmbCoinType.Items.Add(item.ToString());
+                    }
                 }
 
                 cmbCoinType.SelectedIndex = 0;
@@ -402,6 +404,7 @@ namespace ADD
 
                 if (totalSize > 0)
                 {
+                    //does an ok job of estimating the archive cost
                     totalTransactionCost = Math.Round(totalSize / coinPayloadByteSize[cmbCoinType.Text], 0) * coinMinTransaction[cmbCoinType.Text];
                     if (coinFeePerAddress[cmbCoinType.Text]) { totalTransactionCost = totalTransactionCost + ((Math.Round(totalSize / coinPayloadByteSize[cmbCoinType.Text], 0)) * coinTransactionFee[cmbCoinType.Text]); }
                     totalFeeCost = Math.Round((Math.Round(totalSize / coinPayloadByteSize[cmbCoinType.Text], 0) / coinTransactionSize[cmbCoinType.Text]), 0) * coinTransactionFee[cmbCoinType.Text];
@@ -988,38 +991,48 @@ namespace ADD
 
         private void chkMonitorBlockChains_CheckedChanged(object sender, EventArgs e)
         {
-
+            var coinCount = 0; 
             foreach (var i in coinIP)
-            {
-                if (coinLastMemoryDump[i.Key] == null && coinGetRawSupport[i.Key])
                 {
-                    try
+                    if (coinLastMemoryDump[i.Key] == null && coinGetRawSupport[i.Key] && !coinDisabled[i.Key])
                     {
-                        var b = new CoinRPC(new Uri("http://" + coinIP[i.Key] + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
-                        coinLastMemoryDump[i.Key] = b.GetRawMemPool();
+                        try
+                        {
+                            var b = new CoinRPC(new Uri("http://" + coinIP[i.Key] + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
+                            coinLastMemoryDump[i.Key] = b.GetRawMemPool();
+                        }
+                        catch (Exception ex)
+                        {
+                            lblExploreStatus.Text = "Error: " + i.Key + " " + ex.Message;
+                            tmrStatusUpdate.Start();
+                        }
+                        coinCount++;
                     }
-                    catch (Exception ex)
-                    {
-                        lblExploreStatus.Text = "Error: " + i.Key + " " + ex.Message;
-                        tmrStatusUpdate.Start();
-                    }
+
+
                 }
 
-
-            }
-
-
-
-            if (chkMonitorBlockChains.Checked)
+            if (coinCount == 0)
             {
-                tmrGetNewTransactions.Start();
-                lblMonitorInfo.Visible = true;
+                lblExploreStatus.Text = "Status: Nothing to Monitor.  Check Wallet Settings";
+                tmrStatusUpdate.Start();
+                chkMonitorBlockChains.Checked = false;
             }
-            else
-            {
-                tmrGetNewTransactions.Stop();
-                lblMonitorInfo.Visible = false;
-            }
+
+
+
+
+                if (chkMonitorBlockChains.Checked)
+                {
+                    tmrGetNewTransactions.Start();
+                    lblMonitorInfo.Visible = true;
+                }
+                else
+                {
+                    tmrGetNewTransactions.Stop();
+                    lblMonitorInfo.Visible = false;
+                }
+
 
         }
 
@@ -1028,7 +1041,7 @@ namespace ADD
             IEnumerable<string> transaction = null; 
             foreach (var i in coinIP)
             {
-                if (coinGetRawSupport[i.Key])
+                if (coinGetRawSupport[i.Key] && !coinDisabled[i.Key])
                 {
                     try
                     {
