@@ -1041,7 +1041,7 @@ namespace ADD
             IEnumerable<string> transaction = null; 
             foreach (var i in coinIP)
             {
-                if (coinGetRawSupport[i.Key] && !coinDisabled[i.Key])
+                if (!coinDisabled[i.Key] && coinGetRawSupport[i.Key])
                 {
                     try
                     {
@@ -1219,11 +1219,6 @@ namespace ADD
         private void imgEnterMessageHere_Click(object sender, EventArgs e)
         {
             txtMessage.Select();
-        }
-
-        private void menuMain_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
         }
 
     }
