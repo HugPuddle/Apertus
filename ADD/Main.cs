@@ -832,7 +832,7 @@ namespace ADD
                 searchResults.DeselectAll();
                 Image image = null;
                 try { image = Image.FromFile("root\\" + TransID + "\\" + FileName); }
-                catch { image = Image.FromFile("file-icon.png"); }
+                catch { image = (Image)ADD.Properties.Resources.file_icon; }
                 Clipboard.SetImage(image);
                 searchResults.Paste();
                 searchResults.AppendText(Environment.NewLine);
@@ -888,7 +888,7 @@ namespace ADD
             if (File.Exists("root\\" + TransactionID + "\\index.htm") && UseCache)
             {
                 searchResults.DeselectAll();
-                Image image = Image.FromFile("file-icon.png");
+                Image image = (Image)ADD.Properties.Resources.file_icon;
                 Clipboard.SetImage(image);
                 searchResults.Paste();
                 searchResults.AppendText(Environment.NewLine);

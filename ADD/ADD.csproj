@@ -176,9 +176,7 @@
     <None Include="Resources\Main.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="file-icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Resources\file-icon.png" />
     <None Include="Resources\Button2.png" />
     <None Include="Resources\Save.png" />
   </ItemGroup>
