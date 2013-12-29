@@ -62,7 +62,7 @@
             this.chkGetRawSupport = new System.Windows.Forms.CheckBox();
             this.chkFeePerAddress = new System.Windows.Forms.CheckBox();
             this.btnSave = new System.Windows.Forms.Button();
-            this.chkDisabled = new System.Windows.Forms.CheckBox();
+            this.chkEnabled = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cmbWallets
@@ -334,18 +334,18 @@
             // 
             this.chkGetRawSupport.AutoSize = true;
             this.chkGetRawSupport.Enabled = false;
-            this.chkGetRawSupport.Location = new System.Drawing.Point(358, 357);
+            this.chkGetRawSupport.Location = new System.Drawing.Point(153, 357);
             this.chkGetRawSupport.Name = "chkGetRawSupport";
-            this.chkGetRawSupport.Size = new System.Drawing.Size(147, 21);
+            this.chkGetRawSupport.Size = new System.Drawing.Size(144, 21);
             this.chkGetRawSupport.TabIndex = 32;
-            this.chkGetRawSupport.Text = "Monitor Supported";
+            this.chkGetRawSupport.Text = "Enable Monitoring";
             this.chkGetRawSupport.UseVisualStyleBackColor = true;
             // 
             // chkFeePerAddress
             // 
             this.chkFeePerAddress.AutoSize = true;
             this.chkFeePerAddress.Enabled = false;
-            this.chkFeePerAddress.Location = new System.Drawing.Point(188, 357);
+            this.chkFeePerAddress.Location = new System.Drawing.Point(357, 357);
             this.chkFeePerAddress.Name = "chkFeePerAddress";
             this.chkFeePerAddress.Size = new System.Drawing.Size(150, 21);
             this.chkFeePerAddress.TabIndex = 33;
@@ -363,22 +363,22 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // chkDisabled
+            // chkEnabled
             // 
-            this.chkDisabled.AutoSize = true;
-            this.chkDisabled.Location = new System.Drawing.Point(12, 357);
-            this.chkDisabled.Name = "chkDisabled";
-            this.chkDisabled.Size = new System.Drawing.Size(85, 21);
-            this.chkDisabled.TabIndex = 34;
-            this.chkDisabled.Text = "Disabled";
-            this.chkDisabled.UseVisualStyleBackColor = true;
+            this.chkEnabled.AutoSize = true;
+            this.chkEnabled.Location = new System.Drawing.Point(12, 357);
+            this.chkEnabled.Name = "chkEnabled";
+            this.chkEnabled.Size = new System.Drawing.Size(117, 21);
+            this.chkEnabled.TabIndex = 34;
+            this.chkEnabled.Text = "Enable Wallet";
+            this.chkEnabled.UseVisualStyleBackColor = true;
             // 
             // Wallets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(523, 390);
-            this.Controls.Add(this.chkDisabled);
+            this.Controls.Add(this.chkEnabled);
             this.Controls.Add(this.chkFeePerAddress);
             this.Controls.Add(this.chkGetRawSupport);
             this.Controls.Add(this.btnDelete);
@@ -463,6 +463,6 @@
         private System.Windows.Forms.CheckBox chkGetRawSupport;
         private System.Windows.Forms.CheckBox chkFeePerAddress;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.CheckBox chkDisabled;
+        private System.Windows.Forms.CheckBox chkEnabled;
     }
 }

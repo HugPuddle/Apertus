@@ -36,12 +36,12 @@
             // 
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.textBox1.Location = new System.Drawing.Point(13, -1);
+            this.textBox1.Location = new System.Drawing.Point(13, -7);
             this.textBox1.Margin = new System.Windows.Forms.Padding(10);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(462, 344);
+            this.textBox1.Size = new System.Drawing.Size(466, 344);
             this.textBox1.TabIndex = 0;
             this.textBox1.TabStop = false;
             this.textBox1.Text = resources.GetString("textBox1.Text");

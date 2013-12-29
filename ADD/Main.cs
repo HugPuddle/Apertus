@@ -29,7 +29,7 @@ namespace ADD
         public static Dictionary<string, int> coinTransactionSize;
         public static Dictionary<string, Boolean> coinGetRawSupport;
         public static Dictionary<string, Boolean> coinFeePerAddress;
-        public static Dictionary<string, Boolean> coinDisabled;
+        public static Dictionary<string, Boolean> coinEnabled;
         IDictionary<string, decimal> allAccounts;
         Dictionary<string, IEnumerable<string>> coinLastMemoryDump;
 
@@ -334,15 +334,15 @@ namespace ADD
                 coinPassword = new Dictionary<string, string>();
                 coinGetRawSupport = new Dictionary<string, bool>();
                 coinFeePerAddress = new Dictionary<string, bool>();
-                coinDisabled = new Dictionary<string, bool>();
+                coinEnabled = new Dictionary<string, bool>();
                 coinLastMemoryDump = new Dictionary<string, IEnumerable<string>>();
                 string confLine;
 
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin-Wallet 0 20 .0001 .000055 164 8332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True False False");
-                    writeCoinConf.WriteLine("Litecoin-Wallet 48 20 .001 .00000001 164 9332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True True False");
+                    writeCoinConf.WriteLine("Bitcoin-Wallet 0 20 .0001 .000055 164 8332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True False True");
+                    writeCoinConf.WriteLine("Litecoin-Wallet 48 20 .001 .00000001 164 9332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True True True");
                     writeCoinConf.WriteLine("Devcoin-Wallet 0 20 1 .00000001 328 6333 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD False True False");
                     writeCoinConf.Close();
                 }
@@ -362,7 +362,7 @@ namespace ADD
                     coinPassword.Add(coins[0], coins[9]);
                     if (coins[10].ToUpper() == "TRUE") { coinGetRawSupport.Add(coins[0], true); } else { coinGetRawSupport.Add(coins[0], false); }
                     if (coins[11].ToUpper() == "TRUE") { coinFeePerAddress.Add(coins[0], true); } else { coinFeePerAddress.Add(coins[0], false); }
-                    if (coins[12].ToUpper() == "TRUE") { coinDisabled.Add(coins[0], true); } else { coinDisabled.Add(coins[0], false); }
+                    if (coins[12].ToUpper() == "TRUE") { coinEnabled.Add(coins[0], true); } else { coinEnabled.Add(coins[0], false); }
                     coinLastMemoryDump.Add(coins[0], null);
 
                 }
@@ -371,7 +371,7 @@ namespace ADD
                 cmbCoinType.Items.Add("Select Wallet");
                 foreach (string item in coinVersion.Keys)
                 {
-                    if (!coinDisabled[item])
+                    if (coinEnabled[item])
                     {
                         cmbCoinType.Items.Add(item.ToString());
                     }
@@ -832,7 +832,7 @@ namespace ADD
                 searchResults.DeselectAll();
                 Image image = null;
                 try { image = Image.FromFile("root\\" + TransID + "\\" + FileName); }
-                catch { image = (Image)ADD.Properties.Resources.file_icon; }
+                catch { image = (Image)ADD.Properties.Resources.icon; }
                 Clipboard.SetImage(image);
                 searchResults.Paste();
                 searchResults.AppendText(Environment.NewLine);
@@ -888,7 +888,7 @@ namespace ADD
             if (File.Exists("root\\" + TransactionID + "\\index.htm") && UseCache)
             {
                 searchResults.DeselectAll();
-                Image image = (Image)ADD.Properties.Resources.file_icon;
+                Image image = (Image)ADD.Properties.Resources.icon;
                 Clipboard.SetImage(image);
                 searchResults.Paste();
                 searchResults.AppendText(Environment.NewLine);
@@ -994,7 +994,7 @@ namespace ADD
             var coinCount = 0; 
             foreach (var i in coinIP)
                 {
-                    if (coinLastMemoryDump[i.Key] == null && coinGetRawSupport[i.Key] && !coinDisabled[i.Key])
+                    if (coinLastMemoryDump[i.Key] == null && coinGetRawSupport[i.Key] && coinEnabled[i.Key])
                     {
                         try
                         {
@@ -1041,7 +1041,7 @@ namespace ADD
             IEnumerable<string> transaction = null; 
             foreach (var i in coinIP)
             {
-                if (!coinDisabled[i.Key] && coinGetRawSupport[i.Key])
+                if (coinEnabled[i.Key] && coinGetRawSupport[i.Key])
                 {
                     try
                     {
