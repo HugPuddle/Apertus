@@ -146,16 +146,16 @@ namespace ADD
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+           
             SaveWallets();
             hasChanged = true;
+
         }
 
         private void SaveWallets()
         {
-            System.IO.File.Delete("coin.conf");
-            System.IO.StreamWriter writeCoinConf = new System.IO.StreamWriter("coin.conf");
-
-
+            try{
+            
             Main.coinVersion[cmbWallets.Text] = byte.Parse(txtVersion.Text);
             Main.coinPayloadByteSize[cmbWallets.Text] = int.Parse(txtPayload.Text);
             Main.coinTransactionFee[cmbWallets.Text] = decimal.Parse(txtTransactionFee.Text);
@@ -177,6 +177,9 @@ namespace ADD
             if (chkFeePerAddress.Checked) { Main.coinFeePerAddress[cmbWallets.Text] = true; } else { Main.coinFeePerAddress[cmbWallets.Text] = false; }
             if (chkEnabled.Checked) { Main.coinEnabled[cmbWallets.Text] = true; } else { Main.coinEnabled[cmbWallets.Text] = false; }
 
+            System.IO.File.Delete("coin.conf");
+            System.IO.StreamWriter writeCoinConf = new System.IO.StreamWriter("coin.conf");
+
 
             foreach (string i in cmbWallets.Items)
             {
@@ -187,7 +190,11 @@ namespace ADD
             }
             writeCoinConf.Close();
 
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
 
 
