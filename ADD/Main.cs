@@ -234,6 +234,7 @@ namespace ADD
                         toMany.Add(line, CoinMinTransaction);
                         progressBar.PerformStep();
                         tranCount = 0;
+                        System.Threading.Thread.Sleep(1000);
 
                     }
 
@@ -245,6 +246,7 @@ namespace ADD
                         arcLedger.WriteLine(transactionId);
                         toMany.Clear();
                         tranCount = 0;
+                        System.Threading.Thread.Sleep(1000);
 
                     }
                     tranCount++;
@@ -256,12 +258,13 @@ namespace ADD
                     arcLedger.WriteLine(transactionId);
                     toMany.Clear();
                     tranCount = 0;
+                    System.Threading.Thread.Sleep(1000);
                 }
                 arcLedger.Close();
                 readARC.Close();
 
                 //Wait for the wallet to catch up.
-                System.Threading.Thread.Sleep(2000);
+                System.Threading.Thread.Sleep(3000);
                 processLedger(processId.ToString());
 
 

@@ -160,7 +160,15 @@ namespace ADD
             Main.coinPayloadByteSize[cmbWallets.Text] = int.Parse(txtPayload.Text);
             Main.coinTransactionFee[cmbWallets.Text] = decimal.Parse(txtTransactionFee.Text);
             Main.coinMinTransaction[cmbWallets.Text] = decimal.Parse(txtMinTransaction.Text);
-            Main.coinTransactionSize[cmbWallets.Text] = int.Parse(txtTransactionSize.Text);
+            
+            //A number smaller than 12 can create a loop and drain all funds from wallet!!!!
+            if (int.Parse(txtTransactionSize.Text) > 11)
+            {
+                Main.coinTransactionSize[cmbWallets.Text] = int.Parse(txtTransactionSize.Text);
+            }else 
+            {   Main.coinTransactionSize[cmbWallets.Text] = 12;
+            }
+
             Main.coinPort[cmbWallets.Text] = txtRPCPort.Text;
             Main.coinIP[cmbWallets.Text] = txtRPCIP.Text;
             Main.coinUser[cmbWallets.Text] = txtRPCUser.Text;
