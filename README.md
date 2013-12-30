@@ -3,7 +3,7 @@ ADD
 
 Apertus Disk Drive (ADD) immutably stores data as cryptocurrency on blockchains
 
-ADD is an open source client that enables read-write data functionality to any crypto coin wallet that supports bitcoin's standard set of RPC commands. (ex BTC, LTC...)  When connected to a wallet ADD monitors and creates a coin agnostic, web browseable index of any data stored by other ADD clients in near realtime speeds. Saved Data can be a combination of plain UTF8 Text and 1 or many binary files with no file size or file count limits. Data saved on a blockchain in this manner can later be retrieved from the blockchain by entering a single transaction ID into the ADD client.
+ADD is an open source client that enables read-write data functionality to any crypto coin wallet that supports bitcoin's standard set of RPC commands. (ex BTC, LTC...)  When connected to a wallet ADD monitors and creates a coin agnostic, web browseable index of any data stored by other ADD clients in near realtime. Saved Data can be a combination of plain UTF8 Text and 1 or many binary files with no file size or file count limits. Data saved on a blockchain in this manner can later be retrieved from the blockchain by entering a single transaction ID into the ADD client.
 
 NOTE: Coins used in the saving process are not recoverable.
 
