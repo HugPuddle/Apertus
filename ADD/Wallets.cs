@@ -148,7 +148,7 @@ namespace ADD
         {
            
             SaveWallets();
-            hasChanged = true;
+
 
         }
 
