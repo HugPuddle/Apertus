@@ -154,49 +154,51 @@ namespace ADD
 
         private void SaveWallets()
         {
-            try{
-            
-            Main.coinVersion[cmbWallets.Text] = byte.Parse(txtVersion.Text);
-            Main.coinPayloadByteSize[cmbWallets.Text] = int.Parse(txtPayload.Text);
-            Main.coinTransactionFee[cmbWallets.Text] = decimal.Parse(txtTransactionFee.Text);
-            Main.coinMinTransaction[cmbWallets.Text] = decimal.Parse(txtMinTransaction.Text);
-            
-            //A number smaller than 12 can create a loop and drain all funds from wallet!!!!
-            if (int.Parse(txtTransactionSize.Text) > 11)
+            try
             {
-                Main.coinTransactionSize[cmbWallets.Text] = int.Parse(txtTransactionSize.Text);
-            }else 
-            {   Main.coinTransactionSize[cmbWallets.Text] = 12;
-            }
 
-            Main.coinPort[cmbWallets.Text] = txtRPCPort.Text;
-            Main.coinIP[cmbWallets.Text] = txtRPCIP.Text;
-            Main.coinUser[cmbWallets.Text] = txtRPCUser.Text;
-            Main.coinPassword[cmbWallets.Text] = txtRPCPassword.Text;
-            if (chkGetRawSupport.Checked) { Main.coinGetRawSupport[cmbWallets.Text] = true; } else { Main.coinGetRawSupport[cmbWallets.Text] = false; }
-            if (chkFeePerAddress.Checked) { Main.coinFeePerAddress[cmbWallets.Text] = true; } else { Main.coinFeePerAddress[cmbWallets.Text] = false; }
-            if (chkEnabled.Checked) { Main.coinEnabled[cmbWallets.Text] = true; } else { Main.coinEnabled[cmbWallets.Text] = false; }
+                Main.coinVersion[cmbWallets.Text] = byte.Parse(txtVersion.Text);
+                Main.coinPayloadByteSize[cmbWallets.Text] = int.Parse(txtPayload.Text);
+                Main.coinTransactionFee[cmbWallets.Text] = decimal.Parse(txtTransactionFee.Text);
+                Main.coinMinTransaction[cmbWallets.Text] = decimal.Parse(txtMinTransaction.Text);
 
-            System.IO.File.Delete("coin.conf");
-            System.IO.StreamWriter writeCoinConf = new System.IO.StreamWriter("coin.conf");
-
-
-            foreach (string i in cmbWallets.Items)
-            {
-                if (i != "Select Wallet From List")
+                // Transaction Sizes under 12 can cause an infinite loop that would drain a users wallet                    // Transaction Sizes under 12 can cause an infinite loop that would drain a users wallet
+                if (int.Parse(txtTransactionSize.Text) > 11)
                 {
-                    writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinGetRawSupport[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", ""));
+                    Main.coinTransactionSize[cmbWallets.Text] = int.Parse(txtTransactionSize.Text);
                 }
-            }
-            writeCoinConf.Close();
+                else
+                {
+                    Main.coinTransactionSize[cmbWallets.Text] = 12;
+                    txtTransactionSize.Text = "12";
+                }
+
+                Main.coinPort[cmbWallets.Text] = txtRPCPort.Text;
+                Main.coinIP[cmbWallets.Text] = txtRPCIP.Text;
+                Main.coinUser[cmbWallets.Text] = txtRPCUser.Text;
+                Main.coinPassword[cmbWallets.Text] = txtRPCPassword.Text;
+                if (chkGetRawSupport.Checked) { Main.coinGetRawSupport[cmbWallets.Text] = true; } else { Main.coinGetRawSupport[cmbWallets.Text] = false; }
+                if (chkFeePerAddress.Checked) { Main.coinFeePerAddress[cmbWallets.Text] = true; } else { Main.coinFeePerAddress[cmbWallets.Text] = false; }
+                if (chkEnabled.Checked) { Main.coinEnabled[cmbWallets.Text] = true; } else { Main.coinEnabled[cmbWallets.Text] = false; }
+
+                System.IO.File.Delete("coin.conf");
+                System.IO.StreamWriter writeCoinConf = new System.IO.StreamWriter("coin.conf");
+
+
+                foreach (string i in cmbWallets.Items)
+                {
+                    if (i != "Select Wallet From List")
+                    {
+                        writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinGetRawSupport[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", ""));
+                    }
+                }
+                writeCoinConf.Close();
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
-
 
         }
 

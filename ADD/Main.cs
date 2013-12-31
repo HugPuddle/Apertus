@@ -358,7 +358,12 @@ namespace ADD
                     coinPayloadByteSize.Add(coins[0], int.Parse(coins[2]));
                     coinTransactionFee.Add(coins[0], decimal.Parse(coins[3]));
                     coinMinTransaction.Add(coins[0], decimal.Parse(coins[4]));
-                    coinTransactionSize.Add(coins[0], int.Parse(coins[5]));
+                    // Transaction Sizes under 12 can cause an infinite loop that would drain a users wallet
+                    if (int.Parse(coins[5]) > 11)
+                    {
+                        coinTransactionSize.Add(coins[0], int.Parse(coins[5]));
+                    }
+                    else { coinTransactionSize.Add(coins[0], 12); }
                     coinPort.Add(coins[0], coins[6]);
                     coinIP.Add(coins[0], coins[7]);
                     coinUser.Add(coins[0], coins[8]);
