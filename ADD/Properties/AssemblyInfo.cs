@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Apertus - Disk Drive")]
 [assembly: AssemblyDescription("Apertus Disk Drive (ADD) immutably stores data as cryptocurrency on most blockchains.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("HugPuddle")]
+[assembly: AssemblyCompany("HugPuddle.org")]
 [assembly: AssemblyProduct("Apertus - Disk Drive")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
@@ -32,4 +32,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.*")]
+[assembly: AssemblyVersion("0.1.1")]

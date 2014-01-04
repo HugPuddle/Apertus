@@ -53,10 +53,9 @@
             this.lblVersion.AutoSize = true;
             this.lblVersion.Location = new System.Drawing.Point(246, 51);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(60, 17);
+            this.lblVersion.Size = new System.Drawing.Size(136, 17);
             this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "Version:";
-            this.lblVersion.Click += new System.EventHandler(this.label2_Click);
+            this.lblVersion.Text = "Version: v0.1.1-beta";
             // 
             // label1
             // 
@@ -122,7 +121,6 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About ADD";
-            this.Load += new System.EventHandler(this.About_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

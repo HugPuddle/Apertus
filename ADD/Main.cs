@@ -344,9 +344,9 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin-Wallet 0 20 .0001 .000055 164 8332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True False True");
-                    writeCoinConf.WriteLine("Litecoin-Wallet 48 20 .001 .00000001 164 9332 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD True True True");
-                    writeCoinConf.WriteLine("Devcoin-Wallet 0 20 1 .00000001 328 6333 127.0.0.1 ENTER_RPC_USER_NAME ENTER_VERY_LONG_RPC_PASSWORD False True False");
+                    writeCoinConf.WriteLine("Bitcoin-Wallet 0 20 .0001 .000055 164 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False");
+                    writeCoinConf.WriteLine("Litecoin-Wallet 48 20 .001 .00000001 164 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
+                    writeCoinConf.WriteLine("Devcoin-Wallet 0 20 1 .00000001 328 6333 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False");
                     writeCoinConf.Close();
                 }
 
@@ -1046,37 +1046,44 @@ namespace ADD
 
         private void tmrGetNewTransactions_Tick(object sender, EventArgs e)
         {
-            IEnumerable<string> transaction = null; 
-            foreach (var i in coinIP)
+            IEnumerable<string> transaction = null;
+            try
             {
-                if (coinEnabled[i.Key] && coinGetRawSupport[i.Key])
+                foreach (var i in coinIP)
                 {
-                    try
+                    if (coinEnabled[i.Key] && coinGetRawSupport[i.Key])
                     {
-                        var b = new CoinRPC(new Uri("http://" + coinIP[i.Key] + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
-                        transaction = b.GetRawMemPool();
-
-                        IEnumerable<string> differenceQuery =
-                        transaction.Except(coinLastMemoryDump[i.Key]);
-
-                        foreach (var s in differenceQuery)
+                        try
                         {
+                            var b = new CoinRPC(new Uri("http://" + coinIP[i.Key] + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
+                            transaction = b.GetRawMemPool();
 
-                            CreateArchive(s, i.Key, false);
-                            transactionsSearched++;
+                            IEnumerable<string> differenceQuery =
+                            transaction.Except(coinLastMemoryDump[i.Key]);
+
+                            foreach (var s in differenceQuery)
+                            {
+
+                                CreateArchive(s, i.Key, false);
+                                transactionsSearched++;
+                            }
+
+                            coinLastMemoryDump[i.Key] = transaction;
+                            lblMonitorInfo.Text = "Monitor: " + transactionsSearched.ToString() + " / " + transactionsFound.ToString();
+
                         }
-
-                        coinLastMemoryDump[i.Key] = transaction;
-                        lblMonitorInfo.Text = "Monitor: " + transactionsSearched.ToString() + " / " + transactionsFound.ToString();
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        lblExploreStatus.Text = "Error: " + i.Key + " Check Wallet Settings. " + ex.Message;
-                        if (coinLastMemoryDump[i.Key] == null) { coinLastMemoryDump[i.Key] = transaction; }
-                        tmrStatusUpdate.Start();
+                        catch (Exception ex)
+                        {
+                            lblExploreStatus.Text = "Error: " + i.Key + " Check Wallet Settings. " + ex.Message;
+                            if (coinLastMemoryDump[i.Key] == null) { coinLastMemoryDump[i.Key] = transaction; }
+                            tmrStatusUpdate.Start();
+                        }
                     }
                 }
+            }
+            catch { 
+                tmrGetNewTransactions.Stop();
+                chkMonitorBlockChains.Checked = false;
             }
 
         }
