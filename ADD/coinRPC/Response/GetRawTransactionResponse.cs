@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 
 namespace ADD.RPCClient
-{
+{       
+	//Courtesy mb300sd Bitcoin.NET Implementation
 	public class GetRawTransactionResponse
 	{
 		public class Input
