@@ -176,6 +176,7 @@ namespace ADD
                     }
 
                 }
+                //allows time for new transactions to be found in the next loop
                 System.Threading.Thread.Sleep(1000);
 
                 System.IO.StreamWriter arcFile = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
@@ -208,6 +209,8 @@ namespace ADD
                 progressBar.Value = 1;
                 progressBar.Maximum = (fileBytes.Length + PayloadByteSize) / PayloadByteSize;
                 Main.ActiveForm.Refresh();
+                
+                //allows time for new transactions to be found in the next loop
                 System.Threading.Thread.Sleep(1000);
 
 
@@ -227,7 +230,7 @@ namespace ADD
                     }
                     catch
                     {
-
+                        
                         transactionId = b.SendMany(WalletLabel, toMany, 1, "");
                         arcLedger.WriteLine(transactionId);
                         toMany.Clear();
@@ -861,7 +864,7 @@ namespace ADD
 
                 searchResults.DeselectAll();
                 searchResults.AppendText(Environment.NewLine);
-                searchResults.AppendText(System.Text.UTF8Encoding.UTF8.GetString(ByteData));
+                searchResults.AppendText(result);
                 searchResults.AppendText(Environment.NewLine);
                 searchResults.AppendText("file://" + TransID + "/" + FileName);
                 searchResults.AppendText(Environment.NewLine);
