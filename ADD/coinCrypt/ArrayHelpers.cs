@@ -6,6 +6,7 @@ using System.Diagnostics.Contracts;
 
 namespace ADD.Tools
 {
+    //Courtesy CodesInChaos Implementation
     public class ArrayHelpers
     {
         public static T[] ConcatArrays<T>(params T[][] arrays)
