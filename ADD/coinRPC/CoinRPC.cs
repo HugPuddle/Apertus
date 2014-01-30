@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 
 namespace ADD.RPCClient
 {
+	//Courtesy mb300sd Bitcoin.NET Implementation
 	public partial class CoinRPC
 	{
 		protected Uri uri;
