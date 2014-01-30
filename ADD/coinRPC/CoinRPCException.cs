@@ -2,6 +2,7 @@
 
 namespace ADD.RPCClient
 {
+	//Courtesy mb300sd Bitcoin.NET Implementation
 	class CoinRPCException : Exception
 	{
 		public RPCError Error
