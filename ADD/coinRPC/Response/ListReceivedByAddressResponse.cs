@@ -2,6 +2,7 @@
 
 namespace ADD.RPCClient
 {
+	//Courtesy mb300sd Bitcoin.NET Implementation
 	public class ListReceivedByAddressResponse
 	{
 		public string address;
