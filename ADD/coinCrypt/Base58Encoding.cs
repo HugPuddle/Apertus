@@ -10,7 +10,7 @@ using ADD.Tools;
 
 namespace ADD.Bitcoin
 {
-
+    //Courtesy CodesInChaos Implementation
     public static class Base58Encoding
     {
         public const int CheckSumSizeInBytes = 4;
