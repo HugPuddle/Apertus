@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ADD.RPCClient
 {
+	//Courtesy mb300sd Bitcoin.NET Implementation
 	public class GetTransactionResponse
 	{
 		public class Details
