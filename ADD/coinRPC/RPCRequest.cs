@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace ADD.RPCClient
 {
+	//Courtesy mb300sd Bitcoin.NET Implementation
 	[JsonObject(MemberSerialization=MemberSerialization.Fields)]
 	public class RPCRequest
 	{
