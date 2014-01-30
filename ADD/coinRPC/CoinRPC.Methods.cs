@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace ADD.RPCClient
 {
+	//Courtesy mb300sd Bitcoin.NET Implementation
 	public partial class CoinRPC
 	{
 	
