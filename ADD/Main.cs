@@ -349,6 +349,7 @@ namespace ADD
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
                     writeCoinConf.WriteLine("Bitcoin-Wallet 0 20 .0001 .000055 164 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False");
                     writeCoinConf.WriteLine("Litecoin-Wallet 48 20 .001 .00000001 164 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
+                    writeCoinConf.WriteLine("Anoncoin-Wallet 23 20 .01 .00000001 164 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Devcoin-Wallet 0 20 1 .00000001 328 6333 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False");
                     writeCoinConf.Close();
                 }
@@ -829,8 +830,15 @@ namespace ADD
                 //Limited Protection From Injection Hacks
                 if (Path.GetExtension(FileName).Length > 1 && webExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
                 {
-                    string result = Sanitizer.GetSafeHtmlFragment(System.Text.UTF8Encoding.UTF8.GetString(ByteData));
-                    attachStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, result.Length);
+                    if (chkFilterUnSafeContent.Checked)
+                    {
+                        string result = Sanitizer.GetSafeHtmlFragment(System.Text.UTF8Encoding.UTF8.GetString(ByteData));
+                        attachStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, result.Length);
+                    }
+                    else
+                    {
+                        attachStream.Write(ByteData,0,ByteData.Length);
+                    }
                 }
                 else
                 {
