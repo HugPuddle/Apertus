@@ -785,6 +785,12 @@ namespace ADD
                 if (containsData)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td></td></tr>"), 0, 18);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>RAW ADDRESS DATA</td></tr>"), 0, 34);
+                    foreach (string address in AddressArray)
+                    {
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>"+ address +"</td></tr>"), 0, 18 + address.Length);
+                    }
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table></center></body></html>"), 0, 31);
                     fileStream.Close();
                 }
