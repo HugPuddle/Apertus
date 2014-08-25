@@ -787,7 +787,7 @@ namespace ADD
                                 if (Path.GetExtension(header[0]).Length > 1 && unSafeExtensions.IndexOf(Path.GetExtension(header[0]).ToUpper()) > -1)
                                 {
                                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<table><tr><td>[ " + header[0] + " ]</td></tr></table>"), 0, header[0].Length + 37);
+                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"arc\">[ " + header[0] + " ]</div><p>&nbsp;</p>"), 0, header[0].Length + 40);
                                     fileStream.Close();
 
                                 }
@@ -826,17 +826,14 @@ namespace ADD
                         System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
                         dateTime = dateTime.AddSeconds(transaction.blocktime);
                         string printDate = dateTime.ToShortDateString() + " " + dateTime.ToShortTimeString();
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<table>"), 0, 7);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td></td><td></td></tr>"), 0, 27);
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\"><table>"), 0, 46);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>TRANSACTION ID</td><td>"+transaction.txid+"</td></tr>"), 0, 41 + transaction.txid.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ARCHIVE DATE</td><td>" + printDate + "</td></tr>"), 0, 39 + printDate.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>VERSION</td><td>" + transaction.version + "</td></tr>"), 0, 34 + transaction.version.ToString().Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCKCHAIN</td><td>" + WalletKey + "</td></tr>"), 0, 37 + WalletKey.Length);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td></td><td></td></tr>"), 0, 27);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table>"), 0, 8);
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ADDRESS FILE</td><td><a href=\"address.dat\">address.dat</a></td></tr>"), 0, 76);
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table></div></div>"), 0, 20);
                     }
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<table>"), 0, 7);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td><a href=\"address.dat\">ADDRESS FILE</a></td></tr>"), 0, 56);
                     FileStream dataFileStream = new FileStream("root\\" + TransID + "\\address.dat", FileMode.Create);
 
                     foreach (string address in AddressArray)
@@ -844,7 +841,7 @@ namespace ADD
                         dataFileStream.Write(UTF8Encoding.UTF8.GetBytes(address + "\n"), 0, address.Length + 1);
                     }
                     dataFileStream.Close();
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table>"), 0, 8);
+
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></body></html>"), 0, 60);
                     fileStream.Close();
                 }
@@ -862,14 +859,13 @@ namespace ADD
                 string embExtensions = ".m2ts.aac.adt.adts.3g2.3gp2.3gp.3gpp.m4a.mov.wmz.wms.ivf.cda.wav.au.snd.aif.aifc.aiff.mid.midi.rmi.mpg.mpeg.m1v.mp2.mp3.mpa.mpe.m3u.avi.wmd.dvr-ms.wpi.wax.wvx.wmx.asf.wma.wmv.wm.swf.pdf";
                 string imgExtensions = ".jpg.jpeg.jpe.gif.png.tiff.tif.svg.svgz.xbm.bmp.ico";
                 string webExtensions = ".asp.aspx.axd.asx.asmx.ashx.css.cfm.yaws.html.htm.xhtml.jhtml.jsp.jspx.wss.do.js.pl.php.php4.php3.phtml.py.rb.rhtml.xml.rss.svg.cgi";
-
+                string strPrintLine = "";
 
                 if (!foundType && Path.GetExtension(FileName).Length > 1 && embExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<table>"), 0, 7);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td><embed src=\"" + FileName + "\" /><br><a href=\"" + FileName + "\">" + FileName + "</a></td></tr>"), 0, (FileName.Length * 3) + 53);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table>"), 0, 8);
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><embed src=\"" + FileName + "\" /><p><a href=\"" + FileName + "\">" + FileName + "</a></p></div></div>";
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, strPrintLine.Length);
                     fileStream.Close();
                     foundType = true;
                 }
@@ -877,9 +873,8 @@ namespace ADD
                 if (!foundType && Path.GetExtension(FileName).Length > 1 && imgExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<table>"), 0, 7);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td><img src=\"" + FileName + "\" /><br><a href=\"" + FileName + "\">" + FileName + "</a></td></tr>"), 0, (FileName.Length * 3) + 51);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table>"), 0, 8);                   
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><img src=\"" + FileName + "\" /><br><a href=\"" + FileName + "\">" + FileName + "</a></div></div>";
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, strPrintLine.Length);
                     fileStream.Close();
                     foundType = true;
                 }
@@ -887,9 +882,8 @@ namespace ADD
                 if (!foundType)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<table>"), 0, 7);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td><a href=\"" + FileName + "\">" + FileName + "</a></td></tr>"), 0, (FileName.Length * 2) + 33);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table>"), 0, 8);
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + FileName + "\">" + FileName + "</a></div></div>";
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, strPrintLine.Length);
                     fileStream.Close();
                     searchResults.DeselectAll();
 
@@ -942,11 +936,9 @@ namespace ADD
                 //Limited Protection From Injection Hacks
                 string result = Sanitizer.GetSafeHtmlFragment(System.Text.UTF8Encoding.UTF8.GetString(ByteData));
                 FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<table>"), 0, 7);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>"), 0, 8);
+                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">"), 0, 39);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, result.Length);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes("</td></tr>"), 0, 10);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table>"), 0, 8);
+                fileStream.Write(UTF8Encoding.UTF8.GetBytes("</div></div>"), 0, 12);
                 fileStream.Close();
 
                 searchResults.DeselectAll();
