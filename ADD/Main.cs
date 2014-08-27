@@ -361,6 +361,7 @@ namespace ADD
                     writeCoinConf.Close();
                 }
 
+
                 if (!System.IO.Directory.Exists("root\\includes"))
                 {
                     System.IO.Directory.CreateDirectory("root\\includes");
@@ -844,6 +845,11 @@ namespace ADD
 
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></body></html>"), 0, 60);
                     fileStream.Close();
+
+                    FileStream siteMapFileStream = new FileStream("root\\sitemap.htm", FileMode.Append);
+                    siteMapFileStream.Write(UTF8Encoding.UTF8.GetBytes("<a href=\"" + TransID + "/index.htm\">" + TransID + "</a><br>"), 0, 29 + (TransID.Length * 2));
+                    siteMapFileStream.Close();
+
                 }
                 return containsData;
             }
@@ -865,7 +871,7 @@ namespace ADD
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><embed src=\"" + FileName + "\" /><p><a href=\"" + FileName + "\">" + FileName + "</a></p></div></div>";
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, strPrintLine.Length);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     foundType = true;
                 }
@@ -874,7 +880,7 @@ namespace ADD
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><img src=\"" + FileName + "\" /><br><a href=\"" + FileName + "\">" + FileName + "</a></div></div>";
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, strPrintLine.Length);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     foundType = true;
                 }
@@ -883,7 +889,7 @@ namespace ADD
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + FileName + "\">" + FileName + "</a></div></div>";
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, strPrintLine.Length);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     searchResults.DeselectAll();
 
@@ -898,7 +904,7 @@ namespace ADD
                     {
                         string result = Sanitizer.GetSafeHtmlFragment(System.Text.UTF8Encoding.UTF8.GetString(ByteData));
                         FileStream attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create);
-                        attachStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, result.Length);
+                        attachStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
                         attachStream.Close();
                     }
                     else
@@ -937,7 +943,7 @@ namespace ADD
                 string result = Sanitizer.GetSafeHtmlFragment(System.Text.UTF8Encoding.UTF8.GetString(ByteData));
                 FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">"), 0, 39);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, result.Length);
+                fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes("</div></div>"), 0, 12);
                 fileStream.Close();
 
