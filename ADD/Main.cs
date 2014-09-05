@@ -686,16 +686,15 @@ namespace ADD
                             f++;
                         }
                     }
-                    else
-                    {
-                        if (isLedgerFile)
-                        {
-                            var LedgerResult = UTF8Encoding.UTF8.GetString(fileArray, 0, fileArray.Length);
-                            LedgerResult = LedgerResult.Replace("\n", "").TrimEnd((char)13);
-                            return LedgerResult.Split((char)13);
-                        }
-                    }
+
                 }
+            }
+
+            if (isLedgerFile)
+            {
+                var LedgerResult = UTF8Encoding.UTF8.GetString(fileArray, 0, fileArray.Length);
+                LedgerResult = LedgerResult.Replace("\n", "").TrimEnd((char)13);
+                return LedgerResult.Split((char)13);
             }
 
             return null;
