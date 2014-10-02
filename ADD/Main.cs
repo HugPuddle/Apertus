@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Drawing;
 using System.Security.Cryptography;
+using System.Web;
 using ADD.Bitcoin;
 using ADD.RPCClient;
 using ADD.Tools;
@@ -358,6 +359,10 @@ namespace ADD
                     writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 164 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 164 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Devcoin 0 20 1 .00000001 328 6333 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False");
+                    writeCoinConf.WriteLine("Dogecoin 30 20 1 0.00000001 164 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
+                    writeCoinConf.WriteLine("Maxcoin 110 20 1 0.01 164 8669 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
+                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 164 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
+                    
                     writeCoinConf.Close();
                 }
 
@@ -845,10 +850,9 @@ namespace ADD
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></body></html>"), 0, 60);
                     fileStream.Close();
 
-                    FileStream siteMapFileStream = new FileStream("root\\sitemap.htm", FileMode.Append);
-                    siteMapFileStream.Write(UTF8Encoding.UTF8.GetBytes("<a href=\"" + TransID + "/index.htm\">" + TransID + "</a><br>"), 0, 29 + (TransID.Length * 2));
-                    siteMapFileStream.Close();
-
+                    System.IO.File.AppendAllText("root\\sitemap.htm","<a href=\"" + TransID + "/index.htm\">" + TransID + "</a><br>" + Environment.NewLine);
+                    System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapUrl + "/" + TransID + Environment.NewLine);
+   
                 }
                 return containsData;
             }
@@ -869,7 +873,7 @@ namespace ADD
                 if (!foundType && Path.GetExtension(FileName).Length > 1 && embExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    strPrintLine = "<div class=\"item\"><div class=\"content\"><embed src=\"" + FileName + "\" /><p><a href=\"" + FileName + "\">" + FileName + "</a></p></div></div>";
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><embed src=\"" + HttpUtility.UrlEncode(FileName) + "\" /><p><a href=\"" + HttpUtility.UrlEncode(FileName) + "\">" + FileName + "</a></p></div></div>";
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     foundType = true;
@@ -878,7 +882,7 @@ namespace ADD
                 if (!foundType && Path.GetExtension(FileName).Length > 1 && imgExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    strPrintLine = "<div class=\"item\"><div class=\"content\"><img src=\"" + FileName + "\" /><br><a href=\"" + FileName + "\">" + FileName + "</a></div></div>";
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><img src=\"" + HttpUtility.UrlEncode(FileName) + "\" /><br><a href=\"" + HttpUtility.UrlEncode(FileName) + "\">" + FileName + "</a></div></div>";
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     foundType = true;
@@ -887,7 +891,7 @@ namespace ADD
                 if (!foundType)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + FileName + "\">" + FileName + "</a></div></div>";
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlEncode(FileName) + "\">" + HttpUtility.UrlEncode(FileName) + "</a></div></div>";
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     searchResults.DeselectAll();
@@ -1312,6 +1316,37 @@ namespace ADD
         private void imgEnterMessageHere_Click(object sender, EventArgs e)
         {
             txtMessage.Select();
+        }
+
+        private void rebuildToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] folders = Directory.GetDirectories("root");
+
+            foreach (string f in folders)
+            {
+                bool isFound = false;
+
+                foreach (string i in cmbCoinType.Items)
+                {
+                    if (i != "Select Wallet" && isFound == false)
+                    {
+                        string transID = f.Replace("root\\", "");
+                        isFound = CreateArchive(transID, i);
+                        if (isFound)
+                        {
+                            lblExploreStatus.Text = "Status: Found in Blockchain";
+                            tmrStatusUpdate.Start();
+                            break;
+                        }
+                    }
+                }
+                if (!isFound)
+                {
+                    lblExploreStatus.Text = "Status: Transaction Id not found in linked Bockchains.";
+                    tmrStatusUpdate.Start();
+                }
+                
+            }
         }
 
     }

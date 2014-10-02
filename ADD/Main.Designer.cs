@@ -75,6 +75,8 @@
             this.tmrGetNewTransactions = new System.Windows.Forms.Timer(this.components);
             this.openDigestFile = new System.Windows.Forms.OpenFileDialog();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rebuildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -503,7 +505,8 @@
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.walletsToolStripMenuItem,
-            this.fontToolStripMenuItem});
+            this.fontToolStripMenuItem,
+            this.indexToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(73, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -534,14 +537,14 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // rPCToolStripMenuItem
             // 
             this.rPCToolStripMenuItem.Name = "rPCToolStripMenuItem";
-            this.rPCToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rPCToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.rPCToolStripMenuItem.Text = "RPC";
             this.rPCToolStripMenuItem.Click += new System.EventHandler(this.rPCToolStripMenuItem_Click);
             // 
@@ -569,6 +572,21 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(146, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // indexToolStripMenuItem
+            // 
+            this.indexToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.rebuildToolStripMenuItem});
+            this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
+            this.indexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.indexToolStripMenuItem.Text = "Index";
+            // 
+            // rebuildToolStripMenuItem
+            // 
+            this.rebuildToolStripMenuItem.Name = "rebuildToolStripMenuItem";
+            this.rebuildToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rebuildToolStripMenuItem.Text = "Rebuild";
+            this.rebuildToolStripMenuItem.Click += new System.EventHandler(this.rebuildToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -659,6 +677,8 @@
         private System.Windows.Forms.OpenFileDialog openDigestFile;
         private System.Windows.Forms.ToolStripMenuItem proofToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripMenuItem indexToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rebuildToolStripMenuItem;
     }
 }
 
