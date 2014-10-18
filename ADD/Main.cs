@@ -495,7 +495,7 @@ namespace ADD
 
         private void cmbCoinType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            decimal negativeValue = 0;
+            decimal totalValue = 0;
 
             if (fileSize > 0 || txtMessage.TextLength > 0)
             {
@@ -517,24 +517,13 @@ namespace ADD
                      {
                          foreach (string Account in allAccounts.Keys)
                          {
-                             if (allAccounts[Account] > 0)
-                             {
-                                 cmbWalletLabel.Items.Add(Account);
-                             }
-                             else
-                             {
-                                 negativeValue = negativeValue + allAccounts[Account];
+                                cmbWalletLabel.Items.Add(Account);
 
-                             }
-                         }
+                                totalValue = totalValue + allAccounts[Account];
 
-                         foreach (string account in cmbWalletLabel.Items)
-                         {
-                             if (negativeValue <= 0 && account != "Select Account")
-                             {
-                                 allAccounts[account] = allAccounts[account] + negativeValue;
-                             }
                          }
+                         lblCoinTotal.Text = totalValue.ToString();
+                         
                          var itemCountString = "";
                          if ((cmbWalletLabel.Items.Count - 1) > 1) { itemCountString = "s"; }
                          lblStatusInfo.Text = "Status: Wallet connected " + (cmbWalletLabel.Items.Count - 1).ToString() + " suitable account" + itemCountString + " Found";
@@ -595,7 +584,7 @@ namespace ADD
                 notarizeToolStripMenuItem.Enabled = false;
                 imgEnterMessageHere.Visible = false;
                 if (txtMessage.TextLength < 1) { pictureBox1.Visible = true; }
-                lblCoinTotal.Text = "0.00000000";
+                
 
 
             }
@@ -765,9 +754,21 @@ namespace ADD
 
                             if (!containsData)
                             {
+                                System.IO.File.AppendAllText("root\\sitemap.htm", "<a href=\"" + TransID + "/index.htm\">" + TransID + "</a><br>" + Environment.NewLine);
+                                System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapUrl + "/" + TransID + Environment.NewLine);
                                 Directory.CreateDirectory("root\\" + TransID);
                                 FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Create);
                                 fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>"+ WalletKey +" - "+ TransID +"</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><!--#include file=\"..\\includes\\meta.ssi\" --></head><!--#include file=\"..\\includes\\css.ssi\" --><body><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 292 + (WalletKey.Length * 2) + TransID.Length);
+                                
+                                //Enable Social Like Buttons
+                                if (Properties.Settings.Default.EnableSocial)
+                                {
+                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">"), 0, 39);
+                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"fb-like\" data-href=\"" + Properties.Settings.Default.SiteMapUrl + "/" + TransID + "\" data-layout=\"button_count\" data-action=\"like\" data-show-faces=\"true\" data-share=\"false\"></div>"), 0, 129 + Properties.Settings.Default.SiteMapUrl.Length + TransID.Length);
+                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(" <a href=\"https://twitter.com/share\" class=\"twitter-share-button\">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>"), 0, 370);
+                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("</div></div>"), 0, 12);
+                                }
+
                                 fileStream.Close();
 
                             }
@@ -850,8 +851,6 @@ namespace ADD
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></body></html>"), 0, 60);
                     fileStream.Close();
 
-                    System.IO.File.AppendAllText("root\\sitemap.htm","<a href=\"" + TransID + "/index.htm\">" + TransID + "</a><br>" + Environment.NewLine);
-                    System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapUrl + "/" + TransID + Environment.NewLine);
    
                 }
                 return containsData;
@@ -873,7 +872,7 @@ namespace ADD
                 if (!foundType && Path.GetExtension(FileName).Length > 1 && embExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    strPrintLine = "<div class=\"item\"><div class=\"content\"><embed src=\"" + HttpUtility.UrlEncode(FileName) + "\" /><p><a href=\"" + HttpUtility.UrlEncode(FileName) + "\">" + FileName + "</a></p></div></div>";
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><embed src=\"" + HttpUtility.UrlPathEncode(FileName) + "\" /><p><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + FileName + "</a></p></div></div>";
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     foundType = true;
@@ -882,7 +881,7 @@ namespace ADD
                 if (!foundType && Path.GetExtension(FileName).Length > 1 && imgExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    strPrintLine = "<div class=\"item\"><div class=\"content\"><img src=\"" + HttpUtility.UrlEncode(FileName) + "\" /><br><a href=\"" + HttpUtility.UrlEncode(FileName) + "\">" + FileName + "</a></div></div>";
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><img src=\"" + HttpUtility.UrlPathEncode(FileName) + "\" /><br><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + FileName + "</a></div></div>";
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     foundType = true;
@@ -891,7 +890,7 @@ namespace ADD
                 if (!foundType)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlEncode(FileName) + "\">" + HttpUtility.UrlEncode(FileName) + "</a></div></div>";
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + HttpUtility.UrlPathEncode(FileName) + "</a></div></div>";
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     searchResults.DeselectAll();
@@ -942,8 +941,13 @@ namespace ADD
             }
             else
             {
-                //Limited Protection From Injection Hacks
-                string result = Sanitizer.GetSafeHtmlFragment(System.Text.UTF8Encoding.UTF8.GetString(ByteData));
+                string result = System.Text.UTF8Encoding.UTF8.GetString(ByteData);
+                if (chkFilterUnSafeContent.Checked)
+                {
+                    //Limited Protection From Injection Hacks
+                    result = Sanitizer.GetSafeHtmlFragment(result);
+                }
+
                 FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">"), 0, 39);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);

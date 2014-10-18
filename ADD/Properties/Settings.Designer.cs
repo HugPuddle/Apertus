@@ -31,5 +31,14 @@ namespace ADD.Properties {
                 return ((string)(this["SiteMapUrl"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableSocial {
+            get {
+                return ((bool)(this["EnableSocial"]));
+            }
+        }
     }
 }
