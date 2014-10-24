@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SiteMapUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://apert.us</Value>
+      <Value Profile="(Default)">http://some.url</Value>
     </Setting>
     <Setting Name="EnableSocial" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>

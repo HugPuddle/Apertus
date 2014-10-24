@@ -360,7 +360,8 @@ namespace ADD
                     writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 164 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Devcoin 0 20 1 .00000001 328 6333 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False");
                     writeCoinConf.WriteLine("Dogecoin 30 20 1 0.00000001 164 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
-                    writeCoinConf.WriteLine("Maxcoin 110 20 1 0.01 164 8669 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
+                    //SHA3 Required
+                    //writeCoinConf.WriteLine("Maxcoin 110 20 1 0.01 164 8669 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 164 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     
                     writeCoinConf.Close();
@@ -838,6 +839,7 @@ namespace ADD
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>VERSION</td><td>" + transaction.version + "</td></tr>"), 0, 34 + transaction.version.ToString().Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCKCHAIN</td><td>" + WalletKey + "</td></tr>"), 0, 37 + WalletKey.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ADDRESS FILE</td><td><a href=\"address.dat\">address.dat</a></td></tr>"), 0, 76);
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td colspan=2 align=right><a href=\"..\\abuse.aspx?TransID="+transaction.txid+"\">report abuse</a></td></tr>"), 0, 89 + transaction.txid.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table></div></div>"), 0, 20);
                     }
                     FileStream dataFileStream = new FileStream("root\\" + TransID + "\\address.dat", FileMode.Create);
@@ -897,7 +899,6 @@ namespace ADD
 
                 }
 
-                //Write File to disk
 
                 //Limited Protection From Injection Hacks
                 if (Path.GetExtension(FileName).Length > 1 && webExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
@@ -988,13 +989,7 @@ namespace ADD
 
         public Boolean CreateArchive(string TransactionID, string WalletKey)
         {
-            //if (File.Exists("root\\" + TransactionID + "\\index.htm") && UseCache)
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-
+ 
                 string[] AddressArray = null;
                 string[] LedgerArray = null;
 
@@ -1029,9 +1024,6 @@ namespace ADD
                     return ConvertAddressArrayToFile(AddressArray, TransactionID, WalletKey);
                 }
                 catch { return false; }
-
-            //}
-
 
         }
 

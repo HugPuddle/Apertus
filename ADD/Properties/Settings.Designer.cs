@@ -25,7 +25,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://apert.us")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://some.url")]
         public string SiteMapUrl {
             get {
                 return ((string)(this["SiteMapUrl"]));
