@@ -25,19 +25,10 @@ namespace ADD.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://some.url")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string SiteMapUrl {
             get {
                 return ((string)(this["SiteMapUrl"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EnableSocial {
-            get {
-                return ((bool)(this["EnableSocial"]));
             }
         }
     }

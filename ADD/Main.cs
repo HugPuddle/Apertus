@@ -37,7 +37,7 @@ namespace ADD
         Decimal fileSize;
         int transactionsSearched = 0;
         int transactionsFound = 0;
-        
+
 
 
 
@@ -113,8 +113,8 @@ namespace ADD
             int tranCount = 1;
             int ledgerCount = 0;
             string transactionId = "";
-            
- 
+
+
 
             try
             {
@@ -180,8 +180,7 @@ namespace ADD
                         }
 
                     }
-                    //allows time for new transactions to be found in the next loop
-                    System.Threading.Thread.Sleep(1000);
+
 
                     System.IO.StreamWriter arcFile = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
 
@@ -212,19 +211,17 @@ namespace ADD
                     lblStatusInfo.Text = "Status: Saving " + fileBytes.Length.ToString() + " bytes of primary data to the blockchain.";
                     progressBar.Value = 1;
                     progressBar.Maximum = (fileBytes.Length + PayloadByteSize) / PayloadByteSize;
-                    Main.ActiveForm.Refresh();
+                    progressBar.PerformStep();
 
-                    //allows time for new transactions to be found in the next loop
-                    System.Threading.Thread.Sleep(1000);
 
                 }
                 else
                 {
-                    processId = FilePath.ToUpper().Remove(0, FilePath.Length - 40).Replace(".ADD","");
+                    processId = FilePath.ToUpper().Remove(0, FilePath.Length - 40).Replace(".ADD", "");
                 }
 
                 CoinRPC b = new CoinRPC(new Uri("http://" + WalletRPCIP + ":" + WalletRPCPort), new NetworkCredential(WalletRPCUser, WalletRPCPassword));
-
+                b.SetTXFee(coinTransactionFee[cmbCoinType.Text]);
                 System.IO.StreamReader readARC = new System.IO.StreamReader("process\\" + processId + ".ADD");
                 System.IO.StreamWriter arcLedger = new System.IO.StreamWriter("process\\" + processId + ".LGR", true);
 
@@ -238,26 +235,45 @@ namespace ADD
                     }
                     catch
                     {
-                        
+                        //Cannot send to the same address more than twice in any transaction
                         transactionId = b.SendMany(WalletLabel, toMany, 1, "");
                         arcLedger.WriteLine(transactionId);
                         toMany.Clear();
                         toMany.Add(line, CoinMinTransaction);
                         progressBar.PerformStep();
                         tranCount = 0;
-                        System.Threading.Thread.Sleep(1000);
+                        GetTransactionResponse transLookup = b.GetTransaction(transactionId);
+                        //Wait for the wallet to catch up.
+                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 5))
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                            transLookup = b.GetTransaction(transactionId);
+                            
+                        }
+
+
 
                     }
 
 
                     if (tranCount == coinTransactionSize[cmbCoinType.Text])
                     {
-
+                        //Breaking transaction file into size specified in wallet settings
                         transactionId = b.SendMany(WalletLabel, toMany, 1, "");
                         arcLedger.WriteLine(transactionId);
                         toMany.Clear();
                         tranCount = 0;
-                        System.Threading.Thread.Sleep(1000);
+
+                        GetTransactionResponse transLookup = b.GetTransaction(transactionId);
+                        //Wait for the wallet to catch up.
+                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 5))
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                            transLookup = b.GetTransaction(transactionId);
+                        }
+
+
+
 
                     }
                     tranCount++;
@@ -265,17 +281,22 @@ namespace ADD
                 }
                 if (toMany.Count > 0)
                 {
+                    //Catching the straglers
                     transactionId = b.SendMany(WalletLabel, toMany, 1, "");
                     arcLedger.WriteLine(transactionId);
                     toMany.Clear();
                     tranCount = 0;
-                    System.Threading.Thread.Sleep(1000);
+                    GetTransactionResponse transLookup = b.GetTransaction(transactionId);
+                    //Wait for the wallet to catch up.
+                    while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 5))
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        transLookup = b.GetTransaction(transactionId);
+                    }
+
                 }
                 arcLedger.Close();
                 readARC.Close();
-
-                //Wait for the wallet to catch up.
-                System.Threading.Thread.Sleep(3000);
                 processLedger(processId.ToString());
 
 
@@ -297,7 +318,7 @@ namespace ADD
 
         private void btnArchive_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("The estimated cost is based on your current wallet settings and does not include ledger archiving costs for files over " + (coinPayloadByteSize[cmbCoinType.Text] * coinTransactionSize[cmbCoinType.Text] ).ToString() + " bytes.", "Confirm Saving", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("The estimated cost is based on your current wallet settings and does not include ledger archiving costs for files over " + (coinPayloadByteSize[cmbCoinType.Text] * coinTransactionSize[cmbCoinType.Text]).ToString() + " bytes.", "Confirm Saving", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], txtFileName.Text, null, txtMessage.Text);
@@ -312,7 +333,7 @@ namespace ADD
             {
                 fileSize = (decimal)0;
                 txtFileName.Text = String.Join(",", attachFiles.FileNames);
-                
+
                 foreach (var f in attachFiles.FileNames)
                 {
                     var fileBytes = System.IO.File.ReadAllBytes(f);
@@ -355,7 +376,7 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .000055 164 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .000048 164 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False");
                     writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 164 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 164 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Devcoin 0 20 1 .00000001 328 6333 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False");
@@ -363,7 +384,7 @@ namespace ADD
                     //SHA3 Required
                     //writeCoinConf.WriteLine("Maxcoin 110 20 1 0.01 164 8669 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 164 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
-                    
+
                     writeCoinConf.Close();
                 }
 
@@ -371,7 +392,7 @@ namespace ADD
                 if (!System.IO.Directory.Exists("root\\includes"))
                 {
                     System.IO.Directory.CreateDirectory("root\\includes");
-                    
+
                     System.IO.StreamWriter writeIncludes = new StreamWriter("root\\includes\\meta.ssi");
                     writeIncludes.WriteLine("");
                     writeIncludes.Close();
@@ -427,7 +448,7 @@ namespace ADD
                 cmbCoinType.SelectedIndex = 0;
             }
 
-            catch (Exception coinTypeException )
+            catch (Exception coinTypeException)
             {
                 lblStatusInfo.Text = "Error: " + coinTypeException.Message + " check coin.conf file.";
                 cmbCoinType.SelectedIndex = 0;
@@ -512,33 +533,34 @@ namespace ADD
                 {
                     CoinRPC a = new CoinRPC(new Uri("http://" + coinIP[cmbCoinType.Text] + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
                     allAccounts = a.ListAccounts(1);
-                     tmrStatusUpdate.Start();
+                    tmrStatusUpdate.Start();
 
-                     try
-                     {
-                         foreach (string Account in allAccounts.Keys)
-                         {
-                                cmbWalletLabel.Items.Add(Account);
+                    try
+                    {
+                        foreach (string Account in allAccounts.Keys)
+                        {
+                            cmbWalletLabel.Items.Add(Account);
 
-                                totalValue = totalValue + allAccounts[Account];
+                            totalValue = totalValue + allAccounts[Account];
 
-                         }
-                         lblCoinTotal.Text = totalValue.ToString();
-                         
-                         var itemCountString = "";
-                         if ((cmbWalletLabel.Items.Count - 1) > 1) { itemCountString = "s"; }
-                         lblStatusInfo.Text = "Status: Wallet connected " + (cmbWalletLabel.Items.Count - 1).ToString() + " suitable account" + itemCountString + " Found";
+                        }
+                        lblCoinTotal.Text = totalValue.ToString();
 
-                         cmbWalletLabel.Enabled = true;
-                     }
-                     catch {
-                         lblStatusInfo.Text = "Status: No accounts found.  Check wallet settings.";
-                         cmbCoinType.SelectedIndex = 0;
-                         cmbWalletLabel.SelectedIndex = 0;
-                         cmbWalletLabel.Enabled = false;
-                         tmrStatusUpdate.Start();
-                     }
-                    
+                        var itemCountString = "";
+                        if ((cmbWalletLabel.Items.Count - 1) > 1) { itemCountString = "s"; }
+                        lblStatusInfo.Text = "Status: Wallet connected " + (cmbWalletLabel.Items.Count - 1).ToString() + " suitable account" + itemCountString + " Found";
+
+                        cmbWalletLabel.Enabled = true;
+                    }
+                    catch
+                    {
+                        lblStatusInfo.Text = "Status: No accounts found.  Check wallet settings.";
+                        cmbCoinType.SelectedIndex = 0;
+                        cmbWalletLabel.SelectedIndex = 0;
+                        cmbWalletLabel.Enabled = false;
+                        tmrStatusUpdate.Start();
+                    }
+
                 }
                 catch (Exception walletException)
                 {
@@ -585,7 +607,7 @@ namespace ADD
                 notarizeToolStripMenuItem.Enabled = false;
                 imgEnterMessageHere.Visible = false;
                 if (txtMessage.TextLength < 1) { pictureBox1.Visible = true; }
-                
+
 
 
             }
@@ -759,17 +781,7 @@ namespace ADD
                                 System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapUrl + "/" + TransID + Environment.NewLine);
                                 Directory.CreateDirectory("root\\" + TransID);
                                 FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Create);
-                                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>"+ WalletKey +" - "+ TransID +"</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><!--#include file=\"..\\includes\\meta.ssi\" --></head><!--#include file=\"..\\includes\\css.ssi\" --><body><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 292 + (WalletKey.Length * 2) + TransID.Length);
-                                
-                                //Enable Social Like Buttons
-                                if (Properties.Settings.Default.EnableSocial)
-                                {
-                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">"), 0, 39);
-                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"fb-like\" data-href=\"" + Properties.Settings.Default.SiteMapUrl + "/" + TransID + "\" data-layout=\"button_count\" data-action=\"like\" data-show-faces=\"true\" data-share=\"false\"></div>"), 0, 129 + Properties.Settings.Default.SiteMapUrl.Length + TransID.Length);
-                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(" <a href=\"https://twitter.com/share\" class=\"twitter-share-button\">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>"), 0, 370);
-                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("</div></div>"), 0, 12);
-                                }
-
+                                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><!--#include file=\"..\\includes\\meta.ssi\" --></head><!--#include file=\"..\\includes\\css.ssi\" --><body><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 292 + (WalletKey.Length * 2) + TransID.Length);
                                 fileStream.Close();
 
                             }
@@ -834,12 +846,12 @@ namespace ADD
                         dateTime = dateTime.AddSeconds(transaction.blocktime);
                         string printDate = dateTime.ToShortDateString() + " " + dateTime.ToShortTimeString();
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\"><table>"), 0, 46);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>TRANSACTION ID</td><td>"+transaction.txid+"</td></tr>"), 0, 41 + transaction.txid.Length);
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>TRANSACTION ID</td><td>" + transaction.txid + "</td></tr>"), 0, 41 + transaction.txid.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ARCHIVE DATE</td><td>" + printDate + "</td></tr>"), 0, 39 + printDate.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>VERSION</td><td>" + transaction.version + "</td></tr>"), 0, 34 + transaction.version.ToString().Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCKCHAIN</td><td>" + WalletKey + "</td></tr>"), 0, 37 + WalletKey.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ADDRESS FILE</td><td><a href=\"address.dat\">address.dat</a></td></tr>"), 0, 76);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td colspan=2 align=right><a href=\"..\\abuse.aspx?TransID="+transaction.txid+"\">report abuse</a></td></tr>"), 0, 89 + transaction.txid.Length);
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td colspan=2 align=right><a href=\"..\\abuse.aspx?TransID=" + transaction.txid + "\">report abuse</a></td></tr>"), 0, 89 + transaction.txid.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table></div></div>"), 0, 20);
                     }
                     FileStream dataFileStream = new FileStream("root\\" + TransID + "\\address.dat", FileMode.Create);
@@ -853,7 +865,7 @@ namespace ADD
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></body></html>"), 0, 60);
                     fileStream.Close();
 
-   
+
                 }
                 return containsData;
             }
@@ -912,9 +924,9 @@ namespace ADD
                     }
                     else
                     {
-                       FileStream attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create);
-                       attachStream.Write(ByteData,0,ByteData.Length);
-                       attachStream.Close();
+                        FileStream attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create);
+                        attachStream.Write(ByteData, 0, ByteData.Length);
+                        attachStream.Close();
                     }
                 }
                 else
@@ -924,7 +936,7 @@ namespace ADD
                     attachStream.Close();
                 }
 
-   
+
                 //Good Enough For Now.
                 searchResults.DeselectAll();
                 Image image = null;
@@ -964,7 +976,7 @@ namespace ADD
                 searchResults.AppendText(Environment.NewLine);
                 searchResults.ScrollToCaret();
             }
-            
+
 
         }
 
@@ -989,41 +1001,41 @@ namespace ADD
 
         public Boolean CreateArchive(string TransactionID, string WalletKey)
         {
- 
-                string[] AddressArray = null;
-                string[] LedgerArray = null;
 
-                try
-                {
-                    AddressArray = CreateAddressArrayFromTransactionID(TransactionID, WalletKey);
-                }
-                catch { return false; }
+            string[] AddressArray = null;
+            string[] LedgerArray = null;
 
-                try
+            try
+            {
+                AddressArray = CreateAddressArrayFromTransactionID(TransactionID, WalletKey);
+            }
+            catch { return false; }
+
+            try
+            {
+                do
                 {
-                    do
+
+                    LedgerArray = AddressArrayToLedger(AddressArray, WalletKey);
+                    var delimiter = "";
+                    var LedgerDelimited = "";
+                    if (LedgerArray != null)
                     {
-
-                        LedgerArray = AddressArrayToLedger(AddressArray, WalletKey);
-                        var delimiter = "";
-                        var LedgerDelimited = "";
-                        if (LedgerArray != null)
+                        foreach (string line in LedgerArray)
                         {
-                            foreach (string line in LedgerArray)
-                            {
 
-                                AddressArray = CreateAddressArrayFromTransactionID(line, WalletKey);
-                                LedgerDelimited = LedgerDelimited + delimiter + string.Join(",", AddressArray);
-                                delimiter = ",";
-                            }
-                            AddressArray = LedgerDelimited.Split(',');
+                            AddressArray = CreateAddressArrayFromTransactionID(line, WalletKey);
+                            LedgerDelimited = LedgerDelimited + delimiter + string.Join(",", AddressArray);
+                            delimiter = ",";
                         }
+                        AddressArray = LedgerDelimited.Split(',');
+                    }
 
-                    } while (LedgerArray != null);
+                } while (LedgerArray != null);
 
-                    return ConvertAddressArrayToFile(AddressArray, TransactionID, WalletKey);
-                }
-                catch { return false; }
+                return ConvertAddressArrayToFile(AddressArray, TransactionID, WalletKey);
+            }
+            catch { return false; }
 
         }
 
@@ -1077,26 +1089,26 @@ namespace ADD
 
         private void chkMonitorBlockChains_CheckedChanged(object sender, EventArgs e)
         {
-            var coinCount = 0; 
+            var coinCount = 0;
             foreach (var i in coinIP)
+            {
+                if (coinLastMemoryDump[i.Key] == null && coinGetRawSupport[i.Key] && coinEnabled[i.Key])
                 {
-                    if (coinLastMemoryDump[i.Key] == null && coinGetRawSupport[i.Key] && coinEnabled[i.Key])
+                    try
                     {
-                        try
-                        {
-                            var b = new CoinRPC(new Uri("http://" + coinIP[i.Key] + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
-                            coinLastMemoryDump[i.Key] = b.GetRawMemPool();
-                        }
-                        catch (Exception ex)
-                        {
-                            lblExploreStatus.Text = "Error: " + i.Key + " " + ex.Message;
-                            tmrStatusUpdate.Start();
-                        }
-                        coinCount++;
+                        var b = new CoinRPC(new Uri("http://" + coinIP[i.Key] + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
+                        coinLastMemoryDump[i.Key] = b.GetRawMemPool();
                     }
-
-
+                    catch (Exception ex)
+                    {
+                        lblExploreStatus.Text = "Error: " + i.Key + " " + ex.Message;
+                        tmrStatusUpdate.Start();
+                    }
+                    coinCount++;
                 }
+
+
+            }
 
             if (coinCount == 0)
             {
@@ -1108,16 +1120,16 @@ namespace ADD
 
 
 
-                if (chkMonitorBlockChains.Checked)
-                {
-                    tmrGetNewTransactions.Start();
-                    lblMonitorInfo.Visible = true;
-                }
-                else
-                {
-                    tmrGetNewTransactions.Stop();
-                    lblMonitorInfo.Visible = false;
-                }
+            if (chkMonitorBlockChains.Checked)
+            {
+                tmrGetNewTransactions.Start();
+                lblMonitorInfo.Visible = true;
+            }
+            else
+            {
+                tmrGetNewTransactions.Stop();
+                lblMonitorInfo.Visible = false;
+            }
 
 
         }
@@ -1159,7 +1171,8 @@ namespace ADD
                     }
                 }
             }
-            catch { 
+            catch
+            {
                 tmrGetNewTransactions.Stop();
                 chkMonitorBlockChains.Checked = false;
             }
@@ -1341,7 +1354,7 @@ namespace ADD
                     lblExploreStatus.Text = "Status: Transaction Id not found in linked Bockchains.";
                     tmrStatusUpdate.Start();
                 }
-                
+
             }
         }
 

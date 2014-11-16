@@ -299,7 +299,7 @@
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(239, 17);
             this.label15.TabIndex = 28;
-            this.label15.Text = "( BTC = .000055, LTC = .00000001 )";
+            this.label15.Text = "( BTC = .000048, LTC = .00000001 )";
             // 
             // label16
             // 
