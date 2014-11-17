@@ -250,7 +250,7 @@ namespace ADD
                             transLookup = b.GetTransaction(transactionId);
                             
                         }
-
+                        if (transLookup.confirmations > 0) { ledgerCount = 0; }
 
 
                     }
@@ -271,7 +271,7 @@ namespace ADD
                             System.Threading.Thread.Sleep(1000);
                             transLookup = b.GetTransaction(transactionId);
                         }
-
+                        if (transLookup.confirmations > 0) { ledgerCount = 0; }
 
 
 
