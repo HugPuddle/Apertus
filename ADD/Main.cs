@@ -116,6 +116,7 @@ namespace ADD
 
 
 
+
             try
             {
                 if (!FilePath.ToUpper().EndsWith(".ADD"))
@@ -199,6 +200,7 @@ namespace ADD
                         payloadBytePosition++;
                         progressBar.PerformStep();
 
+
                     }
 
                     for (int i = payloadBytePosition; i < PayloadByteSize; i++)
@@ -225,6 +227,7 @@ namespace ADD
                 System.IO.StreamReader readARC = new System.IO.StreamReader("process\\" + processId + ".ADD");
                 System.IO.StreamWriter arcLedger = new System.IO.StreamWriter("process\\" + processId + ".LGR", true);
 
+
                 while ((line = readARC.ReadLine()) != null)
                 {
                     try
@@ -244,11 +247,11 @@ namespace ADD
                         tranCount = 0;
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
-                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 5))
+                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] / 2))
                         {
                             System.Threading.Thread.Sleep(1000);
                             transLookup = b.GetTransaction(transactionId);
-                            
+
                         }
                         if (transLookup.confirmations > 0) { ledgerCount = 0; }
 
@@ -298,7 +301,6 @@ namespace ADD
                 arcLedger.Close();
                 readARC.Close();
                 processLedger(processId.ToString());
-
 
 
             }
@@ -777,8 +779,6 @@ namespace ADD
 
                             if (!containsData)
                             {
-                                System.IO.File.AppendAllText("root\\sitemap.htm", "<a href=\"" + TransID + "/index.htm\">" + TransID + "</a><br>" + Environment.NewLine);
-                                System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapUrl + "/" + TransID + Environment.NewLine);
                                 Directory.CreateDirectory("root\\" + TransID);
                                 FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Create);
                                 fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><!--#include file=\"..\\includes\\meta.ssi\" --></head><!--#include file=\"..\\includes\\css.ssi\" --><body><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 292 + (WalletKey.Length * 2) + TransID.Length);
@@ -864,7 +864,8 @@ namespace ADD
 
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></body></html>"), 0, 60);
                     fileStream.Close();
-
+                    System.IO.File.AppendAllText("root\\sitemap.htm", "<a href=\"" + TransID + "/index.htm\">" + TransID + "</a><br>" + Environment.NewLine);
+                    System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapUrl + "/" + TransID + Environment.NewLine);
 
                 }
                 return containsData;
@@ -1357,6 +1358,7 @@ namespace ADD
 
             }
         }
+
 
     }
 }

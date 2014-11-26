@@ -20,8 +20,8 @@ namespace ADD
 
         private void Wallets_Load(object sender, EventArgs e)
         {
-            
-           cmbWallets.Items.Add("Select Wallet From List");
+
+            cmbWallets.Items.Add("Select Wallet From List");
             foreach (string item in Main.coinVersion.Keys)
             {
                 cmbWallets.Items.Add(item.ToString());
@@ -62,7 +62,7 @@ namespace ADD
                 chkFeePerAddress.Enabled = true;
                 chkGetRawSupport.Enabled = true;
                 chkEnabled.Enabled = true;
-                
+
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
                 btnSave.Enabled = true;
@@ -103,7 +103,8 @@ namespace ADD
             }
         }
 
-        private void btnAdd_Click(object sender, EventArgs e){
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
             try
             {
                 Main.coinVersion.Add(txtName.Text, byte.Parse(txtVersion.Text));
@@ -119,10 +120,10 @@ namespace ADD
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress.Add(txtName.Text, true); } else { Main.coinFeePerAddress.Add(txtName.Text, false); }
                 if (chkEnabled.Checked) { Main.coinEnabled.Add(txtName.Text, true); } else { Main.coinEnabled.Add(txtName.Text, false); }
                 cmbWallets.Items.Add(txtName.Text);
- 
+
                 SaveWallets();
                 hasChanged = true;
-                cmbWallets.SelectedIndex = cmbWallets.Items.Count -1;
+                cmbWallets.SelectedIndex = cmbWallets.Items.Count - 1;
             }
             catch (Exception ex)
             {
@@ -140,13 +141,13 @@ namespace ADD
                 cmbWallets.SelectedIndex = indexBeforeDelete - 1;
                 hasChanged = true;
                 SaveWallets();
-                
+
             }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-           
+
             SaveWallets();
 
 
