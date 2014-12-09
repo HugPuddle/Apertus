@@ -269,7 +269,7 @@ namespace ADD
 
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
-                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 5))
+                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 25))
                         {
                             System.Threading.Thread.Sleep(1000);
                             transLookup = b.GetTransaction(transactionId);
@@ -291,7 +291,7 @@ namespace ADD
                     tranCount = 0;
                     GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                     //Wait for the wallet to catch up.
-                    while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 5))
+                    while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 25))
                     {
                         System.Threading.Thread.Sleep(1000);
                         transLookup = b.GetTransaction(transactionId);
@@ -972,7 +972,7 @@ namespace ADD
                 searchResults.AppendText(Environment.NewLine);
                 searchResults.AppendText(result);
                 searchResults.AppendText(Environment.NewLine);
-                searchResults.AppendText("file://" + TransID + "/" + FileName);
+                searchResults.AppendText("file://" + TransID);
                 searchResults.AppendText(Environment.NewLine);
                 searchResults.AppendText(Environment.NewLine);
                 searchResults.ScrollToCaret();
