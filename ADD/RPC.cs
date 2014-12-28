@@ -18,7 +18,7 @@ namespace ADD
 
         private void RPC_Load(object sender, EventArgs e)
         {
-          
+            richTextBox1.LoadFile("info.rtf");
         }
     }
 }

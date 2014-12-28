@@ -117,23 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="textBox1.Text" xml:space="preserve">
-    <value>
-To enable RPC create a  [CoinName].conf file using notepad  and place it in the Roaming App Data file associated with your wallet.
-
-Example: C:\Users\[user name]\AppData\Roaming\Bitcoin\bitcoin.conf
-Example: C:\Users\[user name]\AppData\Roaming\Litecoin\litecoin.conf
-
-You may need to enable the viewing of hidden folders and files to see the AppData Folder
-
-Paste the following three lines into your [CoinName].conf file and restart the corresponding wallet. Change the Credentials to something other than these examples!
-
-server=1
-rpcuser=RPC_USER_CHANGE_ME
-rpcpassword=RPC_PASSWORD_CHANGE_ME
-
-Click on Settings \ Wallet, Select the approrpriate wallet,  Enter the credentials you just created.  Check Enable Wallet, Check Enable Monitoring and Click Save.</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

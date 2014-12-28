@@ -146,6 +146,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\info.rtf" />
     <None Include="Resources\output.ico" />
   </ItemGroup>
   <ItemGroup>

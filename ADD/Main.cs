@@ -37,6 +37,7 @@ namespace ADD
         Decimal fileSize;
         int transactionsSearched = 0;
         int transactionsFound = 0;
+        int msgId = 0;
 
 
 
@@ -378,7 +379,7 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .000048 164 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00001 164 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False");
                     writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 164 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 164 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
                     writeCoinConf.WriteLine("Devcoin 0 20 1 .00000001 328 6333 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False");
@@ -962,10 +963,15 @@ namespace ADD
                     result = Sanitizer.GetSafeHtmlFragment(result);
                 }
 
-                FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+                msgId++;
+                FileStream fileStream = new FileStream("root\\" + TransID + "\\"+ msgId +".MSG", FileMode.Create);
+                fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
+                fileStream.Close();
+
+                fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">"), 0, 39);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes("</div></div>"), 0, 12);
+                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<p><a href=\""+msgId+".MSG\">"+msgId+"</a></p></div></div>"), 0, 38 + (msgId.ToString().Length *2));
                 fileStream.Close();
 
                 searchResults.DeselectAll();
@@ -1005,7 +1011,7 @@ namespace ADD
 
             string[] AddressArray = null;
             string[] LedgerArray = null;
-
+            msgId = 0;
             try
             {
                 AddressArray = CreateAddressArrayFromTransactionID(TransactionID, WalletKey);
