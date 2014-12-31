@@ -110,6 +110,8 @@ namespace ADD
             byte[] msgBytes = null;
             string cglText = "";
             Dictionary<string, decimal> toMany = new Dictionary<string, decimal>();
+            Dictionary<string, decimal> lastTransaction = new Dictionary<string, decimal>();
+            string lastTransactionID = null;
             string line;
             int tranCount = 1;
             int ledgerCount = 0;
@@ -227,7 +229,7 @@ namespace ADD
                 b.SetTXFee(coinTransactionFee[cmbCoinType.Text]);
                 System.IO.StreamReader readARC = new System.IO.StreamReader("process\\" + processId + ".ADD");
                 System.IO.StreamWriter arcLedger = new System.IO.StreamWriter("process\\" + processId + ".LGR", true);
-
+                
 
                 while ((line = readARC.ReadLine()) != null)
                 {
@@ -240,8 +242,18 @@ namespace ADD
                     catch
                     {
                         //Cannot send to the same address more than twice in any transaction
-                        transactionId = b.SendMany(WalletLabel, toMany, 1, "");
+                        //If data is identical use previous transaction instead of archiving identical data.
+                        if (lastTransaction.SequenceEqual(toMany))
+                        { transactionId = lastTransactionID; }
+                        else
+                        {
+                            transactionId = b.SendMany(WalletLabel, toMany, 1, "");
+                        }
+
                         arcLedger.WriteLine(transactionId);
+                        arcLedger.Flush();
+                        lastTransaction = new Dictionary<string, decimal>(toMany);
+                        lastTransactionID = transactionId;
                         toMany.Clear();
                         toMany.Add(line, CoinMinTransaction);
                         progressBar.PerformStep();
@@ -265,6 +277,9 @@ namespace ADD
                         //Breaking transaction file into size specified in wallet settings
                         transactionId = b.SendMany(WalletLabel, toMany, 1, "");
                         arcLedger.WriteLine(transactionId);
+                        arcLedger.Flush();
+                        lastTransaction = new Dictionary<string, decimal>(toMany);
+                        lastTransactionID = transactionId;
                         toMany.Clear();
                         tranCount = 0;
 
@@ -288,6 +303,9 @@ namespace ADD
                     //Catching the straglers
                     transactionId = b.SendMany(WalletLabel, toMany, 1, "");
                     arcLedger.WriteLine(transactionId);
+                    arcLedger.Flush();
+                    lastTransaction = new Dictionary<string, decimal>(toMany);
+                    lastTransactionID = transactionId;
                     toMany.Clear();
                     tranCount = 0;
                     GetTransactionResponse transLookup = b.GetTransaction(transactionId);
@@ -964,14 +982,14 @@ namespace ADD
                 }
 
                 msgId++;
-                FileStream fileStream = new FileStream("root\\" + TransID + "\\"+ msgId +".MSG", FileMode.Create);
+                FileStream fileStream = new FileStream("root\\" + TransID + "\\" + msgId + ".MSG", FileMode.Create);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
                 fileStream.Close();
 
                 fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">"), 0, 39);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<p><a href=\""+msgId+".MSG\">"+msgId+"</a></p></div></div>"), 0, 38 + (msgId.ToString().Length *2));
+                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<p><a href=\"" + msgId + ".MSG\">" + msgId + "</a></p></div></div>"), 0, 38 + (msgId.ToString().Length * 2));
                 fileStream.Close();
 
                 searchResults.DeselectAll();
