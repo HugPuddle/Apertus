@@ -45,9 +45,12 @@ namespace ADD
                 txtRPCIP.Text = Main.coinIP[cmbWallets.Text];
                 txtRPCUser.Text = Main.coinUser[cmbWallets.Text];
                 txtRPCPassword.Text = Main.coinPassword[cmbWallets.Text];
+                txtSigningAddress.Text = Main.coinSigningAddress[cmbWallets.Text];
                 if (Main.coinGetRawSupport[cmbWallets.Text]) { chkGetRawSupport.Checked = true; } else { chkGetRawSupport.Checked = false; }
                 if (Main.coinFeePerAddress[cmbWallets.Text]) { chkFeePerAddress.Checked = true; } else { chkFeePerAddress.Checked = false; }
                 if (Main.coinEnabled[cmbWallets.Text]) { chkEnabled.Checked = true; } else { chkEnabled.Checked = false; }
+                if (Main.coinEnableSigning[cmbWallets.Text]) { chkEnableSigning.Checked = true; } else { chkEnableSigning.Checked = false; }
+
 
                 txtName.Enabled = true;
                 txtVersion.Enabled = true;
@@ -59,9 +62,11 @@ namespace ADD
                 txtRPCIP.Enabled = true;
                 txtRPCUser.Enabled = true;
                 txtRPCPassword.Enabled = true;
+                txtSigningAddress.Enabled = true;
                 chkFeePerAddress.Enabled = true;
                 chkGetRawSupport.Enabled = true;
                 chkEnabled.Enabled = true;
+                chkEnableSigning.Enabled = true;
 
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
@@ -80,9 +85,11 @@ namespace ADD
                 txtRPCIP.Enabled = false;
                 txtRPCUser.Enabled = false;
                 txtRPCPassword.Enabled = false;
+                txtSigningAddress.Enabled = false;
                 chkFeePerAddress.Enabled = false;
                 chkGetRawSupport.Enabled = false;
                 chkEnabled.Enabled = false;
+                chkEnableSigning.Enabled = false;
 
                 txtName.Text = "";
                 txtVersion.Text = "";
@@ -94,9 +101,12 @@ namespace ADD
                 txtRPCIP.Text = "";
                 txtRPCUser.Text = "";
                 txtRPCPassword.Text = "";
+                txtSigningAddress.Text = "";
                 chkGetRawSupport.Checked = false;
                 chkFeePerAddress.Checked = false;
                 chkEnabled.Checked = false;
+                chkEnableSigning.Checked = false;
+
                 btnAdd.Enabled = false;
                 btnDelete.Enabled = false;
                 btnSave.Enabled = false;
@@ -116,8 +126,10 @@ namespace ADD
                 Main.coinIP.Add(txtName.Text, txtRPCIP.Text);
                 Main.coinUser.Add(txtName.Text, txtRPCUser.Text);
                 Main.coinPassword.Add(txtName.Text, txtRPCPassword.Text);
+                Main.coinSigningAddress.Add(txtName.Text, txtSigningAddress.Text);
                 if (chkGetRawSupport.Checked) { Main.coinGetRawSupport.Add(txtName.Text, true); } else { Main.coinGetRawSupport.Add(txtName.Text, false); }
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress.Add(txtName.Text, true); } else { Main.coinFeePerAddress.Add(txtName.Text, false); }
+                if (chkEnableSigning.Checked) { Main.coinEnableSigning.Add(txtName.Text, true); } else { Main.coinEnableSigning.Add(txtName.Text, false); }
                 if (chkEnabled.Checked) { Main.coinEnabled.Add(txtName.Text, true); } else { Main.coinEnabled.Add(txtName.Text, false); }
                 cmbWallets.Items.Add(txtName.Text);
 
@@ -178,8 +190,10 @@ namespace ADD
                 Main.coinIP[cmbWallets.Text] = txtRPCIP.Text;
                 Main.coinUser[cmbWallets.Text] = txtRPCUser.Text;
                 Main.coinPassword[cmbWallets.Text] = txtRPCPassword.Text;
+                Main.coinSigningAddress[cmbWallets.Text] = txtSigningAddress.Text;
                 if (chkGetRawSupport.Checked) { Main.coinGetRawSupport[cmbWallets.Text] = true; } else { Main.coinGetRawSupport[cmbWallets.Text] = false; }
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress[cmbWallets.Text] = true; } else { Main.coinFeePerAddress[cmbWallets.Text] = false; }
+                if (chkEnableSigning.Checked) { Main.coinEnableSigning[cmbWallets.Text] = true; } else { Main.coinEnableSigning[cmbWallets.Text] = false; }
                 if (chkEnabled.Checked) { Main.coinEnabled[cmbWallets.Text] = true; } else { Main.coinEnabled[cmbWallets.Text] = false; }
 
                 System.IO.File.Delete("coin.conf");
@@ -190,7 +204,7 @@ namespace ADD
                 {
                     if (i != "Select Wallet From List")
                     {
-                        writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinGetRawSupport[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", ""));
+                        writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinGetRawSupport[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", "") + " " + Main.coinEnableSigning[i].ToString().Replace(" ", "") + " " + Main.coinSigningAddress[i].ToString().Replace(" ", ""));
                     }
                 }
                 writeCoinConf.Close();
@@ -211,6 +225,7 @@ namespace ADD
                 Application.Exit();
             }
         }
+
 
 
     }

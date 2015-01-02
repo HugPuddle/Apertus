@@ -80,26 +80,19 @@ namespace ADD.RPCClient
                 (new RPCRequest("settxfee",new Object[] {fee}));
         }
 
-		//Keep for Future Use
-        //public string SignMessage(string BitcoinAddress, string Message)
-        //{
-        //    return RpcCall<string>
-        //        (new RPCRequest("signmessage", new Object[] { BitcoinAddress, Message }));
-        //}
+		
+        public string SignMessage(string BitcoinAddress, string Message)
+        {
+            return RpcCall<string>
+                (new RPCRequest("signmessage", new Object[] { BitcoinAddress, Message }));
+        }
 
-        //Keep for Future Use
-        //public void Stop()
-        //{
-        //    RpcCall<Object>
-        //        (new RPCRequest("stop"));
-        //}
 
-		//Keep for future Use
-        //public bool VerifyMessage(string BitcoinAddress, string Signature, string Message)
-        //{
-        //    return RpcCall<bool>
-        //        (new RPCRequest("verifymessage", new Object[] { BitcoinAddress, Signature, Message }));
-        //}
+        public bool VerifyMessage(string BitcoinAddress, string Signature, string Message)
+        {
+            return RpcCall<bool>
+                (new RPCRequest("verifymessage", new Object[] { BitcoinAddress, Signature, Message }));
+        }
 
 		
 	}
