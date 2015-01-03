@@ -187,7 +187,7 @@ namespace ADD
                             fileBytes = msgBytes;
                         }
                     }
-                    if (coinEnableSigning[cmbCoinType.Text])
+                    if (coinEnableSigning[cmbCoinType.Text] && ledgerId == null)
                         {
 
                             //Sign the archive
@@ -729,26 +729,27 @@ namespace ADD
                                 h++;
                                 if (h > 1 && Int32.TryParse(headerArray[1], out intFileSize))
                                 {
-                                    try
-                                    {
-                                        var b = new CoinRPC(new Uri("http://" + coinIP[WalletKey] + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
-                                        if (coinGetRawSupport[WalletKey])
+                                    
+                                        try
                                         {
-                                            var transaction = b.GetRawTransaction(headerArray[0], 1);
+                                            var b = new CoinRPC(new Uri("http://" + coinIP[WalletKey] + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
+                                            if (coinGetRawSupport[WalletKey])
+                                            {
+                                                var transaction = b.GetRawTransaction(headerArray[0], 1);
+                                            }
+                                            else
+                                            {
+                                                var transaction = b.GetTransaction(headerArray[0]);
+                                            }
                                         }
-                                        else
+                                        catch
                                         {
-                                            var transaction = b.GetTransaction(headerArray[0]);
+
+                                            return null;
                                         }
-                                    }
-                                    catch
-                                    {
-
-                                        return null;
-                                    }
-
-                                    isLedgerFile = true;
-                                    fileArray = new byte[intFileSize];
+                                        isLedgerFile = true;
+                                        fileArray = new byte[intFileSize];
+                                    
                                 }
                                 strHeader = null;
                             }
@@ -781,7 +782,7 @@ namespace ADD
                 int intFileByteCount = 0;
                 int intPayLoadSize = 0;
                 byte[] rawBytes = null;
-                string safeExtensions = ".m2ts.aac.adt.adts.3g2.3gp2.3gp.3gpp.m4a.mov.wmz.wms.ivf.cda.wav.au.snd.aif.aifc.aiff.mid.midi.rmi.mpg.mpeg.m1v.mp2.mp3.mpa.mpe.m3u.avi.wmd.dvr-ms.wpi.wax.wvx.wmx.asf.wma.wmv.wm.swf.pdf.jpg.jpeg.jpe.gif.png.tiff.tif.svg.svgz.xbm.bmp.ico.asp.aspx.axd.asx.asmx.ashx.css.cfm.yaws.html.htm.xhtml.jhtml.jsp.jspx.wss.do.js.pl.php.php4.php3.phtml.py.rb.rhtml.xml.rss.svg.cgi";
+                string safeExtensions = ".gif.jpg.jpeg.txt.tiff.tif.mp3.mpeg.mpg.wav.html.htm";
 
 
                 // Converting Addresses to RawBytes
