@@ -36,7 +36,7 @@
             // 
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ShowSelectionMargin = true;
             this.richTextBox1.Size = new System.Drawing.Size(487, 337);
@@ -55,7 +55,7 @@
             this.Name = "RPC";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "RPC Instructions";
+            this.Text = "Instructions";
             this.Load += new System.EventHandler(this.RPC_Load);
             this.ResumeLayout(false);
 
@@ -64,6 +64,7 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox richTextBox1;
+
 
     }
 }

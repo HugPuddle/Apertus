@@ -39,12 +39,16 @@
             this.lblEstimatedCost = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusArchiveStatus = new System.Windows.Forms.StatusStrip();
             this.lblStatusInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.imgEnterMessageHere = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblCoinTotal = new System.Windows.Forms.Label();
+            this.btnArchive = new System.Windows.Forms.Button();
             this.cmbWalletLabel = new System.Windows.Forms.ComboBox();
+            this.btnAttachFile = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.chkFilterUnSafeContent = new System.Windows.Forms.CheckBox();
             this.statusExploreStatus = new System.Windows.Forms.StatusStrip();
@@ -65,6 +69,7 @@
             this.fontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rebuildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trustToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rPCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,20 +78,16 @@
             this.tmrGetNewTransactions = new System.Windows.Forms.Timer(this.components);
             this.openDigestFile = new System.Windows.Forms.OpenFileDialog();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.imgEnterMessageHere = new System.Windows.Forms.PictureBox();
-            this.btnArchive = new System.Windows.Forms.Button();
-            this.btnAttachFile = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.statusArchiveStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgEnterMessageHere)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.statusExploreStatus.SuspendLayout();
             this.menuMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgEnterMessageHere)).BeginInit();
             this.SuspendLayout();
             // 
             // attachFiles
@@ -212,6 +213,20 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Archive";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::ADD.Properties.Resources.Main;
+            this.pictureBox1.Location = new System.Drawing.Point(45, 18);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(555, 191);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 28;
+            this.pictureBox1.TabStop = false;
+            // 
             // statusArchiveStatus
             // 
             this.statusArchiveStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -245,6 +260,23 @@
             this.progressBar.Value = 1;
             this.progressBar.Visible = false;
             // 
+            // imgEnterMessageHere
+            // 
+            this.imgEnterMessageHere.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.imgEnterMessageHere.BackColor = System.Drawing.Color.White;
+            this.imgEnterMessageHere.Image = ((System.Drawing.Image)(resources.GetObject("imgEnterMessageHere.Image")));
+            this.imgEnterMessageHere.Location = new System.Drawing.Point(55, 18);
+            this.imgEnterMessageHere.MinimumSize = new System.Drawing.Size(240, 18);
+            this.imgEnterMessageHere.Name = "imgEnterMessageHere";
+            this.imgEnterMessageHere.Size = new System.Drawing.Size(534, 191);
+            this.imgEnterMessageHere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgEnterMessageHere.TabIndex = 29;
+            this.imgEnterMessageHere.TabStop = false;
+            this.imgEnterMessageHere.Visible = false;
+            this.imgEnterMessageHere.Click += new System.EventHandler(this.imgEnterMessageHere_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -268,6 +300,22 @@
             this.lblCoinTotal.Text = "0.00000000";
             this.lblCoinTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btnArchive
+            // 
+            this.btnArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnArchive.Enabled = false;
+            this.btnArchive.FlatAppearance.BorderSize = 0;
+            this.btnArchive.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnArchive.Image = global::ADD.Properties.Resources.Save;
+            this.btnArchive.Location = new System.Drawing.Point(568, 271);
+            this.btnArchive.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.btnArchive.Name = "btnArchive";
+            this.btnArchive.Size = new System.Drawing.Size(92, 58);
+            this.btnArchive.TabIndex = 3;
+            this.btnArchive.Tag = "12345678901234567890";
+            this.btnArchive.UseVisualStyleBackColor = true;
+            this.btnArchive.Click += new System.EventHandler(this.btnArchive_Click);
+            // 
             // cmbWalletLabel
             // 
             this.cmbWalletLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -284,6 +332,21 @@
             this.cmbWalletLabel.Size = new System.Drawing.Size(158, 25);
             this.cmbWalletLabel.TabIndex = 21;
             this.cmbWalletLabel.SelectedIndexChanged += new System.EventHandler(this.cmbWalletLabel_SelectedIndexChanged);
+            // 
+            // btnAttachFile
+            // 
+            this.btnAttachFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAttachFile.Enabled = false;
+            this.btnAttachFile.FlatAppearance.BorderSize = 0;
+            this.btnAttachFile.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAttachFile.Image = global::ADD.Properties.Resources.Button2;
+            this.btnAttachFile.Location = new System.Drawing.Point(9, 226);
+            this.btnAttachFile.Margin = new System.Windows.Forms.Padding(0);
+            this.btnAttachFile.Name = "btnAttachFile";
+            this.btnAttachFile.Size = new System.Drawing.Size(80, 28);
+            this.btnAttachFile.TabIndex = 6;
+            this.btnAttachFile.UseVisualStyleBackColor = true;
+            this.btnAttachFile.Click += new System.EventHandler(this.btnAttachFiles_Click);
             // 
             // tabPage2
             // 
@@ -444,7 +507,8 @@
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.walletsToolStripMenuItem,
             this.fontToolStripMenuItem,
-            this.indexToolStripMenuItem});
+            this.indexToolStripMenuItem,
+            this.trustToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(73, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -478,6 +542,13 @@
             this.rebuildToolStripMenuItem.Text = "Rebuild";
             this.rebuildToolStripMenuItem.Click += new System.EventHandler(this.rebuildToolStripMenuItem_Click);
             // 
+            // trustToolStripMenuItem
+            // 
+            this.trustToolStripMenuItem.Name = "trustToolStripMenuItem";
+            this.trustToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.trustToolStripMenuItem.Text = "Trust";
+            this.trustToolStripMenuItem.Click += new System.EventHandler(this.trustToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -490,14 +561,14 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // rPCToolStripMenuItem
             // 
             this.rPCToolStripMenuItem.Name = "rPCToolStripMenuItem";
-            this.rPCToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rPCToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.rPCToolStripMenuItem.Text = "Info";
             this.rPCToolStripMenuItem.Click += new System.EventHandler(this.rPCToolStripMenuItem_Click);
             // 
@@ -526,68 +597,6 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(146, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::ADD.Properties.Resources.Main;
-            this.pictureBox1.Location = new System.Drawing.Point(45, 18);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(555, 191);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 28;
-            this.pictureBox1.TabStop = false;
-            // 
-            // imgEnterMessageHere
-            // 
-            this.imgEnterMessageHere.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.imgEnterMessageHere.BackColor = System.Drawing.Color.White;
-            this.imgEnterMessageHere.Image = ((System.Drawing.Image)(resources.GetObject("imgEnterMessageHere.Image")));
-            this.imgEnterMessageHere.Location = new System.Drawing.Point(55, 18);
-            this.imgEnterMessageHere.MinimumSize = new System.Drawing.Size(240, 18);
-            this.imgEnterMessageHere.Name = "imgEnterMessageHere";
-            this.imgEnterMessageHere.Size = new System.Drawing.Size(534, 191);
-            this.imgEnterMessageHere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imgEnterMessageHere.TabIndex = 29;
-            this.imgEnterMessageHere.TabStop = false;
-            this.imgEnterMessageHere.Visible = false;
-            this.imgEnterMessageHere.Click += new System.EventHandler(this.imgEnterMessageHere_Click);
-            // 
-            // btnArchive
-            // 
-            this.btnArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnArchive.Enabled = false;
-            this.btnArchive.FlatAppearance.BorderSize = 0;
-            this.btnArchive.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnArchive.Image = global::ADD.Properties.Resources.Save;
-            this.btnArchive.Location = new System.Drawing.Point(568, 271);
-            this.btnArchive.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.btnArchive.Name = "btnArchive";
-            this.btnArchive.Size = new System.Drawing.Size(92, 58);
-            this.btnArchive.TabIndex = 3;
-            this.btnArchive.Tag = "12345678901234567890";
-            this.btnArchive.UseVisualStyleBackColor = true;
-            this.btnArchive.Click += new System.EventHandler(this.btnArchive_Click);
-            // 
-            // btnAttachFile
-            // 
-            this.btnAttachFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAttachFile.Enabled = false;
-            this.btnAttachFile.FlatAppearance.BorderSize = 0;
-            this.btnAttachFile.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAttachFile.Image = global::ADD.Properties.Resources.Button2;
-            this.btnAttachFile.Location = new System.Drawing.Point(9, 226);
-            this.btnAttachFile.Margin = new System.Windows.Forms.Padding(0);
-            this.btnAttachFile.Name = "btnAttachFile";
-            this.btnAttachFile.Size = new System.Drawing.Size(80, 28);
-            this.btnAttachFile.TabIndex = 6;
-            this.btnAttachFile.UseVisualStyleBackColor = true;
-            this.btnAttachFile.Click += new System.EventHandler(this.btnAttachFiles_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -613,8 +622,10 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.statusArchiveStatus.ResumeLayout(false);
             this.statusArchiveStatus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgEnterMessageHere)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -623,8 +634,6 @@
             this.statusExploreStatus.PerformLayout();
             this.menuMain.ResumeLayout(false);
             this.menuMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgEnterMessageHere)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -679,6 +688,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripMenuItem indexToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rebuildToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem trustToolStripMenuItem;
     }
 }
 

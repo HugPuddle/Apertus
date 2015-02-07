@@ -40,9 +40,13 @@ namespace ADD
         int transactionsSearched = 0;
         int transactionsFound = 0;
         int msgId = 0;
-
-
-
+        Boolean trustTrustedlistContent = false;
+        Boolean blockBlockedListContent = false;
+        Boolean blockUnSignedContent = false;
+        Boolean blockUntrustedContent = false;
+        HashSet<string> hashTrustedList = new HashSet<string>(StringComparer.Ordinal);
+        HashSet<string> hashBlockedList = new HashSet<string>(StringComparer.Ordinal);
+        
 
         public Main()
         {
@@ -58,6 +62,17 @@ namespace ADD
             System.Threading.Thread.Sleep(100);
 
             return chars[i];
+        }
+
+        private string GetURL(string url)
+        {
+            if (url.ToUpper().StartsWith("HTTP"))
+            
+            {
+                return url;
+            }
+
+            return "http://" + url;
         }
 
         private string GetRandomBuffer(int BufferLength)
@@ -121,7 +136,7 @@ namespace ADD
 
 
 
-                CoinRPC b = new CoinRPC(new Uri("http://" + WalletRPCIP + ":" + WalletRPCPort), new NetworkCredential(WalletRPCUser, WalletRPCPassword));
+                CoinRPC b = new CoinRPC(new Uri(GetURL(WalletRPCIP) + ":" + WalletRPCPort), new NetworkCredential(WalletRPCUser, WalletRPCPassword));
                 b.SetTXFee(coinTransactionFee[cmbCoinType.Text]);
 
             try
@@ -392,8 +407,55 @@ namespace ADD
             Directory.CreateDirectory("root");
             Directory.CreateDirectory("process");
             RefreshCoinTypes();
+            RefreshTrustCache();
             tmrStatusUpdate.Start();
         }
+
+        public void RefreshTrustCache()
+    {
+        if (!System.IO.File.Exists("trust.conf"))
+        {
+            System.IO.StreamWriter writeTrustConf = new StreamWriter("trust.conf");
+            writeTrustConf.WriteLine("True True False False");
+            writeTrustConf.Close();
+        }
+
+        System.IO.StreamReader readTrustConf = new System.IO.StreamReader("trust.conf");
+        while (!readTrustConf.EndOfStream)
+        {
+            var trustSettings = readTrustConf.ReadLine().Split(' ');
+
+            try
+            {
+                trustTrustedlistContent = Convert.ToBoolean(trustSettings[0]);
+                blockBlockedListContent = Convert.ToBoolean(trustSettings[1]);
+                blockUnSignedContent = Convert.ToBoolean(trustSettings[2]);
+                blockUntrustedContent = Convert.ToBoolean(trustSettings[3]);
+            }
+            catch {  }
+        }
+        readTrustConf.Close();
+
+            hashTrustedList.Clear();    
+            System.IO.StreamReader readTrust = new System.IO.StreamReader("trust.txt");
+            while (!readTrust.EndOfStream)
+            {
+                hashTrustedList.Add(readTrust.ReadLine());
+            }
+            readTrust.Close();
+
+            hashBlockedList.Clear();
+            System.IO.StreamReader readBlock = new System.IO.StreamReader("block.txt");
+            while (!readBlock.EndOfStream)
+            {
+                hashBlockedList.Add(readBlock.ReadLine());
+            }
+            readBlock.Close();
+
+
+
+
+    }
 
         public void RefreshCoinTypes()
         {
@@ -587,7 +649,7 @@ namespace ADD
             {
                 try
                 {
-                    CoinRPC a = new CoinRPC(new Uri("http://" + coinIP[cmbCoinType.Text] + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
+                    CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
                     allAccounts = a.ListAccounts(1);
                     tmrStatusUpdate.Start();
 
@@ -732,7 +794,7 @@ namespace ADD
                                     
                                         try
                                         {
-                                            var b = new CoinRPC(new Uri("http://" + coinIP[WalletKey] + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
+                                            var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
                                             if (coinGetRawSupport[WalletKey])
                                             {
                                                 var transaction = b.GetRawTransaction(headerArray[0], 1);
@@ -744,7 +806,6 @@ namespace ADD
                                         }
                                         catch
                                         {
-
                                             return null;
                                         }
                                         isLedgerFile = true;
@@ -782,8 +843,7 @@ namespace ADD
                 int intFileByteCount = 0;
                 int intPayLoadSize = 0;
                 byte[] rawBytes = null;
-                string safeExtensions = ".gif.jpg.jpeg.txt.tiff.tif.mp3.mpeg.mpg.wav.html.htm";
-
+   
 
                 // Converting Addresses to RawBytes
                 foreach (string address in AddressArray)
@@ -814,6 +874,8 @@ namespace ADD
                 string strSig = null;
                 string strSigAddress = null;
                 Boolean isSigned = false;
+                Boolean trustContent = false;
+                var buildFiles = new Dictionary<string, byte[]>();
 
 
                 for (int i = 0; i < rawBytes.Length; i++)
@@ -837,15 +899,6 @@ namespace ADD
                             intFilePosition = 0;
                             strFileName = header[0];
                             buildingFile = new byte[intFileSize];
-
-                            if (!containsData)
-                            {
-                                Directory.CreateDirectory("root\\" + TransID);
-                                FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Create);
-                                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><!--#include file=\"..\\includes\\meta.ssi\" --></head><!--#include file=\"..\\includes\\css.ssi\" --><body><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 292 + (WalletKey.Length * 2) + TransID.Length);
-                                fileStream.Close();
-
-                            }
                             containsData = true;
                             transactionsFound++;
                         }
@@ -860,27 +913,8 @@ namespace ADD
                         }
                         else
                         {
-                           
 
-                            if (header[0] != "" && chkFilterUnSafeContent.Checked)
-                            {
-                                
-                                if (Path.GetExtension(header[0]).Length > 2 && safeExtensions.IndexOf(Path.GetExtension(header[0]).ToLower()) < 0)
-                                {
-                                    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"arc\">[ " + header[0] + " ]</div><p>&nbsp;</p>"), 0, header[0].Length + 40);
-                                    fileStream.Close();
-
-                                }
-                                else
-                                {
-                                    ParseData(buildingFile, TransID, header[0]);
-                                }
-                            }
-                            else
-                            {
-                                ParseData(buildingFile, TransID, header[0]);
-                            }
+                            buildFiles.Add(header[0], buildingFile);
 
                             i = i - 1;
                             
@@ -889,6 +923,7 @@ namespace ADD
                                 intStartSignedPosition = i;
                                 strSigAddress = Path.GetFileNameWithoutExtension(header[0]);
                                 strSig = Encoding.UTF8.GetString(buildingFile, 0, buildingFile.Length);
+                                
                             }
                             intEndSignedPosition = i;
                             buildingFile = null;
@@ -901,44 +936,57 @@ namespace ADD
                 //good enough for now
                 if (intFilePosition == intFileSize && buildingFile != null)
                 {
-                    if (header[0] != "" && chkFilterUnSafeContent.Checked)
-                    {
-
-                        if (Path.GetExtension(header[0]).Length > 2 && safeExtensions.IndexOf(Path.GetExtension(header[0]).ToLower()) < 0)
-                        {
-                            FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                            fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"arc\">[ " + header[0] + " ]</div><p>&nbsp;</p>"), 0, header[0].Length + 40);
-                            fileStream.Close();
-
-                        }
-                        else
-                        {
-                            ParseData(buildingFile, TransID, header[0]);
-                        }
-                    }
-                    else
-                    {
-                        ParseData(buildingFile, TransID, header[0]);
-                    }
+                    buildFiles.Add(header[0], buildingFile);
                 }
 
                 if (intStartSignedPosition > 0)
                 {
                     SHA256 mySHA256 = SHA256Managed.Create();
                     byte[] hashValue = mySHA256.ComputeHash(rawBytes.Skip(intStartSignedPosition + 1).Take(intEndSignedPosition - intStartSignedPosition).ToArray());
-                    var a = new CoinRPC(new Uri("http://" + coinIP[WalletKey] + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
-                    isSigned =a.VerifyMessage(strSigAddress,strSig, BitConverter.ToString(hashValue).Replace("-", String.Empty));
-               
+                    var a = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
+                    isSigned = a.VerifyMessage(strSigAddress,strSig, BitConverter.ToString(hashValue).Replace("-", String.Empty));
+      
+                }
+                if (!isSigned && blockUnSignedContent)
+                {
+                    return false; 
+                }
 
+                if (blockUntrustedContent && (!isSigned || !hashTrustedList.Contains(strSigAddress)))
+                {
+                    return false; 
+                }
+
+                if (blockBlockedListContent && hashBlockedList.Contains(strSigAddress) )
+                {
+                    return false;
+                }
+
+                if (trustTrustedlistContent && isSigned && hashTrustedList.Contains(strSigAddress))
+                {
+                    trustContent = true;
                 }
 
                 if (containsData)
                 {
-                    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+                    Directory.CreateDirectory("root\\" + TransID);
+             
+                    
+                    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Create);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><!--#include file=\"..\\includes\\meta.ssi\" --></head><!--#include file=\"..\\includes\\css.ssi\" --><body><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 292 + (WalletKey.Length * 2) + TransID.Length);
+                    fileStream.Close();
+
+                    foreach (KeyValuePair<string, byte[]> entry in buildFiles)
+                    {
+                        ParseData(entry.Value, TransID, entry.Key, trustContent);
+                    }
+
+                    fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+     
 
                     if (coinGetRawSupport[WalletKey])
                     {
-                        var b = new CoinRPC(new Uri("http://" + coinIP[WalletKey] + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
+                        var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
                         var transaction = b.GetRawTransaction(TransID, 1);
                         System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
                         dateTime = dateTime.AddSeconds(transaction.blocktime);
@@ -975,18 +1023,55 @@ namespace ADD
             catch { return false; }
         }
 
-        private void ParseData(byte[] ByteData, string TransID, string FileName)
+        private void ParseData(byte[] ByteData, string TransID, string FileName, bool TrustContent)
         {
 
             Boolean foundType = false;
+            
             if (FileName != "")
             {
-                string embExtensions = ".m2ts.aac.adt.adts.3g2.3gp2.3gp.3gpp.m4a.mov.wmz.wms.ivf.cda.wav.au.snd.aif.aifc.aiff.mid.midi.rmi.mpg.mpeg.m1v.mp2.mp3.mpa.mpe.m3u.avi.wmd.dvr-ms.wpi.wax.wvx.wmx.asf.wma.wmv.wm.swf.pdf";
-                string imgExtensions = ".jpg.jpeg.jpe.gif.png.tiff.tif.svg.svgz.xbm.bmp.ico";
-                string webExtensions = ".asp.aspx.axd.asx.asmx.ashx.css.cfm.yaws.html.htm.xhtml.jhtml.jsp.jspx.wss.do.js.pl.php.php4.php3.phtml.py.rb.rhtml.xml.rss.svg.cgi";
+                HashSet<string> safeExtensions =
+               new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    "gif", "jpg", "jpeg", "txt", "tiff", "tif", "mp3", "mpeg", "mpg", "wav"
+                };
+
+                HashSet<string> embExtensions =
+              new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    "m2ts", "aac", "adt", "adts", "3g2", "3gp2", "3gp", "3gpp", "m4a", "mov", "wmz", "wms", "ivf", "cda", "wav", "au", "snd", "aif", "aifc", "aiff", "mid", "midi", "rmi", "mpg", "mpeg", "m1v", "mp2", "mp3", "mpa", "mpe", "m3u", "avi", "wmd", "dvr-ms", "wpi", "wax", "wvx", "wmx", "asf", "wma", "wmv", "wm", "swf", "pdf"
+                };
+
+                HashSet<string> imgExtensions =
+               new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    "jpg", "jpeg", "jpe", "gif", "png", "tiff", "tif", "svg", "svgz", "xbm", "bmp", "ico"
+                };
+
+               // HashSet<string> webExtensions =
+               //new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+               // {
+               //     "asp", "aspx", "axd", "asx", "asmx", "ashx", "css", "cfm", "yaws", "html", "htm", "xhtml", "jhtml", "jsp", "jspx", "wss", "do", "js", "pl", "php", "php4", "php3", "phtml", "py", "rb", "rhtml", "xml", "rss", "svg", "cgi"
+               // };
+
+
                 string strPrintLine = "";
 
-                if (!foundType && Path.GetExtension(FileName).Length > 1 && embExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
+                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)))
+                {
+
+                    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"arc\">[ " + FileName + " ]</div><p>&nbsp;</p>"), 0, FileName.Length + 40);
+                    fileStream.Close();
+                    foundType = true;
+                }
+                else
+                {
+                    TrustContent = true;
+                }
+
+
+                if (!foundType && embExtensions.Contains(Path.GetExtension(FileName)))
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><embed src=\"" + HttpUtility.UrlPathEncode(FileName) + "\" /><p><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + FileName + "</a></p></div></div>";
@@ -995,7 +1080,7 @@ namespace ADD
                     foundType = true;
                 }
 
-                if (!foundType && Path.GetExtension(FileName).Length > 1 && imgExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
+                if (!foundType && imgExtensions.Contains(Path.GetExtension(FileName)))
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><img src=\"" + HttpUtility.UrlPathEncode(FileName) + "\" /><br><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + FileName + "</a></div></div>";
@@ -1004,40 +1089,43 @@ namespace ADD
                     foundType = true;
                 }
 
-                if (!foundType && Path.GetExtension(FileName).ToUpper() != ".SIG")
+                if (!foundType)
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + HttpUtility.UrlPathEncode(FileName) + "</a></div></div>";
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
-                    searchResults.DeselectAll();
+                    //searchResults.DeselectAll();
 
                 }
-
+                searchResults.DeselectAll();
 
                 //Limited Protection From Injection Hacks
-                if (Path.GetExtension(FileName).Length > 1 && webExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
-                {
-                    if (chkFilterUnSafeContent.Checked)
-                    {
-                        string result = Sanitizer.GetSafeHtmlFragment(System.Text.UTF8Encoding.UTF8.GetString(ByteData));
-                        FileStream attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create);
-                        attachStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
-                        attachStream.Close();
-                    }
-                    else
+                //if (webExtensions.IndexOf(Path.GetExtension(FileName).ToLower()) > -1)
+                //{
+                    //if (chkFilterUnSafeContent.Checked && !TrustContent)
+                    //{
+                    //    string result = Sanitizer.GetSafeHtmlFragment(System.Text.UTF8Encoding.UTF8.GetString(ByteData));
+                    //    FileStream attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create);
+                    //    attachStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
+                    //    attachStream.Close();
+                    //}
+                    //else
+                    //{
+                    //    FileStream attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create);
+                    //    attachStream.Write(ByteData, 0, ByteData.Length);
+                    //    attachStream.Close();
+                    //}
+                //}
+                //else
+                //{
+                    if (TrustContent)
                     {
                         FileStream attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create);
                         attachStream.Write(ByteData, 0, ByteData.Length);
                         attachStream.Close();
                     }
-                }
-                else
-                {
-                    FileStream attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create);
-                    attachStream.Write(ByteData, 0, ByteData.Length);
-                    attachStream.Close();
-                }
+                //}
 
 
                 //Good Enough For Now.
@@ -1058,7 +1146,7 @@ namespace ADD
             else
             {
                 string result = System.Text.UTF8Encoding.UTF8.GetString(ByteData);
-                if (chkFilterUnSafeContent.Checked)
+                if (chkFilterUnSafeContent.Checked && !TrustContent)
                 {
                     //Limited Protection From Injection Hacks
                     result = Sanitizer.GetSafeHtmlFragment(result);
@@ -1113,6 +1201,7 @@ namespace ADD
             string[] AddressArray = null;
             string[] LedgerArray = null;
             msgId = 0;
+            RefreshTrustCache();
             try
             {
                 AddressArray = CreateAddressArrayFromTransactionID(TransactionID, WalletKey);
@@ -1151,14 +1240,15 @@ namespace ADD
         {
             var delimiter = "";
             string addressBuilder = "";
+            var arcValue = (decimal)999999999;
 
-            var b = new CoinRPC(new Uri("http://" + coinIP[WalletKey] + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
+            var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
 
             if (coinGetRawSupport[WalletKey])
             {
 
                 var transaction = b.GetRawTransaction(TransactionId, 1);
-                var arcValue = (decimal)999999999;
+                
 
                 foreach (ADD.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
                 {
@@ -1185,8 +1275,19 @@ namespace ADD
 
                 foreach (ADD.RPCClient.GetTransactionResponse.Details detail in transaction.details)
                 {
-                    addressBuilder = addressBuilder + delimiter + detail.address;
-                    delimiter = ",";
+                    if (arcValue > detail.amount && detail.amount > 0)
+                    {
+                        arcValue = detail.amount;
+                    }
+                }
+
+                foreach (ADD.RPCClient.GetTransactionResponse.Details detail in transaction.details)
+                {
+                    if (detail.amount == arcValue && detail.category == "receive")
+                    {
+                        addressBuilder = addressBuilder + delimiter + detail.address;
+                        delimiter = ",";
+                    }
                 }
 
             }
@@ -1204,7 +1305,7 @@ namespace ADD
                 {
                     try
                     {
-                        var b = new CoinRPC(new Uri("http://" + coinIP[i.Key] + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
+                        var b = new CoinRPC(new Uri(GetURL(coinIP[i.Key]) + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
                         coinLastMemoryDump[i.Key] = b.GetRawMemPool();
                     }
                     catch (Exception ex)
@@ -1253,7 +1354,7 @@ namespace ADD
                     {
                         try
                         {
-                            var b = new CoinRPC(new Uri("http://" + coinIP[i.Key] + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
+                            var b = new CoinRPC(new Uri(GetURL(coinIP[i.Key]) + ":" + coinPort[i.Key]), new NetworkCredential(coinUser[i.Key], coinPassword[i.Key]));
                             transaction = b.GetRawMemPool();
 
                             IEnumerable<string> differenceQuery =
@@ -1305,6 +1406,7 @@ namespace ADD
             var isFound = false;
             if (e.KeyValue == 13)
             {
+                
                 foreach (string i in cmbCoinType.Items)
                 {
                     if (i != "Select Wallet" && isFound == false)
@@ -1362,6 +1464,10 @@ namespace ADD
         public static void OpenRPCForm()
         {
             Application.Run(new RPC());
+        }
+        public static void OpenTrustForm()
+        {
+            Application.Run(new Trust());
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1465,6 +1571,15 @@ namespace ADD
 
             }
         }
+
+        private void trustToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(OpenTrustForm));
+            t.Start();
+
+        }
+
+
 
 
     }

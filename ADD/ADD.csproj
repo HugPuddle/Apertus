@@ -86,6 +86,12 @@
     <Compile Include="coinRPC\CoinRPC.cs" />
     <Compile Include="coinRPC\CoinRPC.Methods.cs" />
     <Compile Include="coinRPC\CoinRPCException.cs" />
+    <Compile Include="Trust.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Trust.Designer.cs">
+      <DependentUpon>Trust.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,11 @@
     </Compile>
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Trust.resx">
+      <DependentUpon>Trust.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="RPC.resx">
       <DependentUpon>RPC.cs</DependentUpon>
