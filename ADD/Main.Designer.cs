@@ -78,6 +78,7 @@
             this.tmrGetNewTransactions = new System.Windows.Forms.Timer(this.components);
             this.openDigestFile = new System.Windows.Forms.OpenFileDialog();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tmrProcessBatch = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -516,14 +517,14 @@
             // walletsToolStripMenuItem
             // 
             this.walletsToolStripMenuItem.Name = "walletsToolStripMenuItem";
-            this.walletsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.walletsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.walletsToolStripMenuItem.Text = "Wallets";
             this.walletsToolStripMenuItem.Click += new System.EventHandler(this.walletsToolStripMenuItem_Click);
             // 
             // fontToolStripMenuItem
             // 
             this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
-            this.fontToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.fontToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.fontToolStripMenuItem.Text = "Font";
             this.fontToolStripMenuItem.Click += new System.EventHandler(this.fontToolStripMenuItem_Click);
             // 
@@ -532,21 +533,21 @@
             this.indexToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rebuildToolStripMenuItem});
             this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-            this.indexToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.indexToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.indexToolStripMenuItem.Text = "Index";
             // 
             // rebuildToolStripMenuItem
             // 
             this.rebuildToolStripMenuItem.Name = "rebuildToolStripMenuItem";
-            this.rebuildToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.rebuildToolStripMenuItem.Text = "Rebuild";
+            this.rebuildToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.rebuildToolStripMenuItem.Text = "Rebuild Root";
             this.rebuildToolStripMenuItem.Click += new System.EventHandler(this.rebuildToolStripMenuItem_Click);
             // 
             // trustToolStripMenuItem
             // 
             this.trustToolStripMenuItem.Name = "trustToolStripMenuItem";
-            this.trustToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.trustToolStripMenuItem.Text = "Trust";
+            this.trustToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.trustToolStripMenuItem.Text = "Trust Center";
             this.trustToolStripMenuItem.Click += new System.EventHandler(this.trustToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
@@ -596,6 +597,12 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(146, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // tmrProcessBatch
+            // 
+            this.tmrProcessBatch.Enabled = true;
+            this.tmrProcessBatch.Interval = 300000;
+            this.tmrProcessBatch.Tick += new System.EventHandler(this.tmrProcessBatch_Tick);
             // 
             // Main
             // 
@@ -689,6 +696,7 @@
         private System.Windows.Forms.ToolStripMenuItem indexToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rebuildToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trustToolStripMenuItem;
+        private System.Windows.Forms.Timer tmrProcessBatch;
     }
 }
 

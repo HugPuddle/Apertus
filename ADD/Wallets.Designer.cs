@@ -308,9 +308,9 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(234, 267);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(86, 17);
+            this.label17.Size = new System.Drawing.Size(152, 17);
             this.label17.TabIndex = 30;
-            this.label17.Text = "( 127.0.0.1 )";
+            this.label17.Text = "( 127.0.0.1, HTTPS:// )";
             // 
             // btnDelete
             // 
@@ -340,9 +340,9 @@
             this.chkFeePerAddress.Enabled = false;
             this.chkFeePerAddress.Location = new System.Drawing.Point(238, 181);
             this.chkFeePerAddress.Name = "chkFeePerAddress";
-            this.chkFeePerAddress.Size = new System.Drawing.Size(166, 21);
+            this.chkFeePerAddress.Size = new System.Drawing.Size(198, 21);
             this.chkFeePerAddress.TabIndex = 33;
-            this.chkFeePerAddress.Text = "Charged Per Address";
+            this.chkFeePerAddress.Text = "Calculate Fee Per Address";
             this.chkFeePerAddress.UseVisualStyleBackColor = true;
             // 
             // btnSave

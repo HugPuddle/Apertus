@@ -70,25 +70,31 @@ namespace ADD
         {
             var trustLine = "";
             txtTrustList.Text = "";
-
-             System.IO.StreamReader readTrust = new System.IO.StreamReader("trust.txt");
-             while ((trustLine = readTrust.ReadLine()) != null)
-             {
-                 txtTrustList.Text = txtTrustList.Text + trustLine + Environment.NewLine;
-             }
-             readTrust.Close();
+            if (System.IO.File.Exists("trust.txt"))
+            {
+                System.IO.StreamReader readTrust = new System.IO.StreamReader("trust.txt");
+                while ((trustLine = readTrust.ReadLine()) != null)
+                {
+                    txtTrustList.Text = txtTrustList.Text + trustLine + Environment.NewLine;
+                }
+                readTrust.Close();
+            }
         }
 
         private void RefreshBlockList()
         {
             var blockLine = "";
             txtBlockList.Text = "";
-            System.IO.StreamReader readBlock = new System.IO.StreamReader("block.txt");
-            while ((blockLine = readBlock.ReadLine()) != null)
+
+            if (System.IO.File.Exists("block.txt"))
             {
-                txtBlockList.Text = txtBlockList.Text + blockLine + Environment.NewLine;
+                System.IO.StreamReader readBlock = new System.IO.StreamReader("block.txt");
+                while ((blockLine = readBlock.ReadLine()) != null)
+                {
+                    txtBlockList.Text = txtBlockList.Text + blockLine + Environment.NewLine;
+                }
+                readBlock.Close();
             }
-            readBlock.Close();
         }
 
         private void btnRemoveTrust_Click(object sender, EventArgs e)

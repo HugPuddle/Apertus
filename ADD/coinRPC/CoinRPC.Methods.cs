@@ -71,7 +71,7 @@ namespace ADD.RPCClient
 		public string SendMany(string FromAccount, IDictionary<string, decimal> ToBitcoinAddresses, int MinConf = 1, string Comment = "")
 		{
 			return RpcCall<string>
-				(new RPCRequest("sendmany", new Object[] { FromAccount, ToBitcoinAddresses, MinConf, Comment }));
+				(new RPCRequest("sendmany", new Object[] { FromAccount, ToBitcoinAddresses }));
 		}
 
         public void SetTXFee(decimal fee)
