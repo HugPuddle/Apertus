@@ -10,6 +10,11 @@ namespace ADD
             InitializeComponent();
         }
 
+        private void About_Load(object sender, EventArgs e)
+        {
+
+        }
+
 
 
     }
