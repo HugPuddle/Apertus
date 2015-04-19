@@ -68,11 +68,17 @@ namespace ADD.RPCClient
         //}
 
 		
-		public string SendMany(string FromAccount, IDictionary<string, decimal> ToBitcoinAddresses, int MinConf = 1, string Comment = "")
+		public string SendMany( string FromAddress, IDictionary<string, decimal> ToBitcoinAddresses)
 		{
 			return RpcCall<string>
-				(new RPCRequest("sendmany", new Object[] { FromAccount, ToBitcoinAddresses }));
+				(new RPCRequest("sendmany", new Object[] { FromAddress, ToBitcoinAddresses, 0 }));
 		}
+
+        public string SendRawTransaction(string Transaction)
+        {
+            return RpcCall<string>
+                (new RPCRequest("sendrawtransaction", new Object[] { Transaction }));
+        }
 
         public void SetTXFee(decimal fee)
         {
@@ -94,6 +100,17 @@ namespace ADD.RPCClient
                 (new RPCRequest("verifymessage", new Object[] { BitcoinAddress, Signature, Message }));
         }
 
+        public ValidateAddressResponse ValidateAddress(string Address)
+        {
+            return RpcCall<ValidateAddressResponse>
+                (new RPCRequest("validateaddress", new Object[] { Address }));
+        }
+
+        public string DumpPrivateKey(string BitcoinAddress)
+        {
+            return RpcCall<string>
+                (new RPCRequest("dumpprivkey", new Object[] { BitcoinAddress }));
+        }
 		
 	}
 }

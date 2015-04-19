@@ -181,11 +181,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(40, 180);
+            this.label3.Location = new System.Drawing.Point(33, 181);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(84, 17);
+            this.label3.Size = new System.Drawing.Size(91, 17);
             this.label3.TabIndex = 13;
-            this.label3.Text = "Parking Fee";
+            this.label3.Text = "Min Park Fee";
             // 
             // label4
             // 

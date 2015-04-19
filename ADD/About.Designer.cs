@@ -44,9 +44,9 @@
             this.lblTitle.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.Location = new System.Drawing.Point(245, 22);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(167, 19);
+            this.lblTitle.Size = new System.Drawing.Size(71, 19);
             this.lblTitle.TabIndex = 1;
-            this.lblTitle.Text = "Apertus - Disk Drive";
+            this.lblTitle.Text = "Apertus";
             // 
             // lblVersion
             // 
@@ -55,7 +55,7 @@
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(136, 17);
             this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "Version: v0.2.2-beta";
+            this.lblVersion.Text = "Version: v0.3.0-beta";
             // 
             // label1
             // 
@@ -120,7 +120,7 @@
             this.Name = "About";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "About ADD";
+            this.Text = "About Apertus";
             this.Load += new System.EventHandler(this.About_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

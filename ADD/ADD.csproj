@@ -31,7 +31,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -41,7 +41,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -61,6 +61,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>.\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -81,11 +82,13 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Chain.cs" />
     <Compile Include="coinCrypt\ArrayHelpers.cs" />
     <Compile Include="coinCrypt\Base58Encoding.cs" />
     <Compile Include="coinRPC\CoinRPC.cs" />
     <Compile Include="coinRPC\CoinRPC.Methods.cs" />
     <Compile Include="coinRPC\CoinRPCException.cs" />
+    <Compile Include="coinRPC\Response\ValidateAddressResponse.cs" />
     <Compile Include="Trust.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,9 +191,16 @@
     <None Include="Resources\Main.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\EMBII.jpg" />
     <Content Include="Resources\file-icon.png" />
     <None Include="Resources\Button2.png" />
     <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Secp256k1-master\Secp256k1.Core\Secp256k1.Core.csproj">
+      <Project>{73FA64DD-954C-41B0-9E52-5A24D77EC140}</Project>
+      <Name>Secp256k1.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

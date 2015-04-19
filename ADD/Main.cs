@@ -13,6 +13,9 @@ using ADD.RPCClient;
 using ADD.Tools;
 using Microsoft.Security.Application;
 using System.Threading;
+using System.Windows.Media;
+using Secp256k1;
+using System.Numerics;
 
 
 namespace ADD
@@ -49,11 +52,15 @@ namespace ADD
         HashSet<string> hashBlockedList = new HashSet<string>(StringComparer.Ordinal);
         static readonly object _batchLocker = new object();
         static readonly object _buildLocker = new object();
-
+        GlyphTypeface glyphTypeface = new GlyphTypeface(new Uri("file:///C:\\WINDOWS\\Fonts\\Arial.ttf"));
+        IDictionary<int, ushort> characterMap;
+ 
         public Main()
         {
             InitializeComponent();
             tmrProcessBatch.Start();
+            characterMap = glyphTypeface.CharacterToGlyphMap;
+
         }
 
         private char GetRandomDivider()
@@ -206,11 +213,11 @@ namespace ADD
                             fileBytes = msgBytes;
                         }
                     }
-                    if (coinEnableSigning[cmbCoinType.Text] && ledgerId == null)
+                    if (coinEnableSigning[cmbCoinType.Text] && coinSigningAddress[cmbCoinType.Text] != null && ledgerId == null)
                     {
 
                         //Sign the archive
-                        SHA256 mySHA256 = SHA256Managed.Create();
+                        System.Security.Cryptography.SHA256 mySHA256 = SHA256Managed.Create();
                         byte[] hashValue = mySHA256.ComputeHash(fileBytes);
                         string signature = b.SignMessage(coinSigningAddress[cmbCoinType.Text], BitConverter.ToString(hashValue).Replace("-", String.Empty));
                         var sigBytes = Encoding.UTF8.GetBytes(signature);
@@ -266,6 +273,11 @@ namespace ADD
                     processId = FilePath.ToUpper().Remove(0, FilePath.Length - 40).Replace(".ADD", "");
                 }
 
+                //Track Flag
+                System.IO.StreamWriter arcTrack = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                
+                arcTrack.Close();
+
                 System.IO.StreamReader readARC = new System.IO.StreamReader("process\\" + processId + ".ADD");
                 System.IO.StreamWriter arcLedger = new System.IO.StreamWriter("process\\" + processId + ".LGR", true);
 
@@ -286,7 +298,7 @@ namespace ADD
                         { transactionId = lastTransactionID; }
                         else
                         {
-                            transactionId = b.SendMany(WalletLabel, toMany, 1, "");
+                            transactionId = b.SendMany(WalletLabel, toMany);
                         }
 
                         arcLedger.WriteLine(transactionId);
@@ -299,7 +311,7 @@ namespace ADD
                         tranCount = 0;
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
-                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 25))
+                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 10))
                         {
                             System.Threading.Thread.Sleep(1000);
                             transLookup = b.GetTransaction(transactionId);
@@ -314,7 +326,7 @@ namespace ADD
                     if (tranCount == coinTransactionSize[cmbCoinType.Text])
                     {
                         //Breaking transaction file into size specified in wallet settings
-                        transactionId = b.SendMany(WalletLabel, toMany, 1, "");
+                        transactionId = b.SendMany(WalletLabel,toMany);
                         arcLedger.WriteLine(transactionId);
                         arcLedger.Flush();
                         lastTransaction = new Dictionary<string, decimal>(toMany);
@@ -324,7 +336,7 @@ namespace ADD
 
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
-                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 25))
+                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 10))
                         {
                             System.Threading.Thread.Sleep(1000);
                             transLookup = b.GetTransaction(transactionId);
@@ -340,7 +352,7 @@ namespace ADD
                 if (toMany.Count > 0)
                 {
                     //Catching the straglers
-                    transactionId = b.SendMany(WalletLabel, toMany, 1, "");
+                    transactionId = b.SendMany(WalletLabel, toMany);
                     arcLedger.WriteLine(transactionId);
                     arcLedger.Flush();
                     lastTransaction = new Dictionary<string, decimal>(toMany);
@@ -349,7 +361,7 @@ namespace ADD
                     tranCount = 0;
                     GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                     //Wait for the wallet to catch up.
-                    while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 25))
+                    while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[cmbCoinType.Text] * 10))
                     {
                         System.Threading.Thread.Sleep(1000);
                         transLookup = b.GetTransaction(transactionId);
@@ -378,7 +390,7 @@ namespace ADD
 
         private void btnArchive_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("The estimated cost is based on your current wallet settings and does not include ledger archiving costs for files over " + (coinPayloadByteSize[cmbCoinType.Text] * coinTransactionSize[cmbCoinType.Text]).ToString() + " bytes.", "Confirm Saving", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("NOTICE: Files or messages with repetitive data will greatly increase the cost of archivng.", "Confirm Saving", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], txtFileName.Text, null, txtMessage.Text);
@@ -396,8 +408,8 @@ namespace ADD
 
                 foreach (var f in attachFiles.FileNames)
                 {
-                    var fileBytes = System.IO.File.ReadAllBytes(f);
-                    fileSize = fileSize + (decimal)fileBytes.Length;
+                    var filebytes = new System.IO.FileInfo(f).Length;
+                    fileSize = fileSize + filebytes;
                 }
 
                 updateEstimatedCost();
@@ -491,15 +503,13 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00001 164 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False ");
-                    writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 164 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False ");
-                    writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 164 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False ");
-                    writeCoinConf.WriteLine("Devcoin 0 20 1 .00000001 328 6333 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False False ");
-                    writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 164 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False ");
-                    //SHA3 Required
-                    //writeCoinConf.WriteLine("Maxcoin 110 20 1 0.01 164 8669 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False");
-                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 164 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False ");
-
+                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00001 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC");
+                    writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC");
+                    writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE");
+                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC");
+                    writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC");
+                    writeCoinConf.WriteLine("Devcoin 0 20 1 .00000001 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False False  DVC");
+                   
                     writeCoinConf.Close();
                 }
 
@@ -528,7 +538,7 @@ namespace ADD
                 System.IO.StreamReader readCoinConf = new System.IO.StreamReader("coin.conf");
                 while ((confLine = readCoinConf.ReadLine()) != null)
                 {
-                    string[] coins = new string[] { "Coin", "0", "20", ".00001", ".00000001", "164", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "" };
+                    string[] coins = new string[] { "Coin", "0", "20", ".00001", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "???" };
                     string[] loadCoin = confLine.Split(' ');
                     int intSetting = 0;
                     foreach (string s in loadCoin)
@@ -564,7 +574,7 @@ namespace ADD
                 }
                 readCoinConf.Close();
 
-                cmbCoinType.Items.Add("Select Wallet");
+                cmbCoinType.Items.Add("Blockchain");
                 foreach (string item in coinVersion.Keys)
                 {
                     if (coinEnabled[item])
@@ -601,6 +611,12 @@ namespace ADD
                 if (totalSize > 0)
                 {
                     //does an ok job of estimating the archive cost
+                    if (coinEnableSigning[cmbCoinType.Text]) { totalSize = totalSize + 130; }
+                    //does an ok job of estimating the ledger size
+                    if ( totalSize > (coinPayloadByteSize[cmbCoinType.Text] * coinTransactionSize[cmbCoinType.Text]))
+                    {
+                        totalSize = totalSize + (((Math.Round(totalSize / coinPayloadByteSize[cmbCoinType.Text], 0) / coinTransactionSize[cmbCoinType.Text]) * 64) + 70);
+                    }
                     totalTransactionCost = Math.Round(totalSize / coinPayloadByteSize[cmbCoinType.Text], 0) * coinMinTransaction[cmbCoinType.Text];
                     if (coinFeePerAddress[cmbCoinType.Text]) { totalTransactionCost = totalTransactionCost + ((Math.Round(totalSize / coinPayloadByteSize[cmbCoinType.Text], 0)) * coinTransactionFee[cmbCoinType.Text]); }
                     totalFeeCost = Math.Round((Math.Round(totalSize / coinPayloadByteSize[cmbCoinType.Text], 0) / coinTransactionSize[cmbCoinType.Text]), 0) * coinTransactionFee[cmbCoinType.Text];
@@ -653,7 +669,7 @@ namespace ADD
             }
             lblCoinTotal.Text = "0.00000000";
             cmbWalletLabel.Items.Clear();
-            cmbWalletLabel.Items.Add("Select Account");
+            cmbWalletLabel.Items.Add("Account");
             cmbWalletLabel.SelectedIndex = 0;
             if (cmbCoinType.SelectedIndex > 0)
             {
@@ -667,16 +683,14 @@ namespace ADD
                     {
                         foreach (string Account in allAccounts.Keys)
                         {
-                            cmbWalletLabel.Items.Add(Account);
-
+                            if (allAccounts[Account] > 0) { cmbWalletLabel.Items.Add(Account); }
                             totalValue = totalValue + allAccounts[Account];
-
                         }
                         lblCoinTotal.Text = totalValue.ToString();
 
                         var itemCountString = "";
                         if ((cmbWalletLabel.Items.Count - 1) > 1) { itemCountString = "s"; }
-                        lblStatusInfo.Text = "Status: Wallet connected " + (cmbWalletLabel.Items.Count - 1).ToString() + " suitable account" + itemCountString + " Found";
+                        lblStatusInfo.Text = "Status: Blockchain connected " + (cmbWalletLabel.Items.Count - 1).ToString() + " suitable account" + itemCountString + " Found";
 
                         cmbWalletLabel.Enabled = true;
                     }
@@ -734,6 +748,7 @@ namespace ADD
                 btnAttachFile.Enabled = false;
                 notarizeToolStripMenuItem.Enabled = false;
                 imgEnterMessageHere.Visible = false;
+                btnArchive.Enabled = false;
                 if (txtMessage.TextLength < 1) { pictureBox1.Visible = true; }
 
 
@@ -754,7 +769,9 @@ namespace ADD
             {
                 lblEstimatedCost.ForeColor = System.Drawing.Color.Black;
                 if ((Decimal.Parse(lblEstimatedCost.Text) + (Decimal.Parse(lblEstimatedCost.Text) / 2)) < Decimal.Parse(lblCoinTotal.Text))
-                { lblEstimatedCost.ForeColor = System.Drawing.Color.Green; btnArchive.Enabled = true; }
+                { lblEstimatedCost.ForeColor = System.Drawing.Color.Green;
+                if (cmbWalletLabel.SelectedIndex > 0) { btnArchive.Enabled = true; }
+                }
 
             }
             if (txtFileName.TextLength == 0 && txtMessage.TextLength == 0) { btnArchive.Enabled = false; }
@@ -904,7 +921,7 @@ namespace ADD
                         if (intHeaderPosition == 2)
                         {
                             var containsFileSize = int.TryParse(header[1], out intFileSize);
-                            if (!containsFileSize || ((rawBytes.Length - i) < intFileSize) || header[0].Count() > 255 || header[0].IndexOfAny(Path.GetInvalidFileNameChars()) > -1) { return false; }
+                            if (!containsFileSize || ((rawBytes.Length - i) < intFileSize) || header[0].Count() > 255 || header[0].IndexOfAny(Path.GetInvalidFileNameChars()) > -1 || (header[0].Count() == 0 && intFileSize == 0)) { return false; }
                             intHeaderPosition = 0;
                             intFilePosition = 0;
                             strFileName = header[0];
@@ -920,9 +937,18 @@ namespace ADD
                         {
                             buildingFile[intFilePosition] = rawBytes[i];
                             intFilePosition++;
+                            intEndSignedPosition = i;
                         }
                         else
                         {
+                            //checking for valid unicode characters to filter out noise
+                            if (header[0] == "" && buildingFile.Length < 21)
+                            {
+                                for (int c = 0; c < buildingFile.Length; c++)
+                                {
+                                    if (!characterMap.ContainsKey(buildingFile[c])) { return false; };
+                                }
+                            }
 
                             buildFiles.Add(header[0], buildingFile);
 
@@ -935,7 +961,6 @@ namespace ADD
                                 strSig = Encoding.UTF8.GetString(buildingFile, 0, buildingFile.Length);
 
                             }
-                            intEndSignedPosition = i;
                             buildingFile = null;
 
                         }
@@ -946,12 +971,22 @@ namespace ADD
                 //good enough for now
                 if (intFilePosition == intFileSize && buildingFile != null)
                 {
+                    //checking for valid unicode characters to filter out noise
+                    if (header[0] == "" && buildingFile.Length < 21)
+                    {
+                        for (int c = 0; c < buildingFile.Length; c++)
+                        {
+                            if (!characterMap.ContainsKey(buildingFile[c])) { return false; };
+                        }
+                    }
                     buildFiles.Add(header[0], buildingFile);
+                    
+                    
                 }
 
                 if (intStartSignedPosition > 0)
                 {
-                    SHA256 mySHA256 = SHA256Managed.Create();
+                    System.Security.Cryptography.SHA256 mySHA256 = SHA256Managed.Create();
                     byte[] hashValue = mySHA256.ComputeHash(rawBytes.Skip(intStartSignedPosition + 1).Take(intEndSignedPosition - intStartSignedPosition).ToArray());
                     var a = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
                     isSigned = a.VerifyMessage(strSigAddress, strSig, BitConverter.ToString(hashValue).Replace("-", String.Empty));
@@ -1081,7 +1116,7 @@ namespace ADD
                 {
 
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"arc\">[ " + FileName + " ]</div><p>&nbsp;</p>"), 0, FileName.Length + 40);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">[ " + FileName + " ]</div></div>"), 0, FileName.Length + 55);
                     fileStream.Close();
                     foundType = true;
                 }
@@ -1111,11 +1146,17 @@ namespace ADD
 
                 if (!foundType)
                 {
-                    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + HttpUtility.UrlPathEncode(FileName) + "</a></div></div>";
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
-                    fileStream.Close(); 
+                    if (Path.GetExtension(FileName).ToUpper() != ".SIG")
+                    {
+                        FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+                        strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + HttpUtility.UrlPathEncode(FileName) + "</a></div></div>";
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
+                        fileStream.Close();
+                    }
+                    else { DisplayResults = false; }
                 }
+                
+
                 searchResults.DeselectAll();
 
 
@@ -1417,7 +1458,7 @@ namespace ADD
 
                 foreach (string i in cmbCoinType.Items)
                 {
-                    if (i != "Select Wallet" && isFound == false)
+                    if (i != "Blockchain" && isFound == false)
                     {
                         lock (_buildLocker)
                         {
@@ -1497,7 +1538,15 @@ namespace ADD
 
         private void searchResults_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("root\\" + e.LinkText.Substring(6).Replace("/", "\\"));
+            try
+            {
+                System.Diagnostics.Process.Start("root\\" + e.LinkText.Substring(6).Replace("/", "\\"));
+            }
+            catch (Exception ex)
+            {
+                lblExploreStatus.Text = "Error: " + ex.Message;
+                tmrStatusUpdate.Start();
+            }
         }
 
         private void historyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1538,7 +1587,7 @@ namespace ADD
             if (result == DialogResult.OK) // Test result.
             {
                 FileStream filestream;
-                SHA256 mySHA256 = SHA256Managed.Create();
+                System.Security.Cryptography.SHA256 mySHA256 = SHA256Managed.Create();
                 filestream = new FileStream(openDigestFile.FileName, FileMode.Open);
                 filestream.Position = 0;
                 byte[] hashValue = mySHA256.ComputeHash(filestream);
@@ -1563,7 +1612,7 @@ namespace ADD
 
                 foreach (string i in cmbCoinType.Items)
                 {
-                    if (i != "Select Wallet" && isFound == false)
+                    if (i != "Blockchain" && isFound == false)
                     {
                         string transID = f.Replace("root\\", "");
                         lock (_buildLocker)
@@ -1629,7 +1678,35 @@ namespace ADD
             }
         }
 
+        public static byte[] StringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
+        }
 
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
+
+        //    var response = a.ValidateAddress("");
+        //    var fullpublicKey = StringToByteArray(response.pubkey);
+        //    var privKeyHex = BitConverter.ToString(Base58Encoding.Decode(a.DumpPrivateKey("1NVr4SQXQtgY4UmpxAuBDfPTksC1gjjN3h"))).Replace("-", "");
+        //    privKeyHex = privKeyHex.Substring(2, 64);
+        //    BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
+        //    ECPoint publicKey = Secp256k1.Secp256k1.G.Multiply(privateKey);
+        //    string bitcoinAddressUncompressed = publicKey.GetBitcoinAddress(false);
+        //    string bitcoinAddressCompressed = publicKey.GetBitcoinAddress(compressed: true);
+        //     ECEncryption encryption = new ECEncryption();
+        //   var readFileBytes = System.IO.File.ReadAllBytes(txtFileName.Text);
+        //   byte[] encrypted = encryption.Encrypt(publicKey, readFileBytes);
+        //   System.IO.File.WriteAllBytes("CNG", encrypted);
+        //   byte[] decrypted = encryption.Decrypt(privateKey, encrypted);
+        //   System.IO.File.WriteAllBytes(txtFileName.Text + ".new", decrypted);
+
+        //   txtFileName.Text = "";
+        //}
 
 
     }
