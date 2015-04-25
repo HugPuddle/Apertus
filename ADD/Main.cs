@@ -14,6 +14,7 @@ using ADD.Tools;
 using Microsoft.Security.Application;
 using System.Threading;
 using System.Windows.Media;
+using System.Text.RegularExpressions;
 using Secp256k1;
 using System.Numerics;
 
@@ -24,12 +25,14 @@ namespace ADD
     {
 
         public static Dictionary<string, byte> coinVersion;
+        public static Dictionary<string, string> coinShortName;
         public static Dictionary<string, int> coinPayloadByteSize;
         public static Dictionary<string, string> coinPort;
         public static Dictionary<string, string> coinIP;
         public static Dictionary<string, string> coinUser;
         public static Dictionary<string, string> coinPassword;
         public static Dictionary<string, string> coinSigningAddress;
+        public static Dictionary<string, string> coinTrackingAddress;
         public static Dictionary<string, decimal> coinTransactionFee;
         public static Dictionary<string, decimal> coinMinTransaction;
         public static Dictionary<string, int> coinTransactionSize;
@@ -37,6 +40,8 @@ namespace ADD
         public static Dictionary<string, Boolean> coinFeePerAddress;
         public static Dictionary<string, Boolean> coinEnabled;
         public static Dictionary<string, Boolean> coinEnableSigning;
+        public static Dictionary<string, Boolean> coinEnableTracking;
+
         IDictionary<string, decimal> allAccounts;
         Dictionary<string, IEnumerable<string>> coinLastMemoryDump;
 
@@ -54,15 +59,22 @@ namespace ADD
         static readonly object _buildLocker = new object();
         GlyphTypeface glyphTypeface = new GlyphTypeface(new Uri("file:///C:\\WINDOWS\\Fonts\\Arial.ttf"));
         IDictionary<int, ushort> characterMap;
+        string[] infoArray;
  
         public Main()
         {
             InitializeComponent();
-            tmrProcessBatch.Start();
-            characterMap = glyphTypeface.CharacterToGlyphMap;
+            Startup();
 
         }
 
+        public void Startup()
+    {
+            tmrProcessBatch.Start();
+            characterMap = glyphTypeface.CharacterToGlyphMap;
+            infoArray = "Apertus immutably stores and interprets data on blockchains.|Click Help, then info for assistance.|Create a profile and start sharing your thoughts.|Adding #keywords makes it easier for people to discover your content.|Did you know you can search by Transaction ID, Address or Keyword on the discover tab?".Split('|');
+
+         }
         private char GetRandomDivider()
         {
             char[] chars = "\\/:*?\"><|".ToCharArray();
@@ -85,7 +97,8 @@ namespace ADD
 
         private string GetRandomBuffer(int BufferLength)
         {
-            const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789";
+            //Quick Fix to allow Keyword functionality  will eventually deprecate this call.
+            const string allowedChars = "####################";
             char[] chars = new char[BufferLength];
             var rd = new Random();
 
@@ -195,7 +208,7 @@ namespace ADD
                     if (TextMessage.Length > 0)
                     {
                         msgBytes = Encoding.UTF8.GetBytes(TextMessage);
-                        cglText = GetRandomDivider() + msgBytes.Length.ToString() + GetRandomDivider();
+                        cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(coinPayloadByteSize[cmbCoinType.Text] -2, '0') + GetRandomDivider();
                         buffer = new byte[cglText.Length + msgBytes.Length];
                         Encoding.UTF8.GetBytes(cglText).CopyTo(buffer, 0);
                         msgBytes.CopyTo(buffer, cglText.Length);
@@ -216,12 +229,15 @@ namespace ADD
                     if (coinEnableSigning[cmbCoinType.Text] && coinSigningAddress[cmbCoinType.Text] != null && ledgerId == null)
                     {
 
-                        //Sign the archive
+                        //Sign and 0 pad the signature allowing the archive data to always begin at byte[0]. Allows for future file and keyword lookup
                         System.Security.Cryptography.SHA256 mySHA256 = SHA256Managed.Create();
                         byte[] hashValue = mySHA256.ComputeHash(fileBytes);
                         string signature = b.SignMessage(coinSigningAddress[cmbCoinType.Text], BitConverter.ToString(hashValue).Replace("-", String.Empty));
                         var sigBytes = Encoding.UTF8.GetBytes(signature);
-                        cglText = coinSigningAddress[cmbCoinType.Text] + ".SIG" + GetRandomDivider() + sigBytes.Length.ToString() + GetRandomDivider();
+                        int totalSigSize = coinSigningAddress[cmbCoinType.Text].Length + sigBytes.Length + sigBytes.Length.ToString().Length + 6;
+                        int zeroPadding = coinPayloadByteSize[cmbCoinType.Text] - (totalSigSize % coinPayloadByteSize[cmbCoinType.Text]);
+
+                        cglText = coinSigningAddress[cmbCoinType.Text] + ".SIG" + GetRandomDivider() + sigBytes.Length.ToString().PadLeft(sigBytes.Length.ToString().Length + zeroPadding,'0') + GetRandomDivider();
 
                         buffer = new byte[cglText.Length + fileBytes.Length + sigBytes.Length];
                         Encoding.UTF8.GetBytes(cglText).CopyTo(buffer, 0);
@@ -273,10 +289,13 @@ namespace ADD
                     processId = FilePath.ToUpper().Remove(0, FilePath.Length - 40).Replace(".ADD", "");
                 }
 
-                //Track Flag
-                System.IO.StreamWriter arcTrack = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
-                
-                arcTrack.Close();
+                if (coinEnableSigning[cmbCoinType.Text] && coinEnableTracking[cmbCoinType.Text] && coinSigningAddress[cmbCoinType.Text] != null)
+                {
+                    //allow tracking by putting a signature address on the end of the file
+                    System.IO.StreamWriter arcTrack = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                    arcTrack.WriteLine(coinSigningAddress[cmbCoinType.Text]);
+                    arcTrack.Close();
+                }
 
                 System.IO.StreamReader readARC = new System.IO.StreamReader("process\\" + processId + ".ADD");
                 System.IO.StreamWriter arcLedger = new System.IO.StreamWriter("process\\" + processId + ".LGR", true);
@@ -484,6 +503,7 @@ namespace ADD
             try
             {
                 coinVersion = new Dictionary<string, byte>();
+                coinShortName = new Dictionary<string, string>();
                 coinPayloadByteSize = new Dictionary<string, int>();
                 coinTransactionFee = new Dictionary<string, decimal>();
                 coinMinTransaction = new Dictionary<string, decimal>();
@@ -493,9 +513,11 @@ namespace ADD
                 coinUser = new Dictionary<string, string>();
                 coinPassword = new Dictionary<string, string>();
                 coinSigningAddress = new Dictionary<string, string>();
+                coinTrackingAddress = new Dictionary<string, string>();
                 coinGetRawSupport = new Dictionary<string, bool>();
                 coinFeePerAddress = new Dictionary<string, bool>();
                 coinEnableSigning = new Dictionary<string, bool>();
+                coinEnableTracking = new Dictionary<string, bool>();
                 coinEnabled = new Dictionary<string, bool>();
                 coinLastMemoryDump = new Dictionary<string, IEnumerable<string>>();
                 string confLine;
@@ -503,13 +525,14 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00001 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC");
-                    writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC");
-                    writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE");
-                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC");
-                    writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC");
-                    writeCoinConf.WriteLine("Devcoin 0 20 1 .00000001 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False False  DVC");
-                   
+                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False ");
+                    writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False ");
+                    writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False ");
+                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False ");
+                    writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False ");
+                    writeCoinConf.WriteLine("Devcoin 0 20 .6 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False ");
+                    writeCoinConf.WriteLine("Potcoin 55 20 .001 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False ");
+             
                     writeCoinConf.Close();
                 }
 
@@ -523,22 +546,28 @@ namespace ADD
                     writeIncludes.Close();
 
                     writeIncludes = new StreamWriter("root\\includes\\header.ssi");
-                    writeIncludes.WriteLine("<center>");
-                    writeIncludes.Close();
-
-                    writeIncludes = new StreamWriter("root\\includes\\css.ssi");
                     writeIncludes.WriteLine("");
                     writeIncludes.Close();
 
+                    writeIncludes = new StreamWriter("root\\includes\\css.css");
+                    writeIncludes.WriteLine("body {font-family: Arial, Helvetica, sans-serif;background:white;}");
+                    writeIncludes.WriteLine("a {color: #A0A0A0;}");
+                    writeIncludes.WriteLine("img {max-width: 100%;height: auto;}");
+                    writeIncludes.WriteLine(".main{max-width: 90%;}");
+                    writeIncludes.WriteLine(".main .item {margin: 5px;max-width: 800px;}");
+                    writeIncludes.WriteLine(".main .item .content {word-wrap: break-word;background: #E6E6E6;color: #151515;padding: 10px;text-align: center;}");
+                    writeIncludes.WriteLine(".main .item .content table {max-width: 800px;word-break: break-all;word-wrap: break-word;padding: 10px;}");
+                    writeIncludes.Close();
+
                     writeIncludes = new StreamWriter("root\\includes\\footer.ssi");
-                    writeIncludes.WriteLine("</center>");
+                    writeIncludes.WriteLine("");
                     writeIncludes.Close();
                 }
 
                 System.IO.StreamReader readCoinConf = new System.IO.StreamReader("coin.conf");
                 while ((confLine = readCoinConf.ReadLine()) != null)
                 {
-                    string[] coins = new string[] { "Coin", "0", "20", ".00001", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "???" };
+                    string[] coins = new string[] { "Coin", "0", "20", ".00001", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "", "False","" };
                     string[] loadCoin = confLine.Split(' ');
                     int intSetting = 0;
                     foreach (string s in loadCoin)
@@ -550,7 +579,9 @@ namespace ADD
                         }
                         catch { }
                     }
+
                     coinVersion.Add(coins[0], byte.Parse(coins[1]));
+                    coinShortName.Add(coins[0], coins[15]);
                     coinPayloadByteSize.Add(coins[0], int.Parse(coins[2]));
                     coinTransactionFee.Add(coins[0], decimal.Parse(coins[3]));
                     coinMinTransaction.Add(coins[0], decimal.Parse(coins[4]));
@@ -569,6 +600,8 @@ namespace ADD
                     if (coins[12].ToUpper() == "TRUE") { coinEnabled.Add(coins[0], true); } else { coinEnabled.Add(coins[0], false); }
                     if (coins[13].ToUpper() == "TRUE") { coinEnableSigning.Add(coins[0], true); } else { coinEnableSigning.Add(coins[0], false); }
                     coinSigningAddress.Add(coins[0], coins[14]);
+                    coinTrackingAddress.Add(coins[0], coins[17]);
+                    if (coins[16].ToUpper() == "TRUE") { coinEnableTracking.Add(coins[0], true); } else { coinEnableTracking.Add(coins[0], false); }
                     coinLastMemoryDump.Add(coins[0], null);
 
                 }
@@ -611,7 +644,7 @@ namespace ADD
                 if (totalSize > 0)
                 {
                     //does an ok job of estimating the archive cost
-                    if (coinEnableSigning[cmbCoinType.Text]) { totalSize = totalSize + 130; }
+                    if (coinEnableSigning[cmbCoinType.Text]) { totalSize = totalSize + 220; }
                     //does an ok job of estimating the ledger size
                     if ( totalSize > (coinPayloadByteSize[cmbCoinType.Text] * coinTransactionSize[cmbCoinType.Text]))
                     {
@@ -737,7 +770,9 @@ namespace ADD
                 txtFileName.Enabled = true;
                 btnAttachFile.Enabled = true;
                 notarizeToolStripMenuItem.Enabled = true;
-                pictureBox1.Visible = false;
+                imgApertusSplash.Visible = false;
+                txtInfoBox.Visible = false;
+                txtMessage.Select();
                 if (txtMessage.TextLength < 1) { imgEnterMessageHere.Visible = true; }
 
             }
@@ -749,9 +784,8 @@ namespace ADD
                 notarizeToolStripMenuItem.Enabled = false;
                 imgEnterMessageHere.Visible = false;
                 btnArchive.Enabled = false;
-                if (txtMessage.TextLength < 1) { pictureBox1.Visible = true; }
-
-
+                if (txtMessage.TextLength < 1) { imgApertusSplash.Visible = true;}
+                txtInfoBox.Visible = true;
 
             }
             updateEstimatedCost();
@@ -1018,12 +1052,12 @@ namespace ADD
 
 
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Create);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><!--#include file=\"..\\includes\\meta.ssi\" --></head><!--#include file=\"..\\includes\\css.ssi\" --><body><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 292 + (WalletKey.Length * 2) + TransID.Length);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><!--#include file=\"..\\includes\\meta.ssi\" --><link rel=\"stylesheet\" type=\"text/css\" href=\"..\\includes\\css.css\"></head><body><div class=\"main\"><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 333 + (WalletKey.Length * 2) + TransID.Length);
                     fileStream.Close();
 
                     foreach (KeyValuePair<string, byte[]> entry in buildFiles)
                     {
-                        ParseData(entry.Value, TransID, entry.Key, trustContent, DisplayResults);
+                        ParseData(entry.Value, TransID, entry.Key, trustContent, chkMonitorBlockChains.Checked);
                     }
 
                     fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
@@ -1050,7 +1084,10 @@ namespace ADD
                         }
 
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\"><table>"), 0, 46);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ROOT ID</td><td>" + transaction.txid + "</td></tr>"), 0, 34 + transaction.txid.Length);
+                        if (Properties.Settings.Default.BlockChainTransactionIdUrl != "")
+                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ROOT ID</td><td><a href=\"" + Properties.Settings.Default.BlockChainTransactionIdUrl.Replace("%s", transaction.txid) + "\">" + transaction.txid + "</a></td></tr>"), 0, 49 + transaction.txid.Length + Properties.Settings.Default.BlockChainTransactionIdUrl.Replace("%s", transaction.txid).Length); }
+                        else
+                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ROOT ID</td><td>" + transaction.txid + "</td></tr>"), 0, 34 + transaction.txid.Length); }
                         if (isSigned)
                         {
                             fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>SIGNED BY</td><td><a href=\"" + strSigAddress + ".SIG\">" + strSigAddress + "</a></td></tr>"), 0, 55 + (strSigAddress.Length * 2));
@@ -1059,7 +1096,8 @@ namespace ADD
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>VERSION</td><td>" + transaction.version + "</td></tr>"), 0, 34 + transaction.version.ToString().Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCKCHAIN</td><td>" + WalletKey + "</td></tr>"), 0, 37 + WalletKey.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ADDRESS FILE</td><td><a href=\"address.dat\">address.dat</a></td></tr>"), 0, 76);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td colspan=2 align=right><a href=\"..\\abuse.aspx?TransID=" + transaction.txid + "\">report abuse</a></td></tr>"), 0, 89 + transaction.txid.Length);
+                        if (Properties.Settings.Default.ReportAbuseUrl != "")
+                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td colspan=2 align=right><a href=\"" + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid) + "\">report abuse</a></td></tr>"), 0, 67 + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid).Length); }
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table></div></div>"), 0, 20);
                     }
 
@@ -1070,13 +1108,23 @@ namespace ADD
                     }
                     dataFileStream.Close();
 
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></body></html>"), 0, 60);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></div></body></html>"), 0, 66);
                     fileStream.Close();
+
+                    if (DisplayResults && !chkMonitorBlockChains.Checked)
+                    {
+                        BuildBackLinks(TransID);
+                        Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/" + TransID + "/index.htm");
+                        webBrowser1.Url = BrowseURL;
+                    }
 
                     if (printDate != "PENDING")
                     {
-                        System.IO.File.AppendAllText("root\\sitemap.htm", "<a href=\"" + TransID + "\">" + TransID + "</a><br>" + Environment.NewLine);
-                        System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapUrl + "/" + TransID + Environment.NewLine);
+                        
+                        System.IO.File.AppendAllText("root\\history.htm", "<a href=\"" + Properties.Settings.Default.HistoryTransactionIDUrl.Replace("%s", TransID) + "\">" + TransID + "</a><br>" + Environment.NewLine);
+
+                        if (Properties.Settings.Default.SiteMapTransactionIdUrl != "")
+                        { System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapTransactionIdUrl.Replace("%s", TransID) + Environment.NewLine); }
                     }
                 }
                 return containsData;
@@ -1084,10 +1132,51 @@ namespace ADD
             catch { return false; }
         }
 
-        private void ParseData(byte[] ByteData, string TransID, string FileName, bool TrustContent, bool DisplayResults)
+        private void BuildBackLinks(string TransID)
+        {
+ foreach(var files in Directory.GetFiles("root\\" + TransID ))
+{
+    FileInfo info = new FileInfo(files);
+    var fileName = Path.GetFileName(info.FullName);
+                    
+string fileText = string.Empty;
+using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ fileName, Encoding.UTF8))
+{            
+    fileText = streamReader.ReadToEnd();
+}
+    Match match = Regex.Match(fileText, @"\.\.\/([a-fA-F0-9]{64})");
+    if (match.Success)
+    {
+        do
+        {
+            var isFound = false;
+            foreach (string i in cmbCoinType.Items)
+            {
+                if (i != "Blockchain" && isFound == false)
+                {
+                    lock (_buildLocker)
+                    {
+                        isFound = CreateArchive(match.ToString().Replace("../",""), i, false);
+                    }
+
+                    if (isFound)
+                    {
+                     break;
+                    }
+                }
+            }
+
+           match = match.NextMatch();
+        } while (match.Success);
+    }
+                    }
+        }
+
+        private void ParseData(byte[] ByteData, string TransID, string FileName, bool TrustContent, bool SendToMonitor)
         {
 
             Boolean foundType = false;
+            string strPrintLine = "";
 
             if (FileName != "")
             {
@@ -1108,9 +1197,6 @@ namespace ADD
                 {
                     ".jpg", ".jpeg", ".jpe", ".gif", ".png", ".tiff", ".tif", ".svg", ".svgz", ".xbm", ".bmp", ".ico"
                 };
-
-
-                string strPrintLine = "";
 
                 if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)))
                 {
@@ -1153,12 +1239,9 @@ namespace ADD
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                         fileStream.Close();
                     }
-                    else { DisplayResults = false; }
                 }
-                
 
-                searchResults.DeselectAll();
-
+              
 
             if (TrustContent)
                 {
@@ -1168,22 +1251,7 @@ namespace ADD
                 }
 
 
-            if (DisplayResults)
-            {
-                //Good Enough For Now.
-                searchResults.DeselectAll();
-                Image image = null;
-                try { image = Image.FromFile("root\\" + TransID + "\\" + FileName); }
-                catch { image = (Image)ADD.Properties.Resources.icon; }
-                Clipboard.SetImage(image);
-                searchResults.Paste();
-                searchResults.AppendText(Environment.NewLine);
-                searchResults.AppendText("file://" + TransID + "/" + FileName);
-                searchResults.AppendText(Environment.NewLine);
-                searchResults.AppendText(Environment.NewLine);
-                searchResults.ScrollToCaret();
-                image.Dispose();
-            }
+  
 
             }
             else
@@ -1196,29 +1264,50 @@ namespace ADD
                 }
 
                 msgId++;
-                FileStream fileStream = new FileStream("root\\" + TransID + "\\" + msgId + ".MSG", FileMode.Create);
+                FileStream fileStream = new FileStream("root\\" + TransID + "\\" + msgId + ".dat", FileMode.Create);
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
                 fileStream.Close();
 
                 fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">"), 0, 39);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes("<p><a href=\"" + msgId + ".MSG\">" + msgId + "</a></p></div></div>"), 0, 38 + (msgId.ToString().Length * 2));
+                strPrintLine = "<div class=\"item\"><div class=\"content\">" + result + "<p><a href=\"" + msgId + ".dat\">" + msgId + ".dat</a></p></div></div>";
+                fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                 fileStream.Close();
 
-                if (DisplayResults)
-                {
-                    searchResults.DeselectAll();
-                    searchResults.AppendText(Environment.NewLine);
-                    searchResults.AppendText(result);
-                    searchResults.AppendText(Environment.NewLine);
-                    searchResults.AppendText("file://" + TransID);
-                    searchResults.AppendText(Environment.NewLine);
-                    searchResults.AppendText(Environment.NewLine);
-                    searchResults.ScrollToCaret();
-                }
+                                  
             }
 
+            if (SendToMonitor)
+            {
+                string line = "";
+
+                if (!System.IO.File.Exists("monitor.htm"))
+                {
+                    StreamWriter newFile = new StreamWriter("monitor.htm");
+                    newFile.WriteLine("<html><head><meta charset=\"UTF-8\" /></head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\includes\\css.css\"><body><div class=\"main\">");
+                    newFile.WriteLine("</div></body></html>");
+                    newFile.Close();
+                }
+                StreamWriter tmpFile = new StreamWriter("~Monitor.htm");
+                StreamReader readFile = new StreamReader("monitor.htm");
+                tmpFile.WriteLine(readFile.ReadLine());
+                strPrintLine = strPrintLine.Replace("href=\"", "href=\"" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\" + TransID + "\\");
+                strPrintLine = strPrintLine.Replace("src=\"", "src=\"" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\" + TransID + "\\");
+                strPrintLine = strPrintLine.Replace("%20", " ");
+       
+                tmpFile.WriteLine("<A href=\""+ System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\" + TransID + "\\index.htm" + "\">" + strPrintLine + "</a>");
+                while ((line = readFile.ReadLine()) != null)
+                {
+                    tmpFile.WriteLine(line);                    
+                }
+                tmpFile.Close();
+                readFile.Close();
+                File.Delete("monitor.htm");
+                File.Move("~Monitor.htm", "monitor.htm");
+
+                Uri MonitorUrl = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\monitor.htm");
+                webBrowser1.Url = MonitorUrl;
+            }
+     
 
         }
 
@@ -1377,6 +1466,7 @@ namespace ADD
 
             if (chkMonitorBlockChains.Checked)
             {
+                if (webBrowser1.Document == null ){webBrowser1.DocumentText = "<html><body></body></html>";}
                 tmrGetNewTransactions.Start();
                 lblMonitorInfo.Visible = true;
             }
@@ -1481,11 +1571,19 @@ namespace ADD
 
             }
 
-            if (e.KeyValue == (int)Keys.Back || e.KeyValue == (int)Keys.Delete)
+            if (e.KeyValue == (int)Keys.Delete)
             {
 
-                txtTransIDSearch.Text = "ENTER TRANSACTION ID";
+                txtTransIDSearch.Text = " ENTER SEARCH STRING";
             }
+
+             if (e.KeyValue == (int)Keys.Back)
+            {
+
+                if (txtTransIDSearch.Text == "ENTER SEARCH STRING")
+                { txtTransIDSearch.Text = "ENTER SEARCH STRING"; }
+            }
+             
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1532,7 +1630,7 @@ namespace ADD
 
         private void txtTransIDSearch_Click(object sender, EventArgs e)
         {
-            if (txtTransIDSearch.Text == "ENTER TRANSACTION ID") { txtTransIDSearch.Text = ""; }
+            if (txtTransIDSearch.Text == "ENTER SEARCH STRING") { txtTransIDSearch.Text = ""; }
 
         }
 
@@ -1551,7 +1649,9 @@ namespace ADD
 
         private void historyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("root\\");
+            Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/history.htm");
+            webBrowser1.Url = BrowseURL;
+            tabControl1.SelectedTab = tabControl1.TabPages[1];
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1569,7 +1669,7 @@ namespace ADD
                saveFile1.FileName.Length > 0)
             {
                 // Save the contents of the RichTextBox into the file.
-                searchResults.SaveFile(saveFile1.FileName, RichTextBoxStreamType.PlainText);
+                //searchResults.SaveFile(saveFile1.FileName, RichTextBoxStreamType.PlainText);
             }
         }
 
@@ -1592,7 +1692,7 @@ namespace ADD
                 filestream.Position = 0;
                 byte[] hashValue = mySHA256.ComputeHash(filestream);
                 filestream.Close();
-                txtMessage.Text = txtMessage.Text + "File Name: " + Path.GetFileName(openDigestFile.FileName) + Environment.NewLine + "File Proof: " + BitConverter.ToString(hashValue).Replace("-", String.Empty) + Environment.NewLine;
+                txtMessage.Text = txtMessage.Text + BitConverter.ToString(hashValue).Replace("-", String.Empty);
             }
 
         }
@@ -1684,6 +1784,21 @@ namespace ADD
                              .Where(x => x % 2 == 0)
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                              .ToArray();
+        }
+
+        private void tmrUpdateInfoText_Tick(object sender, EventArgs e)
+        {
+            Random random = new Random();
+            txtInfoBox.Text = infoArray[random.Next(0, infoArray.Count())];
+        }
+
+        private void webBrowser1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up || e.KeyCode == Keys.Left || e.KeyCode == Keys.Right)
+            {
+                e.IsInputKey = false;
+                return;
+            }
         }
 
         //private void button2_Click(object sender, EventArgs e)

@@ -57,18 +57,18 @@
             this.openDigestFile = new System.Windows.Forms.OpenFileDialog();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tmrProcessBatch = new System.Windows.Forms.Timer(this.components);
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabExplore = new System.Windows.Forms.TabPage();
             this.statusExploreStatus = new System.Windows.Forms.StatusStrip();
             this.lblExploreStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblMonitorInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.chkFilterUnSafeContent = new System.Windows.Forms.CheckBox();
-            this.searchResults = new System.Windows.Forms.RichTextBox();
             this.txtTransIDSearch = new System.Windows.Forms.TextBox();
             this.chkMonitorBlockChains = new System.Windows.Forms.CheckBox();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabShare = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.imgApertusSplash = new System.Windows.Forms.PictureBox();
+            this.txtInfoBox = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button3 = new System.Windows.Forms.Button();
             this.cmbWalletLabel = new System.Windows.Forms.ComboBox();
@@ -86,18 +86,22 @@
             this.lblStatusInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabFollow = new System.Windows.Forms.TabPage();
+            this.tabProfile = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.txtTrustList = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.txtTrust = new System.Windows.Forms.TextBox();
+            this.btnRemoveTrust = new System.Windows.Forms.Button();
+            this.btnAddTrust = new System.Windows.Forms.Button();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.txtTrust = new System.Windows.Forms.TextBox();
-            this.btnRemoveTrust = new System.Windows.Forms.Button();
-            this.btnAddTrust = new System.Windows.Forms.Button();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -111,28 +115,29 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.tmrUpdateInfoText = new System.Windows.Forms.Timer(this.components);
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.contextMenuStrip1.SuspendLayout();
             this.menuMain.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabExplore.SuspendLayout();
             this.statusExploreStatus.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabShare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgApertusSplash)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgEnterMessageHere)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.statusArchiveStatus.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tabProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
@@ -147,6 +152,7 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.blockToolStripMenuItem,
             this.followToolStripMenuItem});
@@ -168,6 +174,7 @@
             // menuMain
             // 
             this.menuMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuMain.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.settingsToolStripMenuItem,
@@ -176,7 +183,7 @@
             this.menuMain.Name = "menuMain";
             this.menuMain.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
             this.menuMain.Size = new System.Drawing.Size(401, 26);
-            this.menuMain.TabIndex = 22;
+            this.menuMain.TabIndex = 0;
             this.menuMain.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
@@ -336,23 +343,24 @@
             this.tmrProcessBatch.Interval = 300000;
             this.tmrProcessBatch.Tick += new System.EventHandler(this.tmrProcessBatch_Tick);
             // 
-            // tabPage2
+            // tabExplore
             // 
-            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.statusExploreStatus);
-            this.tabPage2.Controls.Add(this.chkFilterUnSafeContent);
-            this.tabPage2.Controls.Add(this.searchResults);
-            this.tabPage2.Controls.Add(this.txtTransIDSearch);
-            this.tabPage2.Controls.Add(this.chkMonitorBlockChains);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(393, 390);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Explore";
+            this.tabExplore.BackColor = System.Drawing.SystemColors.Control;
+            this.tabExplore.Controls.Add(this.webBrowser1);
+            this.tabExplore.Controls.Add(this.statusExploreStatus);
+            this.tabExplore.Controls.Add(this.chkFilterUnSafeContent);
+            this.tabExplore.Controls.Add(this.txtTransIDSearch);
+            this.tabExplore.Controls.Add(this.chkMonitorBlockChains);
+            this.tabExplore.Location = new System.Drawing.Point(4, 25);
+            this.tabExplore.Name = "tabExplore";
+            this.tabExplore.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExplore.Size = new System.Drawing.Size(393, 390);
+            this.tabExplore.TabIndex = 1;
+            this.tabExplore.Text = "Explore";
             // 
             // statusExploreStatus
             // 
+            this.statusExploreStatus.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusExploreStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblExploreStatus,
             this.lblMonitorInfo});
@@ -390,23 +398,10 @@
             this.chkFilterUnSafeContent.Location = new System.Drawing.Point(222, 338);
             this.chkFilterUnSafeContent.Name = "chkFilterUnSafeContent";
             this.chkFilterUnSafeContent.Size = new System.Drawing.Size(163, 21);
-            this.chkFilterUnSafeContent.TabIndex = 41;
+            this.chkFilterUnSafeContent.TabIndex = 0;
+            this.chkFilterUnSafeContent.TabStop = false;
             this.chkFilterUnSafeContent.Text = "Filter Unsafe Content";
             this.chkFilterUnSafeContent.UseVisualStyleBackColor = true;
-            // 
-            // searchResults
-            // 
-            this.searchResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.searchResults.BackColor = System.Drawing.Color.White;
-            this.searchResults.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.searchResults.Location = new System.Drawing.Point(8, 39);
-            this.searchResults.Name = "searchResults";
-            this.searchResults.Size = new System.Drawing.Size(377, 293);
-            this.searchResults.TabIndex = 39;
-            this.searchResults.Text = "";
-            this.searchResults.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.searchResults_LinkClicked);
             // 
             // txtTransIDSearch
             // 
@@ -417,8 +412,9 @@
             this.txtTransIDSearch.Location = new System.Drawing.Point(8, 7);
             this.txtTransIDSearch.Name = "txtTransIDSearch";
             this.txtTransIDSearch.Size = new System.Drawing.Size(377, 23);
-            this.txtTransIDSearch.TabIndex = 14;
-            this.txtTransIDSearch.Text = "ENTER TRANSACTION ID";
+            this.txtTransIDSearch.TabIndex = 0;
+            this.txtTransIDSearch.TabStop = false;
+            this.txtTransIDSearch.Text = "ENTER SEARCH STRING";
             this.txtTransIDSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtTransIDSearch.Click += new System.EventHandler(this.txtTransIDSearch_Click);
             this.txtTransIDSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTransIDSearch_KeyDown);
@@ -430,22 +426,23 @@
             this.chkMonitorBlockChains.Location = new System.Drawing.Point(8, 338);
             this.chkMonitorBlockChains.Name = "chkMonitorBlockChains";
             this.chkMonitorBlockChains.Size = new System.Drawing.Size(162, 21);
-            this.chkMonitorBlockChains.TabIndex = 38;
+            this.chkMonitorBlockChains.TabIndex = 0;
+            this.chkMonitorBlockChains.TabStop = false;
             this.chkMonitorBlockChains.Text = "Monitor Block Chains";
             this.chkMonitorBlockChains.UseVisualStyleBackColor = true;
             this.chkMonitorBlockChains.CheckedChanged += new System.EventHandler(this.chkMonitorBlockChains_CheckedChanged);
             // 
-            // tabPage1
+            // tabShare
             // 
-            this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage1.Controls.Add(this.splitContainer1);
-            this.tabPage1.Controls.Add(this.statusArchiveStatus);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(393, 390);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Share";
+            this.tabShare.BackColor = System.Drawing.SystemColors.Control;
+            this.tabShare.Controls.Add(this.splitContainer1);
+            this.tabShare.Controls.Add(this.statusArchiveStatus);
+            this.tabShare.Location = new System.Drawing.Point(4, 25);
+            this.tabShare.Name = "tabShare";
+            this.tabShare.Padding = new System.Windows.Forms.Padding(3);
+            this.tabShare.Size = new System.Drawing.Size(393, 390);
+            this.tabShare.TabIndex = 0;
+            this.tabShare.Text = "Share";
             // 
             // splitContainer1
             // 
@@ -487,28 +484,45 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.BackColor = System.Drawing.Color.White;
-            this.splitContainer2.Panel1.Controls.Add(this.pictureBox1);
+            this.splitContainer2.Panel1.Controls.Add(this.imgApertusSplash);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.SystemColors.Window;
+            this.splitContainer2.Panel2.Controls.Add(this.txtInfoBox);
+            this.splitContainer2.Panel2.Controls.Add(this.treeView1);
             this.splitContainer2.Size = new System.Drawing.Size(387, 229);
             this.splitContainer2.SplitterDistance = 219;
             this.splitContainer2.TabIndex = 29;
             // 
-            // pictureBox1
+            // imgApertusSplash
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.imgApertusSplash.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::ADD.Properties.Resources.About;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(211, 221);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 28;
-            this.pictureBox1.TabStop = false;
+            this.imgApertusSplash.BackColor = System.Drawing.Color.Transparent;
+            this.imgApertusSplash.Image = global::ADD.Properties.Resources.About;
+            this.imgApertusSplash.Location = new System.Drawing.Point(3, 3);
+            this.imgApertusSplash.Name = "imgApertusSplash";
+            this.imgApertusSplash.Size = new System.Drawing.Size(211, 221);
+            this.imgApertusSplash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgApertusSplash.TabIndex = 28;
+            this.imgApertusSplash.TabStop = false;
+            // 
+            // txtInfoBox
+            // 
+            this.txtInfoBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInfoBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtInfoBox.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtInfoBox.Location = new System.Drawing.Point(7, 96);
+            this.txtInfoBox.Multiline = true;
+            this.txtInfoBox.Name = "txtInfoBox";
+            this.txtInfoBox.Size = new System.Drawing.Size(149, 61);
+            this.txtInfoBox.TabIndex = 0;
+            this.txtInfoBox.Text = "Apertus immutably stores and interprets data on blockchains.";
+            this.txtInfoBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // comboBox1
             // 
@@ -692,6 +706,7 @@
             // statusArchiveStatus
             // 
             this.statusArchiveStatus.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusArchiveStatus.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusArchiveStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatusInfo,
             this.progressBar});
@@ -727,41 +742,52 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabShare);
+            this.tabControl1.Controls.Add(this.tabExplore);
+            this.tabControl1.Controls.Add(this.tabFollow);
+            this.tabControl1.Controls.Add(this.tabProfile);
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl1.Location = new System.Drawing.Point(0, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(401, 419);
-            this.tabControl1.TabIndex = 21;
+            this.tabControl1.TabIndex = 0;
+            this.tabControl1.TabStop = false;
             // 
-            // tabPage3
+            // tabFollow
             // 
-            this.tabPage3.Controls.Add(this.splitContainer3);
-            this.tabPage3.Controls.Add(this.button1);
-            this.tabPage3.Controls.Add(this.label6);
-            this.tabPage3.Controls.Add(this.button2);
-            this.tabPage3.Controls.Add(this.comboBox4);
-            this.tabPage3.Controls.Add(this.comboBox3);
-            this.tabPage3.Controls.Add(this.label5);
-            this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.label3);
-            this.tabPage3.Controls.Add(this.label2);
-            this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Controls.Add(this.textBox5);
-            this.tabPage3.Controls.Add(this.textBox4);
-            this.tabPage3.Controls.Add(this.textBox3);
-            this.tabPage3.Controls.Add(this.textBox2);
-            this.tabPage3.Controls.Add(this.textBox1);
-            this.tabPage3.Controls.Add(this.pictureBox2);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(393, 390);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Avatar";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabFollow.Location = new System.Drawing.Point(4, 25);
+            this.tabFollow.Name = "tabFollow";
+            this.tabFollow.Size = new System.Drawing.Size(393, 390);
+            this.tabFollow.TabIndex = 3;
+            this.tabFollow.Text = "Follow";
+            this.tabFollow.UseVisualStyleBackColor = true;
+            // 
+            // tabProfile
+            // 
+            this.tabProfile.Controls.Add(this.splitContainer3);
+            this.tabProfile.Controls.Add(this.button1);
+            this.tabProfile.Controls.Add(this.label6);
+            this.tabProfile.Controls.Add(this.button2);
+            this.tabProfile.Controls.Add(this.comboBox4);
+            this.tabProfile.Controls.Add(this.comboBox3);
+            this.tabProfile.Controls.Add(this.label5);
+            this.tabProfile.Controls.Add(this.label4);
+            this.tabProfile.Controls.Add(this.label3);
+            this.tabProfile.Controls.Add(this.label2);
+            this.tabProfile.Controls.Add(this.label1);
+            this.tabProfile.Controls.Add(this.textBox5);
+            this.tabProfile.Controls.Add(this.textBox4);
+            this.tabProfile.Controls.Add(this.textBox3);
+            this.tabProfile.Controls.Add(this.textBox2);
+            this.tabProfile.Controls.Add(this.textBox1);
+            this.tabProfile.Controls.Add(this.pictureBox2);
+            this.tabProfile.Location = new System.Drawing.Point(4, 25);
+            this.tabProfile.Name = "tabProfile";
+            this.tabProfile.Size = new System.Drawing.Size(393, 390);
+            this.tabProfile.TabIndex = 2;
+            this.tabProfile.Text = "Profiles";
+            this.tabProfile.UseVisualStyleBackColor = true;
             // 
             // splitContainer3
             // 
@@ -816,6 +842,54 @@
             this.label7.TabIndex = 35;
             this.label7.Text = "Follow";
             // 
+            // txtTrust
+            // 
+            this.txtTrust.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTrust.Location = new System.Drawing.Point(56, 5);
+            this.txtTrust.Name = "txtTrust";
+            this.txtTrust.Size = new System.Drawing.Size(259, 22);
+            this.txtTrust.TabIndex = 27;
+            // 
+            // btnRemoveTrust
+            // 
+            this.btnRemoveTrust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveTrust.Location = new System.Drawing.Point(348, 4);
+            this.btnRemoveTrust.Name = "btnRemoveTrust";
+            this.btnRemoveTrust.Size = new System.Drawing.Size(21, 23);
+            this.btnRemoveTrust.TabIndex = 29;
+            this.btnRemoveTrust.Text = "-";
+            this.btnRemoveTrust.UseVisualStyleBackColor = true;
+            // 
+            // btnAddTrust
+            // 
+            this.btnAddTrust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddTrust.Location = new System.Drawing.Point(321, 4);
+            this.btnAddTrust.Name = "btnAddTrust";
+            this.btnAddTrust.Size = new System.Drawing.Size(21, 23);
+            this.btnAddTrust.TabIndex = 28;
+            this.btnAddTrust.Text = "+";
+            this.btnAddTrust.UseVisualStyleBackColor = true;
+            // 
+            // textBox7
+            // 
+            this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox7.Location = new System.Drawing.Point(56, 6);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(259, 22);
+            this.textBox7.TabIndex = 36;
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(348, 5);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(21, 23);
+            this.button4.TabIndex = 38;
+            this.button4.Text = "-";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -824,6 +898,16 @@
             this.label8.Size = new System.Drawing.Size(42, 17);
             this.label8.TabIndex = 36;
             this.label8.Text = "Block";
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Location = new System.Drawing.Point(321, 5);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(21, 23);
+            this.button5.TabIndex = 37;
+            this.button5.Text = "+";
+            this.button5.UseVisualStyleBackColor = true;
             // 
             // textBox6
             // 
@@ -873,35 +957,6 @@
             this.button2.TabIndex = 31;
             this.button2.Text = "+";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // txtTrust
-            // 
-            this.txtTrust.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTrust.Location = new System.Drawing.Point(56, 5);
-            this.txtTrust.Name = "txtTrust";
-            this.txtTrust.Size = new System.Drawing.Size(259, 22);
-            this.txtTrust.TabIndex = 27;
-            // 
-            // btnRemoveTrust
-            // 
-            this.btnRemoveTrust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveTrust.Location = new System.Drawing.Point(348, 4);
-            this.btnRemoveTrust.Name = "btnRemoveTrust";
-            this.btnRemoveTrust.Size = new System.Drawing.Size(21, 23);
-            this.btnRemoveTrust.TabIndex = 29;
-            this.btnRemoveTrust.Text = "-";
-            this.btnRemoveTrust.UseVisualStyleBackColor = true;
-            // 
-            // btnAddTrust
-            // 
-            this.btnAddTrust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTrust.Location = new System.Drawing.Point(321, 4);
-            this.btnAddTrust.Name = "btnAddTrust";
-            this.btnAddTrust.Size = new System.Drawing.Size(21, 23);
-            this.btnAddTrust.TabIndex = 28;
-            this.btnAddTrust.Text = "+";
-            this.btnAddTrust.UseVisualStyleBackColor = true;
             // 
             // comboBox4
             // 
@@ -1037,34 +1092,32 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
-            // textBox7
+            // tmrUpdateInfoText
             // 
-            this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tmrUpdateInfoText.Enabled = true;
+            this.tmrUpdateInfoText.Interval = 10000;
+            this.tmrUpdateInfoText.Tick += new System.EventHandler(this.tmrUpdateInfoText_Tick);
+            // 
+            // treeView1
+            // 
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(162, 227);
+            this.treeView1.TabIndex = 1;
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox7.Location = new System.Drawing.Point(56, 6);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(259, 22);
-            this.textBox7.TabIndex = 36;
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(348, 5);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(21, 23);
-            this.button4.TabIndex = 38;
-            this.button4.Text = "-";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Location = new System.Drawing.Point(321, 5);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(21, 23);
-            this.button5.TabIndex = 37;
-            this.button5.Text = "+";
-            this.button5.UseVisualStyleBackColor = true;
+            this.webBrowser1.Location = new System.Drawing.Point(8, 36);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(377, 296);
+            this.webBrowser1.TabIndex = 0;
+            this.webBrowser1.TabStop = false;
+            this.webBrowser1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.webBrowser1_PreviewKeyDown);
             // 
             // Main
             // 
@@ -1078,6 +1131,7 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.MinimumSize = new System.Drawing.Size(419, 492);
             this.Name = "Main";
@@ -1089,21 +1143,23 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.menuMain.ResumeLayout(false);
             this.menuMain.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tabExplore.ResumeLayout(false);
+            this.tabExplore.PerformLayout();
             this.statusExploreStatus.ResumeLayout(false);
             this.statusExploreStatus.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tabShare.ResumeLayout(false);
+            this.tabShare.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgApertusSplash)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgEnterMessageHere)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -1112,8 +1168,8 @@
             this.statusArchiveStatus.ResumeLayout(false);
             this.statusArchiveStatus.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
+            this.tabProfile.ResumeLayout(false);
+            this.tabProfile.PerformLayout();
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel1.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
@@ -1155,18 +1211,17 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem blockToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem followToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabExplore;
         private System.Windows.Forms.StatusStrip statusExploreStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblExploreStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblMonitorInfo;
         private System.Windows.Forms.CheckBox chkFilterUnSafeContent;
-        private System.Windows.Forms.RichTextBox searchResults;
         private System.Windows.Forms.TextBox txtTransIDSearch;
         private System.Windows.Forms.CheckBox chkMonitorBlockChains;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabShare;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox imgApertusSplash;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ComboBox cmbWalletLabel;
@@ -1184,7 +1239,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lblStatusInfo;
         private System.Windows.Forms.ToolStripProgressBar progressBar;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabProfile;
         private System.Windows.Forms.ComboBox comboBox4;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.Label label5;
@@ -1212,6 +1267,11 @@
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox txtInfoBox;
+        private System.Windows.Forms.Timer tmrUpdateInfoText;
+        private System.Windows.Forms.TabPage tabFollow;
+        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 
