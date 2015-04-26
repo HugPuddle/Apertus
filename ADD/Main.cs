@@ -1120,11 +1120,15 @@ namespace ADD
 
                     if (printDate != "PENDING")
                     {
+                        if (!File.Exists("root\\catalog.htm")) {System.IO.File.AppendAllText("root\\catalog.htm","");}
+                        var strFileDump = System.IO.File.ReadAllText("root\\catalog.htm");
+                        if (!strFileDump.Contains(TransID))
+                        {
+                            System.IO.File.AppendAllText("root\\catalog.htm", "<a href=\"" + Properties.Settings.Default.HistoryTransactionIDUrl.Replace("%s", TransID) + "\">" + TransID + "</a><br>" + Environment.NewLine);
+                            if (Properties.Settings.Default.SiteMapTransactionIdUrl != "")
+                            { System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapTransactionIdUrl.Replace("%s", TransID) + Environment.NewLine); }
+                        }
                         
-                        System.IO.File.AppendAllText("root\\history.htm", "<a href=\"" + Properties.Settings.Default.HistoryTransactionIDUrl.Replace("%s", TransID) + "\">" + TransID + "</a><br>" + Environment.NewLine);
-
-                        if (Properties.Settings.Default.SiteMapTransactionIdUrl != "")
-                        { System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapTransactionIdUrl.Replace("%s", TransID) + Environment.NewLine); }
                     }
                 }
                 return containsData;
@@ -1202,7 +1206,8 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
                 {
 
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\">[ " + FileName + " ]</div></div>"), 0, FileName.Length + 55);
+                    strPrintLine = "<div class=\"item\"><div class=\"content\">[ " + FileName + " ]</div></div>";
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     foundType = true;
                 }
@@ -1436,7 +1441,7 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
             var coinCount = 0;
             foreach (var i in coinIP)
             {
-                if (coinLastMemoryDump[i.Key] == null && coinGetRawSupport[i.Key] && coinEnabled[i.Key])
+                if (coinGetRawSupport[i.Key] && coinEnabled[i.Key])
                 {
                     try
                     {
@@ -1649,7 +1654,7 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
 
         private void historyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/history.htm");
+            Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/catalog.htm");
             webBrowser1.Url = BrowseURL;
             tabControl1.SelectedTab = tabControl1.TabPages[1];
         }
@@ -1798,6 +1803,22 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
             {
                 e.IsInputKey = false;
                 return;
+            }
+        }
+
+        private void chkFilterUnSafeContent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!chkFilterUnSafeContent.Checked)
+            {
+                if (chkMonitorBlockChains.Checked)
+                {
+                    chkMonitorBlockChains.Checked = false;
+                    DialogResult dialogResult = MessageBox.Show("NOTICE: Monitoring with the filter disabled is crazy dangerous. Do you want to continue?", "Confirm Saving", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        chkMonitorBlockChains.Checked = true;
+                    }
+                }
             }
         }
 

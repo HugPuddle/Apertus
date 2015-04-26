@@ -395,13 +395,14 @@
             this.chkFilterUnSafeContent.AutoSize = true;
             this.chkFilterUnSafeContent.Checked = true;
             this.chkFilterUnSafeContent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(222, 338);
+            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(324, 338);
             this.chkFilterUnSafeContent.Name = "chkFilterUnSafeContent";
-            this.chkFilterUnSafeContent.Size = new System.Drawing.Size(163, 21);
+            this.chkFilterUnSafeContent.Size = new System.Drawing.Size(61, 21);
             this.chkFilterUnSafeContent.TabIndex = 0;
             this.chkFilterUnSafeContent.TabStop = false;
-            this.chkFilterUnSafeContent.Text = "Filter Unsafe Content";
+            this.chkFilterUnSafeContent.Text = "Filter";
             this.chkFilterUnSafeContent.UseVisualStyleBackColor = true;
+            this.chkFilterUnSafeContent.CheckedChanged += new System.EventHandler(this.chkFilterUnSafeContent_CheckedChanged);
             // 
             // txtTransIDSearch
             // 
@@ -425,10 +426,10 @@
             this.chkMonitorBlockChains.AutoSize = true;
             this.chkMonitorBlockChains.Location = new System.Drawing.Point(8, 338);
             this.chkMonitorBlockChains.Name = "chkMonitorBlockChains";
-            this.chkMonitorBlockChains.Size = new System.Drawing.Size(162, 21);
+            this.chkMonitorBlockChains.Size = new System.Drawing.Size(77, 21);
             this.chkMonitorBlockChains.TabIndex = 0;
             this.chkMonitorBlockChains.TabStop = false;
-            this.chkMonitorBlockChains.Text = "Monitor Block Chains";
+            this.chkMonitorBlockChains.Text = "Monitor";
             this.chkMonitorBlockChains.UseVisualStyleBackColor = true;
             this.chkMonitorBlockChains.CheckedChanged += new System.EventHandler(this.chkMonitorBlockChains_CheckedChanged);
             // 
