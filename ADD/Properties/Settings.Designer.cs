@@ -44,15 +44,6 @@ namespace ADD.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BlockChainTransactionIdUrl {
-            get {
-                return ((string)(this["BlockChainTransactionIdUrl"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ReportAbuseUrl {
             get {
                 return ((string)(this["ReportAbuseUrl"]));

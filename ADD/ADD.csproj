@@ -54,10 +54,6 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <Reference Include="HtmlSanitizationLibrary">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Information Security\AntiXSS Library v4.2\SANITIZER\HtmlSanitizationLibrary.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>.\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -83,12 +79,26 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Chain.cs" />
-    <Compile Include="coinCrypt\ArrayHelpers.cs" />
-    <Compile Include="coinCrypt\Base58Encoding.cs" />
-    <Compile Include="coinRPC\CoinRPC.cs" />
-    <Compile Include="coinRPC\CoinRPC.Methods.cs" />
-    <Compile Include="coinRPC\CoinRPCException.cs" />
-    <Compile Include="coinRPC\Response\ValidateAddressResponse.cs" />
+    <Compile Include="Encryption\ArrayHelpers.cs" />
+    <Compile Include="Encryption\Base58.cs" />
+    <Compile Include="Encryption\BigIntExtensions.cs" />
+    <Compile Include="Encryption\ECElGamal.cs" />
+    <Compile Include="Encryption\ECEncryption.cs" />
+    <Compile Include="Encryption\ECPoint.cs" />
+    <Compile Include="Encryption\Hash160.cs" />
+    <Compile Include="Encryption\Hex.cs" />
+    <Compile Include="Encryption\RIPEMD160.cs" />
+    <Compile Include="Encryption\Secp256k1.cs" />
+    <Compile Include="Encryption\SHA256.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RPC\BlockchainRPC.cs" />
+    <Compile Include="RPC\BlockchainRPC.Methods.cs" />
+    <Compile Include="RPC\BlockchainRPCException.cs" />
+    <Compile Include="RPC\Response\ValidateAddressResponse.cs" />
     <Compile Include="Trust.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,12 +113,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="coinRPC\Response\GetRawTransactionResponse.cs" />
-    <Compile Include="coinRPC\Response\GetTransactionResponse.cs" />
-    <Compile Include="coinRPC\Response\ListReceivedByAddressResponse.cs" />
-    <Compile Include="coinRPC\RPCError.cs" />
-    <Compile Include="coinRPC\RPCRequest.cs" />
-    <Compile Include="coinRPC\RPCResponse.cs" />
+    <Compile Include="RPC\Response\GetRawTransactionResponse.cs" />
+    <Compile Include="RPC\Response\GetTransactionResponse.cs" />
+    <Compile Include="RPC\Response\ListReceivedByAddressResponse.cs" />
+    <Compile Include="RPC\RPCError.cs" />
+    <Compile Include="RPC\RPCRequest.cs" />
+    <Compile Include="RPC\RPCResponse.cs" />
     <Compile Include="RPC.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,14 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -187,20 +192,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\About.png" />
-    <None Include="Resources\Splash.png" />
-    <None Include="Resources\Main.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\EMBII.jpg" />
+    <Content Include="Resources\Splash.png" />
+    <None Include="Resources\Profile.png" />
     <Content Include="Resources\file-icon.png" />
-    <None Include="Resources\Button2.png" />
+    <None Include="Resources\Attach.png" />
     <None Include="Resources\Save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Secp256k1-master\Secp256k1.Core\Secp256k1.Core.csproj">
-      <Project>{73FA64DD-954C-41B0-9E52-5A24D77EC140}</Project>
-      <Name>Secp256k1.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

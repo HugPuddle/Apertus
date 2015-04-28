@@ -55,7 +55,7 @@ namespace ADD.RPCClient
 				(new RPCRequest("listreceivedbyaddress", new Object[] { MinConf, IncludeEmpty }));
 		}
 
-        //Keep for future use
+       
         //public ListSinceBlockResponse ListSinceBlock(string BlockHash = null, int TargetConfirmations = 1)
         //{
         //    if (BlockHash == null)
@@ -66,6 +66,12 @@ namespace ADD.RPCClient
         //    return RpcCall<ListSinceBlockResponse>
         //        (new RPCRequest("listsinceblock", new Object[] { BlockHash, TargetConfirmations }));
         //}
+
+        public string ImportAddress(string Address, string Label, bool Rescan)
+        {
+            return RpcCall<string>
+                (new RPCRequest("importaddress", new Object[] { Address, Label, Rescan }));
+        }
 
 		
 		public string SendMany( string FromAddress, IDictionary<string, decimal> ToBitcoinAddresses)

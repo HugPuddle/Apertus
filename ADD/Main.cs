@@ -8,10 +8,8 @@ using System.Net;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Web;
-using ADD.Bitcoin;
 using ADD.RPCClient;
 using ADD.Tools;
-using Microsoft.Security.Application;
 using System.Threading;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
@@ -41,7 +39,7 @@ namespace ADD
         public static Dictionary<string, Boolean> coinEnabled;
         public static Dictionary<string, Boolean> coinEnableSigning;
         public static Dictionary<string, Boolean> coinEnableTracking;
-
+        public static Dictionary<string, string> coinHelperUrl;
         IDictionary<string, decimal> allAccounts;
         Dictionary<string, IEnumerable<string>> coinLastMemoryDump;
 
@@ -72,7 +70,7 @@ namespace ADD
     {
             tmrProcessBatch.Start();
             characterMap = glyphTypeface.CharacterToGlyphMap;
-            infoArray = "Apertus immutably stores and interprets data on blockchains.|Click Help, then info for assistance.|Create a profile and start sharing your thoughts.|Adding #keywords makes it easier for people to discover your content.|Did you know you can search by Transaction ID, Address or Keyword on the discover tab?".Split('|');
+            infoArray = "Apertus immutably stores and interprets data on blockchains.|Never build files or click links from sources you do not trust.|Click Help, then info for assistance.|Create a profile and start sharing your thoughts.|Adding #keywords makes it easier for people to discover and follow your content.|Press the CTRL Key while submitting your search to rebuild the cache.|Did you know you can search by Transaction ID, Address or Keyword on the Explore tab?".Split('|');
 
          }
         private char GetRandomDivider()
@@ -132,7 +130,7 @@ namespace ADD
             {
                 lock (_buildLocker)
                 {
-                    CreateArchive(TransId, cmbCoinType.Text, true);
+                    CreateArchive(TransId, cmbCoinType.Text, true, true);
                 }
             }
 
@@ -157,7 +155,8 @@ namespace ADD
             int tranCount = 1;
             int ledgerCount = 0;
             string transactionId = "";
-
+            int fileCount = 0;
+            int totalMsgSize = 0;
 
 
             CoinRPC b = new CoinRPC(new Uri(GetURL(WalletRPCIP) + ":" + WalletRPCPort), new NetworkCredential(WalletRPCUser, WalletRPCPassword));
@@ -167,16 +166,25 @@ namespace ADD
             {
                 if (!FilePath.ToUpper().EndsWith(".ADD"))
                 {
-
+                    if (TextMessage.Length > 0)
+                    {
+                        msgBytes = Encoding.UTF8.GetBytes(TextMessage);
+                        cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(coinPayloadByteSize[cmbCoinType.Text] - 2, '0') + GetRandomDivider();
+                        totalMsgSize = msgBytes.Length + cglText.Length;
+                    }
 
                     if (FilePath.Length > 0)
                     {
 
 
                         var mergeFiles = FilePath.Split(',');
+                        
 
                         foreach (var f in mergeFiles)
                         {
+                            //additional logic and padding to ensure text data begins at byte[0] to assist in future searching.
+                            //files will have a few bytes of unsearchable content at the begining of each file due to the random delimiter set.
+                            fileCount++;
                             var intCurrentSize = 0;
                             var readFileBytes = System.IO.File.ReadAllBytes(f);
                             if (fileBytes != null) { intCurrentSize = fileBytes.Length; }
@@ -187,7 +195,14 @@ namespace ADD
                             }
                             else
                             {
-                                cglText = Path.GetFileName(f) + GetRandomDivider() + readFileBytes.Length.ToString() + GetRandomDivider();
+                                int totalFileSize = Path.GetFileName(f).Length + readFileBytes.Length.ToString().Length + readFileBytes.Length + 2;
+                                int filePadding = coinPayloadByteSize[cmbCoinType.Text] - (totalFileSize % coinPayloadByteSize[cmbCoinType.Text]);
+                                if (fileCount == mergeFiles.Length &&  totalMsgSize > 0) 
+                                {
+                                    filePadding = filePadding + (coinPayloadByteSize[cmbCoinType.Text] - (totalMsgSize % coinPayloadByteSize[cmbCoinType.Text]));
+                                }
+                                
+                                cglText = Path.GetFileName(f) + GetRandomDivider() + readFileBytes.Length.ToString().PadLeft(filePadding + readFileBytes.Length.ToString().Length, '0') + GetRandomDivider();
                             }
 
                             buffer = new byte[cglText.Length + intCurrentSize + readFileBytes.Length];
@@ -207,8 +222,7 @@ namespace ADD
 
                     if (TextMessage.Length > 0)
                     {
-                        msgBytes = Encoding.UTF8.GetBytes(TextMessage);
-                        cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(coinPayloadByteSize[cmbCoinType.Text] -2, '0') + GetRandomDivider();
+                        cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(coinPayloadByteSize[cmbCoinType.Text] - 2, '0') + GetRandomDivider();
                         buffer = new byte[cglText.Length + msgBytes.Length];
                         Encoding.UTF8.GetBytes(cglText).CopyTo(buffer, 0);
                         msgBytes.CopyTo(buffer, cglText.Length);
@@ -237,7 +251,7 @@ namespace ADD
                         int totalSigSize = coinSigningAddress[cmbCoinType.Text].Length + sigBytes.Length + sigBytes.Length.ToString().Length + 6;
                         int zeroPadding = coinPayloadByteSize[cmbCoinType.Text] - (totalSigSize % coinPayloadByteSize[cmbCoinType.Text]);
 
-                        cglText = coinSigningAddress[cmbCoinType.Text] + ".SIG" + GetRandomDivider() + sigBytes.Length.ToString().PadLeft(sigBytes.Length.ToString().Length + zeroPadding,'0') + GetRandomDivider();
+                        cglText = coinSigningAddress[cmbCoinType.Text] + ".SIG" + GetRandomDivider() + sigBytes.Length.ToString().PadLeft(zeroPadding + sigBytes.Length.ToString().Length, '0') + GetRandomDivider();
 
                         buffer = new byte[cglText.Length + fileBytes.Length + sigBytes.Length];
                         Encoding.UTF8.GetBytes(cglText).CopyTo(buffer, 0);
@@ -257,7 +271,7 @@ namespace ADD
 
                         if (payloadBytePosition > PayloadByteSize)
                         {
-                            arcFile.WriteLine(Base58Encoding.EncodeWithCheckSum(arcPayloadBytes));
+                            arcFile.WriteLine(Base58.EncodeWithCheckSum(arcPayloadBytes));
                             payloadBytePosition = 1;
                             arcPayloadBytes = new byte[PayloadByteSize + 1];
                             arcPayloadBytes[0] = CoinVersion;
@@ -275,7 +289,7 @@ namespace ADD
                         arcPayloadBytes[i] = arcPadding[i];
                     }
 
-                    arcFile.WriteLine(Base58Encoding.EncodeWithCheckSum(arcPayloadBytes));
+                    arcFile.WriteLine(Base58.EncodeWithCheckSum(arcPayloadBytes));
                     arcFile.Close();
                     lblStatusInfo.Text = "Status: Saving " + fileBytes.Length.ToString() + " bytes of primary data to the blockchain.";
                     progressBar.Value = 1;
@@ -296,6 +310,10 @@ namespace ADD
                     arcTrack.WriteLine(coinSigningAddress[cmbCoinType.Text]);
                     arcTrack.Close();
                 }
+                   //System.IO.StreamWriter arcTo = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                   //arcTo.WriteLine("PKA3ixtWz5ZC4zE2hij6y3A7nyYEbnHBrg");
+                   //arcTo.Close();
+                
 
                 System.IO.StreamReader readARC = new System.IO.StreamReader("process\\" + processId + ".ADD");
                 System.IO.StreamWriter arcLedger = new System.IO.StreamWriter("process\\" + processId + ".LGR", true);
@@ -412,9 +430,10 @@ namespace ADD
             DialogResult dialogResult = MessageBox.Show("NOTICE: Files or messages with repetitive data will greatly increase the cost of archivng.", "Confirm Saving", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], txtFileName.Text, null, txtMessage.Text);
+                CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], txtFileName.Text, null,txtMessage.Text);
             }
         }
+
 
         private void btnAttachFiles_Click(object sender, EventArgs e)
         {
@@ -518,6 +537,7 @@ namespace ADD
                 coinFeePerAddress = new Dictionary<string, bool>();
                 coinEnableSigning = new Dictionary<string, bool>();
                 coinEnableTracking = new Dictionary<string, bool>();
+                coinHelperUrl = new Dictionary<string, string>();
                 coinEnabled = new Dictionary<string, bool>();
                 coinLastMemoryDump = new Dictionary<string, IEnumerable<string>>();
                 string confLine;
@@ -525,13 +545,13 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False ");
-                    writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False ");
-                    writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False ");
-                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False ");
-                    writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False ");
-                    writeCoinConf.WriteLine("Devcoin 0 20 .6 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False ");
-                    writeCoinConf.WriteLine("Potcoin 55 20 .001 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False ");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False  ");
+                    writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False  ");
+                    writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False  ");
+                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False  ");
+                    writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False  ");
+                    writeCoinConf.WriteLine("Devcoin 0 20 .6 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False  ");
+                    writeCoinConf.WriteLine("Potcoin 55 20 .001 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False  ");
              
                     writeCoinConf.Close();
                 }
@@ -553,10 +573,10 @@ namespace ADD
                     writeIncludes.WriteLine("body {font-family: Arial, Helvetica, sans-serif;background:white;}");
                     writeIncludes.WriteLine("a {color: #A0A0A0;}");
                     writeIncludes.WriteLine("img {max-width: 100%;height: auto;}");
-                    writeIncludes.WriteLine(".main{max-width: 90%;}");
-                    writeIncludes.WriteLine(".main .item {margin: 5px;max-width: 800px;}");
-                    writeIncludes.WriteLine(".main .item .content {word-wrap: break-word;background: #E6E6E6;color: #151515;padding: 10px;text-align: center;}");
-                    writeIncludes.WriteLine(".main .item .content table {max-width: 800px;word-break: break-all;word-wrap: break-word;padding: 10px;}");
+                    writeIncludes.WriteLine(".main{max-width: 100%;}");
+                    writeIncludes.WriteLine(".main .item {margin: 5px;}");
+                    writeIncludes.WriteLine(".main .item .content {word-wrap: break-word;background: #E6E6E6;color: #151515;padding: 10px;text-align: center;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;}");
+                    writeIncludes.WriteLine(".main .item .content table {word-break: break-all;word-wrap: break-word;padding: 10px;}");
                     writeIncludes.Close();
 
                     writeIncludes = new StreamWriter("root\\includes\\footer.ssi");
@@ -567,7 +587,7 @@ namespace ADD
                 System.IO.StreamReader readCoinConf = new System.IO.StreamReader("coin.conf");
                 while ((confLine = readCoinConf.ReadLine()) != null)
                 {
-                    string[] coins = new string[] { "Coin", "0", "20", ".00001", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "", "False","" };
+                    string[] coins = new string[] { "Coin", "0", "20", ".00001", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "", "False","", "" };
                     string[] loadCoin = confLine.Split(' ');
                     int intSetting = 0;
                     foreach (string s in loadCoin)
@@ -601,6 +621,7 @@ namespace ADD
                     if (coins[13].ToUpper() == "TRUE") { coinEnableSigning.Add(coins[0], true); } else { coinEnableSigning.Add(coins[0], false); }
                     coinSigningAddress.Add(coins[0], coins[14]);
                     coinTrackingAddress.Add(coins[0], coins[17]);
+                    coinHelperUrl.Add(coins[0], coins[18]);
                     if (coins[16].ToUpper() == "TRUE") { coinEnableTracking.Add(coins[0], true); } else { coinEnableTracking.Add(coins[0], false); }
                     coinLastMemoryDump.Add(coins[0], null);
 
@@ -832,7 +853,7 @@ namespace ADD
 
             foreach (string line in AddressArray)
             {
-                arcPayloadBytes = Base58Encoding.DecodeWithCheckSum(line);
+                Base58.DecodeWithCheckSum(line, out arcPayloadBytes);
                 for (int i = 1; i < arcPayloadBytes.Length; i++)
                 {
                     if (f < intFileSize)
@@ -909,7 +930,8 @@ namespace ADD
                 // Converting Addresses to RawBytes
                 foreach (string address in AddressArray)
                 {
-                    var arcPayloadBytes = Base58Encoding.DecodeWithCheckSum(address);
+                    byte[] arcPayloadBytes = null;
+                    Base58.DecodeWithCheckSum(address, out arcPayloadBytes);
 
                     //Supporting different Payload Byte Sizes
                     if (rawBytes == null)
@@ -962,6 +984,8 @@ namespace ADD
                             buildingFile = new byte[intFileSize];
                             containsData = true;
                             transactionsFound++;
+                            intEndSignedPosition = i + intFileSize;
+
                         }
                     }
                     else
@@ -971,7 +995,7 @@ namespace ADD
                         {
                             buildingFile[intFilePosition] = rawBytes[i];
                             intFilePosition++;
-                            intEndSignedPosition = i;
+                            //intEndSignedPosition = i;
                         }
                         else
                         {
@@ -1052,7 +1076,7 @@ namespace ADD
 
 
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Create);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><!--#include file=\"..\\includes\\meta.ssi\" --><link rel=\"stylesheet\" type=\"text/css\" href=\"..\\includes\\css.css\"></head><body><div class=\"main\"><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 333 + (WalletKey.Length * 2) + TransID.Length);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><meta name=viewport content=\"width=device-width, initial-scale=1\"><!--#include file=\"..\\includes\\meta.ssi\" --><link rel=\"stylesheet\" type=\"text/css\" href=\"..\\includes\\css.css\"></head><body><div class=\"main\"><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 399 + (WalletKey.Length * 2) + TransID.Length);
                     fileStream.Close();
 
                     foreach (KeyValuePair<string, byte[]> entry in buildFiles)
@@ -1068,12 +1092,22 @@ namespace ADD
                         var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
                         var transaction = b.GetRawTransaction(TransID, 1);
                         printDate = "PENDING";
-
+                        //place in batch queue to be tried again later.
                         if (transaction.blocktime == 0)
                         {
                             lock (_batchLocker)
                             {
-                                System.IO.File.AppendAllText("batch.txt", TransID + "@" + WalletKey + Environment.NewLine);
+                                if (!System.IO.File.Exists("batch.txt"))
+                                {
+                                    System.IO.File.AppendAllText("batch.txt", TransID + "@" + WalletKey + Environment.NewLine);
+                                }
+                                else
+                                {
+                                    if (!System.IO.File.ReadAllText("batch.txt").Contains(TransID))
+                                    {
+                                        System.IO.File.AppendAllText("batch.txt", TransID + "@" + WalletKey + Environment.NewLine);
+                                    }
+                                }
                             }
                         }
                         else
@@ -1084,18 +1118,18 @@ namespace ADD
                         }
 
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\"><table>"), 0, 46);
-                        if (Properties.Settings.Default.BlockChainTransactionIdUrl != "")
-                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ROOT ID</td><td><a href=\"" + Properties.Settings.Default.BlockChainTransactionIdUrl.Replace("%s", transaction.txid) + "\">" + transaction.txid + "</a></td></tr>"), 0, 49 + transaction.txid.Length + Properties.Settings.Default.BlockChainTransactionIdUrl.Replace("%s", transaction.txid).Length); }
+                        if (coinHelperUrl[WalletKey] != "")
+                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ROOT ID</td><td><a href=\"" + coinHelperUrl[WalletKey].Replace("%s", transaction.txid) + "\">" + transaction.txid + "</a></td></tr>"), 0, 49 + transaction.txid.Length + coinHelperUrl[WalletKey].Replace("%s", transaction.txid).Length); }
                         else
                         { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ROOT ID</td><td>" + transaction.txid + "</td></tr>"), 0, 34 + transaction.txid.Length); }
                         if (isSigned)
                         {
                             fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>SIGNED BY</td><td><a href=\"" + strSigAddress + ".SIG\">" + strSigAddress + "</a></td></tr>"), 0, 55 + (strSigAddress.Length * 2));
                         }
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCK DATE</td><td>" + printDate + "</td></tr>"), 0, 37 + printDate.Length);
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCK DATE</td><td nowrap>" + printDate + "</td></tr>"), 0, 44 + printDate.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>VERSION</td><td>" + transaction.version + "</td></tr>"), 0, 34 + transaction.version.ToString().Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCKCHAIN</td><td>" + WalletKey + "</td></tr>"), 0, 37 + WalletKey.Length);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ADDRESS FILE</td><td><a href=\"address.dat\">address.dat</a></td></tr>"), 0, 76);
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td nowrap>ADDRESS FILE</td><td><a href=\"address.dat\">address.dat</a></td></tr>"), 0, 82);
                         if (Properties.Settings.Default.ReportAbuseUrl != "")
                         { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td colspan=2 align=right><a href=\"" + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid) + "\">report abuse</a></td></tr>"), 0, 67 + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid).Length); }
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table></div></div>"), 0, 20);
@@ -1110,7 +1144,8 @@ namespace ADD
 
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></div></body></html>"), 0, 66);
                     fileStream.Close();
-
+                    
+                    //Don't crawl raw monitor results
                     if (DisplayResults && !chkMonitorBlockChains.Checked)
                     {
                         BuildBackLinks(TransID);
@@ -1160,7 +1195,7 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
                 {
                     lock (_buildLocker)
                     {
-                        isFound = CreateArchive(match.ToString().Replace("../",""), i, false);
+                        isFound = CreateArchive(match.ToString().Replace("../",""), i, false, true);
                     }
 
                     if (isFound)
@@ -1265,7 +1300,7 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
                 if (chkFilterUnSafeContent.Checked && !TrustContent)
                 {
                     //Limited Protection From Injection Hacks
-                    result = Sanitizer.GetSafeHtmlFragment(result);
+                    result = WebUtility.HtmlEncode(result);
                 }
 
                 msgId++;
@@ -1335,13 +1370,21 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
             tmrProgressBar.Stop();
         }
 
-        public Boolean CreateArchive(string TransactionID, string WalletKey, bool DisplayResults)
+        public Boolean CreateArchive(string TransactionID, string WalletKey, bool DisplayResults, bool UseCache)
         {
 
             string[] AddressArray = null;
             string[] LedgerArray = null;
             msgId = 0;
             RefreshTrustCache();
+
+            if (UseCache && File.Exists("root\\" + TransactionID + "\\address.dat"))
+            {
+                Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/" + TransactionID + "/index.htm");
+                webBrowser1.Url = BrowseURL;
+                return true;
+            }
+
             try
             {
                 AddressArray = CreateAddressArrayFromTransactionID(TransactionID, WalletKey);
@@ -1471,7 +1514,6 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
 
             if (chkMonitorBlockChains.Checked)
             {
-                if (webBrowser1.Document == null ){webBrowser1.DocumentText = "<html><body></body></html>";}
                 tmrGetNewTransactions.Start();
                 lblMonitorInfo.Visible = true;
             }
@@ -1480,8 +1522,11 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
                 tmrGetNewTransactions.Stop();
                 lblMonitorInfo.Visible = false;
             }
+        }
 
-
+        private void toggleMonitor()
+        {
+            
         }
 
         private void tmrGetNewTransactions_Tick(object sender, EventArgs e)
@@ -1505,7 +1550,7 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
                             {
                                 lock (_buildLocker)
                                 {
-                                    CreateArchive(s, i.Key, true);
+                                    CreateArchive(s, i.Key, true, false);
                                 }
 
                                 transactionsSearched++;
@@ -1547,33 +1592,9 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
 
         private void txtTransIDSearch_KeyDown(object sender, KeyEventArgs e)
         {
-            var isFound = false;
             if (e.KeyValue == 13)
             {
-
-                foreach (string i in cmbCoinType.Items)
-                {
-                    if (i != "Blockchain" && isFound == false)
-                    {
-                        lock (_buildLocker)
-                        {
-                            isFound = CreateArchive(txtTransIDSearch.Text, i, true);
-                        }
-
-                        if (isFound)
-                        {
-                            lblExploreStatus.Text = "Status: Found in Blockchain";
-                            tmrStatusUpdate.Start();
-                            break;
-                        }
-                    }
-                }
-                if (!isFound)
-                {
-                    lblExploreStatus.Text = "Status: Transaction Id not found in linked Bockchains.";
-                    tmrStatusUpdate.Start();
-                }
-
+                performSearch(ModifierKeys != Keys.Control);                
             }
 
             if (e.KeyValue == (int)Keys.Delete)
@@ -1589,6 +1610,35 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
                 { txtTransIDSearch.Text = "ENTER SEARCH STRING"; }
             }
              
+        }
+
+        private void performSearch(bool useCache)
+        {
+            var isFound = false;
+
+
+             foreach (string i in cmbCoinType.Items)
+            {
+                if (i != "Blockchain" && isFound == false)
+                {
+                    lock (_buildLocker)
+                    {
+                        isFound = CreateArchive(txtTransIDSearch.Text, i, true, useCache);
+                    }
+
+                    if (isFound)
+                    {
+                        lblExploreStatus.Text = "Status: Found in Blockchain";
+                        tmrStatusUpdate.Start();
+                        break;
+                    }
+                }
+            }
+            if (!isFound)
+            {
+                lblExploreStatus.Text = "Status: Transaction Id not found in linked Bockchains.";
+                tmrStatusUpdate.Start();
+            }
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1697,7 +1747,30 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
                 filestream.Position = 0;
                 byte[] hashValue = mySHA256.ComputeHash(filestream);
                 filestream.Close();
-                txtMessage.Text = txtMessage.Text + BitConverter.ToString(hashValue).Replace("-", String.Empty);
+                string strHash = BitConverter.ToString(hashValue).Replace("-", String.Empty);
+                byte[] payLoadBytes = new byte[21];
+                payLoadBytes[0] = coinVersion[cmbCoinType.Text];
+                byte[] hashBytes = Encoding.UTF8.GetBytes(strHash.Substring(0,20));
+                hashBytes.CopyTo(payLoadBytes,1);
+                string strProofAddress = Base58.EncodeWithCheckSum(payLoadBytes);
+           
+                CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
+                try
+                {
+                    a.ImportAddress(strProofAddress, openDigestFile.FileName, false);
+                }
+                catch
+                {
+
+                    DialogResult dialogResult = MessageBox.Show("This blockchain does not support file proof Lookups at this time. Consider setting up a tracking address in the wallet settings BEFORE inserting the proof. Do you wish to continue?", "Limited functions", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+                
+                CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], "", null, strHash +"\n" + "FileName:" + openDigestFile.FileName);
+                tabControl1.SelectedTab = tabControl1.TabPages[1];
             }
 
         }
@@ -1708,6 +1781,12 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
         }
 
         private void rebuildToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Threading.Thread t = new System.Threading.Thread(RebuildRootIndex);
+            t.Start();
+        }
+
+        private void RebuildRootIndex()
         {
             string[] folders = Directory.GetDirectories("root");
 
@@ -1722,7 +1801,7 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
                         string transID = f.Replace("root\\", "");
                         lock (_buildLocker)
                         {
-                            isFound = CreateArchive(transID, i, true);
+                            isFound = CreateArchive(transID, i, true, false);
                         }
                         if (isFound)
                         {
@@ -1740,7 +1819,6 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
 
             }
         }
-
         private void trustToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(OpenTrustForm));
@@ -1776,7 +1854,7 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
                 {
                     lock (_buildLocker)
                     {
-                        CreateArchive(transArray[0], transArray[1], false);
+                        CreateArchive(transArray[0], transArray[1], false,false);
                     }
                 }
                 catch { }
@@ -1822,28 +1900,41 @@ using (StreamReader streamReader = new StreamReader("root\\" + TransID + "\\"+ f
             }
         }
 
-        //private void button2_Click(object sender, EventArgs e)
-        //{
-        //    CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
+        private void button3_Click(object sender, EventArgs e)
+        {
 
-        //    var response = a.ValidateAddress("");
-        //    var fullpublicKey = StringToByteArray(response.pubkey);
-        //    var privKeyHex = BitConverter.ToString(Base58Encoding.Decode(a.DumpPrivateKey("1NVr4SQXQtgY4UmpxAuBDfPTksC1gjjN3h"))).Replace("-", "");
-        //    privKeyHex = privKeyHex.Substring(2, 64);
-        //    BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
-        //    ECPoint publicKey = Secp256k1.Secp256k1.G.Multiply(privateKey);
-        //    string bitcoinAddressUncompressed = publicKey.GetBitcoinAddress(false);
-        //    string bitcoinAddressCompressed = publicKey.GetBitcoinAddress(compressed: true);
-        //     ECEncryption encryption = new ECEncryption();
-        //   var readFileBytes = System.IO.File.ReadAllBytes(txtFileName.Text);
-        //   byte[] encrypted = encryption.Encrypt(publicKey, readFileBytes);
-        //   System.IO.File.WriteAllBytes("CNG", encrypted);
-        //   byte[] decrypted = encryption.Decrypt(privateKey, encrypted);
-        //   System.IO.File.WriteAllBytes(txtFileName.Text + ".new", decrypted);
 
-        //   txtFileName.Text = "";
-        //}
+            CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
 
+            var privKeyHex = BitConverter.ToString(Base58.Decode(a.DumpPrivateKey("PECZDPtEhCF9jP1kzNJJxW8hq9RZ79xeDE"))).Replace("-", "");
+            privKeyHex = privKeyHex.Substring(2, 64);
+            BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
+            ECPoint publicKey = Secp256k1.Secp256k1.G.Multiply(privateKey);
+            //string bitcoinAddressUncompressed = publicKey.GetBitcoinAddress(false);
+            //string bitcoinAddressCompressed = publicKey.GetBitcoinAddress(compressed: true);
+            ECEncryption encryption = new ECEncryption();
+            var readFileBytes = System.IO.File.ReadAllBytes(txtFileName.Text);
+            byte[] encrypted = encryption.Encrypt(publicKey, readFileBytes);
+            System.IO.File.WriteAllBytes("CNG", encrypted);
+            byte[] decrypted = encryption.Decrypt(privateKey, encrypted);
+            System.IO.File.WriteAllBytes(txtFileName.Text + ".new", decrypted);
+            
+        }
+
+ 
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            this.btnArchive.Enabled = true;
+            this.txtFileName.Enabled = true;
+            this.txtMessage.Enabled = true;
+            this.chkKeywords.Enabled = true;
+            this.chkPrivate.Enabled = true;
+            this.chkRecipients.Enabled = true;
+
+        }
+
+ 
 
     }
 }

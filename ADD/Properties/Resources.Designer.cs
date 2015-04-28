@@ -83,16 +83,6 @@ namespace ADD.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EMBII {
-            get {
-                object obj = ResourceManager.GetObject("EMBII", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap icon {
             get {
                 object obj = ResourceManager.GetObject("icon", resourceCulture);
@@ -103,9 +93,9 @@ namespace ADD.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Main {
+        internal static System.Drawing.Bitmap Profile {
             get {
-                object obj = ResourceManager.GetObject("Main", resourceCulture);
+                object obj = ResourceManager.GetObject("Profile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

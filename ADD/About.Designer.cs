@@ -94,11 +94,11 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::ADD.Properties.Resources.About;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 10);
+            this.pictureBox1.Location = new System.Drawing.Point(17, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(222, 268);
+            this.pictureBox1.Size = new System.Drawing.Size(206, 279);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
             // About

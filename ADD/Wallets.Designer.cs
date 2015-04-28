@@ -71,6 +71,8 @@
             this.label19 = new System.Windows.Forms.Label();
             this.txtShortName = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.txtHelperUrl = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // cmbWallets
@@ -333,7 +335,7 @@
             // 
             this.chkGetRawSupport.AutoSize = true;
             this.chkGetRawSupport.Enabled = false;
-            this.chkGetRawSupport.Location = new System.Drawing.Point(126, 442);
+            this.chkGetRawSupport.Location = new System.Drawing.Point(129, 464);
             this.chkGetRawSupport.Name = "chkGetRawSupport";
             this.chkGetRawSupport.Size = new System.Drawing.Size(96, 21);
             this.chkGetRawSupport.TabIndex = 32;
@@ -365,7 +367,7 @@
             // chkEnabled
             // 
             this.chkEnabled.AutoSize = true;
-            this.chkEnabled.Location = new System.Drawing.Point(12, 442);
+            this.chkEnabled.Location = new System.Drawing.Point(12, 464);
             this.chkEnabled.Name = "chkEnabled";
             this.chkEnabled.Size = new System.Drawing.Size(82, 21);
             this.chkEnabled.TabIndex = 34;
@@ -376,7 +378,7 @@
             // 
             this.chkEnableSigning.AutoSize = true;
             this.chkEnableSigning.Enabled = false;
-            this.chkEnableSigning.Location = new System.Drawing.Point(228, 442);
+            this.chkEnableSigning.Location = new System.Drawing.Point(231, 464);
             this.chkEnableSigning.Name = "chkEnableSigning";
             this.chkEnableSigning.Size = new System.Drawing.Size(77, 21);
             this.chkEnableSigning.TabIndex = 35;
@@ -421,7 +423,7 @@
             // 
             this.chkEnableTracking.AutoSize = true;
             this.chkEnableTracking.Enabled = false;
-            this.chkEnableTracking.Location = new System.Drawing.Point(311, 442);
+            this.chkEnableTracking.Location = new System.Drawing.Point(314, 464);
             this.chkEnableTracking.Name = "chkEnableTracking";
             this.chkEnableTracking.Size = new System.Drawing.Size(85, 21);
             this.chkEnableTracking.TabIndex = 40;
@@ -440,10 +442,10 @@
             // txtShortName
             // 
             this.txtShortName.Enabled = false;
-            this.txtShortName.Location = new System.Drawing.Point(126, 92);
+            this.txtShortName.Location = new System.Drawing.Point(129, 92);
             this.txtShortName.MaxLength = 4;
             this.txtShortName.Name = "txtShortName";
-            this.txtShortName.Size = new System.Drawing.Size(103, 22);
+            this.txtShortName.Size = new System.Drawing.Size(100, 22);
             this.txtShortName.TabIndex = 43;
             // 
             // label20
@@ -454,13 +456,31 @@
             this.label20.Size = new System.Drawing.Size(185, 17);
             this.label20.TabIndex = 45;
             this.label20.Text = "( BTC, LTC, DOGE, MZC... )";
-            this.label20.Click += new System.EventHandler(this.label20_Click);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(19, 434);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(105, 17);
+            this.label21.TabIndex = 47;
+            this.label21.Text = "Helper Url (%s)";
+            // 
+            // txtHelperUrl
+            // 
+            this.txtHelperUrl.Enabled = false;
+            this.txtHelperUrl.Location = new System.Drawing.Point(129, 431);
+            this.txtHelperUrl.Name = "txtHelperUrl";
+            this.txtHelperUrl.Size = new System.Drawing.Size(378, 22);
+            this.txtHelperUrl.TabIndex = 46;
             // 
             // Wallets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(523, 474);
+            this.ClientSize = new System.Drawing.Size(523, 497);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.txtHelperUrl);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.txtShortName);
@@ -562,5 +582,7 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtShortName;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox txtHelperUrl;
     }
 }
