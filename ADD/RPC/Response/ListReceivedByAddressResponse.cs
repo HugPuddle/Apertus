@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ADD.RPCClient
+namespace BitcoinNET.RPCClient
 {
-	//Courtesy mb300sd Bitcoin.NET Implementation
+    //Courtesy mb300sd Bitcoin.NET
 	public class ListReceivedByAddressResponse
 	{
 		public string address;

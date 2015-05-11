@@ -78,7 +78,6 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Chain.cs" />
     <Compile Include="Encryption\ArrayHelpers.cs" />
     <Compile Include="Encryption\Base58.cs" />
     <Compile Include="Encryption\BigIntExtensions.cs" />
@@ -98,6 +97,7 @@
     <Compile Include="RPC\BlockchainRPC.cs" />
     <Compile Include="RPC\BlockchainRPC.Methods.cs" />
     <Compile Include="RPC\BlockchainRPCException.cs" />
+    <Compile Include="RPC\Response\ListTransactionsResponse.cs" />
     <Compile Include="RPC\Response\ValidateAddressResponse.cs" />
     <Compile Include="Trust.cs">
       <SubType>Form</SubType>
@@ -119,12 +119,6 @@
     <Compile Include="RPC\RPCError.cs" />
     <Compile Include="RPC\RPCRequest.cs" />
     <Compile Include="RPC\RPCResponse.cs" />
-    <Compile Include="RPC.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RPC.Designer.cs">
-      <DependentUpon>RPC.cs</DependentUpon>
-    </Compile>
     <Compile Include="Wallets.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,9 +132,6 @@
     <EmbeddedResource Include="Trust.resx">
       <DependentUpon>Trust.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RPC.resx">
-      <DependentUpon>RPC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wallets.resx">
       <DependentUpon>Wallets.cs</DependentUpon>
@@ -165,7 +156,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\info.rtf" />
     <None Include="Resources\output.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +184,25 @@
     <None Include="Resources\About.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Info.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Info.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\TrashDisabled.png" />
+    <None Include="Resources\Trash.png" />
+    <None Include="Resources\star.png" />
+    <None Include="Resources\OpenUp.bmp" />
+    <None Include="Resources\OpenDown.png" />
+    <None Include="Resources\OpenLeft.png" />
+    <None Include="Resources\OpenRight.png" />
+    <None Include="Resources\OpenUp.png" />
+    <None Include="Resources\OpenLeftDisabled.png" />
+    <None Include="Resources\OpenRightDisabled.png" />
+    <None Include="Resources\Private.png" />
+    <None Include="Resources\Public.png" />
+    <None Include="Resources\home.png" />
     <Content Include="Resources\Splash.png" />
     <None Include="Resources\Profile.png" />
     <Content Include="Resources\file-icon.png" />
