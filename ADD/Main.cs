@@ -1128,9 +1128,9 @@ namespace ADD
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCK DATE</td><td nowrap>" + printDate + "</td></tr>"), 0, 44 + printDate.Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>VERSION</td><td>" + transaction.version + "</td></tr>"), 0, 34 + transaction.version.ToString().Length);
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCKCHAIN</td><td>" + WalletKey + "</td></tr>"), 0, 37 + WalletKey.Length);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td nowrap>ADDRESS FILE</td><td><a href=\"ADD\">Address.dat</a></td></tr>"), 0, 67);
+                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ADDRESS FILE</td><td><a href=\"ADD\">Address.dat</a></td></tr>"), 0, 67);
                         if (Properties.Settings.Default.ReportAbuseUrl != "")
-                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td colspan=2 align=right><a href=\"" + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid) + "\">report abuse</a></td></tr>"), 0, 67 + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid).Length); }
+                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td nowrap colspan=2 align=right><a href=\"" + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid) + "\">report abuse</a></td></tr>"), 0, 74 + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid).Length); }
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table></div></div>"), 0, 20);
                     }
 
