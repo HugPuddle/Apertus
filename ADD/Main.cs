@@ -303,6 +303,19 @@ namespace ADD
                     processId = FilePath.ToUpper().Remove(0, FilePath.Length - 40).Replace(".ADD", "");
                 }
 
+                if (chkKeywords.Checked)
+                { var keywords = GetKeyWords(txtMessage.Text);
+                if (keywords != null)
+                {
+                    foreach (string keyword in keywords)
+                    {
+                        //allow Keyword functionality by putting keyword addresses on the end of the archive
+                        System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                        arcSign.WriteLine(keyword);
+                        arcSign.Close();
+                    }
+                }
+                }
 
                 //Signing address should always be the last address in the array to allow for total file lookups.
                 if (coinEnableSigning[cmbCoinType.Text] && coinSigningAddress[cmbCoinType.Text] != null)
@@ -2057,6 +2070,33 @@ namespace ADD
 
 
             }
+        }
+
+        private string[] GetKeyWords(string message)
+        {
+            string strKeyWordAddress = null;
+            string[] tokens = message.Split(' ');
+            foreach (string token in tokens)
+            {
+                if (token.StartsWith("#") && token.Length < coinPayloadByteSize[cmbCoinType.Text] + 2)
+                {
+
+                    byte[] keyword = Encoding.UTF8.GetBytes(token.Substring(1).PadRight(coinPayloadByteSize[cmbCoinType.Text], '#'));
+                    var keyPayloadBytes = new byte[coinPayloadByteSize[cmbCoinType.Text] + 1];
+                    keyPayloadBytes[0] = coinVersion[cmbCoinType.Text];
+                    keyword.CopyTo(keyPayloadBytes, 1);
+                    if (strKeyWordAddress == null)
+                    {
+                        strKeyWordAddress = Base58.EncodeWithCheckSum(keyPayloadBytes);
+                    }
+                    else { strKeyWordAddress = strKeyWordAddress + "," + Base58.EncodeWithCheckSum(keyPayloadBytes); }
+                   
+                }
+            }
+            if (strKeyWordAddress != null)
+            { return strKeyWordAddress.Split(',');}
+            else { return null; }
+            
         }
      }
 }
