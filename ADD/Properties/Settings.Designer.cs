@@ -49,5 +49,101 @@ namespace ADD.Properties {
                 return ((string)(this["ReportAbuseUrl"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("508")]
+        public int AppHeight {
+            get {
+                return ((int)(this["AppHeight"]));
+            }
+            set {
+                this["AppHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("422")]
+        public int AppWidth {
+            get {
+                return ((int)(this["AppWidth"]));
+            }
+            set {
+                this["AppWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("149")]
+        public int BrowserPanel {
+            get {
+                return ((int)(this["BrowserPanel"]));
+            }
+            set {
+                this["BrowserPanel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("316")]
+        public int ArchivePanel {
+            get {
+                return ((int)(this["ArchivePanel"]));
+            }
+            set {
+                this["ArchivePanel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HideArchive {
+            get {
+                return ((bool)(this["HideArchive"]));
+            }
+            set {
+                this["HideArchive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HideHistory {
+            get {
+                return ((bool)(this["HideHistory"]));
+            }
+            set {
+                this["HideHistory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("235")]
+        public int MainPanel {
+            get {
+                return ((int)(this["MainPanel"]));
+            }
+            set {
+                this["MainPanel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("150,150")]
+        public string AppLocation {
+            get {
+                return ((string)(this["AppLocation"]));
+            }
+            set {
+                this["AppLocation"] = value;
+            }
+        }
     }
 }

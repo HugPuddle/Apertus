@@ -46,15 +46,11 @@ namespace ADD
                 txtRPCIP.Text = Main.coinIP[cmbWallets.Text];
                 txtRPCUser.Text = Main.coinUser[cmbWallets.Text];
                 txtRPCPassword.Text = Main.coinPassword[cmbWallets.Text];
-                txtSigningAddress.Text = Main.coinSigningAddress[cmbWallets.Text];
-                txtTrackingAddress.Text = Main.coinTrackingAddress[cmbWallets.Text];
                 txtHelperUrl.Text = Main.coinHelperUrl[cmbWallets.Text];
                 if (Main.coinGetRawSupport[cmbWallets.Text]) { chkGetRawSupport.Checked = true; } else { chkGetRawSupport.Checked = false; }
                 if (Main.coinFeePerAddress[cmbWallets.Text]) { chkFeePerAddress.Checked = true; } else { chkFeePerAddress.Checked = false; }
                 if (Main.coinEnabled[cmbWallets.Text]) { chkEnabled.Checked = true; } else { chkEnabled.Checked = false; }
-                if (Main.coinEnableSigning[cmbWallets.Text]) { chkEnableSigning.Checked = true; } else { chkEnableSigning.Checked = false; }
-                if (Main.coinEnableTracking[cmbWallets.Text]) { chkEnableTracking.Checked = true; } else { chkEnableTracking.Checked = false; }
-
+      
 
                 txtName.Enabled = true;
                 txtShortName.Enabled = true;
@@ -67,14 +63,10 @@ namespace ADD
                 txtRPCIP.Enabled = true;
                 txtRPCUser.Enabled = true;
                 txtRPCPassword.Enabled = true;
-                txtSigningAddress.Enabled = true;
                 txtHelperUrl.Enabled = true;
-                txtTrackingAddress.Enabled = true;
                 chkFeePerAddress.Enabled = true;
                 chkGetRawSupport.Enabled = true;
                 chkEnabled.Enabled = true;
-                chkEnableSigning.Enabled = true;
-                chkEnableTracking.Enabled = true;
 
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
@@ -94,14 +86,12 @@ namespace ADD
                 txtRPCIP.Enabled = false;
                 txtRPCUser.Enabled = false;
                 txtRPCPassword.Enabled = false;
-                txtSigningAddress.Enabled = false;
-                txtTrackingAddress.Enabled = false;
+
                 txtHelperUrl.Enabled = false;
                 chkFeePerAddress.Enabled = false;
                 chkGetRawSupport.Enabled = false;
                 chkEnabled.Enabled = false;
-                chkEnableSigning.Enabled = false;
-                chkEnableTracking.Enabled = false;
+
 
                 txtName.Text = "";
                 txtShortName.Text = "";
@@ -114,14 +104,12 @@ namespace ADD
                 txtRPCIP.Text = "";
                 txtRPCUser.Text = "";
                 txtRPCPassword.Text = "";
-                txtSigningAddress.Text = "";
-                txtTrackingAddress.Text = "";
+
                 txtHelperUrl.Text = "";
                 chkGetRawSupport.Checked = false;
                 chkFeePerAddress.Checked = false;
                 chkEnabled.Checked = false;
-                chkEnableSigning.Checked = false;
-                chkEnableTracking.Checked = false;
+
 
                 btnAdd.Enabled = false;
                 btnDelete.Enabled = false;
@@ -143,13 +131,10 @@ namespace ADD
                 Main.coinIP.Add(txtName.Text, txtRPCIP.Text);
                 Main.coinUser.Add(txtName.Text, txtRPCUser.Text);
                 Main.coinPassword.Add(txtName.Text, txtRPCPassword.Text);
-                Main.coinSigningAddress.Add(txtName.Text, txtSigningAddress.Text);
-                Main.coinTrackingAddress.Add(txtName.Text, txtTrackingAddress.Text);
+
                 Main.coinHelperUrl.Add(txtName.Text, txtHelperUrl.Text);
                 if (chkGetRawSupport.Checked) { Main.coinGetRawSupport.Add(txtName.Text, true); } else { Main.coinGetRawSupport.Add(txtName.Text, false); }
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress.Add(txtName.Text, true); } else { Main.coinFeePerAddress.Add(txtName.Text, false); }
-                if (chkEnableSigning.Checked) { Main.coinEnableSigning.Add(txtName.Text, true); } else { Main.coinEnableSigning.Add(txtName.Text, false); }
-                if (chkEnableTracking.Checked) { Main.coinEnableTracking.Add(txtName.Text, true); } else { Main.coinEnableTracking.Add(txtName.Text, false); }
                 if (chkEnabled.Checked) { Main.coinEnabled.Add(txtName.Text, true); } else { Main.coinEnabled.Add(txtName.Text, false); }
                 cmbWallets.Items.Add(txtName.Text);
 
@@ -211,13 +196,10 @@ namespace ADD
                 Main.coinIP[cmbWallets.Text] = txtRPCIP.Text;
                 Main.coinUser[cmbWallets.Text] = txtRPCUser.Text;
                 Main.coinPassword[cmbWallets.Text] = txtRPCPassword.Text;
-                Main.coinSigningAddress[cmbWallets.Text] = txtSigningAddress.Text;
-                Main.coinTrackingAddress[cmbWallets.Text] = txtTrackingAddress.Text;
+
                 Main.coinHelperUrl[cmbWallets.Text] = txtHelperUrl.Text;
                 if (chkGetRawSupport.Checked) { Main.coinGetRawSupport[cmbWallets.Text] = true; } else { Main.coinGetRawSupport[cmbWallets.Text] = false; }
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress[cmbWallets.Text] = true; } else { Main.coinFeePerAddress[cmbWallets.Text] = false; }
-                if (chkEnableSigning.Checked) { Main.coinEnableSigning[cmbWallets.Text] = true; } else { Main.coinEnableSigning[cmbWallets.Text] = false; }
-                if (chkEnableTracking.Checked) { Main.coinEnableTracking[cmbWallets.Text] = true; } else { Main.coinEnableTracking[cmbWallets.Text] = false; }
                 if (chkEnabled.Checked) { Main.coinEnabled[cmbWallets.Text] = true; } else { Main.coinEnabled[cmbWallets.Text] = false; }
 
                 System.IO.File.Delete("coin.conf");

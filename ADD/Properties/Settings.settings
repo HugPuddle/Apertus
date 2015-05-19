@@ -11,5 +11,29 @@
     <Setting Name="ReportAbuseUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="AppHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">508</Value>
+    </Setting>
+    <Setting Name="AppWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">422</Value>
+    </Setting>
+    <Setting Name="BrowserPanel" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">149</Value>
+    </Setting>
+    <Setting Name="ArchivePanel" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">316</Value>
+    </Setting>
+    <Setting Name="HideArchive" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="HideHistory" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MainPanel" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">235</Value>
+    </Setting>
+    <Setting Name="AppLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">150,150</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -62,12 +62,6 @@
             this.chkFeePerAddress = new System.Windows.Forms.CheckBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.chkEnabled = new System.Windows.Forms.CheckBox();
-            this.chkEnableSigning = new System.Windows.Forms.CheckBox();
-            this.txtSigningAddress = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.txtTrackingAddress = new System.Windows.Forms.TextBox();
-            this.chkEnableTracking = new System.Windows.Forms.CheckBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtShortName = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -171,7 +165,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 123);
+            this.label1.Location = new System.Drawing.Point(36, 126);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 17);
             this.label1.TabIndex = 11;
@@ -180,7 +174,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 151);
+            this.label2.Location = new System.Drawing.Point(34, 154);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 17);
             this.label2.TabIndex = 12;
@@ -189,16 +183,16 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(62, 210);
+            this.label3.Location = new System.Drawing.Point(23, 209);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 17);
+            this.label3.Size = new System.Drawing.Size(101, 17);
             this.label3.TabIndex = 13;
-            this.label3.Text = "Min  Fee";
+            this.label3.Text = "Min  Miner Fee";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 235);
+            this.label4.Location = new System.Drawing.Point(15, 238);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(109, 17);
             this.label4.TabIndex = 14;
@@ -207,7 +201,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 179);
+            this.label5.Location = new System.Drawing.Point(10, 182);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(114, 17);
             this.label5.TabIndex = 15;
@@ -216,7 +210,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(58, 263);
+            this.label6.Location = new System.Drawing.Point(58, 266);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 17);
             this.label6.TabIndex = 16;
@@ -225,7 +219,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(72, 291);
+            this.label7.Location = new System.Drawing.Point(72, 294);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(52, 17);
             this.label7.TabIndex = 17;
@@ -234,7 +228,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(54, 319);
+            this.label8.Location = new System.Drawing.Point(54, 322);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(70, 17);
             this.label8.TabIndex = 18;
@@ -243,7 +237,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(23, 347);
+            this.label9.Location = new System.Drawing.Point(23, 350);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(101, 17);
             this.label9.TabIndex = 19;
@@ -335,11 +329,11 @@
             // 
             this.chkGetRawSupport.AutoSize = true;
             this.chkGetRawSupport.Enabled = false;
-            this.chkGetRawSupport.Location = new System.Drawing.Point(129, 464);
+            this.chkGetRawSupport.Location = new System.Drawing.Point(129, 413);
             this.chkGetRawSupport.Name = "chkGetRawSupport";
-            this.chkGetRawSupport.Size = new System.Drawing.Size(96, 21);
+            this.chkGetRawSupport.Size = new System.Drawing.Size(77, 21);
             this.chkGetRawSupport.TabIndex = 32;
-            this.chkGetRawSupport.Text = "Monitoring";
+            this.chkGetRawSupport.Text = "Monitor";
             this.chkGetRawSupport.UseVisualStyleBackColor = true;
             // 
             // chkFeePerAddress
@@ -367,68 +361,12 @@
             // chkEnabled
             // 
             this.chkEnabled.AutoSize = true;
-            this.chkEnabled.Location = new System.Drawing.Point(12, 464);
+            this.chkEnabled.Location = new System.Drawing.Point(12, 413);
             this.chkEnabled.Name = "chkEnabled";
             this.chkEnabled.Size = new System.Drawing.Size(82, 21);
             this.chkEnabled.TabIndex = 34;
             this.chkEnabled.Text = "Enabled";
             this.chkEnabled.UseVisualStyleBackColor = true;
-            // 
-            // chkEnableSigning
-            // 
-            this.chkEnableSigning.AutoSize = true;
-            this.chkEnableSigning.Enabled = false;
-            this.chkEnableSigning.Location = new System.Drawing.Point(231, 464);
-            this.chkEnableSigning.Name = "chkEnableSigning";
-            this.chkEnableSigning.Size = new System.Drawing.Size(77, 21);
-            this.chkEnableSigning.TabIndex = 35;
-            this.chkEnableSigning.Text = "Signing";
-            this.chkEnableSigning.UseVisualStyleBackColor = true;
-            // 
-            // txtSigningAddress
-            // 
-            this.txtSigningAddress.Enabled = false;
-            this.txtSigningAddress.Location = new System.Drawing.Point(129, 375);
-            this.txtSigningAddress.Name = "txtSigningAddress";
-            this.txtSigningAddress.Size = new System.Drawing.Size(378, 22);
-            this.txtSigningAddress.TabIndex = 36;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(13, 377);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(111, 17);
-            this.label14.TabIndex = 37;
-            this.label14.Text = "Signing Address";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(9, 406);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(119, 17);
-            this.label18.TabIndex = 39;
-            this.label18.Text = "Tracking Address";
-            // 
-            // txtTrackingAddress
-            // 
-            this.txtTrackingAddress.Enabled = false;
-            this.txtTrackingAddress.Location = new System.Drawing.Point(129, 403);
-            this.txtTrackingAddress.Name = "txtTrackingAddress";
-            this.txtTrackingAddress.Size = new System.Drawing.Size(378, 22);
-            this.txtTrackingAddress.TabIndex = 38;
-            // 
-            // chkEnableTracking
-            // 
-            this.chkEnableTracking.AutoSize = true;
-            this.chkEnableTracking.Enabled = false;
-            this.chkEnableTracking.Location = new System.Drawing.Point(314, 464);
-            this.chkEnableTracking.Name = "chkEnableTracking";
-            this.chkEnableTracking.Size = new System.Drawing.Size(85, 21);
-            this.chkEnableTracking.TabIndex = 40;
-            this.chkEnableTracking.Text = "Tracking";
-            this.chkEnableTracking.UseVisualStyleBackColor = true;
             // 
             // label19
             // 
@@ -460,7 +398,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(19, 434);
+            this.label21.Location = new System.Drawing.Point(19, 379);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(105, 17);
             this.label21.TabIndex = 47;
@@ -469,7 +407,7 @@
             // txtHelperUrl
             // 
             this.txtHelperUrl.Enabled = false;
-            this.txtHelperUrl.Location = new System.Drawing.Point(129, 431);
+            this.txtHelperUrl.Location = new System.Drawing.Point(129, 376);
             this.txtHelperUrl.Name = "txtHelperUrl";
             this.txtHelperUrl.Size = new System.Drawing.Size(378, 22);
             this.txtHelperUrl.TabIndex = 46;
@@ -478,18 +416,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(523, 497);
+            this.ClientSize = new System.Drawing.Size(523, 442);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.txtHelperUrl);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.txtShortName);
-            this.Controls.Add(this.chkEnableTracking);
-            this.Controls.Add(this.label18);
-            this.Controls.Add(this.txtTrackingAddress);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.txtSigningAddress);
-            this.Controls.Add(this.chkEnableSigning);
             this.Controls.Add(this.chkEnabled);
             this.Controls.Add(this.chkFeePerAddress);
             this.Controls.Add(this.chkGetRawSupport);
@@ -525,8 +457,9 @@
             this.Controls.Add(this.cmbWallets);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(541, 487);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(541, 435);
+            this.MinimumSize = new System.Drawing.Size(541, 487);
             this.Name = "Wallets";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -573,12 +506,6 @@
         private System.Windows.Forms.CheckBox chkFeePerAddress;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.CheckBox chkEnabled;
-        private System.Windows.Forms.CheckBox chkEnableSigning;
-        private System.Windows.Forms.TextBox txtSigningAddress;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox txtTrackingAddress;
-        private System.Windows.Forms.CheckBox chkEnableTracking;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtShortName;
         private System.Windows.Forms.Label label20;

@@ -8,14 +8,14 @@ namespace BitcoinNET.RPCClient
 	public partial class CoinRPC
 	{
 	
-  	    //Keep For Future Use
-        //public string GetNewAddress(string Account = "")
-        //{
-        //    return RpcCall<string>
-        //        (new RPCRequest("getnewaddress", new Object[] { Account }));
-        //}
+  	    
+        public string GetNewAddress(string Account = "")
+        {
+            return RpcCall<string>
+                (new RPCRequest("getnewaddress", new Object[] { Account }));
+        }
 
-	
+
 		public IEnumerable<string> GetRawMemPool()
 		{
 			return RpcCall<IEnumerable<string>>
@@ -124,6 +124,11 @@ namespace BitcoinNET.RPCClient
                 (new RPCRequest("listtransactions", new Object[] { Account, Count, From }));
         }
 
+        public IEnumerable<string> GetAddressesByAccount(string Account)
+        {
+            return RpcCall<IEnumerable<string>>
+                (new RPCRequest("getaddressesbyaccount", new Object[] { Account }));
+        }
 		
 	}
 }

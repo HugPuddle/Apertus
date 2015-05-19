@@ -11,27 +11,13 @@ namespace ADD
             InitializeComponent();
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void Trust_Load(object sender, EventArgs e)
         {
             RefreshTrustList();
             RefreshBlockList();
+            RefreshFollowList();
             RefreshSettings();
-
+            
         }
 
         private void btnAddTrust_Click(object sender, EventArgs e)
@@ -94,6 +80,22 @@ namespace ADD
                     txtBlockList.Text = txtBlockList.Text + blockLine + Environment.NewLine;
                 }
                 readBlock.Close();
+            }
+        }
+
+        private void RefreshFollowList()
+        {
+            var FollowLine = "";
+            txtFollowList.Text = "";
+
+            if (System.IO.File.Exists("Follow.txt"))
+            {
+                System.IO.StreamReader readFollow = new System.IO.StreamReader("Follow.txt");
+                while ((FollowLine = readFollow.ReadLine()) != null)
+                {
+                    txtFollowList.Text = txtFollowList.Text + FollowLine + Environment.NewLine;
+                }
+                readFollow.Close();
             }
         }
 
@@ -169,6 +171,35 @@ namespace ADD
         private void chkBlockUnsignedContent_Click(object sender, EventArgs e)
         {
             SaveSettings();
+        }
+
+
+        private void btnAddFollow_Click(object sender, EventArgs e)
+        {
+            StreamWriter writeFollowList = new StreamWriter("Follow.txt", true);
+            writeFollowList.WriteLine(txtFollow.Text);
+            writeFollowList.Close();
+            RefreshFollowList();
+        }
+
+        private void btnRemoveFollow_Click(object sender, EventArgs e)
+        {
+            txtFollowList.Text = "";
+            System.IO.StreamReader readFollow = new System.IO.StreamReader("Follow.txt");
+            while (!readFollow.EndOfStream)
+            {
+                String FollowLine = readFollow.ReadLine();
+
+                if (FollowLine != txtFollow.Text)
+                {
+                    txtFollowList.Text = txtFollowList.Text + FollowLine + Environment.NewLine;
+                }
+            }
+            readFollow.Close();
+
+            StreamWriter writeFollowList = new StreamWriter("Follow.txt");
+            writeFollowList.Write(txtFollowList.Text);
+            writeFollowList.Close();
         }
 
 
