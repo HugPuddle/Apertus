@@ -1,33 +1,14 @@
 <html>
 
 <head>
+    <meta charset="UTF-8" />
     <TITLE>Info</TITLE>
 </head>
  
-   <!-- purplemonkeydishwasher -->
-
-
-
  <body>
   <h2>Apertus Instructions</h2>
     <P>Apertus can support most coins with the proper settings; we have pre-loaded the settings for Bitcoin, Litecoin, Dogecoin, Mazacoin, and Anoncoin.</P>
    <br>
-
-	<!-- Index
-
-	I. Synchronize your Wallet(s)
-	II. Conf File
-	III. Wallet Configuration 
-	IV. Monitor and Search the Blockchain(s)
-	V. Archiving
-	VI. How to Increase Transaction Fee, aka Parking Fee
-	VII. Signing your Archives
-	VIII. Trust Center
-	IX. Adding a Coin
-	X. How to upgrade Apertus
-	XI. Notes on Safety
-
-	 -->
  
   <p><h3>Index</h3></p>
       
@@ -42,6 +23,7 @@
    <A HREF="#IX">IX. Adding a Coin</A><BR>
    <A HREF="#X">X. How to upgrade Apertus</A><BR>
    <A HREF="#XI">XI. Notes on Safety</A><BR>
+   <a href="#XII">XII. Known Issues</a>
   <BR>
   </P>
 
@@ -218,11 +200,24 @@
 
   <h3><A NAME="XI">XI. Notes on Safety</a></h3>
     <p>~ Apertus uses small amounts of coin to immutably embed data onto blockchains; you will need to put some into your wallet for this to work. We recieve none of this, it is etched onto the blockchain as unspendable transaction outputs in patterned data. In the event of a mistake, we recommended you don’t use your primary wallet as a safety precaution, and with a low cost of coins to work with </p>
-
     <p>~ By default, Apertus attempts to Filter out all Unsafe Content. Treat any posting you see with the same caution you would use with unknown emails. When monitoring blockchains, do not download or run executable files from sources you have not verified. We haven’t seen any malicious content yet, it is inevitable, but perhaps humans can change. </p>  
+<br>
+ 
+  <h3><a name="XII">XII. Known Issues</a></h3>
 
-<br><Br>
-<A HREF="http://www.hugpuddle.org">HugPuddle</A> 
+     <p><b>Java error when browsing web sites</b><br>
+     These errors are due to the Browser plugin defaulting to IE 7. This requires a registry setting to resolve.  Following the instruction below to add the appropriate setting<br>
+     1. Run RegEdit<br>
+     2. Browse to:  HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION<br>
+     3. Right Click select New DWORD<br>
+     4. Enter ADD.exe into Label<br>
+     5. Double Click New Entry, Select Decimal<br>
+     6. Enter 1100, Click OK<br></p>
+
+    
+
+     <p>&copy; 2015 - <a href="http://hugpuddle.org">HugPuddle</a></p>
+
 
  </body>
 

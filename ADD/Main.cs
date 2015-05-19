@@ -1542,10 +1542,13 @@ namespace ADD
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            lblStatusInfo.Width = Main.ActiveForm.Width - 100;
-            Properties.Settings.Default.AppHeight = this.Height;
-            Properties.Settings.Default.AppWidth = this.Width;
-            Properties.Settings.Default.Save();
+            if (!Loading)
+            {
+                lblStatusInfo.Width = Main.ActiveForm.Width - 50;
+                Properties.Settings.Default.AppHeight = this.Height;
+                Properties.Settings.Default.AppWidth = this.Width;
+                Properties.Settings.Default.Save();
+            }
             
         }
 

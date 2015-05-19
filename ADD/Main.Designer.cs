@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Favorites");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Monitor");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Follow");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Root", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3});
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Favorites");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Monitor");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Follow");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Root", new System.Windows.Forms.TreeNode[] {
+            treeNode9,
+            treeNode10,
+            treeNode11});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.attachFiles = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -111,10 +111,10 @@
             this.chkKeywords = new System.Windows.Forms.CheckBox();
             this.chkWarnArchive = new System.Windows.Forms.CheckBox();
             this.chkSaveOnEnter = new System.Windows.Forms.CheckBox();
+            this.chkTrackVault = new System.Windows.Forms.CheckBox();
             this.statusArchiveStatus = new System.Windows.Forms.StatusStrip();
             this.lblStatusInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.chkTrackVault = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
@@ -185,7 +185,7 @@
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
             this.menuMain.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuMain.Size = new System.Drawing.Size(1166, 26);
+            this.menuMain.Size = new System.Drawing.Size(505, 26);
             this.menuMain.TabIndex = 0;
             this.menuMain.Text = "menuStrip1";
             // 
@@ -370,7 +370,7 @@
             // 
             this.splitMain.Panel2.Controls.Add(this.splitArchiveTools);
             this.splitMain.Panel2MinSize = 146;
-            this.splitMain.Size = new System.Drawing.Size(1166, 386);
+            this.splitMain.Size = new System.Drawing.Size(505, 386);
             this.splitMain.SplitterDistance = 75;
             this.splitMain.TabIndex = 23;
             this.splitMain.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
@@ -399,8 +399,8 @@
             this.splitHistoryBrowser.Panel2.Controls.Add(this.imgNextButton);
             this.splitHistoryBrowser.Panel2.Controls.Add(this.imgBackButton);
             this.splitHistoryBrowser.Panel2.Controls.Add(this.panel1);
-            this.splitHistoryBrowser.Size = new System.Drawing.Size(1166, 75);
-            this.splitHistoryBrowser.SplitterDistance = 382;
+            this.splitHistoryBrowser.Size = new System.Drawing.Size(505, 75);
+            this.splitHistoryBrowser.SplitterDistance = 165;
             this.splitHistoryBrowser.TabIndex = 29;
             this.splitHistoryBrowser.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer2_SplitterMoved);
             // 
@@ -408,7 +408,7 @@
             // 
             this.imgOpenLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.imgOpenLeft.Image = global::ADD.Properties.Resources.OpenLeft;
-            this.imgOpenLeft.Location = new System.Drawing.Point(367, 31);
+            this.imgOpenLeft.Location = new System.Drawing.Point(150, 31);
             this.imgOpenLeft.Name = "imgOpenLeft";
             this.imgOpenLeft.Size = new System.Drawing.Size(10, 18);
             this.imgOpenLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -421,17 +421,17 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "favorites";
-            treeNode1.Text = "Favorites";
-            treeNode2.Name = "monitor";
-            treeNode2.Text = "Monitor";
-            treeNode3.Name = "follow";
-            treeNode3.Text = "Follow";
-            treeNode4.Name = "root";
-            treeNode4.Text = "Root";
+            treeNode9.Name = "favorites";
+            treeNode9.Text = "Favorites";
+            treeNode10.Name = "monitor";
+            treeNode10.Text = "Monitor";
+            treeNode11.Name = "follow";
+            treeNode11.Text = "Follow";
+            treeNode12.Name = "root";
+            treeNode12.Text = "Root";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4});
-            this.treeView1.Size = new System.Drawing.Size(380, 73);
+            treeNode12});
+            this.treeView1.Size = new System.Drawing.Size(163, 73);
             this.treeView1.TabIndex = 5;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
@@ -441,7 +441,7 @@
             this.imgTrash.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imgTrash.Enabled = false;
             this.imgTrash.Image = global::ADD.Properties.Resources.TrashDisabled;
-            this.imgTrash.Location = new System.Drawing.Point(751, 3);
+            this.imgTrash.Location = new System.Drawing.Point(307, 3);
             this.imgTrash.Name = "imgTrash";
             this.imgTrash.Size = new System.Drawing.Size(23, 23);
             this.imgTrash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -453,7 +453,7 @@
             // 
             this.pictureBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox4.Image = global::ADD.Properties.Resources.star;
-            this.pictureBox4.Location = new System.Drawing.Point(722, 2);
+            this.pictureBox4.Location = new System.Drawing.Point(278, 2);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(23, 23);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -471,7 +471,7 @@
             this.txtTransIDSearch.Location = new System.Drawing.Point(65, 3);
             this.txtTransIDSearch.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.txtTransIDSearch.Name = "txtTransIDSearch";
-            this.txtTransIDSearch.Size = new System.Drawing.Size(622, 23);
+            this.txtTransIDSearch.Size = new System.Drawing.Size(178, 23);
             this.txtTransIDSearch.TabIndex = 1;
             this.txtTransIDSearch.TabStop = false;
             this.txtTransIDSearch.Text = "ENTER SEARCH STRING";
@@ -482,7 +482,7 @@
             // 
             this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox3.Image = global::ADD.Properties.Resources.home;
-            this.pictureBox3.Location = new System.Drawing.Point(693, 3);
+            this.pictureBox3.Location = new System.Drawing.Point(249, 3);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(23, 23);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -524,7 +524,7 @@
             this.panel1.Controls.Add(this.webBrowser1);
             this.panel1.Location = new System.Drawing.Point(4, 35);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(775, 37);
+            this.panel1.Size = new System.Drawing.Size(331, 37);
             this.panel1.TabIndex = 5;
             // 
             // imgOpenUp
@@ -559,11 +559,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInfoBox.BackColor = System.Drawing.Color.White;
             this.txtInfoBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtInfoBox.Location = new System.Drawing.Point(0, 16);
+            this.txtInfoBox.Location = new System.Drawing.Point(-4, 13);
             this.txtInfoBox.Multiline = true;
             this.txtInfoBox.Name = "txtInfoBox";
             this.txtInfoBox.ReadOnly = true;
-            this.txtInfoBox.Size = new System.Drawing.Size(790, 31);
+            this.txtInfoBox.Size = new System.Drawing.Size(335, 31);
             this.txtInfoBox.TabIndex = 0;
             this.txtInfoBox.TabStop = false;
             this.txtInfoBox.Text = "Click Help Then Info for Assistance.";
@@ -573,7 +573,7 @@
             // 
             this.imgApertusSplash.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.imgApertusSplash.Image = global::ADD.Properties.Resources.About;
-            this.imgApertusSplash.Location = new System.Drawing.Point(315, -2);
+            this.imgApertusSplash.Location = new System.Drawing.Point(93, -2);
             this.imgApertusSplash.Name = "imgApertusSplash";
             this.imgApertusSplash.Size = new System.Drawing.Size(143, 13);
             this.imgApertusSplash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -588,7 +588,7 @@
             this.webBrowser1.Margin = new System.Windows.Forms.Padding(0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(775, 37);
+            this.webBrowser1.Size = new System.Drawing.Size(331, 37);
             this.webBrowser1.TabIndex = 1;
             this.webBrowser1.TabStop = false;
             this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser1_Navigated);
@@ -624,8 +624,8 @@
             this.splitArchiveTools.Panel2.Controls.Add(this.cmbProfile);
             this.splitArchiveTools.Panel2.Controls.Add(this.flowLayoutPanel1);
             this.splitArchiveTools.Panel2MinSize = 169;
-            this.splitArchiveTools.Size = new System.Drawing.Size(1166, 307);
-            this.splitArchiveTools.SplitterDistance = 652;
+            this.splitArchiveTools.Size = new System.Drawing.Size(505, 307);
+            this.splitArchiveTools.SplitterDistance = 282;
             this.splitArchiveTools.TabIndex = 33;
             this.splitArchiveTools.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer5_SplitterMoved);
             // 
@@ -636,7 +636,7 @@
             this.btnArchive.FlatAppearance.BorderSize = 0;
             this.btnArchive.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnArchive.Image = global::ADD.Properties.Resources.Save;
-            this.btnArchive.Location = new System.Drawing.Point(578, 275);
+            this.btnArchive.Location = new System.Drawing.Point(208, 275);
             this.btnArchive.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnArchive.Name = "btnArchive";
             this.btnArchive.Size = new System.Drawing.Size(67, 27);
@@ -652,7 +652,7 @@
             this.btnAttachFile.FlatAppearance.BorderSize = 0;
             this.btnAttachFile.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAttachFile.Image = global::ADD.Properties.Resources.Button2;
-            this.btnAttachFile.Location = new System.Drawing.Point(512, 275);
+            this.btnAttachFile.Location = new System.Drawing.Point(142, 275);
             this.btnAttachFile.Margin = new System.Windows.Forms.Padding(0);
             this.btnAttachFile.Name = "btnAttachFile";
             this.btnAttachFile.Size = new System.Drawing.Size(61, 27);
@@ -688,7 +688,7 @@
             this.cmbWalletLabel.Location = new System.Drawing.Point(155, 5);
             this.cmbWalletLabel.MaxDropDownItems = 100;
             this.cmbWalletLabel.Name = "cmbWalletLabel";
-            this.cmbWalletLabel.Size = new System.Drawing.Size(490, 25);
+            this.cmbWalletLabel.Size = new System.Drawing.Size(120, 25);
             this.cmbWalletLabel.TabIndex = 21;
             this.cmbWalletLabel.SelectedIndexChanged += new System.EventHandler(this.cmbWalletLabel_SelectedIndexChanged);
             // 
@@ -701,7 +701,7 @@
             this.imgEnterMessageHere.Image = ((System.Drawing.Image)(resources.GetObject("imgEnterMessageHere.Image")));
             this.imgEnterMessageHere.Location = new System.Drawing.Point(18, 52);
             this.imgEnterMessageHere.Name = "imgEnterMessageHere";
-            this.imgEnterMessageHere.Size = new System.Drawing.Size(617, 206);
+            this.imgEnterMessageHere.Size = new System.Drawing.Size(247, 206);
             this.imgEnterMessageHere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgEnterMessageHere.TabIndex = 29;
             this.imgEnterMessageHere.TabStop = false;
@@ -718,7 +718,7 @@
             this.txtFileName.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.txtFileName.Multiline = true;
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(503, 27);
+            this.txtFileName.Size = new System.Drawing.Size(133, 27);
             this.txtFileName.TabIndex = 8;
             this.txtFileName.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
             // 
@@ -734,7 +734,7 @@
             this.txtMessage.MaxLength = 1024000000;
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(643, 235);
+            this.txtMessage.Size = new System.Drawing.Size(273, 235);
             this.txtMessage.TabIndex = 5;
             this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
             this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyDown);
@@ -743,7 +743,7 @@
             // 
             this.imgOpenDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imgOpenDown.Image = global::ADD.Properties.Resources.OpenDown;
-            this.imgOpenDown.Location = new System.Drawing.Point(486, 2);
+            this.imgOpenDown.Location = new System.Drawing.Point(195, 2);
             this.imgOpenDown.Name = "imgOpenDown";
             this.imgOpenDown.Size = new System.Drawing.Size(18, 10);
             this.imgOpenDown.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -757,7 +757,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAddVault.Location = new System.Drawing.Point(30, 275);
             this.txtAddVault.Name = "txtAddVault";
-            this.txtAddVault.Size = new System.Drawing.Size(474, 22);
+            this.txtAddVault.Size = new System.Drawing.Size(183, 22);
             this.txtAddVault.TabIndex = 45;
             this.txtAddVault.Visible = false;
             this.txtAddVault.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddVault_KeyDown);
@@ -768,7 +768,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAddSignature.Location = new System.Drawing.Point(30, 246);
             this.txtAddSignature.Name = "txtAddSignature";
-            this.txtAddSignature.Size = new System.Drawing.Size(474, 22);
+            this.txtAddSignature.Size = new System.Drawing.Size(183, 22);
             this.txtAddSignature.TabIndex = 44;
             this.txtAddSignature.Visible = false;
             this.txtAddSignature.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddSignature_KeyDown);
@@ -779,7 +779,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAddProfile.Location = new System.Drawing.Point(30, 214);
             this.txtAddProfile.Name = "txtAddProfile";
-            this.txtAddProfile.Size = new System.Drawing.Size(474, 22);
+            this.txtAddProfile.Size = new System.Drawing.Size(183, 22);
             this.txtAddProfile.TabIndex = 43;
             this.txtAddProfile.Visible = false;
             this.txtAddProfile.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddProfile_KeyDown);
@@ -821,7 +821,7 @@
             this.cmbVault.Location = new System.Drawing.Point(30, 274);
             this.cmbVault.MaxDropDownItems = 100;
             this.cmbVault.Name = "cmbVault";
-            this.cmbVault.Size = new System.Drawing.Size(474, 25);
+            this.cmbVault.Size = new System.Drawing.Size(183, 25);
             this.cmbVault.TabIndex = 40;
             this.cmbVault.SelectedIndexChanged += new System.EventHandler(this.cmbVault_SelectedIndexChanged);
             // 
@@ -850,7 +850,7 @@
             this.cmbSignature.Location = new System.Drawing.Point(30, 243);
             this.cmbSignature.MaxDropDownItems = 100;
             this.cmbSignature.Name = "cmbSignature";
-            this.cmbSignature.Size = new System.Drawing.Size(474, 25);
+            this.cmbSignature.Size = new System.Drawing.Size(183, 25);
             this.cmbSignature.TabIndex = 34;
             this.cmbSignature.SelectedIndexChanged += new System.EventHandler(this.cmbSignature_SelectedIndexChanged);
             // 
@@ -865,7 +865,7 @@
             this.cmbProfile.Location = new System.Drawing.Point(30, 212);
             this.cmbProfile.MaxDropDownItems = 100;
             this.cmbProfile.Name = "cmbProfile";
-            this.cmbProfile.Size = new System.Drawing.Size(474, 25);
+            this.cmbProfile.Size = new System.Drawing.Size(183, 25);
             this.cmbProfile.TabIndex = 32;
             this.cmbProfile.SelectedIndexChanged += new System.EventHandler(this.cmbProfile_SelectedIndexChanged);
             // 
@@ -885,7 +885,7 @@
             this.flowLayoutPanel1.Controls.Add(this.chkTrackVault);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(503, 204);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(212, 204);
             this.flowLayoutPanel1.TabIndex = 33;
             // 
             // groupBox1
@@ -916,7 +916,7 @@
             this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox2.Controls.Add(this.lblCoinTotal);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(167, 3);
+            this.groupBox2.Location = new System.Drawing.Point(3, 50);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(158, 41);
             this.groupBox2.TabIndex = 19;
@@ -939,7 +939,7 @@
             this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox3.Controls.Add(this.lblTotalArchiveSize);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(331, 3);
+            this.groupBox3.Location = new System.Drawing.Point(3, 97);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(158, 41);
             this.groupBox3.TabIndex = 20;
@@ -960,7 +960,7 @@
             // chkMonitorBlockChains
             // 
             this.chkMonitorBlockChains.AutoSize = true;
-            this.chkMonitorBlockChains.Location = new System.Drawing.Point(3, 50);
+            this.chkMonitorBlockChains.Location = new System.Drawing.Point(3, 144);
             this.chkMonitorBlockChains.Name = "chkMonitorBlockChains";
             this.chkMonitorBlockChains.Size = new System.Drawing.Size(125, 21);
             this.chkMonitorBlockChains.TabIndex = 2;
@@ -974,7 +974,7 @@
             this.chkFilterUnSafeContent.AutoSize = true;
             this.chkFilterUnSafeContent.Checked = true;
             this.chkFilterUnSafeContent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(134, 50);
+            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(3, 171);
             this.chkFilterUnSafeContent.Name = "chkFilterUnSafeContent";
             this.chkFilterUnSafeContent.Size = new System.Drawing.Size(109, 21);
             this.chkFilterUnSafeContent.TabIndex = 3;
@@ -988,7 +988,7 @@
             this.chkKeywords.AutoSize = true;
             this.chkKeywords.Checked = true;
             this.chkKeywords.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkKeywords.Location = new System.Drawing.Point(251, 52);
+            this.chkKeywords.Location = new System.Drawing.Point(5, 200);
             this.chkKeywords.Margin = new System.Windows.Forms.Padding(5);
             this.chkKeywords.Name = "chkKeywords";
             this.chkKeywords.Size = new System.Drawing.Size(147, 21);
@@ -1001,7 +1001,7 @@
             this.chkWarnArchive.AutoSize = true;
             this.chkWarnArchive.Checked = true;
             this.chkWarnArchive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWarnArchive.Location = new System.Drawing.Point(3, 81);
+            this.chkWarnArchive.Location = new System.Drawing.Point(3, 229);
             this.chkWarnArchive.Name = "chkWarnArchive";
             this.chkWarnArchive.Size = new System.Drawing.Size(119, 21);
             this.chkWarnArchive.TabIndex = 21;
@@ -1011,12 +1011,22 @@
             // chkSaveOnEnter
             // 
             this.chkSaveOnEnter.AutoSize = true;
-            this.chkSaveOnEnter.Location = new System.Drawing.Point(128, 81);
+            this.chkSaveOnEnter.Location = new System.Drawing.Point(3, 256);
             this.chkSaveOnEnter.Name = "chkSaveOnEnter";
             this.chkSaveOnEnter.Size = new System.Drawing.Size(112, 21);
             this.chkSaveOnEnter.TabIndex = 22;
             this.chkSaveOnEnter.Text = "Enter = Save";
             this.chkSaveOnEnter.UseVisualStyleBackColor = true;
+            // 
+            // chkTrackVault
+            // 
+            this.chkTrackVault.AutoSize = true;
+            this.chkTrackVault.Location = new System.Drawing.Point(3, 283);
+            this.chkTrackVault.Name = "chkTrackVault";
+            this.chkTrackVault.Size = new System.Drawing.Size(102, 21);
+            this.chkTrackVault.TabIndex = 23;
+            this.chkTrackVault.Text = "Track Vault";
+            this.chkTrackVault.UseVisualStyleBackColor = true;
             // 
             // statusArchiveStatus
             // 
@@ -1028,7 +1038,7 @@
             this.statusArchiveStatus.Location = new System.Drawing.Point(0, 418);
             this.statusArchiveStatus.Name = "statusArchiveStatus";
             this.statusArchiveStatus.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusArchiveStatus.Size = new System.Drawing.Size(1166, 25);
+            this.statusArchiveStatus.Size = new System.Drawing.Size(505, 25);
             this.statusArchiveStatus.SizingGrip = false;
             this.statusArchiveStatus.TabIndex = 32;
             this.statusArchiveStatus.Text = "statusStrip1";
@@ -1053,23 +1063,13 @@
             this.progressBar.Value = 1;
             this.progressBar.Visible = false;
             // 
-            // chkTrackVault
-            // 
-            this.chkTrackVault.AutoSize = true;
-            this.chkTrackVault.Location = new System.Drawing.Point(246, 81);
-            this.chkTrackVault.Name = "chkTrackVault";
-            this.chkTrackVault.Size = new System.Drawing.Size(102, 21);
-            this.chkTrackVault.TabIndex = 23;
-            this.chkTrackVault.Text = "Track Vault";
-            this.chkTrackVault.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1166, 443);
+            this.ClientSize = new System.Drawing.Size(505, 443);
             this.Controls.Add(this.statusArchiveStatus);
             this.Controls.Add(this.splitMain);
             this.Controls.Add(this.menuMain);
