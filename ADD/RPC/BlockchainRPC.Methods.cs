@@ -121,8 +121,15 @@ namespace BitcoinNET.RPCClient
         public IEnumerable<ListTransactionsResponse> ListTransactions(string Account = "*", int Count = 10, int From = 0)
         {
             return RpcCall<IEnumerable<ListTransactionsResponse>>
-                (new RPCRequest("listtransactions", new Object[] { Account, Count, From }));
+                (new RPCRequest("listtransactions", new Object[] { Account, Count, From}));
         }
+
+        public IEnumerable<ListTransactionsResponse> ListTransactions(string Account = "*", int Count = 10, int From = 0, bool IncludeWatch = false)
+        {
+            return RpcCall<IEnumerable<ListTransactionsResponse>>
+                (new RPCRequest("listtransactions", new Object[] { Account, Count, From, IncludeWatch }));
+        }
+
 
         public IEnumerable<string> GetAddressesByAccount(string Account)
         {
