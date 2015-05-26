@@ -199,9 +199,6 @@
     <None Include="Resources\About.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Info.htm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Info.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
