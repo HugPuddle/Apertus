@@ -47,7 +47,7 @@ namespace ADD
                 txtRPCUser.Text = Main.coinUser[cmbWallets.Text];
                 txtRPCPassword.Text = Main.coinPassword[cmbWallets.Text];
                 txtHelperUrl.Text = Main.coinHelperUrl[cmbWallets.Text];
-                if (Main.coinGetRawSupport[cmbWallets.Text]) { chkGetRawSupport.Checked = true; } else { chkGetRawSupport.Checked = false; }
+                if (Main.coinEnableMonitoring[cmbWallets.Text]) { chkGetRawSupport.Checked = true; } else { chkGetRawSupport.Checked = false; }
                 if (Main.coinFeePerAddress[cmbWallets.Text]) { chkFeePerAddress.Checked = true; } else { chkFeePerAddress.Checked = false; }
                 if (Main.coinEnabled[cmbWallets.Text]) { chkEnabled.Checked = true; } else { chkEnabled.Checked = false; }
       
@@ -133,7 +133,7 @@ namespace ADD
                 Main.coinPassword.Add(txtName.Text, txtRPCPassword.Text);
 
                 Main.coinHelperUrl.Add(txtName.Text, txtHelperUrl.Text);
-                if (chkGetRawSupport.Checked) { Main.coinGetRawSupport.Add(txtName.Text, true); } else { Main.coinGetRawSupport.Add(txtName.Text, false); }
+                if (chkGetRawSupport.Checked) { Main.coinEnableMonitoring.Add(txtName.Text, true); } else { Main.coinEnableMonitoring.Add(txtName.Text, false); }
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress.Add(txtName.Text, true); } else { Main.coinFeePerAddress.Add(txtName.Text, false); }
                 if (chkEnabled.Checked) { Main.coinEnabled.Add(txtName.Text, true); } else { Main.coinEnabled.Add(txtName.Text, false); }
                 cmbWallets.Items.Add(txtName.Text);
@@ -198,7 +198,7 @@ namespace ADD
                 Main.coinPassword[cmbWallets.Text] = txtRPCPassword.Text;
 
                 Main.coinHelperUrl[cmbWallets.Text] = txtHelperUrl.Text;
-                if (chkGetRawSupport.Checked) { Main.coinGetRawSupport[cmbWallets.Text] = true; } else { Main.coinGetRawSupport[cmbWallets.Text] = false; }
+                if (chkGetRawSupport.Checked) { Main.coinEnableMonitoring[cmbWallets.Text] = true; } else { Main.coinEnableMonitoring[cmbWallets.Text] = false; }
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress[cmbWallets.Text] = true; } else { Main.coinFeePerAddress[cmbWallets.Text] = false; }
                 if (chkEnabled.Checked) { Main.coinEnabled[cmbWallets.Text] = true; } else { Main.coinEnabled[cmbWallets.Text] = false; }
 
@@ -210,7 +210,7 @@ namespace ADD
                 {
                     if (i != "Select Wallet From List")
                     {
-                        writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinGetRawSupport[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", "") + " " + Main.coinEnableSigning[i].ToString().Replace(" ", "") + " " + Main.coinSigningAddress[i].ToString().Replace(" ", "") + " " + Main.coinShortName[i].ToString().Replace(" ", "") + " " + Main.coinEnableTracking[i].ToString().Replace(" ", "") + " " + Main.coinTrackingAddress[i].ToString().Replace(" ", "") + " " + Main.coinHelperUrl[i].ToString().Replace(" ", ""));
+                        writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinEnableMonitoring[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", "") + " " + Main.coinEnableSigning[i].ToString().Replace(" ", "") + " " + Main.coinSigningAddress[i].ToString().Replace(" ", "") + " " + Main.coinShortName[i].ToString().Replace(" ", "") + " " + Main.coinEnableTracking[i].ToString().Replace(" ", "") + " " + Main.coinTrackingAddress[i].ToString().Replace(" ", "") + " " + Main.coinHelperUrl[i].ToString().Replace(" ", ""));
                     }
                 }
                 writeCoinConf.Close();

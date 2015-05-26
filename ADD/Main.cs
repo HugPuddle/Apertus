@@ -10,12 +10,13 @@ using System.Security.Cryptography;
 using System.Web;
 using BitcoinNET.RPCClient;
 using ADD.Tools;
+using ADD.IE;
 using System.Threading;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
 using Secp256k1;
 using System.Numerics;
-
+using Microsoft.Win32;
 
 namespace ADD
 {
@@ -34,7 +35,7 @@ namespace ADD
         public static Dictionary<string, decimal> coinTransactionFee;
         public static Dictionary<string, decimal> coinMinTransaction;
         public static Dictionary<string, int> coinTransactionSize;
-        public static Dictionary<string, Boolean> coinGetRawSupport;
+        public static Dictionary<string, Boolean> coinEnableMonitoring;
         public static Dictionary<string, Boolean> coinFeePerAddress;
         public static Dictionary<string, Boolean> coinEnabled;
         public static Dictionary<string, Boolean> coinEnableSigning;
@@ -51,28 +52,56 @@ namespace ADD
         Boolean blockBlockedListContent = false;
         Boolean blockUnSignedContent = false;
         Boolean blockUntrustedContent = false;
+        Boolean followFollowedlistContent = false;
         HashSet<string> hashTrustedList = new HashSet<string>(StringComparer.Ordinal);
         HashSet<string> hashBlockedList = new HashSet<string>(StringComparer.Ordinal);
+        HashSet<string> hashFollowedList = new HashSet<string>(StringComparer.Ordinal);
+        HashSet<string> hashFavoritedList = new HashSet<string>(StringComparer.Ordinal);
         static readonly object _batchLocker = new object();
         static readonly object _buildLocker = new object();
         GlyphTypeface glyphTypeface = new GlyphTypeface(new Uri("file:///C:\\WINDOWS\\Fonts\\Arial.ttf"));
         IDictionary<int, ushort> characterMap;
         string[] infoArray;
         bool Loading = true;
+       
         public Main()
         {
             InitializeComponent();
             Startup();
+            FixBrowser();
 
         }
+
+        private void FixBrowser()
+        {
+               RegistryKey key;
+               decimal keyValueDecimal = 11000;
+               string subKey = "SOFTWARE\\Microsoft\\Internet Explorer\\MAIN\\FeatureControl\\FEATURE_BROWSER_EMULATION";
+
+
+               try
+               {
+                   key = Registry.CurrentUser.CreateSubKey(subKey);
+                   key.SetValue(Path.GetFileName(Application.ExecutablePath),keyValueDecimal,RegistryValueKind.DWord);
+                   key.SetValue("ADD.vshost.exe", keyValueDecimal, RegistryValueKind.DWord);
+
+                   key.Close();
+ 
+               }
+               catch(Exception ex)
+               {
+               } 
+        }
+
 
         public void Startup()
     {
             tmrProcessBatch.Start();
             characterMap = glyphTypeface.CharacterToGlyphMap;
             infoArray = "Apertus immutably stores and interprets data on blockchains.|Never build files or click links from sources you do not trust.|Click Help, then info for assistance.|Create a Folder and start sharing your thoughts.|#keywords allow people to discover and follow your causes.|Encrypt items by archiving them in the Vault.|Signing your archives allows people to trust you.|Press CTRL while submitting a search to rebuild the cache.|You can search by Trans ID, Address or #Keyword".Split('|');
-
-         }
+            URLSecurityZoneAPI.InternetSetFeatureEnabled(URLSecurityZoneAPI.InternetFeaturelist.DISABLE_NAVIGATION_SOUNDS, URLSecurityZoneAPI.SetFeatureOn.PROCESS, true);
+            
+        }
         private char GetRandomDivider()
         {
             char[] chars = "\\/:*?\"><|".ToCharArray();
@@ -130,7 +159,7 @@ namespace ADD
             {
                 lock (_buildLocker)
                 {
-                    CreateArchive(TransId, cmbCoinType.Text, true, true);
+                    CreateArchive(TransId, cmbCoinType.Text, false, false);
                 }
             }
 
@@ -493,6 +522,11 @@ namespace ADD
             lblStatusInfo.Text = "Encoded " + (progressBar.Maximum * PayloadByteSize) + " bytes of data.";
             tmrStatusUpdate.Start();
             tmrProgressBar.Start();
+            if (!chkMonitorBlockChains.Checked)
+            {
+                txtTransIDSearch.Text = transactionId;
+                performTransIDSearch(false);
+            }
 
 
         }
@@ -510,8 +544,6 @@ namespace ADD
                 if (dialogResult == DialogResult.Yes)
                 {
                     CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], txtFileName.Text, null, txtMessage.Text);
-                    txtMessage.Text = "";
-                    txtFileName.Text = "";
                 }
                 else
                 {
@@ -522,9 +554,13 @@ namespace ADD
             else
             {
                 CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], txtFileName.Text, null, txtMessage.Text);
-                txtMessage.Text = "";
-                txtFileName.Text = "";
+
             }
+            txtMessage.Text = "";
+            txtFileName.Text = "";
+            if (cmbFolder.SelectedIndex > 0) { RefreshFolderList(); }
+            else if (cmbSignature.SelectedIndex > 0) { RefreshSignatureList(); }
+            else if (cmbVault.SelectedIndex > 0) { RefreshVaultList(); }
         }
 
         private void btnAttachFiles_Click(object sender, EventArgs e)
@@ -553,13 +589,32 @@ namespace ADD
             Directory.CreateDirectory("root");
             Directory.CreateDirectory("process");
             RefreshCoinTypes();
-            RefreshTrustCache();
+            RefreshHashCache();
             tmrStatusUpdate.Start();
             LoadUserPref();
-
+            LoadFavorites();
 
         }
 
+        public void LoadFavorites()
+        {
+            string favoritesLine = "";
+            if (System.IO.File.Exists("favorites.txt"))
+            {
+                System.IO.StreamReader readFavorite = new System.IO.StreamReader("favorites.txt");
+                while ((favoritesLine = readFavorite.ReadLine()) != null)
+                {
+                    try
+                    {
+                        string transactionID = favoritesLine.Substring(99, favoritesLine.Length - 99);
+                        treeView1.Nodes["favorites"].Nodes.Add(favoritesLine.Substring(0, 99)).Tag = transactionID;
+                    }
+                    catch { }
+                }
+                readFavorite.Close();
+            }
+
+        }
         
         public void LoadUserPref()
         {
@@ -572,6 +627,13 @@ namespace ADD
                 System.Drawing.Point windowLocation = new System.Drawing.Point(Convert.ToInt16(Properties.Settings.Default.AppLocation.Split(',').First()), Convert.ToInt16(Properties.Settings.Default.AppLocation.Split(',').Last()));
                 this.DesktopLocation = windowLocation;
                 splitMain.SplitterDistance = Properties.Settings.Default.MainPanel;
+                chkEnableRecipients.Checked = Properties.Settings.Default.EnableRecipients;
+                chkKeywords.Checked = Properties.Settings.Default.EnableKeyWords;
+                chkFilterUnSafeContent.Checked = Properties.Settings.Default.EnableFilter;
+                chkMonitorBlockChains.Checked = Properties.Settings.Default.EnableMonitor;
+                chkTrackVault.Checked = Properties.Settings.Default.EnableTrackVault;
+                chkWarnArchive.Checked = Properties.Settings.Default.EnableSaveWarning;
+                chkSaveOnEnter.Checked = Properties.Settings.Default.EnableEnterEqualsSave;
                 splitArchiveTools.SplitterDistance = Properties.Settings.Default.ArchivePanel;
                 splitHistoryBrowser.SplitterDistance = Properties.Settings.Default.BrowserPanel;
                 splitMain.Panel2Collapsed = Properties.Settings.Default.HideArchive;
@@ -601,12 +663,12 @@ namespace ADD
             catch { }
         }
 
-        public void RefreshTrustCache()
+        public void RefreshHashCache()
         {
             if (!System.IO.File.Exists("trust.conf"))
             {
                 System.IO.StreamWriter writeTrustConf = new StreamWriter("trust.conf");
-                writeTrustConf.WriteLine("True True False False");
+                writeTrustConf.WriteLine("True True False False True");
                 writeTrustConf.Close();
             }
 
@@ -621,6 +683,7 @@ namespace ADD
                     blockBlockedListContent = Convert.ToBoolean(trustSettings[1]);
                     blockUnSignedContent = Convert.ToBoolean(trustSettings[2]);
                     blockUntrustedContent = Convert.ToBoolean(trustSettings[3]);
+                    followFollowedlistContent = Convert.ToBoolean(trustSettings[4]);
                 }
                 catch { }
             }
@@ -648,6 +711,29 @@ namespace ADD
                 readBlock.Close();
             }
 
+            hashFollowedList.Clear();
+            if (System.IO.File.Exists("follow.txt"))
+            {
+                System.IO.StreamReader readFollow = new System.IO.StreamReader("follow.txt");
+                while (!readFollow.EndOfStream)
+                {
+                    hashFollowedList.Add(readFollow.ReadLine());
+                }
+                readFollow.Close();
+            }
+           
+            hashFavoritedList.Clear();
+            if (System.IO.File.Exists("favorite.txt"))
+            {
+                System.IO.StreamReader readFavorite = new System.IO.StreamReader("favorite.txt");
+                while (!readFavorite.EndOfStream)
+                {
+                    string favorite = readFavorite.ReadLine();
+                    hashFavoritedList.Add(favorite.Substring(99, favorite.Length - 99));
+                }
+                readFavorite.Close();
+            }
+
         }
 
         public void RefreshCoinTypes()
@@ -666,7 +752,7 @@ namespace ADD
                 coinPassword = new Dictionary<string, string>();
                 coinSigningAddress = new Dictionary<string, string>();
                 coinTrackingAddress = new Dictionary<string, string>();
-                coinGetRawSupport = new Dictionary<string, bool>();
+                coinEnableMonitoring = new Dictionary<string, bool>();
                 coinFeePerAddress = new Dictionary<string, bool>();
                 coinEnableSigning = new Dictionary<string, bool>();
                 coinEnableTracking = new Dictionary<string, bool>();
@@ -748,7 +834,7 @@ namespace ADD
                     coinIP.Add(coins[0], coins[7]);
                     coinUser.Add(coins[0], coins[8]);
                     coinPassword.Add(coins[0], coins[9]);
-                    if (coins[10].ToUpper() == "TRUE") { coinGetRawSupport.Add(coins[0], true); } else { coinGetRawSupport.Add(coins[0], false); }
+                    if (coins[10].ToUpper() == "TRUE") { coinEnableMonitoring.Add(coins[0], true); } else { coinEnableMonitoring.Add(coins[0], false); }
                     if (coins[11].ToUpper() == "TRUE") { coinFeePerAddress.Add(coins[0], true); } else { coinFeePerAddress.Add(coins[0], false); }
                     if (coins[12].ToUpper() == "TRUE") { coinEnabled.Add(coins[0], true); } else { coinEnabled.Add(coins[0], false); }
                     if (coins[13].ToUpper() == "TRUE") { coinEnableSigning.Add(coins[0], true); } else { coinEnableSigning.Add(coins[0], false); }
@@ -858,9 +944,11 @@ namespace ADD
 
         }
 
+
         private void cmbCoinType_SelectedIndexChanged(object sender, EventArgs e)
         {
             decimal totalValue = 0;
+            searchToolStripMenuItem.Enabled = false;
 
             if (fileSize > 0 || txtMessage.TextLength > 0)
             {
@@ -881,6 +969,8 @@ namespace ADD
             cmbVault.SelectedIndex = 0;
             if (cmbCoinType.SelectedIndex > 0)
             {
+                searchToolStripMenuItem.Enabled = true;
+
                 try
                 {
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
@@ -976,7 +1066,7 @@ namespace ADD
                 txtMessage.Enabled = true;
                 txtFileName.Enabled = true;
                 btnAttachFile.Enabled = true;
-                notarizeToolStripMenuItem.Enabled = true;
+                proofToolStripMenuItem.Enabled = true;
                 txtMessage.Select();
                 if (txtMessage.TextLength < 1) { imgEnterMessageHere.Visible = true; }
 
@@ -986,7 +1076,7 @@ namespace ADD
                 txtMessage.Enabled = false;
                 txtFileName.Enabled = false;
                 btnAttachFile.Enabled = false;
-                notarizeToolStripMenuItem.Enabled = false;
+                proofToolStripMenuItem.Enabled = false;
                 imgEnterMessageHere.Visible = false;
                 btnArchive.Enabled = false;
                                
@@ -1055,19 +1145,21 @@ namespace ADD
                                 headerArray[h] = strHeader.Remove(strHeader.Length - 1);
                                 h++;
                                 if (h > 1 && Int32.TryParse(headerArray[1], out intFileSize))
-                                {                                      var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
-  
+                                {
+                                    var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
+
 
                                     try
                                     {
-                                        if (coinGetRawSupport[WalletKey])
+                                        try
                                         {
                                             var transaction = b.GetRawTransaction(headerArray[0], 1);
                                         }
-                                        else
+                                        catch
                                         {
                                             var transaction = b.GetTransaction(headerArray[0]);
                                         }
+
                                     }
                                     catch
                                     {
@@ -1239,22 +1331,30 @@ namespace ADD
                 }
                 if (!isSigned && blockUnSignedContent)
                 {
-                    return false;
+                    CreateBlockedPage(TransID, "Blocked due to unsigned content restrictions");
+                    return true;
                 }
 
                 if (blockUntrustedContent && (!isSigned || !hashTrustedList.Contains(strSigAddress)))
                 {
-                    return false;
+                    CreateBlockedPage(TransID, "Blocked due to untrusted content restrictions");
+                    return true;
                 }
 
                 if (blockBlockedListContent && hashBlockedList.Contains(strSigAddress))
                 {
-                    return false;
+                    CreateBlockedPage(TransID, "Blocked due to Blocked Signer restrictions");
+                    return true;
                 }
 
                 if (trustTrustedlistContent && isSigned && hashTrustedList.Contains(strSigAddress))
                 {
                     trustContent = true;
+                }
+
+                if (followFollowedlistContent && isSigned && hashFollowedList.Contains(strSigAddress))
+                {
+                    DisplayResults = true;
                 }
 
                 if (containsData)
@@ -1294,7 +1394,7 @@ namespace ADD
                     fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
 
                     string printDate = "";
-                    if (coinGetRawSupport[WalletKey])
+                    try
                     {
                         var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
                         var transaction = b.GetRawTransaction(TransID, 1);
@@ -1341,7 +1441,7 @@ namespace ADD
                         if (Properties.Settings.Default.ReportAbuseUrl != "")
                         { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td align=right><a href=\"" + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid) + "\">report abuse</a></td></tr>"), 0, 57 + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid).Length); }
                         fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table></div></div>"), 0, 20);
-                    }
+                    }catch{}
 
                    
                         FileStream dataFileStream = new FileStream("root\\" + TransID + "\\ADD", FileMode.Create);
@@ -1365,18 +1465,16 @@ namespace ADD
                         
                     }
 
-                    if (printDate != "PENDING")
-                    {
                         if (!File.Exists("root\\catalog.htm")) {System.IO.File.AppendAllText("root\\catalog.htm","");}
                         var strFileDump = System.IO.File.ReadAllText("root\\catalog.htm");
                         if (!strFileDump.Contains(TransID))
                         {
-                            System.IO.File.AppendAllText("root\\catalog.htm", "<a href=\"" + Properties.Settings.Default.HistoryTransactionIDUrl.Replace("%s", TransID) + "\">" + TransID + "</a><br>" + Environment.NewLine);
+                            System.IO.File.AppendAllText("root\\catalog.htm", Properties.Settings.Default.HistoryTransactionIDUrl.Replace("%s", TransID) + Environment.NewLine);
                             if (Properties.Settings.Default.SiteMapTransactionIdUrl != "")
                             { System.IO.File.AppendAllText("root\\sitemap.txt", Properties.Settings.Default.SiteMapTransactionIdUrl.Replace("%s", TransID) + Environment.NewLine); }
                         }
                         
-                    }
+                    
                 }
                 return containsData;
             }
@@ -1443,7 +1541,13 @@ namespace ADD
                 HashSet<string> embExtensions =
               new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 {
-                    ".m2ts", ".aac", ".adt", ".adts", ".3g2", ".3gp2", ".3gp", ".3gpp", ".m4a", ".mov", ".wmz", ".wms", ".ivf", ".cda", ".wav", ".au", ".snd", ".aif", ".aifc", ".aiff", ".mid", ".midi", ".rmi", ".mpg", ".mpeg", ".m1v", ".mp2", ".mp3", ".mpa", ".mpe", ".m3u", ".avi", ".wmd", ".dvr-ms", ".wpi", ".wax", ".wvx", ".wmx", ".asf", ".wma", ".wmv", ".wm", ".swf", ".pdf"
+                    ".m2ts", ".aac", ".adt", ".adts", ".m4a", ".wmz", ".wms", ".ivf", ".cda", ".wav", ".au", ".snd", ".aif", ".aifc", ".aiff", ".mid", ".midi", ".rmi", ".mp2", ".mp3", ".mpa", ".m3u", ".wmd", ".dvr-ms", ".wpi", ".wax", ".wvx", ".wmx", ".asf", ".wma", ".wm", ".swf", ".pdf", ".3g2", ".3gp2", ".3gp", ".3gpp", ".aaf", ".asf", ".avchd", ".avi", ".cam", ".flv",".m1v", ".m2v", ".m4v",".mov", ".mpg", ".mpeg", ".mpe", ".mp4", ".ogg", ".wmv"
+                };
+
+                HashSet<string> vidExtensions =
+                new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                //    ".3g2", ".3gp2", ".3gp", ".3gpp", ".aaf", ".asf", ".avchd", ".avi", ".cam", ".flv",".m1v", ".m2v", ".m4v",".mov", ".mpg", ".mpeg", ".mpe", ".mp4", ".ogg", ".wmv"
                 };
 
                 HashSet<string> imgExtensions =
@@ -1471,6 +1575,15 @@ namespace ADD
                 {
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><embed src=\"" + HttpUtility.UrlPathEncode(FileName) + "\" /><p><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + FileName + "</a></p></div></div>";
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
+                    fileStream.Close();
+                    foundType = true;
+                }
+
+                if (!foundType && vidExtensions.Contains(Path.GetExtension(FileName)))
+                {
+                    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><video controls=\"controls\" width=\"100%\" height=\"100%\" name=\"" + FileName + "\" src=\"" + HttpUtility.UrlPathEncode(FileName) + "\"></video><p><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + FileName + "</a></p></div></div>";
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
                     fileStream.Close();
                     foundType = true;
@@ -1599,7 +1712,7 @@ namespace ADD
             string[] AddressArray = null;
             string[] LedgerArray = null;
             msgId = 0;
-            RefreshTrustCache();
+           
 
             if (UseCache && System.IO.Directory.Exists("root\\" + TransactionID))
             {
@@ -1613,7 +1726,16 @@ namespace ADD
 
                 foreach (FileInfo file in tranFolder.GetFiles())
                 {
-                    file.Delete();
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch {
+
+                        lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                        lblStatusInfo.Text = "Error: Unable to delete " + file.FullName;
+                        tmrStatusUpdate.Start();
+                    }
                 }
             }
             }
@@ -1660,9 +1782,7 @@ namespace ADD
 
             var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
 
-            if (coinGetRawSupport[WalletKey])
-            {
-
+            try {
                 var transaction = b.GetRawTransaction(TransactionId, 1);
 
 
@@ -1685,10 +1805,9 @@ namespace ADD
                 }
 
             }
-            else
+            catch (Exception e)
             {
                 var transaction = b.GetTransaction(TransactionId);
-
                 foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
                 {
                     if (arcValue > detail.amount && detail.amount > 0)
@@ -1717,7 +1836,7 @@ namespace ADD
             var coinCount = 0;
             foreach (var i in coinIP)
             {
-                if (coinGetRawSupport[i.Key] && coinEnabled[i.Key])
+                if (coinEnableMonitoring[i.Key] && coinEnabled[i.Key])
                 {
                     try
                     {
@@ -1759,6 +1878,8 @@ namespace ADD
                 lblStatusInfo.ForeColor = System.Drawing.Color.Black;
                 
             }
+            Properties.Settings.Default.EnableMonitor = chkMonitorBlockChains.Checked;
+            Properties.Settings.Default.Save();
         }
 
         private void tmrGetNewTransactions_Tick(object sender, EventArgs e)
@@ -1768,7 +1889,7 @@ namespace ADD
             {
                 foreach (var i in coinIP)
                 {
-                    if (coinEnabled[i.Key] && coinGetRawSupport[i.Key])
+                    if (coinEnabled[i.Key] && coinEnableMonitoring[i.Key])
                     {
                         try
                         {
@@ -1830,9 +1951,26 @@ namespace ADD
             
             if (e.KeyValue == 13)
             {
+                if (txtTransIDSearch.Text.Contains("://"))
+                {
+                    try
+                    {
+                        Uri BrowseURL = new Uri(txtTransIDSearch.Text);
+                        webBrowser1.Url = BrowseURL;
+                        return;
+                    }
+                    catch { return; }
+                }
+
                 Match match = Regex.Match(txtTransIDSearch.Text, @"([a-fA-F0-9]{64})");
                 if (match.Success) { performTransIDSearch(ModifierKeys != Keys.Control); }
                 else { performTextSearch(txtTransIDSearch.Text);}
+                if (ModifierKeys == Keys.Control)
+                {
+                    if (cmbFolder.SelectedIndex > 0) { RefreshFolderList(); }
+                    else if (cmbSignature.SelectedIndex > 0) { RefreshSignatureList(); }
+                    else if (cmbVault.SelectedIndex > 0) { RefreshVaultList(); }
+                }
                                                    
             }
 
@@ -1890,8 +2028,8 @@ namespace ADD
                         {
                             isFound = true;
                             var transactions = b.ListTransactions(result.account, 100, 0, true);
-                            if (treeView1.Nodes["Root"].Nodes.ContainsKey(searchString)) { treeView1.Nodes["Root"].Nodes.RemoveByKey(searchString); }
-                            node = treeView1.Nodes["Root"].Nodes.Add(searchString);
+                            if (treeView1.Nodes["Follow"].Nodes.ContainsKey(searchString)) { treeView1.Nodes["Follow"].Nodes.RemoveByKey(searchString); }
+                            node = treeView1.Nodes["Follow"].Nodes.Add(searchString);
                             node.Name = searchString;
                             
 
@@ -1921,9 +2059,16 @@ namespace ADD
                                     node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
                                 }
                             }
-                            treeView1.Nodes["Root"].Expand();
-                            treeView1.Nodes["Root"].Nodes[searchString].ExpandAll();
+                            treeView1.Nodes["Follow"].Expand();
+                            treeView1.Nodes["Follow"].Nodes[searchString].ExpandAll();
 
+                            if (!hashFollowedList.Contains(searchString))
+                            {
+                                hashFollowedList.Add(searchString);
+                                StreamWriter writeFollowList = new StreamWriter("Follow.txt", true);
+                                writeFollowList.WriteLine(searchString);
+                                writeFollowList.Close();
+                            }
                         }
                         else
                         {
@@ -2044,6 +2189,11 @@ namespace ADD
             Application.Run(new Wallets());
         }
 
+        public static void OpenProfileForm()
+        {
+            Application.Run(new Profiles());
+        }
+
         public static void OpenAboutForm()
         {
             Application.Run(new About());
@@ -2116,7 +2266,7 @@ namespace ADD
                     }
                 }
                 
-                CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], "", null, strHash +"\n" + "FileName:" + openDigestFile.FileName);
+                CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], "", null, strHash +"\n" + "FileName:" + Path.GetFileName(openDigestFile.FileName));
 
             }
 
@@ -2248,6 +2398,8 @@ namespace ADD
                     }
                 }
             }
+            Properties.Settings.Default.EnableFilter = chkFilterUnSafeContent.Checked;
+            Properties.Settings.Default.Save();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -2302,24 +2454,8 @@ namespace ADD
                 byte[] hashBytes = Encoding.UTF8.GetBytes(strHash.Substring(0, 20));
                 hashBytes.CopyTo(payLoadBytes, 1);
                 string strProofAddress = Base58.EncodeWithCheckSum(payLoadBytes);
-
-                CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
-                try
-                {
-                      a.ImportAddress(strProofAddress, openDigestFile.FileName, false);
-                }
-                catch
-                {
-
-                    DialogResult dialogResult = MessageBox.Show("This blockchain does not support file proof Lookups at this time.", "Limited functions", MessageBoxButtons.OK);
-                    if (dialogResult == DialogResult.No)
-                    {
-                        return;
-                    }
-                }
-
-                CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], "", null, strHash + "\n" + "FileName:" + openDigestFile.FileName);
-
+                performTextSearch(strProofAddress);
+                 
             }
 
         }
@@ -2423,8 +2559,25 @@ namespace ADD
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
+            string label = "";
             if (webBrowser1.Url != null)
-            { treeView1.Nodes["root"].Nodes["favorites"].Nodes.Add(txtTransIDSearch.Text); }
+            {
+                if (!hashFavoritedList.Contains(txtTransIDSearch.Text))
+                {
+                    if (User.InputBox("Apertus", "Enter a label to save.", ref label) == DialogResult.OK)
+                    {
+                        if (File.Exists("root\\" + txtTransIDSearch.Text + "\\MSG1"))
+                        {
+                           label = label.PadRight(100, ' ').Substring(0, 99);
+                        }
+                        treeView1.Nodes["favorites"].Nodes.Add(label).Tag = txtTransIDSearch.Text;
+                        StreamWriter writeFavoritesList = new StreamWriter("favorites.txt", true);
+                        writeFavoritesList.WriteLine(label + txtTransIDSearch.Text);
+                        writeFavoritesList.Close();
+                        hashFavoritedList.Add(txtTransIDSearch.Text);
+                    }
+                 }
+            }
         }
 
         private void treeView1_DoubleClick(object sender, EventArgs e)
@@ -2490,6 +2643,11 @@ namespace ADD
 
         private void cmbFolder_SelectedIndexChanged(object sender, EventArgs e)
         {
+            RefreshFolderList();
+        }
+
+        private void RefreshFolderList()
+        {
             TreeNode node = null;
             string msgData = "";
             string datTime = null;
@@ -2499,32 +2657,36 @@ namespace ADD
                 {
                     var b = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
                     var transactions = b.ListTransactions("~" + cmbFolder.Text, 100, 0);
-                    if (treeView1.Nodes["Root"].Nodes.ContainsKey(cmbFolder.Text)){ treeView1.Nodes["Root"].Nodes.RemoveByKey(cmbFolder.Text);}
-                    node = treeView1.Nodes["Root"].Nodes.Add(cmbFolder.Text);
+                    if (treeView1.Nodes["Folder"].Nodes.ContainsKey(cmbFolder.Text)) { treeView1.Nodes["Folder"].Nodes.RemoveByKey(cmbFolder.Text); }
+                    node = treeView1.Nodes["Folder"].Nodes.Add(cmbFolder.Text);
                     node.Name = cmbFolder.Text;
-                                       
+
                     foreach (var transaction in transactions)
                     {
                         msgData = "";
-                        if (transaction.category == "receive") {
-                        System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-                        dateTime = dateTime.AddSeconds(transaction.blocktime);
-                        dateTime = dateTime.ToLocalTime();
-                        datTime = dateTime.ToShortDateString() + " " + dateTime.ToShortTimeString();
-                        msgData = "";
-                        if (System.IO.File.Exists("root//"+ transaction.txid + "//MSG1"))
+                        if (transaction.category == "receive")
                         {
-                            using (StreamReader reader = new StreamReader("root//"+ transaction.txid + "//MSG1")) {
-                            msgData = reader.ReadLine();}
+                            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+                            dateTime = dateTime.AddSeconds(transaction.blocktime);
+                            dateTime = dateTime.ToLocalTime();
+                            datTime = dateTime.ToShortDateString() + " " + dateTime.ToShortTimeString();
+                            msgData = "";
+                            if (System.IO.File.Exists("root//" + transaction.txid + "//MSG1"))
+                            {
+                                using (StreamReader reader = new StreamReader("root//" + transaction.txid + "//MSG1"))
+                                {
+                                    msgData = reader.ReadLine();
+                                }
+                            }
+
+                            node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
                         }
-
-                        node.Nodes.Insert(0,datTime.PadRight(20,' ')+ msgData.PadRight(100,' ').Substring(0,100)).Tag = transaction.txid;
                     }
-                    }
-                    treeView1.Nodes["Root"].Expand();
-                    treeView1.Nodes["Root"].Nodes[cmbFolder.Text].ExpandAll();
+                    treeView1.Nodes["Folder"].Expand();
+                    treeView1.Nodes["Folder"].Nodes[cmbFolder.Text].ExpandAll();
 
-                }catch (Exception b)
+                }
+                catch (Exception b)
                 {
                     lblStatusInfo.ForeColor = System.Drawing.Color.Black;
                     lblStatusInfo.Text = "Error: " + b.Message;
@@ -2613,14 +2775,14 @@ namespace ADD
                      { label = txtAddFolder.Text; }
                      else { label = "~" + txtAddFolder.Text; }
                      label = a.GetNewAddress(label);
-                     int intCoinType = cmbCoinType.SelectedIndex;
-                     int intfundsSetting = cmbWalletLabel.SelectedIndex;
-                     RefreshCoinTypes();
+                     cmbFolder.Items.Add(txtAddFolder.Text);
                      txtAddFolder.Visible = false;
                      cmbFolder.Visible = true;
-                     cmbCoinType.SelectedIndex = intCoinType;
-                     cmbWalletLabel.SelectedIndex = intfundsSetting;
                      cmbFolder.SelectedItem = txtAddFolder.Text;
+                     StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
+                     writeTrustList.WriteLine(label);
+                     writeTrustList.Close();
+                     RefreshHashCache();
                      txtAddFolder.Text = "";
                      lblStatusInfo.Text = "Folder linked to " + label;
                      tmrStatusUpdate.Start();
@@ -2649,14 +2811,14 @@ namespace ADD
                     { label = txtAddSignature.Text; }
                     else { label = "~~" + txtAddSignature.Text; }
                     label = a.GetNewAddress(label);
-                    int intCoinType = cmbCoinType.SelectedIndex;
-                    int intfundsSetting = cmbWalletLabel.SelectedIndex;
-                    RefreshCoinTypes();
+                    cmbSignature.Items.Add(txtAddSignature.Text);
                     txtAddSignature.Visible = false;
                     cmbSignature.Visible = true;
-                    cmbCoinType.SelectedIndex = intCoinType;
-                    cmbWalletLabel.SelectedIndex = intfundsSetting;
                     cmbSignature.SelectedItem = txtAddSignature.Text;
+                    StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
+                    writeTrustList.WriteLine(label);
+                    writeTrustList.Close();
+                    RefreshHashCache();
                     txtAddSignature.Text = "";
                     lblStatusInfo.Text = "Signature linked to " + label;
                     tmrStatusUpdate.Start();
@@ -2685,14 +2847,14 @@ namespace ADD
                     { label = txtAddVault.Text; }
                     else { label = "~~~" + txtAddVault.Text; }
                     label = a.GetNewAddress(label);
-                    int intCoinType = cmbCoinType.SelectedIndex;
-                    int intfundsSetting = cmbWalletLabel.SelectedIndex;
-                    RefreshCoinTypes();
+                    cmbVault.Items.Add(txtAddVault.Text);
                     txtAddVault.Visible = false;
                     cmbVault.Visible = true;
-                    cmbCoinType.SelectedIndex = intCoinType;
-                    cmbWalletLabel.SelectedIndex = intfundsSetting;
                     cmbVault.SelectedItem = txtAddVault.Text;
+                    StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
+                    writeTrustList.WriteLine(label);
+                    writeTrustList.Close();
+                    RefreshHashCache();
                     txtAddVault.Text = "";
                     lblStatusInfo.Text = "Vault linked to " + label;
                     tmrStatusUpdate.Start();
@@ -2752,6 +2914,11 @@ namespace ADD
 
         private void cmbSignature_SelectedIndexChanged(object sender, EventArgs e)
         {
+            RefreshSignatureList();
+        }
+
+        private void RefreshSignatureList()
+        {
             TreeNode node = null;
             string msgData = "";
             string datTime = null;
@@ -2761,11 +2928,11 @@ namespace ADD
                 {
                     var b = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
                     var transactions = b.ListTransactions("~~" + cmbSignature.Text, 100, 0);
-                    if (treeView1.Nodes["Root"].Nodes.ContainsKey(cmbSignature.Text)) { treeView1.Nodes["Root"].Nodes.RemoveByKey(cmbSignature.Text); }
-                    node = treeView1.Nodes["Root"].Nodes.Add(cmbSignature.Text);
+                    if (treeView1.Nodes["Signature"].Nodes.ContainsKey(cmbSignature.Text)) { treeView1.Nodes["Signature"].Nodes.RemoveByKey(cmbSignature.Text); }
+                    node = treeView1.Nodes["Signature"].Nodes.Add(cmbSignature.Text);
                     node.Name = cmbSignature.Text;
-                    
-                   foreach (var transaction in transactions)
+
+                    foreach (var transaction in transactions)
                     {
                         msgData = "";
                         if (transaction.category == "receive")
@@ -2783,11 +2950,11 @@ namespace ADD
                                 }
                             }
 
-                            node.Nodes.Insert(0,datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
+                            node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
                         }
                     }
-                   treeView1.Nodes["Root"].Expand();
-                   treeView1.Nodes["Root"].Nodes[cmbSignature.Text].ExpandAll();
+                    treeView1.Nodes["Signature"].Expand();
+                    treeView1.Nodes["Signature"].Nodes[cmbSignature.Text].ExpandAll();
 
                 }
                 catch (Exception b)
@@ -2802,6 +2969,33 @@ namespace ADD
 
         private void cmbVault_SelectedIndexChanged(object sender, EventArgs e)
         {
+            RefreshVaultList();
+        }
+
+        private void CreateBlockedPage(string transactionID, string reason)
+        {
+            try
+            {
+                System.IO.Directory.Delete("root\\" + transactionID, true);
+                System.IO.Directory.CreateDirectory("root\\" + transactionID);
+                StreamWriter newFile = new StreamWriter("root\\" + transactionID + "\\index.htm");
+                newFile.WriteLine("<html><head><meta charset=\"UTF-8\" /></head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\includes\\css.css\"><body><div class=\"main\">");
+                newFile.WriteLine("<div class=\"item\"><div class=\"content\">" + reason + "</div></div>");
+                newFile.WriteLine("</div></body></html>");
+                newFile.Close();
+                StreamWriter msgFile = new StreamWriter("root\\" + transactionID + "\\MSG1");
+                msgFile.WriteLine("BLOCKED");
+                msgFile.Close(); 
+                StreamWriter nullFile = new StreamWriter("root\\" + transactionID + "\\ADD");
+                nullFile.WriteLine("");
+                nullFile.Close();   
+            }
+            catch { }
+
+        }
+
+        private void RefreshVaultList()
+        {
             TreeNode node = null;
             string msgData = "";
             string datTime = null;
@@ -2811,8 +3005,8 @@ namespace ADD
                 {
                     var b = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
                     var transactions = b.ListTransactions("~~~" + cmbVault.Text, 100, 0);
-                    if (treeView1.Nodes["Root"].Nodes.ContainsKey(cmbVault.Text)) { treeView1.Nodes["Root"].Nodes.RemoveByKey(cmbVault.Text); }
-                    node = treeView1.Nodes["Root"].Nodes.Add(cmbVault.Text);
+                    if (treeView1.Nodes["Vault"].Nodes.ContainsKey(cmbVault.Text)) { treeView1.Nodes["Vault"].Nodes.RemoveByKey(cmbVault.Text); }
+                    node = treeView1.Nodes["Vault"].Nodes.Add(cmbVault.Text);
                     node.Name = cmbVault.Text;
 
                     foreach (var transaction in transactions)
@@ -2825,23 +3019,23 @@ namespace ADD
                             dateTime = dateTime.ToLocalTime();
                             datTime = dateTime.ToShortDateString() + " " + dateTime.ToShortTimeString();
 
-                            
-                                if (System.IO.File.Exists("root//" + transaction.txid + "//MSG1"))
+
+                            if (System.IO.File.Exists("root//" + transaction.txid + "//MSG1"))
+                            {
+                                using (StreamReader reader = new StreamReader("root//" + transaction.txid + "//MSG1"))
                                 {
-                                    using (StreamReader reader = new StreamReader("root//" + transaction.txid + "//MSG1"))
-                                    {
-                                        msgData = reader.ReadLine();
-                                    }
+                                    msgData = reader.ReadLine();
                                 }
-                            
+                            }
+
 
 
 
                             node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
                         }
                     }
-                    treeView1.Nodes["Root"].Expand();
-                    treeView1.Nodes["Root"].Nodes[cmbVault.Text].ExpandAll();
+                    treeView1.Nodes["Vault"].Expand();
+                    treeView1.Nodes["Vault"].Nodes[cmbVault.Text].ExpandAll();
 
                 }
                 catch (Exception b)
@@ -2868,5 +3062,43 @@ namespace ADD
                 Properties.Settings.Default.Save();
             }
         }
-     }
+
+        private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(OpenProfileForm));
+            t.Start();
+        }
+
+        private void chkEnableRecipients_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableRecipients = chkEnableRecipients.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void chkKeywords_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableKeyWords = chkKeywords.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void chkTrackVault_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableTrackVault = chkTrackVault.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void chkWarnArchive_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableSaveWarning = chkWarnArchive.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void chkSaveOnEnter_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableEnterEqualsSave = chkSaveOnEnter.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+       }
+
 }

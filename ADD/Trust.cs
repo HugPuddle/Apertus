@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace ADD
 {
@@ -39,6 +40,8 @@ namespace ADD
                     chkBlockBlockedListContent.Checked = Convert.ToBoolean(trustSettings[1]);
                     chkBlockUnsignedContent.Checked = Convert.ToBoolean(trustSettings[2]);
                     chkBlockUntrustedContent.Checked = Convert.ToBoolean(trustSettings[3]);
+                    chkFollowFollowedlistContent.Checked = Convert.ToBoolean(trustSettings[4]);
+
                 }
                 catch { }
             
@@ -48,8 +51,10 @@ namespace ADD
         private void SaveSettings()
         {
             System.IO.StreamWriter writeTrustConf = new StreamWriter("trust.conf", false);
-            writeTrustConf.WriteLine(chkTrustTrustedlistContent.Checked + " " +  chkBlockBlockedListContent.Checked + " " +  chkBlockUnsignedContent.Checked + " " + chkBlockUntrustedContent.Checked);
+            writeTrustConf.WriteLine(chkTrustTrustedlistContent.Checked + " " + chkBlockBlockedListContent.Checked + " " + chkBlockUnsignedContent.Checked + " " + chkBlockUntrustedContent.Checked + " " + chkFollowFollowedlistContent.Checked);
             writeTrustConf.Close();
+            var mainForm = Application.OpenForms.OfType<Main>().Single();
+            mainForm.RefreshHashCache();
         }
 
         private void RefreshTrustList()
@@ -65,6 +70,8 @@ namespace ADD
                 }
                 readTrust.Close();
             }
+            var mainForm = Application.OpenForms.OfType<Main>().Single();
+            mainForm.RefreshHashCache();
         }
 
         private void RefreshBlockList()
@@ -81,6 +88,8 @@ namespace ADD
                 }
                 readBlock.Close();
             }
+            var mainForm = Application.OpenForms.OfType<Main>().Single();
+            mainForm.RefreshHashCache();
         }
 
         private void RefreshFollowList()
@@ -97,6 +106,8 @@ namespace ADD
                 }
                 readFollow.Close();
             }
+            var mainForm = Application.OpenForms.OfType<Main>().Single();
+            mainForm.RefreshHashCache();
         }
 
         private void btnRemoveTrust_Click(object sender, EventArgs e)
@@ -117,6 +128,8 @@ namespace ADD
             StreamWriter writeTrustList = new StreamWriter("trust.txt");
             writeTrustList.Write(txtTrustList.Text);
             writeTrustList.Close();
+            var mainForm = Application.OpenForms.OfType<Main>().Single();
+            mainForm.RefreshHashCache();
         }
 
         private void btnAddBlock_Click(object sender, EventArgs e)
@@ -146,8 +159,8 @@ namespace ADD
             StreamWriter writeBlockList = new StreamWriter("block.txt");
             writeBlockList.Write(txtBlockList.Text);
             writeBlockList.Close();
-
-
+            var mainForm = Application.OpenForms.OfType<Main>().Single();
+            mainForm.RefreshHashCache();
 
         }
 
@@ -200,6 +213,8 @@ namespace ADD
             StreamWriter writeFollowList = new StreamWriter("Follow.txt");
             writeFollowList.Write(txtFollowList.Text);
             writeFollowList.Close();
+            var mainForm = Application.OpenForms.OfType<Main>().Single();
+            mainForm.RefreshHashCache();
         }
 
 

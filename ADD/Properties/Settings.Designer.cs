@@ -34,7 +34,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("%s/index.htm")]
+        [global::System.Configuration.DefaultSettingValueAttribute("<a href =\"%s/index.htm\">%s</a>")]
         public string HistoryTransactionIDUrl {
             get {
                 return ((string)(this["HistoryTransactionIDUrl"]));
@@ -143,6 +143,90 @@ namespace ADD.Properties {
             }
             set {
                 this["AppLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableRecipients {
+            get {
+                return ((bool)(this["EnableRecipients"]));
+            }
+            set {
+                this["EnableRecipients"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableKeyWords {
+            get {
+                return ((bool)(this["EnableKeyWords"]));
+            }
+            set {
+                this["EnableKeyWords"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableFilter {
+            get {
+                return ((bool)(this["EnableFilter"]));
+            }
+            set {
+                this["EnableFilter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableMonitor {
+            get {
+                return ((bool)(this["EnableMonitor"]));
+            }
+            set {
+                this["EnableMonitor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableTrackVault {
+            get {
+                return ((bool)(this["EnableTrackVault"]));
+            }
+            set {
+                this["EnableTrackVault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableSaveWarning {
+            get {
+                return ((bool)(this["EnableSaveWarning"]));
+            }
+            set {
+                this["EnableSaveWarning"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableEnterEqualsSave {
+            get {
+                return ((bool)(this["EnableEnterEqualsSave"]));
+            }
+            set {
+                this["EnableEnterEqualsSave"] = value;
             }
         }
     }
