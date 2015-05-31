@@ -1488,6 +1488,7 @@ namespace ADD
 
         private void BuildBackLinks(string TransID)
         {
+            string strNoDuplicates = "";
             foreach (var files in Directory.GetFiles("root\\" + TransID))
             {
                 FileInfo info = new FileInfo(files);
@@ -1503,23 +1504,26 @@ namespace ADD
                 {
                     do
                     {
-                        var isFound = false;
-                        foreach (string i in cmbCoinType.Items)
+                        if (strNoDuplicates.IndexOf(match.ToString()) == -1)
                         {
-                            if (i != "Select Blockchain" && isFound == false)
+                            var isFound = false;
+                            foreach (string i in cmbCoinType.Items)
                             {
-                                lock (_buildLocker)
+                                if (i != "Select Blockchain" && isFound == false)
                                 {
-                                    isFound = CreateArchive(match.ToString().Replace("/", ""), i, false, true);
-                                }
+                                    lock (_buildLocker)
+                                    {
+                                        isFound = CreateArchive(match.ToString().Replace("/", ""), i, false, true);
+                                    }
 
-                                if (isFound)
-                                {
-                                    break;
+                                    if (isFound)
+                                    {
+                                        break;
+                                    }
                                 }
                             }
+                            strNoDuplicates = strNoDuplicates + match.ToString();
                         }
-
                         match = match.NextMatch();
                     } while (match.Success);
                 }
