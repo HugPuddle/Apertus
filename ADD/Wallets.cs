@@ -119,6 +119,7 @@ namespace ADD
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            if (txtName.Text == cmbWallets.Text) { txtName.Text = txtName.Text + "-Copy"; }
             try
             {
                 Main.coinVersion.Add(txtName.Text, byte.Parse(txtVersion.Text));
@@ -210,7 +211,7 @@ namespace ADD
                 {
                     if (i != "Select Wallet From List")
                     {
-                        writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinEnableMonitoring[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", "") + " " + Main.coinEnableSigning[i].ToString().Replace(" ", "") + " " + Main.coinSigningAddress[i].ToString().Replace(" ", "") + " " + Main.coinShortName[i].ToString().Replace(" ", "") + " " + Main.coinEnableTracking[i].ToString().Replace(" ", "") + " " + Main.coinTrackingAddress[i].ToString().Replace(" ", "") + " " + Main.coinHelperUrl[i].ToString().Replace(" ", ""));
+                        writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinEnableMonitoring[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", "") + " " + " " +  " " + Main.coinShortName[i].ToString().Replace(" ", "") + " " + " " + " " + Main.coinHelperUrl[i].ToString().Replace(" ", ""));
                     }
                 }
                 writeCoinConf.Close();

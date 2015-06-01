@@ -1380,12 +1380,16 @@ namespace ADD
                             privKeyHex = privKeyHex.Substring(2, 64);
                             BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
                             ECEncryption encryption = new ECEncryption();
-                            
-                            byte[] decrypted = encryption.Decrypt(privateKey, entry.Value);
 
-                           
-                            return ConvertAddressArrayToFile(AddressArray, decrypted, TransID, WalletKey, true);
-
+                            try
+                            {
+                                byte[] decrypted = encryption.Decrypt(privateKey, entry.Value);
+                                return ConvertAddressArrayToFile(AddressArray, decrypted, TransID, WalletKey, true);
+                            }catch
+                            {
+                                lblStatusInfo.Text = "Error: Decryption failure. Check vault selection.";
+                                tmrStatusUpdate.Start();
+                            }
                         }
                         else
                         {
@@ -2585,10 +2589,7 @@ namespace ADD
                 {
                     if (User.InputBox("Apertus", "Enter a label to save.", ref label) == DialogResult.OK)
                     {
-                        if (File.Exists("root\\" + txtTransIDSearch.Text + "\\MSG1"))
-                        {
-                           label = label.PadRight(100, ' ').Substring(0, 99);
-                        }
+                        label = label.PadRight(100, ' ').Substring(0, 99);
                         treeView1.Nodes["favorites"].Nodes.Add(label).Tag = txtTransIDSearch.Text;
                         StreamWriter writeFavoritesList = new StreamWriter("favorites.txt", true);
                         writeFavoritesList.WriteLine(label + txtTransIDSearch.Text);
