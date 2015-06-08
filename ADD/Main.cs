@@ -1361,12 +1361,10 @@ namespace ADD
                 if (containsData)
                 {
                     Directory.CreateDirectory("root\\" + TransID);
-
-
                     FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Create);
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><meta name=viewport content=\"width=device-width, initial-scale=1\"><!--#include file=\"..\\includes\\meta.ssi\" --><link rel=\"stylesheet\" type=\"text/css\" href=\"..\\includes\\css.css\"></head><body><div class=\"main\"><!--#include file=\"..\\includes\\header.ssi\" -->"), 0, 399 + (WalletKey.Length * 2) + TransID.Length);
+                    string strHTML = "<html><head><meta charset=\"UTF-8\" /><title>" + WalletKey + " - " + TransID + "</title><meta name=\"description\" content=\"The following content was archived to the " + WalletKey + " blockchain.\" /><meta name=viewport content=\"width=device-width, initial-scale=1\"><!--#include file=\"..\\includes\\meta.ssi\" --><link rel=\"stylesheet\" type=\"text/css\" href=\"..\\includes\\css.css\"></head><body><div class=\"main\"><!--#include file=\"..\\includes\\header.ssi\" -->";
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strHTML), 0, strHTML.Length);
                     fileStream.Close();
-
                     foreach (KeyValuePair<string, byte[]> entry in buildFiles)
                     {
                         if (cmbVault.SelectedIndex > 0 && entry.Key == "SEC")
@@ -1385,7 +1383,8 @@ namespace ADD
                             {
                                 byte[] decrypted = encryption.Decrypt(privateKey, entry.Value);
                                 return ConvertAddressArrayToFile(AddressArray, decrypted, TransID, WalletKey, true);
-                            }catch
+                            }
+                            catch
                             {
                                 lblStatusInfo.Text = "Error: Decryption failure. Check vault selection.";
                                 tmrStatusUpdate.Start();
@@ -1395,10 +1394,8 @@ namespace ADD
                         {
                             ParseData(entry.Value, TransID, entry.Key, trustContent, (chkMonitorBlockChains.Checked & DisplayResults));
                         }
-                        }
-
-                    fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-
+                    }
+                         
                     string printDate = "";
                     try
                     {
@@ -1430,23 +1427,24 @@ namespace ADD
                             dateTime = dateTime.ToLocalTime();
                             printDate = dateTime.ToShortDateString() + " " + dateTime.ToShortTimeString();
                         }
-
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<div class=\"item\"><div class=\"content\"><table>"), 0, 46);
-                        if (coinHelperUrl[WalletKey] != "")
-                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ROOT ID</td></tr><tr><td><a href=\"" + coinHelperUrl[WalletKey].Replace("%s", transaction.txid) + "\">" + transaction.txid + "</a></td></tr>"), 0, 58 + transaction.txid.Length + coinHelperUrl[WalletKey].Replace("%s", transaction.txid).Length); }
-                        else
-                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ROOT ID</td></tr><tr><td>" + transaction.txid + "</td></tr>"), 0, 43 + transaction.txid.Length); }
+                        
+                                  strHTML = "<div class=\"item\"><div class=\"content\"><table>";
+                                  if (coinHelperUrl[WalletKey] != "")
+                                  { strHTML = strHTML + "<tr><td>ROOT ID</td></tr><tr><td><a href=\"" + coinHelperUrl[WalletKey].Replace("%s", transaction.txid) + "\">" + transaction.txid + "</a></td></tr>"; }
+                                  else
+                                  { strHTML = strHTML + "<tr><td>ROOT ID</td></tr><tr><td>" + transaction.txid + "</td></tr>";}
+                                  
                         if (isSigned)
-                        {
-                            fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>SIGNED BY</td></tr><tr><td><a href=\"SIG\"><div id=\"signature\">" + strSigAddress + "</div></a></td></tr>"), 0, 89 + (strSigAddress.Length));
-                        }
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCK DATE</td></tr><tr><td nowrap><div id=\"block-date\">" + printDate + "</div></td></tr>"), 0, 80 + printDate.Length);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>VERSION</td></tr><tr><td>" + transaction.version + "</td></tr>"), 0, 43 + transaction.version.ToString().Length);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>BLOCKCHAIN</td></tr><tr><td><div id=\"blockchain\">" + WalletKey + "</div></td></tr>"), 0, 73 + WalletKey.Length);
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td>ADDRESS FILE</td></tr><tr><td><a href=\"ADD\">Address.dat</a></td></tr>"), 0, 77);
+                        { strHTML = strHTML + "<tr><td>SIGNED BY</td></tr><tr><td><a href=\"SIG\"><div id=\"signature\">" + strSigAddress + "</div></a></td></tr>";}
+
+                        strHTML = strHTML + "<tr><td>BLOCK DATE</td></tr><tr><td nowrap><div id=\"block-date\">" + printDate + "</div></td></tr>";
+                        strHTML = strHTML + "<tr><td>VERSION</td></tr><tr><td>" + transaction.version + "</td></tr>";
+                        strHTML = strHTML + "<tr><td>BLOCKCHAIN</td></tr><tr><td><div id=\"blockchain\">" + WalletKey + "</div></td></tr>";
+                        strHTML = strHTML + "<tr><td>ADDRESS FILE</td></tr><tr><td><a href=\"ADD\">Address.dat</a></td></tr>";
                         if (Properties.Settings.Default.ReportAbuseUrl != "")
-                        { fileStream.Write(UTF8Encoding.UTF8.GetBytes("<tr><td align=right><a href=\"" + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid) + "\">report abuse</a></td></tr>"), 0, 57 + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid).Length); }
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes("</table></div></div>"), 0, 20);
+                        { strHTML = strHTML + "<tr><td align=right><a href=\"" + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid) + "\">report abuse</a></td></tr>"; }
+                        strHTML = strHTML + "</table></div></div>";
+                        strHTML = strHTML + "<!--#include file=\"..\\includes\\footer.ssi\" --></div></body></html>";
                     }catch{}
 
                    
@@ -1457,9 +1455,9 @@ namespace ADD
                             dataFileStream.Write(UTF8Encoding.UTF8.GetBytes(address + "\n"), 0, address.Length + 1);
                         }
                         dataFileStream.Close();
-                    
-
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes("<!--#include file=\"..\\includes\\footer.ssi\" --></div></body></html>"), 0, 66);
+ 
+                    fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strHTML), 0, strHTML.Length);
                     fileStream.Close();
                     
                     //Don't crawl raw monitor results
@@ -1567,12 +1565,7 @@ namespace ADD
                 };
 
                 if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)))
-                {
-
-                    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                    strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file"+ fileId +"\">[ " + FileName + " ]</div></div>";
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
-                    fileStream.Close();
+                {   strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file"+ fileId +"\">[ " + FileName + " ]</div></div>";
                     foundType = true;
                     fileId++;
                 }
@@ -1584,10 +1577,7 @@ namespace ADD
 
                 if (!foundType && embExtensions.Contains(Path.GetExtension(FileName)))
                 {
-                    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><embed src=\"" + HttpUtility.UrlPathEncode(FileName) + "\" /><p><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\"><div id=\"file" + fileId + "\">" + FileName + "</div></a></p></div></div>";
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
-                    fileStream.Close();
                     foundType = true;
                     fileId++;
                 }
@@ -1603,10 +1593,7 @@ namespace ADD
 
                 if (!foundType && imgExtensions.Contains(Path.GetExtension(FileName)))
                 {
-                    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><img src=\"" + HttpUtility.UrlPathEncode(FileName) + "\" /><br><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\"><div id=\"img0\">" + FileName + "</div></a></div></div>";
-                    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
-                    fileStream.Close();
                     foundType = true;
                     fileId++;
                 }
@@ -1615,10 +1602,7 @@ namespace ADD
                 {
                     if (Path.GetExtension(FileName).ToUpper() != ".SIG" && FileName != "SIG")
                     {
-                        FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                         strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + HttpUtility.UrlPathEncode(FileName) + "</a></div></div>";
-                        fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
-                        fileStream.Close();
                     }
                 }
 
@@ -1649,13 +1633,12 @@ namespace ADD
                 fileStream.Write(UTF8Encoding.UTF8.GetBytes(result), 0, UTF8Encoding.UTF8.GetBytes(result).Length);
                 fileStream.Close();
 
-                fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
                 strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"msg" + msgId + "\">" + result + "</div><p><a href=\"MSG" + msgId + "\">MSG" + msgId + "</a></p></div></div>";
-                fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
-                fileStream.Close();
-
-                                  
+                                         
             }
+            FileStream indexStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+            indexStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
+            indexStream.Close();
 
             if (SendToMonitor)
             {

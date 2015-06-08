@@ -46,7 +46,7 @@ namespace ADD.Tools
   
                 foreach (string folderPath in result)
                 {
-                    var signature = "";
+                    var signature = "ANONYMOUS";
                     var img = "";
                     //var file = "";
                     var msg = "";
@@ -57,33 +57,36 @@ namespace ADD.Tools
                     Match match = regex.Match(folderPath);
                     string s = match.Value;
                     //if (s == null) { break; }
-                    var doc = new HtmlAgilityPack.HtmlDocument();
-                    doc.Load(folderPath + "\\index.htm");
-
                     try
                     {
-                        img = doc.GetElementbyId("img0").InnerText;
-                        searchHTML = searchHTML + "<div class=\"item\"><div class=\"content\"><table><tr><th rowspan='5'><a href='root/" + s + "/index.htm'><img src='root/" + s + "/" + img + "' Width = '80px'/></a></th><th></th></tr>";
+                        var doc = new HtmlAgilityPack.HtmlDocument();
+                        doc.Load(folderPath + "\\index.htm");
+
+                        try
+                        {
+                            img = doc.GetElementbyId("img0").InnerText;
+                            searchHTML = searchHTML + "<div class=\"item\"><div class=\"content\"><table><tr><th rowspan='5'><a href='root/" + s + "/index.htm'><img src='root/" + s + "/" + img + "' Width = '80px'/></a></th><th></th></tr>";
+                        }
+                        catch { searchHTML = searchHTML + "<div class=\"item\"><div class=\"content\"><table><tr><th rowspan='5'></th><th></th></tr>"; }
+                        try { signature = doc.GetElementbyId("signature").InnerText; }
+                        catch { }
+                        try { blockchain = doc.GetElementbyId("blockchain").InnerText; }
+                        catch { }
+                        searchHTML = searchHTML + "<tr><td>" + blockchain + " - " + signature + "</td></tr>";
+                        try { date = doc.GetElementbyId("block-date").InnerText; }
+                        catch { }
+                        try { msg = doc.GetElementbyId("msg1").InnerText; }
+                        catch { }
+                        searchHTML = searchHTML + "<tr><td><a href='root/" + s + "/index.htm'>" + date + " - " + msg.PadRight(50).Substring(0, 49) + "...</a></td></tr>";
+
+                        if (msg.Length > 250)
+                        { searchHTML = searchHTML + "<tr><td>" + msg.Substring(0, 249) + "</td></tr>"; }
+                        else { searchHTML = searchHTML + "<tr><td>" + msg + "</td></tr>"; }
+
+
+                        searchHTML = searchHTML + "<tr><td><a href='root/" + s + "/index.htm'>" + s + "</a></td></tr></table></div></div>";
                     }
-                    catch { searchHTML = searchHTML + "<div class=\"item\"><div class=\"content\"><table><tr><th rowspan='5'></th><th></th></tr>"; }
-                    try { signature = doc.GetElementbyId("signature").InnerText; }
                     catch { }
-                    try { blockchain = doc.GetElementbyId("blockchain").InnerText; }
-                    catch { }
-                    searchHTML = searchHTML + "<tr><td>" + blockchain + " - " + signature + "</td></tr>";
-                    try { date = doc.GetElementbyId("block-date").InnerText; }
-                    catch { }
-                    try { msg = doc.GetElementbyId("msg1").InnerText; }
-                    catch { }
-                    searchHTML = searchHTML + "<tr><td><a href='root/" + s + "/index.htm'>" + date + " - " + msg.PadRight(50).Substring(0, 49) + "...</a></td></tr>";
-
-                    if (msg.Length > 250)
-                    { searchHTML = searchHTML + "<tr><td>" + msg.Substring(0, 249) + "</td></tr>"; }
-                    else { searchHTML = searchHTML + "<tr><td>" + msg + "</td></tr>"; }
-
-
-                    searchHTML = searchHTML + "<tr><td><a href='root/" + s + "/index.htm'>" + s + "</a></td></tr></table></div></div>";
-                    
                 }
                 
                 searchHTML = searchHTML + "</div></body></html>";
