@@ -180,6 +180,8 @@ namespace ADD
             Dictionary<string, decimal> toMany = new Dictionary<string, decimal>();
             Dictionary<string, decimal> lastTransaction = new Dictionary<string, decimal>();
             string lastTransactionID = null;
+            HashSet<string> addressHash = new HashSet<string>(StringComparer.Ordinal);
+            string signingAddress = null;
             string line;
             int tranCount = 1;
             int ledgerCount = 0;
@@ -212,7 +214,6 @@ namespace ADD
                         foreach (var f in mergeFiles)
                         {
                             //additional logic and padding to ensure text data begins at byte[0] to assist in future searching.
-                            //files will have a few bytes of unsearchable content at the begining of each file due to the random delimiter set.
                             fileCount++;
                             var intCurrentSize = 0;
                             var readFileBytes = System.IO.File.ReadAllBytes(f);
@@ -315,6 +316,7 @@ namespace ADD
 
                         if (payloadBytePosition > PayloadByteSize)
                         {
+                            addressHash.Add(Base58.EncodeWithCheckSum(arcPayloadBytes));
                             arcFile.WriteLine(Base58.EncodeWithCheckSum(arcPayloadBytes));
                             payloadBytePosition = 1;
                             arcPayloadBytes = new byte[PayloadByteSize + 1];
@@ -332,7 +334,7 @@ namespace ADD
                     {
                         arcPayloadBytes[i] = arcPadding[i];
                     }
-
+                    addressHash.Add(Base58.EncodeWithCheckSum(arcPayloadBytes));
                     arcFile.WriteLine(Base58.EncodeWithCheckSum(arcPayloadBytes));
                     arcFile.Close();
                     lblStatusInfo.ForeColor = System.Drawing.Color.Black;
@@ -348,6 +350,16 @@ namespace ADD
                     processId = FilePath.ToUpper().Remove(0, FilePath.Length - 40).Replace(".ADD", "");
                 }
 
+                if (cmbSignature.SelectedIndex > 0)
+                {
+
+                    CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
+                    IEnumerable<string> Address = a.GetAddressesByAccount("~~" + cmbSignature.Text);
+                    signingAddress = Address.First();                  
+
+                }
+
+
                 if (chkKeywords.Checked)
                 { var keywords = GetKeyWords(txtMessage.Text, "#");
                 if (keywords != null)
@@ -355,9 +367,13 @@ namespace ADD
                     foreach (string keyword in keywords)
                     {
                         //allow Keyword functionality by putting keyword addresses on the end of the archive
-                        System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
-                        arcSign.WriteLine(keyword);
-                        arcSign.Close();
+                        if (keyword != signingAddress)
+                        {
+                            System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                            if (!addressHash.Contains(keyword)) { arcSign.WriteLine(keyword); }
+                            addressHash.Add(keyword);
+                            arcSign.Close();
+                        }
                     }
                 }
                 }
@@ -370,9 +386,13 @@ namespace ADD
                         foreach (string keyword in keywords)
                         {
                             //allow Send to @Address functionality by putting Deliver To addresses on the end of the archive
-                            System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
-                            arcSign.WriteLine(keyword);
-                            arcSign.Close();
+                            if (keyword != signingAddress)
+                            {
+                                System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                                if (!addressHash.Contains(keyword)) { arcSign.WriteLine(keyword); }
+                                addressHash.Add(keyword);
+                                arcSign.Close();
+                            }
                         }
                     }
                 }
@@ -381,10 +401,11 @@ namespace ADD
                 if (cmbFolder.SelectedIndex > 0)
                 {
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
-                    //allow tracking by putting a signature address on the end of the file
+                 
                     System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
                     IEnumerable<string> Address = a.GetAddressesByAccount("~" + cmbFolder.Text);
-                    arcSign.WriteLine(Address.First());
+                    if (!addressHash.Contains(Address.First())) { arcSign.WriteLine(Address.First()); }
+                    addressHash.Add(Address.First());
                     arcSign.Close();
                 }
 
@@ -394,7 +415,8 @@ namespace ADD
                     //allow tracking by putting a signature address on the end of the file
                     System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
                     IEnumerable<string> Address = a.GetAddressesByAccount("~~~" + cmbVault.Text);
-                    arcSign.WriteLine(Address.First());
+                    if (!addressHash.Contains(Address.First())) { arcSign.WriteLine(Address.First()); }
+                    addressHash.Add(Address.First());
                     arcSign.Close();
                 }
 
@@ -407,8 +429,8 @@ namespace ADD
                     System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
                     IEnumerable<string> Address = a.GetAddressesByAccount("~~" + cmbSignature.Text);
 
-                    arcSign.WriteLine(Address.First());
-                    arcSign.Close();
+                    if (!addressHash.Contains( Address.First())) { arcSign.WriteLine(Address.First()); }
+                       arcSign.Close();
 
                 }
 
@@ -629,8 +651,6 @@ namespace ADD
                 splitMain.SplitterDistance = Properties.Settings.Default.MainPanel;
                 chkEnableRecipients.Checked = Properties.Settings.Default.EnableRecipients;
                 chkKeywords.Checked = Properties.Settings.Default.EnableKeyWords;
-                chkFilterUnSafeContent.Checked = Properties.Settings.Default.EnableFilter;
-                chkMonitorBlockChains.Checked = Properties.Settings.Default.EnableMonitor;
                 chkTrackVault.Checked = Properties.Settings.Default.EnableTrackVault;
                 chkWarnArchive.Checked = Properties.Settings.Default.EnableSaveWarning;
                 chkSaveOnEnter.Checked = Properties.Settings.Default.EnableEnterEqualsSave;
@@ -1069,6 +1089,8 @@ namespace ADD
                 proofToolStripMenuItem.Enabled = true;
                 txtMessage.Select();
                 if (txtMessage.TextLength < 1) { imgEnterMessageHere.Visible = true; }
+                imgLink.Enabled = true;
+                imgLink.Image = Properties.Resources.Link;
 
             }
             else
@@ -1079,6 +1101,8 @@ namespace ADD
                 proofToolStripMenuItem.Enabled = false;
                 imgEnterMessageHere.Visible = false;
                 btnArchive.Enabled = false;
+                imgLink.Enabled = false;
+                imgLink.Image = Properties.Resources.LinkDisabled;
                                
 
             }
@@ -1680,7 +1704,7 @@ namespace ADD
         {
             if (!Loading)
             {
-                lblStatusInfo.Width = Main.ActiveForm.Width - 100;
+                lblStatusInfo.Width = Main.ActiveForm.Width - 150;
                 Properties.Settings.Default.AppHeight = this.Height;
                 Properties.Settings.Default.AppWidth = this.Width;
                 Properties.Settings.Default.Save();
@@ -1874,8 +1898,7 @@ namespace ADD
                 lblStatusInfo.ForeColor = System.Drawing.Color.Black;
                 
             }
-            Properties.Settings.Default.EnableMonitor = chkMonitorBlockChains.Checked;
-            Properties.Settings.Default.Save();
+
         }
 
         private void tmrGetNewTransactions_Tick(object sender, EventArgs e)
@@ -2033,7 +2056,10 @@ namespace ADD
                         if (result.account != null)
                         {
                             isFound = true;
-                            var transactions = b.ListTransactions(result.account, 100, 0, true);
+                            IEnumerable<ListTransactionsResponse> transactions;
+                            try { transactions = (IEnumerable<ListTransactionsResponse>)b.ListTransactions(result.account, 100, 0, true); }
+                            catch { transactions = (IEnumerable<ListTransactionsResponse>)b.ListTransactions(result.account, 100, 0); }
+
                             if (treeView1.Nodes["Follow"].Nodes.ContainsKey(searchString)) { treeView1.Nodes["Follow"].Nodes.RemoveByKey(searchString); }
                             node = treeView1.Nodes["Follow"].Nodes.Add(searchString);
                             node.Name = searchString;
@@ -2146,7 +2172,8 @@ namespace ADD
         private void performTransIDSearch(bool useCache)
         {
             var isFound = false;
-
+            Match match = Regex.Match(txtTransIDSearch.Text, @"([a-fA-F0-9]{64})");
+            string transID = match.Value;
 
              foreach (string i in cmbCoinType.Items)
             {
@@ -2154,7 +2181,7 @@ namespace ADD
                 {
                     lock (_buildLocker)
                     {
-                        isFound = CreateArchive(txtTransIDSearch.Text, i, true, useCache);
+                        isFound = CreateArchive(transID, i, true, useCache);
                     }
 
                     if (isFound)
@@ -2404,44 +2431,10 @@ namespace ADD
                     }
                 }
             }
-            Properties.Settings.Default.EnableFilter = chkFilterUnSafeContent.Checked;
-            Properties.Settings.Default.Save();
+
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-
-            CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
-
-            var privKeyHex = BitConverter.ToString(Base58.Decode(a.DumpPrivateKey("PECZDPtEhCF9jP1kzNJJxW8hq9RZ79xeDE"))).Replace("-", "");
-            privKeyHex = privKeyHex.Substring(2, 64);
-            BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
-            ECPoint publicKey = Secp256k1.Secp256k1.G.Multiply(privateKey);
-            //string bitcoinAddressUncompressed = publicKey.GetBitcoinAddress(false);
-            //string bitcoinAddressCompressed = publicKey.GetBitcoinAddress(compressed: true);
-            ECEncryption encryption = new ECEncryption();
-            var readFileBytes = System.IO.File.ReadAllBytes(txtFileName.Text);
-            byte[] encrypted = encryption.Encrypt(publicKey, readFileBytes);
-            System.IO.File.WriteAllBytes("CNG", encrypted);
-            //byte[] decrypted = encryption.Decrypt(privateKey, encrypted);
-            //System.IO.File.WriteAllBytes(txtFileName.Text + ".new", decrypted);
-            
-        }
-
- 
-
-        //private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        //{
-        //    this.btnArchive.Enabled = true;
-        //    this.txtFileName.Enabled = true;
-        //    this.txtMessage.Enabled = true;
-        //    this.chkKeywords.Enabled = true;
-        //    //this.chkPrivate.Enabled = true;
-        //    this.chkRecipients.Enabled = true;
-
-        //}
-
+  
         private void searchToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -2502,6 +2495,8 @@ namespace ADD
         }
         private void RefreshNavBtn()
         {
+            imgOpenUp.Refresh();
+            imgOpenRight.Refresh();
             if (webBrowser1.CanGoBack == true) { imgBackButton.Image = Properties.Resources.OpenLeft; }
             else { imgBackButton.Image = Properties.Resources.OpenLeftDisabled; }
 
@@ -2511,7 +2506,7 @@ namespace ADD
             Match match = Regex.Match(webBrowser1.Url.OriginalString, @"/([a-fA-F0-9]{64})", RegexOptions.RightToLeft);
             if (match.Success && webBrowser1.Url.OriginalString.StartsWith("file"))
              {
-                 txtTransIDSearch.Text = match.Value.TrimStart('/');
+                 txtTransIDSearch.Text = webBrowser1.Url.OriginalString.Substring(match.Index + 1);
              }
              else { txtTransIDSearch.Text = webBrowser1.Url.OriginalString; }
         }
@@ -2521,8 +2516,16 @@ namespace ADD
             RefreshNavBtn();
             
              if (System.IO.Directory.Exists("root\\" + txtTransIDSearch.Text))
-             { imgTrash.Image = Properties.Resources.Trash; imgTrash.Enabled = true; }
-             else { imgTrash.Image = Properties.Resources.TrashDisabled; imgTrash.Enabled = false; }
+             { imgTrash.Image = Properties.Resources.Trash; 
+               imgTrash.Enabled = true;
+               imgLink.Image = Properties.Resources.Link;
+               imgLink.Enabled = true;
+             }
+             else { imgTrash.Image = Properties.Resources.TrashDisabled; 
+                    imgTrash.Enabled = false;
+                    imgLink.Image = Properties.Resources.LinkDisabled;
+                    imgLink.Enabled = false;              
+             }
              
              if (webBrowser1.DocumentText == "")
              {   imgApertusSplash.Visible = true;
@@ -2604,7 +2607,7 @@ namespace ADD
         private string[] GetKeyWords(string message, string startsWith)
         {
             string strKeyWordAddress = null;
-            char[] delimiters = new char[] { '\r', '\n', ' ' };
+            char[] delimiters = new char[] { '\r', '\n', '!', '.', '?', ' ', ',', '\'' };
             string[] tokens = message.Split(delimiters);
             foreach (string token in tokens)
             {
@@ -3100,6 +3103,16 @@ namespace ADD
         {
             Properties.Settings.Default.EnableEnterEqualsSave = chkSaveOnEnter.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void imgLink_Click(object sender, EventArgs e)
+        {
+            Match match = Regex.Match(txtTransIDSearch.Text, @"([a-fA-F0-9]{64})");
+            if (match.Success)
+            {
+                if (txtFileName.Text == "") { txtFileName.Text = txtTransIDSearch.Text; }
+                else { txtFileName.Text = txtFileName.Text + "," + txtTransIDSearch.Text; }
+            }
         }
 
        }

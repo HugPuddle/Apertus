@@ -48,7 +48,6 @@ namespace ADD.Tools
                 {
                     var signature = "ANONYMOUS";
                     var img = "";
-                    //var file = "";
                     var msg = "";
                     var date = "";
                     var blockchain = "";
@@ -56,7 +55,7 @@ namespace ADD.Tools
 
                     Match match = regex.Match(folderPath);
                     string s = match.Value;
-                    //if (s == null) { break; }
+
                     try
                     {
                         var doc = new HtmlAgilityPack.HtmlDocument();
@@ -79,8 +78,8 @@ namespace ADD.Tools
                         catch { }
                         searchHTML = searchHTML + "<tr><td><a href='root/" + s + "/index.htm'>" + date + " - " + msg.PadRight(50).Substring(0, 49) + "...</a></td></tr>";
 
-                        if (msg.Length > 250)
-                        { searchHTML = searchHTML + "<tr><td>" + msg.Substring(0, 249) + "</td></tr>"; }
+                        if (msg.Length > 500)
+                        { searchHTML = searchHTML + "<tr><td>" + msg.Substring(0, 499) + "</td></tr>"; }
                         else { searchHTML = searchHTML + "<tr><td>" + msg + "</td></tr>"; }
 
 

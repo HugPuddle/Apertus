@@ -173,30 +173,6 @@ namespace ADD.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool EnableFilter {
-            get {
-                return ((bool)(this["EnableFilter"]));
-            }
-            set {
-                this["EnableFilter"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EnableMonitor {
-            get {
-                return ((bool)(this["EnableMonitor"]));
-            }
-            set {
-                this["EnableMonitor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool EnableTrackVault {
             get {
                 return ((bool)(this["EnableTrackVault"]));

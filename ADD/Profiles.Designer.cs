@@ -29,22 +29,20 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Profiles));
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.txtAddress3 = new System.Windows.Forms.TextBox();
+            this.txtAddress2 = new System.Windows.Forms.TextBox();
+            this.txtAddress1 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.txtSuffix = new System.Windows.Forms.TextBox();
+            this.txtLastName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtMiddleName = new System.Windows.Forms.TextBox();
+            this.txtFirstName = new System.Windows.Forms.TextBox();
+            this.txtPrefix = new System.Windows.Forms.TextBox();
+            this.txtNickName = new System.Windows.Forms.TextBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
@@ -60,62 +58,44 @@
             this.label9 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnArchive = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox5
+            // txtAddress3
             // 
-            this.textBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtAddress3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox5.Location = new System.Drawing.Point(9, 289);
-            this.textBox5.MaxLength = 20;
-            this.textBox5.Multiline = true;
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(431, 22);
-            this.textBox5.TabIndex = 129;
+            this.txtAddress3.Location = new System.Drawing.Point(223, 261);
+            this.txtAddress3.MaximumSize = new System.Drawing.Size(333, 22);
+            this.txtAddress3.MaxLength = 20;
+            this.txtAddress3.Name = "txtAddress3";
+            this.txtAddress3.Size = new System.Drawing.Size(217, 22);
+            this.txtAddress3.TabIndex = 127;
             // 
-            // label7
+            // txtAddress2
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 266);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(49, 17);
-            this.label7.TabIndex = 128;
-            this.label7.Text = "Object";
-            // 
-            // textBox8
-            // 
-            this.textBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtAddress2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox8.Location = new System.Drawing.Point(223, 261);
-            this.textBox8.MaximumSize = new System.Drawing.Size(333, 22);
-            this.textBox8.MaxLength = 20;
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(217, 22);
-            this.textBox8.TabIndex = 127;
+            this.txtAddress2.Location = new System.Drawing.Point(223, 234);
+            this.txtAddress2.MaximumSize = new System.Drawing.Size(333, 22);
+            this.txtAddress2.MaxLength = 20;
+            this.txtAddress2.Name = "txtAddress2";
+            this.txtAddress2.Size = new System.Drawing.Size(217, 22);
+            this.txtAddress2.TabIndex = 126;
             // 
-            // textBox10
+            // txtAddress1
             // 
-            this.textBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtAddress1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox10.Location = new System.Drawing.Point(223, 234);
-            this.textBox10.MaximumSize = new System.Drawing.Size(333, 22);
-            this.textBox10.MaxLength = 20;
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(217, 22);
-            this.textBox10.TabIndex = 126;
-            // 
-            // textBox11
-            // 
-            this.textBox11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox11.Location = new System.Drawing.Point(223, 207);
-            this.textBox11.MaximumSize = new System.Drawing.Size(333, 22);
-            this.textBox11.MaxLength = 20;
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(217, 22);
-            this.textBox11.TabIndex = 125;
+            this.txtAddress1.Location = new System.Drawing.Point(223, 207);
+            this.txtAddress1.MaximumSize = new System.Drawing.Size(333, 22);
+            this.txtAddress1.MaxLength = 20;
+            this.txtAddress1.Name = "txtAddress1";
+            this.txtAddress1.Size = new System.Drawing.Size(217, 22);
+            this.txtAddress1.TabIndex = 125;
             // 
             // label8
             // 
@@ -144,29 +124,29 @@
             this.label12.TabIndex = 123;
             this.label12.Text = "Address 3";
             // 
-            // textBox6
+            // txtSuffix
             // 
-            this.textBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox6.Location = new System.Drawing.Point(223, 179);
-            this.textBox6.MaximumSize = new System.Drawing.Size(333, 22);
-            this.textBox6.MaxLength = 20;
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(217, 22);
-            this.textBox6.TabIndex = 121;
-            this.textBox6.Text = "II";
+            this.txtSuffix.Location = new System.Drawing.Point(223, 179);
+            this.txtSuffix.MaximumSize = new System.Drawing.Size(333, 22);
+            this.txtSuffix.MaxLength = 20;
+            this.txtSuffix.Name = "txtSuffix";
+            this.txtSuffix.Size = new System.Drawing.Size(217, 22);
+            this.txtSuffix.TabIndex = 121;
+            this.txtSuffix.Text = "II";
             // 
-            // textBox7
+            // txtLastName
             // 
-            this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtLastName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox7.Location = new System.Drawing.Point(223, 152);
-            this.textBox7.MaximumSize = new System.Drawing.Size(333, 22);
-            this.textBox7.MaxLength = 20;
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(217, 22);
-            this.textBox7.TabIndex = 120;
-            this.textBox7.Text = "Bobby";
+            this.txtLastName.Location = new System.Drawing.Point(223, 152);
+            this.txtLastName.MaximumSize = new System.Drawing.Size(333, 22);
+            this.txtLastName.MaxLength = 20;
+            this.txtLastName.Name = "txtLastName";
+            this.txtLastName.Size = new System.Drawing.Size(217, 22);
+            this.txtLastName.TabIndex = 120;
+            this.txtLastName.Text = "Bobby";
             // 
             // label4
             // 
@@ -186,59 +166,59 @@
             this.label5.TabIndex = 119;
             this.label5.Text = "Suffix";
             // 
-            // textBox4
+            // txtMiddleName
             // 
-            this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtMiddleName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox4.Location = new System.Drawing.Point(223, 124);
-            this.textBox4.MaximumSize = new System.Drawing.Size(333, 22);
-            this.textBox4.MaxLength = 20;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(217, 22);
-            this.textBox4.TabIndex = 117;
-            this.textBox4.Text = "Michael";
+            this.txtMiddleName.Location = new System.Drawing.Point(223, 124);
+            this.txtMiddleName.MaximumSize = new System.Drawing.Size(333, 22);
+            this.txtMiddleName.MaxLength = 20;
+            this.txtMiddleName.Name = "txtMiddleName";
+            this.txtMiddleName.Size = new System.Drawing.Size(217, 22);
+            this.txtMiddleName.TabIndex = 117;
+            this.txtMiddleName.Text = "Michael";
             // 
-            // textBox3
+            // txtFirstName
             // 
-            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtFirstName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox3.Location = new System.Drawing.Point(223, 97);
-            this.textBox3.MaximumSize = new System.Drawing.Size(333, 22);
-            this.textBox3.MaxLength = 20;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(217, 22);
-            this.textBox3.TabIndex = 116;
-            this.textBox3.Text = "Eric";
+            this.txtFirstName.Location = new System.Drawing.Point(223, 97);
+            this.txtFirstName.MaximumSize = new System.Drawing.Size(333, 22);
+            this.txtFirstName.MaxLength = 20;
+            this.txtFirstName.Name = "txtFirstName";
+            this.txtFirstName.Size = new System.Drawing.Size(217, 22);
+            this.txtFirstName.TabIndex = 116;
+            this.txtFirstName.Text = "Eric";
             // 
-            // textBox2
+            // txtPrefix
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(223, 70);
-            this.textBox2.MaximumSize = new System.Drawing.Size(333, 22);
-            this.textBox2.MaxLength = 20;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(217, 22);
-            this.textBox2.TabIndex = 115;
+            this.txtPrefix.Location = new System.Drawing.Point(223, 70);
+            this.txtPrefix.MaximumSize = new System.Drawing.Size(333, 22);
+            this.txtPrefix.MaxLength = 20;
+            this.txtPrefix.Name = "txtPrefix";
+            this.txtPrefix.Size = new System.Drawing.Size(217, 22);
+            this.txtPrefix.TabIndex = 115;
             // 
-            // textBox1
+            // txtNickName
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtNickName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(223, 43);
-            this.textBox1.MaximumSize = new System.Drawing.Size(333, 22);
-            this.textBox1.MaxLength = 20;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(217, 22);
-            this.textBox1.TabIndex = 103;
-            this.textBox1.Text = "EMBII";
+            this.txtNickName.Location = new System.Drawing.Point(223, 43);
+            this.txtNickName.MaximumSize = new System.Drawing.Size(333, 22);
+            this.txtNickName.MaxLength = 20;
+            this.txtNickName.Name = "txtNickName";
+            this.txtNickName.Size = new System.Drawing.Size(217, 22);
+            this.txtNickName.TabIndex = 103;
+            this.txtNickName.Text = "EMBII";
             // 
             // textBox9
             // 
             this.textBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.textBox9.Location = new System.Drawing.Point(9, 380);
+            this.textBox9.Location = new System.Drawing.Point(9, 386);
             this.textBox9.MaximumSize = new System.Drawing.Size(547, 19);
             this.textBox9.Name = "textBox9";
             this.textBox9.ReadOnly = true;
@@ -257,7 +237,7 @@
             // button8
             // 
             this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button8.Location = new System.Drawing.Point(105, 317);
+            this.button8.Location = new System.Drawing.Point(105, 291);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(21, 27);
             this.button8.TabIndex = 114;
@@ -285,7 +265,7 @@
             // button6
             // 
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button6.Location = new System.Drawing.Point(105, 349);
+            this.button6.Location = new System.Drawing.Point(105, 323);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(21, 25);
             this.button6.TabIndex = 113;
@@ -297,9 +277,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(141, 48);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 17);
+            this.label1.Size = new System.Drawing.Size(83, 17);
             this.label1.TabIndex = 104;
-            this.label1.Text = "Nick Name";
+            this.label1.Text = "Short Name";
             // 
             // comboBox3
             // 
@@ -311,7 +291,7 @@
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
             "Select Funding Source"});
-            this.comboBox3.Location = new System.Drawing.Point(132, 349);
+            this.comboBox3.Location = new System.Drawing.Point(132, 323);
             this.comboBox3.MaximumSize = new System.Drawing.Size(424, 0);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(308, 25);
@@ -327,7 +307,7 @@
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
             "Select Funding Source"});
-            this.comboBox2.Location = new System.Drawing.Point(132, 318);
+            this.comboBox2.Location = new System.Drawing.Point(132, 292);
             this.comboBox2.MaximumSize = new System.Drawing.Size(424, 0);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(308, 25);
@@ -362,7 +342,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 349);
+            this.label6.Location = new System.Drawing.Point(9, 323);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(90, 17);
             this.label6.TabIndex = 107;
@@ -372,7 +352,7 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(15, 322);
+            this.label9.Location = new System.Drawing.Point(15, 296);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(84, 17);
             this.label9.TabIndex = 109;
@@ -380,7 +360,8 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::ADD.Properties.Resources.EMBII;
+            this.pictureBox2.Image = global::ADD.Properties.Resources.Profile;
+            this.pictureBox2.InitialImage = global::ADD.Properties.Resources.Profile;
             this.pictureBox2.Location = new System.Drawing.Point(20, 56);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(90, 90);
@@ -403,28 +384,65 @@
             this.btnArchive.Tag = "12345678901234567890";
             this.btnArchive.UseVisualStyleBackColor = true;
             // 
-            // Profile
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Location = new System.Drawing.Point(105, 354);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(21, 25);
+            this.button1.TabIndex = 133;
+            this.button1.Text = "+";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Enabled = false;
+            this.comboBox1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Select Funding Source"});
+            this.comboBox1.Location = new System.Drawing.Point(132, 354);
+            this.comboBox1.MaximumSize = new System.Drawing.Size(424, 0);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(308, 25);
+            this.comboBox1.TabIndex = 132;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(9, 354);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(88, 17);
+            this.label7.TabIndex = 131;
+            this.label7.Text = "Tkn Address";
+            // 
+            // Profiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(452, 409);
-            this.Controls.Add(this.btnArchive);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox10);
-            this.Controls.Add(this.textBox11);
+            this.Controls.Add(this.btnArchive);
+            this.Controls.Add(this.txtAddress3);
+            this.Controls.Add(this.txtAddress2);
+            this.Controls.Add(this.txtAddress1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox7);
+            this.Controls.Add(this.txtSuffix);
+            this.Controls.Add(this.txtLastName);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtMiddleName);
+            this.Controls.Add(this.txtFirstName);
+            this.Controls.Add(this.txtPrefix);
+            this.Controls.Add(this.txtNickName);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button8);
@@ -440,7 +458,7 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.pictureBox2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Profile";
+            this.Name = "Profiles";
             this.Text = "Profile";
             this.Load += new System.EventHandler(this.Profile_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -451,22 +469,20 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox txtAddress3;
+        private System.Windows.Forms.TextBox txtAddress2;
+        private System.Windows.Forms.TextBox txtAddress1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox txtSuffix;
+        private System.Windows.Forms.TextBox txtLastName;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtMiddleName;
+        private System.Windows.Forms.TextBox txtFirstName;
+        private System.Windows.Forms.TextBox txtPrefix;
+        private System.Windows.Forms.TextBox txtNickName;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button8;
@@ -482,5 +498,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button btnArchive;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label7;
     }
 }

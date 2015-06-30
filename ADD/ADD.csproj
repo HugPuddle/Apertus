@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\output.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Apertus.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
@@ -218,6 +218,10 @@
     <None Include="Resources\Public.png" />
     <None Include="Resources\home.png" />
     <None Include="Resources\EMBII.jpg" />
+    <None Include="Resources\FriendDisabled.png" />
+    <None Include="Resources\Friend.png" />
+    <None Include="Resources\Link.png" />
+    <None Include="Resources\LinkDisabled.png" />
     <Content Include="Resources\Splash.png" />
     <None Include="Resources\Profile.png" />
     <Content Include="Resources\file-icon.png" />
