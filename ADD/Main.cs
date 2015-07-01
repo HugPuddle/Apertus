@@ -978,13 +978,13 @@ namespace ADD
             cmbWalletLabel.Items.Add("Select Account");
             cmbWalletLabel.SelectedIndex = 0;
             cmbFolder.Items.Clear();
-            cmbFolder.Items.Add("No Folder");
+            cmbFolder.Items.Add("Select Profile");
             cmbFolder.SelectedIndex = 0;
             cmbSignature.Items.Clear();
-            cmbSignature.Items.Add("No Signature");
+            cmbSignature.Items.Add("Select Signature");
             cmbSignature.SelectedIndex = 0;
             cmbVault.Items.Clear();
-            cmbVault.Items.Add("No Vault");
+            cmbVault.Items.Add("Select Vault");
             cmbVault.SelectedIndex = 0;
             if (cmbCoinType.SelectedIndex > 0)
             {
@@ -1701,14 +1701,15 @@ namespace ADD
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            if (!Loading)
+            try
             {
                 lblStatusInfo.Width = Main.ActiveForm.Width - 150;
                 Properties.Settings.Default.AppHeight = this.Height;
                 Properties.Settings.Default.AppWidth = this.Width;
                 Properties.Settings.Default.Save();
             }
-            
+            catch {}
+                       
         }
 
         private void tmrStatusUpdate_Tick(object sender, EventArgs e)
@@ -2905,10 +2906,14 @@ namespace ADD
         private void Main_Shown(object sender, EventArgs e)
         {
             Loading = false;
-            if (Main.ActiveForm.Width != null)
+            try
             {
-                lblStatusInfo.Width = Main.ActiveForm.Width - 100;
+                if (Main.ActiveForm.Width > 0)
+                {
+                    lblStatusInfo.Width = Main.ActiveForm.Width - 100;
+                }
             }
+            catch { }
         }
 
         private void imgApertusSplash_Resize(object sender, EventArgs e)

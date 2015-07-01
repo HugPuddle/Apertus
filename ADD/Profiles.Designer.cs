@@ -134,7 +134,6 @@
             this.txtSuffix.Name = "txtSuffix";
             this.txtSuffix.Size = new System.Drawing.Size(217, 22);
             this.txtSuffix.TabIndex = 121;
-            this.txtSuffix.Text = "II";
             // 
             // txtLastName
             // 
@@ -146,7 +145,6 @@
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(217, 22);
             this.txtLastName.TabIndex = 120;
-            this.txtLastName.Text = "Bobby";
             // 
             // label4
             // 
@@ -176,7 +174,6 @@
             this.txtMiddleName.Name = "txtMiddleName";
             this.txtMiddleName.Size = new System.Drawing.Size(217, 22);
             this.txtMiddleName.TabIndex = 117;
-            this.txtMiddleName.Text = "Michael";
             // 
             // txtFirstName
             // 
@@ -188,7 +185,6 @@
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(217, 22);
             this.txtFirstName.TabIndex = 116;
-            this.txtFirstName.Text = "Eric";
             // 
             // txtPrefix
             // 
@@ -211,7 +207,6 @@
             this.txtNickName.Name = "txtNickName";
             this.txtNickName.Size = new System.Drawing.Size(217, 22);
             this.txtNickName.TabIndex = 103;
-            this.txtNickName.Text = "EMBII";
             // 
             // textBox9
             // 
