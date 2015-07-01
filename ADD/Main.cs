@@ -352,11 +352,9 @@ namespace ADD
 
                 if (cmbSignature.SelectedIndex > 0)
                 {
-
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
                     IEnumerable<string> Address = a.GetAddressesByAccount("~~" + cmbSignature.Text);
                     signingAddress = Address.First();                  
-
                 }
 
 
@@ -785,6 +783,7 @@ namespace ADD
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
                     writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False  ");
+                    writeCoinConf.WriteLine("Bitcoin-Test 111 20 .0001 .00000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False  ");
                     writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False  ");
                     writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False  ");
                     writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False  ");
