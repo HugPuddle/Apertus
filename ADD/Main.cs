@@ -454,7 +454,15 @@ namespace ADD
                 {
                     try
                     {
-                        toMany.Add(line, CoinMinTransaction);
+                        if (line.Contains('>'))
+                        {
+                            var tip = line.Split('>');
+                            toMany.Add(tip[0], Convert.ToDecimal(tip[1]));
+                        }
+                        else
+                        {
+                            toMany.Add(line, CoinMinTransaction);
+                        }
                         progressBar.PerformStep();
 
                     }
@@ -474,7 +482,15 @@ namespace ADD
                         lastTransaction = new Dictionary<string, decimal>(toMany);
                         lastTransactionID = transactionId;
                         toMany.Clear();
-                        toMany.Add(line, CoinMinTransaction);
+                        if (line.Contains('>'))
+                        {
+                            var tip = line.Split('>');
+                            toMany.Add(tip[0], Convert.ToDecimal(tip[1]));
+                        }
+                        else
+                        {
+                            toMany.Add(line, CoinMinTransaction);
+                        }
                         progressBar.PerformStep();
                         tranCount = 0;
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
@@ -1032,6 +1048,7 @@ namespace ADD
                         btnAddSignature.Enabled = true;
                         cmbVault.Enabled = true;
                         btnAddVault.Enabled = true;
+                        cmbTo.Enabled = true;
 
 
                     }
@@ -1051,6 +1068,7 @@ namespace ADD
                         cmbVault.SelectedIndex = 0;
                         cmbVault.Enabled = false;
                         btnAddVault.Enabled = false;
+                        cmbTo.Enabled = false;
                         tmrStatusUpdate.Start();
                     }
 
@@ -1071,6 +1089,7 @@ namespace ADD
                     cmbSignature.SelectedIndex = 0;
                     cmbSignature.Enabled = false;
                     btnAddSignature.Enabled = false;
+                    cmbTo.Enabled = false;
                     tmrStatusUpdate.Start();
                 }
 
@@ -1643,7 +1662,7 @@ namespace ADD
 
                 if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)))
                 {
-                    strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file" + fileId + "\">[ " + FileName + " ]</div></div>";
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file" + fileId + "\">[ " + FileName + " ]</div></div></div>";
                     foundType = true;
                     fileId++;
                 }
@@ -1688,7 +1707,14 @@ namespace ADD
 
                 if (TrustContent)
                 {
-                    FileStream attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create);
+                    FileStream attachStream = null;
+                    if (FileName == "LNK" || FileName == "TKN")
+                    {
+                        attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Append);
+                        byte[] newline = Encoding.UTF8.GetBytes(Environment.NewLine);
+                        attachStream.Write(newline, 0, newline.Length);
+                    }
+                    else { attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create); }
                     attachStream.Write(ByteData, 0, ByteData.Length);
                     attachStream.Close();
                 }
@@ -2369,7 +2395,7 @@ namespace ADD
                     }
                 }
 
-                CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], "", null, strHash + "\n" + "FileName:" + Path.GetFileName(openDigestFile.FileName));
+                CreateLedgerFile(coinPayloadByteSize[cmbCoinType.Text], GetRandomBuffer(coinPayloadByteSize[cmbCoinType.Text]), coinIP[cmbCoinType.Text], coinPort[cmbCoinType.Text], coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text], cmbWalletLabel.Text, coinVersion[cmbCoinType.Text], coinMinTransaction[cmbCoinType.Text], txtFileName.Text, null, strHash + "\n" + "FileName:" + Path.GetFileName(openDigestFile.FileName));
 
             }
 
@@ -2414,9 +2440,13 @@ namespace ADD
                 }
                 if (!isFound)
                 {
-                    lblStatusInfo.ForeColor = System.Drawing.Color.Black;
-                    lblStatusInfo.Text = "Not found in linked Blockchains.";
-                    tmrStatusUpdate.Start();
+                    try
+                    {
+                        lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                        lblStatusInfo.Text = "Not found in linked Blockchains.";
+                        tmrStatusUpdate.Start();
+                    }
+                    catch { }
                 }
 
             }
@@ -2508,6 +2538,12 @@ namespace ADD
         private void searchToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+           
+
+        }
+
+        private void searchByFile()
+        {
             DialogResult result = openDigestFile.ShowDialog(); // Show the dialog.
             if (result == DialogResult.OK) // Test result.
             {
@@ -2526,7 +2562,6 @@ namespace ADD
                 performTextSearch(strProofAddress);
 
             }
-
         }
 
 
@@ -2684,7 +2719,7 @@ namespace ADD
         private string[] GetKeyWords(string message, string startsWith)
         {
             string strKeyWordAddress = null;
-            char[] delimiters = new char[] { '\r', '\n', '!', '.', '?', ' ', ',', '\'' };
+            char[] delimiters = new char[] { '\r', '\n', '!', '?', ' ', ',', '\'' };
             string[] tokens = message.Split(delimiters);
             foreach (string token in tokens)
             {
@@ -2706,14 +2741,16 @@ namespace ADD
                 if (startsWith == "@" && token.StartsWith(startsWith))
                 {
                     var b = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
-                    var response = b.ValidateAddress(token.Substring(1, token.Length - 1));
+                    var addressArray = token.Substring(1).Split('>');
+                    string addressOnly = addressArray[0];
+                    var response = b.ValidateAddress(addressOnly);
                     if (response.isvalid)
                     {
                         if (strKeyWordAddress == null)
                         {
-                            strKeyWordAddress = token.Substring(1, token.Length - 1);
+                            strKeyWordAddress = token.Substring(1);
                         }
-                        else { strKeyWordAddress = strKeyWordAddress + "," + token.Substring(1, token.Length - 1); }
+                        else { strKeyWordAddress = strKeyWordAddress + "," + token.Substring(1); }
                     }
 
                 }
@@ -2740,8 +2777,8 @@ namespace ADD
                 {
                     var b = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
                     var transactions = b.ListTransactions("~" + cmbFolder.Text, 100, 0);
-                    if (treeView1.Nodes["Folder"].Nodes.ContainsKey(cmbFolder.Text)) { treeView1.Nodes["Folder"].Nodes.RemoveByKey(cmbFolder.Text); }
-                    node = treeView1.Nodes["Folder"].Nodes.Add(cmbFolder.Text);
+                    if (treeView1.Nodes["Profile"].Nodes.ContainsKey(cmbFolder.Text)) { treeView1.Nodes["Profile"].Nodes.RemoveByKey(cmbFolder.Text); }
+                    node = treeView1.Nodes["Profile"].Nodes.Add(cmbFolder.Text);
                     node.Name = cmbFolder.Text;
 
                     foreach (var transaction in transactions)
@@ -2765,8 +2802,8 @@ namespace ADD
                             node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
                         }
                     }
-                    treeView1.Nodes["Folder"].Expand();
-                    treeView1.Nodes["Folder"].Nodes[cmbFolder.Text].ExpandAll();
+                    treeView1.Nodes["Profile"].Expand();
+                    treeView1.Nodes["Profile"].Nodes[cmbFolder.Text].ExpandAll();
 
                 }
                 catch (Exception b)
@@ -2830,8 +2867,8 @@ namespace ADD
 
         private void btnAddFolder_Click(object sender, EventArgs e)
         {
-            txtAddFolder.Visible = true;
-            cmbFolder.Visible = false;
+            System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(OpenProfileForm));
+            t.Start();
         }
 
         private void btnAddSignature_Click(object sender, EventArgs e)
@@ -2846,41 +2883,7 @@ namespace ADD
             cmbVault.Visible = false;
         }
 
-        private void txtAddFolder_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyValue == 13)
-            {
-                try
-                {
-                    CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[cmbCoinType.Text]) + ":" + coinPort[cmbCoinType.Text]), new NetworkCredential(coinUser[cmbCoinType.Text], coinPassword[cmbCoinType.Text]));
-                    string label;
-                    if (txtAddFolder.Text.LastIndexOf('~') > -1)
-                    { label = txtAddFolder.Text; }
-                    else { label = "~" + txtAddFolder.Text; }
-                    label = a.GetNewAddress(label);
-                    cmbFolder.Items.Add(txtAddFolder.Text);
-                    txtAddFolder.Visible = false;
-                    cmbFolder.Visible = true;
-                    cmbFolder.SelectedItem = txtAddFolder.Text;
-                    StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
-                    writeTrustList.WriteLine(label);
-                    writeTrustList.Close();
-                    RefreshHashCache();
-                    txtAddFolder.Text = "";
-                    lblStatusInfo.Text = "Folder linked to " + label;
-                    tmrStatusUpdate.Start();
-
-                }
-                catch (Exception m)
-                {
-                    lblStatusInfo.Text = "Error: " + m.Message;
-                    tmrStatusUpdate.Start();
-                }
-
-            }
-            if (e.KeyValue == 27)
-            { txtAddFolder.Text = ""; txtAddFolder.Visible = false; cmbFolder.Visible = true; }
-        }
+     
 
         private void txtAddSignature_KeyDown(object sender, KeyEventArgs e)
         {
@@ -3212,6 +3215,42 @@ namespace ADD
                 else { txtFileName.Text = txtFileName.Text + "," + fileName; }
 
 
+            }
+        }
+
+        private void fileToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            searchByFile();
+        }
+
+        private void cmbTo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (cmbTo.Text == "TO:")
+            { cmbTo.Text = ""; }
+        }
+
+        private void cmbTo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbTo_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (cmbTo.Text == "TO:")
+            { cmbTo.Text = ""; }
+        }
+
+        private void hashToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string hash = "";
+            if (User.InputBox("Apertus", "Enter Hash to search.", ref hash) == DialogResult.OK)
+            {
+                byte[] payLoadBytes = new byte[21];
+                payLoadBytes[0] = coinVersion[cmbCoinType.Text];
+                byte[] hashBytes = Encoding.UTF8.GetBytes(hash.Substring(0, 20));
+                hashBytes.CopyTo(payLoadBytes, 1);
+                string strProofAddress = Base58.EncodeWithCheckSum(payLoadBytes);
+                performTextSearch(strProofAddress);
             }
         }
 

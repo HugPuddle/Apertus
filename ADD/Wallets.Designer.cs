@@ -381,7 +381,7 @@
             // 
             this.txtShortName.Enabled = false;
             this.txtShortName.Location = new System.Drawing.Point(129, 92);
-            this.txtShortName.MaxLength = 4;
+            this.txtShortName.MaxLength = 20;
             this.txtShortName.Name = "txtShortName";
             this.txtShortName.Size = new System.Drawing.Size(100, 22);
             this.txtShortName.TabIndex = 43;
