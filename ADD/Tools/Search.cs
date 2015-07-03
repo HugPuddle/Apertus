@@ -26,7 +26,7 @@ namespace ADD.Tools
                 };
 
             OleDbConnection connection = new OleDbConnection(connectionString);
-            string query = @"SELECT TOP 50 System.ItemFolderPathDisplay FROM SystemIndex WHERE scope ='file:" + scope + "' and FREETEXT('" + searchEntry.Replace("'", "").Replace("\"", "").Replace("\\", "") + "')";
+            string query = @"SELECT TOP 100 System.ItemFolderPathDisplay FROM SystemIndex WHERE scope ='file:" + scope + "' and FREETEXT('" + searchEntry.Replace("'", "").Replace("\"", "").Replace("\\", "") + "')";
             OleDbCommand command = new OleDbCommand(query, connection);
             connection.Open();
             HashSet<string> result = new HashSet<string>();
