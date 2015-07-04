@@ -51,7 +51,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cmbTipAddress = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.cmbProfileAddress = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnArchive = new System.Windows.Forms.Button();
@@ -61,6 +61,8 @@
             this.button3 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.txtTipAddress = new System.Windows.Forms.TextBox();
+            this.txtProfileAddress = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -238,6 +240,7 @@
             this.button8.TabIndex = 114;
             this.button8.Text = "+";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // label10
             // 
@@ -271,7 +274,6 @@
             this.cmbTipAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbTipAddress.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTipAddress.Enabled = false;
             this.cmbTipAddress.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTipAddress.FormattingEnabled = true;
             this.cmbTipAddress.Items.AddRange(new object[] {
@@ -290,22 +292,22 @@
             this.button2.TabIndex = 101;
             this.button2.Text = "+";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // comboBox4
+            // cmbProfileAddress
             // 
-            this.comboBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.cmbProfileAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.Enabled = false;
-            this.comboBox4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Items.AddRange(new object[] {
+            this.cmbProfileAddress.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbProfileAddress.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbProfileAddress.FormattingEnabled = true;
+            this.cmbProfileAddress.Items.AddRange(new object[] {
             "Select Funding Source"});
-            this.comboBox4.Location = new System.Drawing.Point(36, 12);
-            this.comboBox4.MaximumSize = new System.Drawing.Size(520, 0);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(329, 25);
-            this.comboBox4.TabIndex = 100;
+            this.cmbProfileAddress.Location = new System.Drawing.Point(36, 12);
+            this.cmbProfileAddress.MaximumSize = new System.Drawing.Size(520, 0);
+            this.cmbProfileAddress.Name = "cmbProfileAddress";
+            this.cmbProfileAddress.Size = new System.Drawing.Size(329, 25);
+            this.cmbProfileAddress.TabIndex = 100;
             // 
             // label9
             // 
@@ -384,19 +386,20 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button3.Enabled = false;
             this.button3.Location = new System.Drawing.Point(105, 351);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(21, 27);
             this.button3.TabIndex = 136;
             this.button3.Text = "+";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // comboBox2
             // 
             this.comboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.Enabled = false;
             this.comboBox2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
@@ -406,24 +409,43 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(308, 25);
             this.comboBox2.TabIndex = 135;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label7
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.AutoSize = true;
+            this.label7.Enabled = false;
             this.label7.Location = new System.Drawing.Point(11, 356);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(92, 17);
             this.label7.TabIndex = 134;
             this.label7.Text = "Encrypt  With";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
+            // 
+            // txtTipAddress
+            // 
+            this.txtTipAddress.Location = new System.Drawing.Point(133, 291);
+            this.txtTipAddress.Name = "txtTipAddress";
+            this.txtTipAddress.Size = new System.Drawing.Size(307, 22);
+            this.txtTipAddress.TabIndex = 137;
+            this.txtTipAddress.Visible = false;
+            this.txtTipAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTipAddress_KeyDown);
+            // 
+            // txtProfileAddress
+            // 
+            this.txtProfileAddress.Location = new System.Drawing.Point(37, 13);
+            this.txtProfileAddress.Name = "txtProfileAddress";
+            this.txtProfileAddress.Size = new System.Drawing.Size(328, 22);
+            this.txtProfileAddress.TabIndex = 138;
+            this.txtProfileAddress.Visible = false;
+            this.txtProfileAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProfileAddress_KeyDown);
             // 
             // Profiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(452, 414);
+            this.Controls.Add(this.txtProfileAddress);
+            this.Controls.Add(this.txtTipAddress);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.label7);
@@ -453,14 +475,14 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbTipAddress);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.comboBox4);
+            this.Controls.Add(this.cmbProfileAddress);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.pictureBox2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(470, 423);
             this.Name = "Profiles";
             this.Text = "Profile";
-            this.Load += new System.EventHandler(this.Profile_Load);
+            this.Load += new System.EventHandler(this.Profiles_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -491,7 +513,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbTipAddress;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox cmbProfileAddress;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button btnArchive;
@@ -501,5 +523,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtTipAddress;
+        private System.Windows.Forms.TextBox txtProfileAddress;
     }
 }

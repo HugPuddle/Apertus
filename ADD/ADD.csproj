@@ -204,6 +204,8 @@
     <Content Include="Info.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Tip.png" />
+    <None Include="Resources\TipDisabled.png" />
     <None Include="Resources\TrashDisabled.png" />
     <None Include="Resources\Trash.png" />
     <None Include="Resources\star.png" />

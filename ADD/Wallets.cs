@@ -40,6 +40,7 @@ namespace ADD
                 txtVersion.Text = Main.coinVersion[cmbWallets.Text].ToString();
                 txtPayload.Text = Main.coinPayloadByteSize[cmbWallets.Text].ToString();
                 txtTransactionFee.Text = Main.coinTransactionFee[cmbWallets.Text].ToString();
+                txtTipAmount.Text = Main.coinTipAmount[cmbWallets.Text].ToString();
                 txtMinTransaction.Text = Main.coinMinTransaction[cmbWallets.Text].ToString();
                 txtTransactionSize.Text = Main.coinTransactionSize[cmbWallets.Text].ToString();
                 txtRPCPort.Text = Main.coinPort[cmbWallets.Text];
@@ -58,6 +59,7 @@ namespace ADD
                 txtPayload.Enabled = true;
                 txtTransactionFee.Enabled = true;
                 txtMinTransaction.Enabled = true;
+                txtTipAmount.Enabled = true;
                 txtTransactionSize.Enabled = true;
                 txtRPCPort.Enabled = true;
                 txtRPCIP.Enabled = true;
@@ -81,6 +83,7 @@ namespace ADD
                 txtPayload.Enabled = false;
                 txtTransactionFee.Enabled = false;
                 txtMinTransaction.Enabled = false;
+                txtTipAmount.Enabled = false;
                 txtTransactionSize.Enabled = false;
                 txtRPCPort.Enabled = false;
                 txtRPCIP.Enabled = false;
@@ -99,6 +102,7 @@ namespace ADD
                 txtPayload.Text = "";
                 txtTransactionFee.Text = "";
                 txtMinTransaction.Text = "";
+                txtTipAmount.Text = "";
                 txtTransactionSize.Text = "";
                 txtRPCPort.Text = "";
                 txtRPCIP.Text = "";
@@ -126,6 +130,7 @@ namespace ADD
                 Main.coinShortName.Add(txtName.Text, txtShortName.Text);
                 Main.coinPayloadByteSize.Add(txtName.Text, int.Parse(txtPayload.Text));
                 Main.coinTransactionFee.Add(txtName.Text, decimal.Parse(txtTransactionFee.Text));
+                Main.coinTipAmount.Add(txtName.Text, decimal.Parse(txtTipAmount.Text));
                 Main.coinMinTransaction.Add(txtName.Text, decimal.Parse(txtMinTransaction.Text));
                 Main.coinTransactionSize.Add(txtName.Text, int.Parse(txtTransactionSize.Text));
                 Main.coinPort.Add(txtName.Text, txtRPCPort.Text);
@@ -181,6 +186,7 @@ namespace ADD
                 Main.coinPayloadByteSize[cmbWallets.Text] = int.Parse(txtPayload.Text);
                 Main.coinTransactionFee[cmbWallets.Text] = decimal.Parse(txtTransactionFee.Text);
                 Main.coinMinTransaction[cmbWallets.Text] = decimal.Parse(txtMinTransaction.Text);
+                Main.coinTipAmount[cmbWallets.Text] = decimal.Parse(txtTipAmount.Text);
 
                 // Transaction Sizes under 12 can cause an infinite loop that would drain a users wallet                    // Transaction Sizes under 12 can cause an infinite loop that would drain a users wallet
                 if (int.Parse(txtTransactionSize.Text) > 11)

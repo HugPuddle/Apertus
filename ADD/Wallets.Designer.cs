@@ -67,6 +67,9 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.txtHelperUrl = new System.Windows.Forms.TextBox();
+            this.txtTipAmount = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cmbWallets
@@ -117,7 +120,7 @@
             // txtMinTransaction
             // 
             this.txtMinTransaction.Enabled = false;
-            this.txtMinTransaction.Location = new System.Drawing.Point(129, 235);
+            this.txtMinTransaction.Location = new System.Drawing.Point(129, 264);
             this.txtMinTransaction.Name = "txtMinTransaction";
             this.txtMinTransaction.Size = new System.Drawing.Size(100, 22);
             this.txtMinTransaction.TabIndex = 5;
@@ -133,7 +136,7 @@
             // txtRPCPort
             // 
             this.txtRPCPort.Enabled = false;
-            this.txtRPCPort.Location = new System.Drawing.Point(129, 263);
+            this.txtRPCPort.Location = new System.Drawing.Point(129, 292);
             this.txtRPCPort.Name = "txtRPCPort";
             this.txtRPCPort.Size = new System.Drawing.Size(100, 22);
             this.txtRPCPort.TabIndex = 7;
@@ -141,7 +144,7 @@
             // txtRPCIP
             // 
             this.txtRPCIP.Enabled = false;
-            this.txtRPCIP.Location = new System.Drawing.Point(129, 291);
+            this.txtRPCIP.Location = new System.Drawing.Point(129, 320);
             this.txtRPCIP.Name = "txtRPCIP";
             this.txtRPCIP.Size = new System.Drawing.Size(100, 22);
             this.txtRPCIP.TabIndex = 8;
@@ -149,7 +152,7 @@
             // txtRPCUser
             // 
             this.txtRPCUser.Enabled = false;
-            this.txtRPCUser.Location = new System.Drawing.Point(129, 319);
+            this.txtRPCUser.Location = new System.Drawing.Point(129, 348);
             this.txtRPCUser.Name = "txtRPCUser";
             this.txtRPCUser.Size = new System.Drawing.Size(378, 22);
             this.txtRPCUser.TabIndex = 9;
@@ -157,7 +160,7 @@
             // txtRPCPassword
             // 
             this.txtRPCPassword.Enabled = false;
-            this.txtRPCPassword.Location = new System.Drawing.Point(129, 347);
+            this.txtRPCPassword.Location = new System.Drawing.Point(129, 376);
             this.txtRPCPassword.Name = "txtRPCPassword";
             this.txtRPCPassword.Size = new System.Drawing.Size(378, 22);
             this.txtRPCPassword.TabIndex = 10;
@@ -192,7 +195,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 238);
+            this.label4.Location = new System.Drawing.Point(15, 267);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(109, 17);
             this.label4.TabIndex = 14;
@@ -210,7 +213,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(58, 266);
+            this.label6.Location = new System.Drawing.Point(58, 295);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 17);
             this.label6.TabIndex = 16;
@@ -219,7 +222,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(72, 294);
+            this.label7.Location = new System.Drawing.Point(72, 323);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(52, 17);
             this.label7.TabIndex = 17;
@@ -228,7 +231,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(54, 322);
+            this.label8.Location = new System.Drawing.Point(54, 351);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(70, 17);
             this.label8.TabIndex = 18;
@@ -237,7 +240,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(23, 350);
+            this.label9.Location = new System.Drawing.Point(23, 379);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(101, 17);
             this.label9.TabIndex = 19;
@@ -290,7 +293,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(234, 235);
+            this.label15.Location = new System.Drawing.Point(234, 264);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(255, 17);
             this.label15.TabIndex = 28;
@@ -299,7 +302,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(234, 266);
+            this.label16.Location = new System.Drawing.Point(234, 295);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(179, 17);
             this.label16.TabIndex = 29;
@@ -308,7 +311,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(234, 294);
+            this.label17.Location = new System.Drawing.Point(234, 323);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(152, 17);
             this.label17.TabIndex = 30;
@@ -329,7 +332,7 @@
             // 
             this.chkGetRawSupport.AutoSize = true;
             this.chkGetRawSupport.Enabled = false;
-            this.chkGetRawSupport.Location = new System.Drawing.Point(129, 413);
+            this.chkGetRawSupport.Location = new System.Drawing.Point(100, 455);
             this.chkGetRawSupport.Name = "chkGetRawSupport";
             this.chkGetRawSupport.Size = new System.Drawing.Size(77, 21);
             this.chkGetRawSupport.TabIndex = 32;
@@ -361,7 +364,7 @@
             // chkEnabled
             // 
             this.chkEnabled.AutoSize = true;
-            this.chkEnabled.Location = new System.Drawing.Point(12, 413);
+            this.chkEnabled.Location = new System.Drawing.Point(12, 455);
             this.chkEnabled.Name = "chkEnabled";
             this.chkEnabled.Size = new System.Drawing.Size(82, 21);
             this.chkEnabled.TabIndex = 34;
@@ -398,7 +401,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(19, 379);
+            this.label21.Location = new System.Drawing.Point(19, 408);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(105, 17);
             this.label21.TabIndex = 47;
@@ -407,16 +410,45 @@
             // txtHelperUrl
             // 
             this.txtHelperUrl.Enabled = false;
-            this.txtHelperUrl.Location = new System.Drawing.Point(129, 376);
+            this.txtHelperUrl.Location = new System.Drawing.Point(129, 405);
             this.txtHelperUrl.Name = "txtHelperUrl";
             this.txtHelperUrl.Size = new System.Drawing.Size(378, 22);
             this.txtHelperUrl.TabIndex = 46;
+            // 
+            // txtTipAmount
+            // 
+            this.txtTipAmount.Enabled = false;
+            this.txtTipAmount.Location = new System.Drawing.Point(129, 235);
+            this.txtTipAmount.Name = "txtTipAmount";
+            this.txtTipAmount.Size = new System.Drawing.Size(100, 22);
+            this.txtTipAmount.TabIndex = 48;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(44, 238);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(80, 17);
+            this.label14.TabIndex = 49;
+            this.label14.Text = "Tip Amount";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(234, 238);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(54, 17);
+            this.label18.TabIndex = 50;
+            this.label18.Text = "( .001 )";
             // 
             // Wallets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(523, 442);
+            this.ClientSize = new System.Drawing.Size(523, 488);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.txtTipAmount);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.txtHelperUrl);
             this.Controls.Add(this.label20);
@@ -457,9 +489,7 @@
             this.Controls.Add(this.cmbWallets);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(541, 487);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(541, 487);
             this.Name = "Wallets";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -511,5 +541,8 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox txtHelperUrl;
+        private System.Windows.Forms.TextBox txtTipAmount;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label18;
     }
 }

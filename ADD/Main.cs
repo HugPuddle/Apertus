@@ -33,6 +33,7 @@ namespace ADD
         public static Dictionary<string, string> coinTrackingAddress;
         public static Dictionary<string, decimal> coinTransactionFee;
         public static Dictionary<string, decimal> coinMinTransaction;
+        public static Dictionary<string, decimal> coinTipAmount;
         public static Dictionary<string, int> coinTransactionSize;
         public static Dictionary<string, Boolean> coinEnableMonitoring;
         public static Dictionary<string, Boolean> coinFeePerAddress;
@@ -40,6 +41,7 @@ namespace ADD
         public static Dictionary<string, Boolean> coinEnableSigning;
         public static Dictionary<string, Boolean> coinEnableTracking;
         public static Dictionary<string, string> coinHelperUrl;
+        public static string CoinType = "";
         IDictionary<string, decimal> allAccounts;
         Dictionary<string, IEnumerable<string>> coinLastMemoryDump;
 
@@ -791,6 +793,7 @@ namespace ADD
                 coinPayloadByteSize = new Dictionary<string, int>();
                 coinTransactionFee = new Dictionary<string, decimal>();
                 coinMinTransaction = new Dictionary<string, decimal>();
+                coinTipAmount = new Dictionary<string, decimal>();
                 coinTransactionSize = new Dictionary<string, int>();
                 coinPort = new Dictionary<string, string>();
                 coinIP = new Dictionary<string, string>();
@@ -810,14 +813,14 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False  ");
-                    writeCoinConf.WriteLine("Bitcoin-Test 111 20 .0001 .00000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False  ");
-                    writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False  ");
-                    writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False  ");
-                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False  ");
-                    writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False  ");
-                    writeCoinConf.WriteLine("Devcoin 0 20 .6 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False  ");
-                    writeCoinConf.WriteLine("Potcoin 55 20 .001 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False  ");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001");
+                    writeCoinConf.WriteLine("Bitcoin-Test 111 20 .0001 .00000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001");
+                    writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False   .001");
+                    writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001");
+                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False   .001");
+                    writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False   .001");
+                    writeCoinConf.WriteLine("Devcoin 0 20 .6 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False   .001");
+                    writeCoinConf.WriteLine("Potcoin 55 20 .001 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False   .001");
 
                     writeCoinConf.Close();
                 }
@@ -853,7 +856,7 @@ namespace ADD
                 System.IO.StreamReader readCoinConf = new System.IO.StreamReader("coin.conf");
                 while ((confLine = readCoinConf.ReadLine()) != null)
                 {
-                    string[] coins = new string[] { "Coin", "0", "20", ".00001", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "", "False", "", "" };
+                    string[] coins = new string[] { "Coin", "0", "20", ".00001", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "", "False", "", "", ".001" };
                     string[] loadCoin = confLine.Split(' ');
                     int intSetting = 0;
                     foreach (string s in loadCoin)
@@ -888,6 +891,7 @@ namespace ADD
                     coinSigningAddress.Add(coins[0], coins[14]);
                     coinTrackingAddress.Add(coins[0], coins[17]);
                     coinHelperUrl.Add(coins[0], coins[18]);
+                    coinTipAmount.Add(coins[0], decimal.Parse(coins[19]));
                     if (coins[16].ToUpper() == "TRUE") { coinEnableTracking.Add(coins[0], true); } else { coinEnableTracking.Add(coins[0], false); }
                     coinLastMemoryDump.Add(coins[0], null);
 
@@ -922,6 +926,8 @@ namespace ADD
                 cmbSignature.SelectedIndex = 0;
                 cmbSignature.Enabled = false;
                 btnAddSignature.Enabled = false;
+                profilesToolStripMenuItem.Enabled = false;
+                cmbTo.Enabled = false;
                 tmrStatusUpdate.Start();
             }
         }
@@ -996,6 +1002,7 @@ namespace ADD
         {
             decimal totalValue = 0;
             searchToolStripMenuItem.Enabled = false;
+            CoinType = cmbCoinType.Text;
 
             if (fileSize > 0 || txtMessage.TextLength > 0)
             {
@@ -1049,6 +1056,7 @@ namespace ADD
                         cmbVault.Enabled = true;
                         btnAddVault.Enabled = true;
                         cmbTo.Enabled = true;
+                        profilesToolStripMenuItem.Enabled = true;
 
 
                     }
@@ -1069,6 +1077,7 @@ namespace ADD
                         cmbVault.Enabled = false;
                         btnAddVault.Enabled = false;
                         cmbTo.Enabled = false;
+                        profilesToolStripMenuItem.Enabled = false;
                         tmrStatusUpdate.Start();
                     }
 
@@ -1090,6 +1099,7 @@ namespace ADD
                     cmbSignature.Enabled = false;
                     btnAddSignature.Enabled = false;
                     cmbTo.Enabled = false;
+                    profilesToolStripMenuItem.Enabled = false;
                     tmrStatusUpdate.Start();
                 }
 
@@ -2626,8 +2636,11 @@ namespace ADD
             {
                 imgTrash.Image = Properties.Resources.Trash;
                 imgTrash.Enabled = true;
-                imgLink.Image = Properties.Resources.Link;
-                imgLink.Enabled = true;
+                if (cmbCoinType.SelectedIndex > 0)
+                {
+                    imgLink.Image = Properties.Resources.Link;
+                    imgLink.Enabled = true;
+                }
             }
             else
             {
@@ -2635,6 +2648,21 @@ namespace ADD
                 imgTrash.Enabled = false;
                 imgLink.Image = Properties.Resources.LinkDisabled;
                 imgLink.Enabled = false;
+            }
+
+            if (System.IO.File.Exists("root\\" + transID + "\\PRO"))
+            {
+                imgTip.Image = Properties.Resources.Tip;
+                imgTip.Enabled = true;
+                imgFriend.Image = Properties.Resources.Friend;
+                imgFriend.Enabled = true;
+            }
+            else
+            {
+                imgTip.Image = Properties.Resources.TipDisabled;
+                imgTip.Enabled = false;
+                imgFriend.Image = Properties.Resources.FriendDisabled;
+                imgFriend.Enabled = false;
             }
 
             if (webBrowser1.DocumentText == "")
@@ -2705,14 +2733,18 @@ namespace ADD
 
         private void imgTrash_Click(object sender, EventArgs e)
         {
-            if (System.IO.Directory.Exists("root\\" + txtTransIDSearch.Text))
+            Match match = Regex.Match(txtTransIDSearch.Text, @"([a-fA-F0-9]{64})");
+            if (match.Success)
             {
-                System.IO.Directory.Delete("root\\" + txtTransIDSearch.Text, true);
-                webBrowser1.DocumentText = "";
-                imgTrash.Image = Properties.Resources.TrashDisabled;
-                imgTrash.Enabled = false;
+                if (System.IO.Directory.Exists("root\\" + match.Value))
+                {
+                    System.IO.Directory.Delete("root\\" + match.Value, true);
+                    webBrowser1.DocumentText = "";
+                    imgTrash.Image = Properties.Resources.TrashDisabled;
+                    imgTrash.Enabled = false;
 
 
+                }
             }
         }
 
@@ -3252,6 +3284,21 @@ namespace ADD
                 string strProofAddress = Base58.EncodeWithCheckSum(payLoadBytes);
                 performTextSearch(strProofAddress);
             }
+        }
+
+        private void imgTip_Click(object sender, EventArgs e)
+        {
+             Match match = Regex.Match(txtTransIDSearch.Text, @"([a-fA-F0-9]{64})");
+             if (match.Success)
+             {
+                 if (File.Exists("root//" + match.Value + "//PRO"))
+                 {
+                     string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
+                     int start = readFile.IndexOf("TIP=") + 4;
+                     int length = readFile.IndexOf(Environment.NewLine, start);
+                     txtMessage.Text = txtMessage.Text + Environment.NewLine + " A Tip @" + readFile.Substring(start, length - start) + ">" + coinTipAmount[cmbCoinType.Text];
+                 }
+             }
         }
 
     }
