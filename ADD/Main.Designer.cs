@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Profile");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Signature");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Vault");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Favorites");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Follow");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Profile");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Signature");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Vault");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Favorites");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Follow");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.attachFiles = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -301,28 +301,28 @@
             // 
             this.profilesToolStripMenuItem.Enabled = false;
             this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
-            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.profilesToolStripMenuItem.Text = "Profiles";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
             // 
             // walletsToolStripMenuItem
             // 
             this.walletsToolStripMenuItem.Name = "walletsToolStripMenuItem";
-            this.walletsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.walletsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.walletsToolStripMenuItem.Text = "Wallets";
             this.walletsToolStripMenuItem.Click += new System.EventHandler(this.walletsToolStripMenuItem_Click);
             // 
             // fontToolStripMenuItem
             // 
             this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
-            this.fontToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.fontToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.fontToolStripMenuItem.Text = "Font";
             this.fontToolStripMenuItem.Click += new System.EventHandler(this.fontToolStripMenuItem_Click);
             // 
             // trustToolStripMenuItem
             // 
             this.trustToolStripMenuItem.Name = "trustToolStripMenuItem";
-            this.trustToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.trustToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.trustToolStripMenuItem.Text = "Trust Center";
             this.trustToolStripMenuItem.Click += new System.EventHandler(this.trustToolStripMenuItem_Click);
             // 
@@ -460,22 +460,22 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "profile";
-            treeNode1.Text = "Profile";
-            treeNode2.Name = "signature";
-            treeNode2.Text = "Signature";
-            treeNode3.Name = "vault";
-            treeNode3.Text = "Vault";
-            treeNode4.Name = "favorites";
-            treeNode4.Text = "Favorites";
-            treeNode5.Name = "follow";
-            treeNode5.Text = "Follow";
+            treeNode6.Name = "profile";
+            treeNode6.Text = "Profile";
+            treeNode7.Name = "signature";
+            treeNode7.Text = "Signature";
+            treeNode8.Name = "vault";
+            treeNode8.Text = "Vault";
+            treeNode9.Name = "favorites";
+            treeNode9.Text = "Favorites";
+            treeNode10.Name = "follow";
+            treeNode10.Text = "Follow";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
+            treeNode6,
+            treeNode7,
+            treeNode8,
+            treeNode9,
+            treeNode10});
             this.treeView1.Size = new System.Drawing.Size(159, 163);
             this.treeView1.TabIndex = 5;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -517,6 +517,7 @@
             this.imgFriend.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgFriend.TabIndex = 8;
             this.imgFriend.TabStop = false;
+            this.imgFriend.Click += new System.EventHandler(this.imgFriend_Click);
             // 
             // imgTrash
             // 
@@ -558,6 +559,7 @@
             this.txtTransIDSearch.TabStop = false;
             this.txtTransIDSearch.Text = "ENTER SEARCH STRING";
             this.txtTransIDSearch.Click += new System.EventHandler(this.txtTransIDSearch_Click);
+            this.txtTransIDSearch.TextChanged += new System.EventHandler(this.txtTransIDSearch_TextChanged);
             this.txtTransIDSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTransIDSearch_KeyDown);
             // 
             // imgCatalog
@@ -676,6 +678,7 @@
             this.webBrowser1.Size = new System.Drawing.Size(634, 127);
             this.webBrowser1.TabIndex = 1;
             this.webBrowser1.TabStop = false;
+            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser1_Navigated);
             // 
             // splitArchiveTools

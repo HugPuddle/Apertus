@@ -45,7 +45,7 @@
             this.txtNickName = new System.Windows.Forms.TextBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.button8 = new System.Windows.Forms.Button();
+            this.btnTipAddress = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -53,7 +53,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.cmbProfileAddress = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.imgProfilePhoto = new System.Windows.Forms.PictureBox();
             this.btnArchive = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -63,13 +63,15 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtTipAddress = new System.Windows.Forms.TextBox();
             this.txtProfileAddress = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProfilePhoto)).BeginInit();
             this.SuspendLayout();
             // 
             // txtAddress3
             // 
             this.txtAddress3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAddress3.Enabled = false;
             this.txtAddress3.Location = new System.Drawing.Point(223, 261);
             this.txtAddress3.MaximumSize = new System.Drawing.Size(333, 22);
             this.txtAddress3.MaxLength = 20;
@@ -81,6 +83,7 @@
             // 
             this.txtAddress2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAddress2.Enabled = false;
             this.txtAddress2.Location = new System.Drawing.Point(223, 234);
             this.txtAddress2.MaximumSize = new System.Drawing.Size(333, 22);
             this.txtAddress2.MaxLength = 20;
@@ -92,6 +95,7 @@
             // 
             this.txtAddress1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAddress1.Enabled = false;
             this.txtAddress1.Location = new System.Drawing.Point(223, 207);
             this.txtAddress1.MaximumSize = new System.Drawing.Size(333, 22);
             this.txtAddress1.MaxLength = 20;
@@ -130,6 +134,7 @@
             // 
             this.txtSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSuffix.Enabled = false;
             this.txtSuffix.Location = new System.Drawing.Point(223, 179);
             this.txtSuffix.MaximumSize = new System.Drawing.Size(333, 22);
             this.txtSuffix.MaxLength = 20;
@@ -141,6 +146,7 @@
             // 
             this.txtLastName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLastName.Enabled = false;
             this.txtLastName.Location = new System.Drawing.Point(223, 152);
             this.txtLastName.MaximumSize = new System.Drawing.Size(333, 22);
             this.txtLastName.MaxLength = 20;
@@ -170,6 +176,7 @@
             // 
             this.txtMiddleName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMiddleName.Enabled = false;
             this.txtMiddleName.Location = new System.Drawing.Point(223, 124);
             this.txtMiddleName.MaximumSize = new System.Drawing.Size(333, 22);
             this.txtMiddleName.MaxLength = 20;
@@ -181,6 +188,7 @@
             // 
             this.txtFirstName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFirstName.Enabled = false;
             this.txtFirstName.Location = new System.Drawing.Point(223, 97);
             this.txtFirstName.MaximumSize = new System.Drawing.Size(333, 22);
             this.txtFirstName.MaxLength = 20;
@@ -192,6 +200,7 @@
             // 
             this.txtPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPrefix.Enabled = false;
             this.txtPrefix.Location = new System.Drawing.Point(223, 70);
             this.txtPrefix.MaximumSize = new System.Drawing.Size(333, 22);
             this.txtPrefix.MaxLength = 20;
@@ -203,6 +212,7 @@
             // 
             this.txtNickName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtNickName.Enabled = false;
             this.txtNickName.Location = new System.Drawing.Point(223, 43);
             this.txtNickName.MaximumSize = new System.Drawing.Size(333, 22);
             this.txtNickName.MaxLength = 20;
@@ -231,16 +241,17 @@
             this.label2.TabIndex = 105;
             this.label2.Text = "Prefix";
             // 
-            // button8
+            // btnTipAddress
             // 
-            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button8.Location = new System.Drawing.Point(105, 289);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(21, 27);
-            this.button8.TabIndex = 114;
-            this.button8.Text = "+";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.btnTipAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnTipAddress.Enabled = false;
+            this.btnTipAddress.Location = new System.Drawing.Point(105, 289);
+            this.btnTipAddress.Name = "btnTipAddress";
+            this.btnTipAddress.Size = new System.Drawing.Size(21, 27);
+            this.btnTipAddress.TabIndex = 114;
+            this.btnTipAddress.Text = "+";
+            this.btnTipAddress.UseVisualStyleBackColor = true;
+            this.btnTipAddress.Click += new System.EventHandler(this.button8_Click);
             // 
             // label10
             // 
@@ -274,6 +285,7 @@
             this.cmbTipAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbTipAddress.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTipAddress.Enabled = false;
             this.cmbTipAddress.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTipAddress.FormattingEnabled = true;
             this.cmbTipAddress.Items.AddRange(new object[] {
@@ -301,13 +313,12 @@
             this.cmbProfileAddress.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProfileAddress.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbProfileAddress.FormattingEnabled = true;
-            this.cmbProfileAddress.Items.AddRange(new object[] {
-            "Select Funding Source"});
             this.cmbProfileAddress.Location = new System.Drawing.Point(36, 12);
             this.cmbProfileAddress.MaximumSize = new System.Drawing.Size(520, 0);
             this.cmbProfileAddress.Name = "cmbProfileAddress";
             this.cmbProfileAddress.Size = new System.Drawing.Size(329, 25);
             this.cmbProfileAddress.TabIndex = 100;
+            this.cmbProfileAddress.SelectedIndexChanged += new System.EventHandler(this.cmbProfileAddress_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -319,16 +330,18 @@
             this.label9.TabIndex = 109;
             this.label9.Text = "Tip Address";
             // 
-            // pictureBox2
+            // imgProfilePhoto
             // 
-            this.pictureBox2.Image = global::ADD.Properties.Resources.Profile;
-            this.pictureBox2.InitialImage = global::ADD.Properties.Resources.Profile;
-            this.pictureBox2.Location = new System.Drawing.Point(20, 56);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(90, 90);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 102;
-            this.pictureBox2.TabStop = false;
+            this.imgProfilePhoto.Enabled = false;
+            this.imgProfilePhoto.Image = global::ADD.Properties.Resources.Profile;
+            this.imgProfilePhoto.InitialImage = global::ADD.Properties.Resources.Profile;
+            this.imgProfilePhoto.Location = new System.Drawing.Point(20, 56);
+            this.imgProfilePhoto.Name = "imgProfilePhoto";
+            this.imgProfilePhoto.Size = new System.Drawing.Size(90, 90);
+            this.imgProfilePhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgProfilePhoto.TabIndex = 102;
+            this.imgProfilePhoto.TabStop = false;
+            this.imgProfilePhoto.Click += new System.EventHandler(this.imgProfilePhoto_Click);
             // 
             // btnArchive
             // 
@@ -344,6 +357,7 @@
             this.btnArchive.TabIndex = 130;
             this.btnArchive.Tag = "12345678901234567890";
             this.btnArchive.UseVisualStyleBackColor = true;
+            this.btnArchive.Click += new System.EventHandler(this.btnArchive_Click);
             // 
             // button1
             // 
@@ -376,7 +390,6 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Enabled = false;
             this.label6.Location = new System.Drawing.Point(15, 325);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(88, 17);
@@ -414,7 +427,6 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.AutoSize = true;
-            this.label7.Enabled = false;
             this.label7.Location = new System.Drawing.Point(11, 356);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(92, 17);
@@ -438,6 +450,10 @@
             this.txtProfileAddress.TabIndex = 138;
             this.txtProfileAddress.Visible = false;
             this.txtProfileAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProfileAddress_KeyDown);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Profiles
             // 
@@ -469,7 +485,7 @@
             this.Controls.Add(this.txtNickName);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.button8);
+            this.Controls.Add(this.btnTipAddress);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
@@ -477,13 +493,13 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.cmbProfileAddress);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.imgProfilePhoto);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(470, 423);
             this.Name = "Profiles";
             this.Text = "Profile";
             this.Load += new System.EventHandler(this.Profiles_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProfilePhoto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -507,7 +523,7 @@
         private System.Windows.Forms.TextBox txtNickName;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btnTipAddress;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
@@ -515,7 +531,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox cmbProfileAddress;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox imgProfilePhoto;
         private System.Windows.Forms.Button btnArchive;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox comboBox1;
@@ -525,5 +541,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtTipAddress;
         private System.Windows.Forms.TextBox txtProfileAddress;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

@@ -209,6 +209,7 @@ namespace ADD
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress[cmbWallets.Text] = true; } else { Main.coinFeePerAddress[cmbWallets.Text] = false; }
                 if (chkEnabled.Checked) { Main.coinEnabled[cmbWallets.Text] = true; } else { Main.coinEnabled[cmbWallets.Text] = false; }
 
+                System.IO.File.Copy("coin.conf", "coin.bkp", true);
                 System.IO.File.Delete("coin.conf");
                 System.IO.StreamWriter writeCoinConf = new System.IO.StreamWriter("coin.conf");
 
