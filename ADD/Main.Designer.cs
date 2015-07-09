@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Profile");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Signature");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Vault");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Favorites");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Follow");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Profile");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Signature");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Vault");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Favorites");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Follow");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.attachFiles = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -460,22 +460,22 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode6.Name = "profile";
-            treeNode6.Text = "Profile";
-            treeNode7.Name = "signature";
-            treeNode7.Text = "Signature";
-            treeNode8.Name = "vault";
-            treeNode8.Text = "Vault";
-            treeNode9.Name = "favorites";
-            treeNode9.Text = "Favorites";
-            treeNode10.Name = "follow";
-            treeNode10.Text = "Follow";
+            treeNode1.Name = "profile";
+            treeNode1.Text = "Profile";
+            treeNode2.Name = "signature";
+            treeNode2.Text = "Signature";
+            treeNode3.Name = "vault";
+            treeNode3.Text = "Vault";
+            treeNode4.Name = "favorites";
+            treeNode4.Text = "Favorites";
+            treeNode5.Name = "follow";
+            treeNode5.Text = "Follow";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode7,
-            treeNode8,
-            treeNode9,
-            treeNode10});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5});
             this.treeView1.Size = new System.Drawing.Size(159, 163);
             this.treeView1.TabIndex = 5;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -678,7 +678,6 @@
             this.webBrowser1.Size = new System.Drawing.Size(634, 127);
             this.webBrowser1.TabIndex = 1;
             this.webBrowser1.TabStop = false;
-            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser1_Navigated);
             // 
             // splitArchiveTools
@@ -868,7 +867,7 @@
             // 
             this.txtAddSignature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAddSignature.Location = new System.Drawing.Point(30, 369);
+            this.txtAddSignature.Location = new System.Drawing.Point(30, 402);
             this.txtAddSignature.Name = "txtAddSignature";
             this.txtAddSignature.Size = new System.Drawing.Size(402, 22);
             this.txtAddSignature.TabIndex = 44;
@@ -879,7 +878,7 @@
             // 
             this.btnAddFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAddFolder.Enabled = false;
-            this.btnAddFolder.Location = new System.Drawing.Point(3, 399);
+            this.btnAddFolder.Location = new System.Drawing.Point(3, 371);
             this.btnAddFolder.Name = "btnAddFolder";
             this.btnAddFolder.Size = new System.Drawing.Size(21, 25);
             this.btnAddFolder.TabIndex = 42;
@@ -920,7 +919,7 @@
             // 
             this.btnAddSignature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAddSignature.Enabled = false;
-            this.btnAddSignature.Location = new System.Drawing.Point(3, 368);
+            this.btnAddSignature.Location = new System.Drawing.Point(3, 401);
             this.btnAddSignature.Name = "btnAddSignature";
             this.btnAddSignature.Size = new System.Drawing.Size(21, 25);
             this.btnAddSignature.TabIndex = 39;
@@ -938,7 +937,7 @@
             this.cmbSignature.FormattingEnabled = true;
             this.cmbSignature.Items.AddRange(new object[] {
             "Select Folder"});
-            this.cmbSignature.Location = new System.Drawing.Point(30, 368);
+            this.cmbSignature.Location = new System.Drawing.Point(30, 401);
             this.cmbSignature.MaxDropDownItems = 100;
             this.cmbSignature.Name = "cmbSignature";
             this.cmbSignature.Size = new System.Drawing.Size(402, 25);
@@ -953,7 +952,7 @@
             this.cmbFolder.Enabled = false;
             this.cmbFolder.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbFolder.FormattingEnabled = true;
-            this.cmbFolder.Location = new System.Drawing.Point(30, 399);
+            this.cmbFolder.Location = new System.Drawing.Point(30, 371);
             this.cmbFolder.MaxDropDownItems = 100;
             this.cmbFolder.Name = "cmbFolder";
             this.cmbFolder.Size = new System.Drawing.Size(402, 25);

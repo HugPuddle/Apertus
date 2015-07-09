@@ -111,6 +111,7 @@ namespace ADD
             URLSecurityZoneAPI.InternetSetFeatureEnabled(URLSecurityZoneAPI.InternetFeaturelist.DISABLE_NAVIGATION_SOUNDS, URLSecurityZoneAPI.SetFeatureOn.PROCESS, true);
 
         }
+
         private char GetRandomDivider()
         {
             char[] chars = "\\/:*?\"><|".ToCharArray();
@@ -168,7 +169,7 @@ namespace ADD
             {
                 lock (_buildLocker)
                 {
-                    CreateArchive(TransId, CoinType, false, false, null, null,true);
+                    CreateArchive(TransId, CoinType, false, false, null, null, true);
                 }
             }
 
@@ -228,10 +229,21 @@ namespace ADD
                             byte[] readFileBytes;
                             var fileName = f;
                             Match match = Regex.Match(fileName, @"([a-fA-F0-9]{64})");
+
                             if (match.Success)
                             {
-                                readFileBytes = Encoding.UTF8.GetBytes(fileName.Substring(match.Index));
+                                var buildLNKFile = "";
+                                do
+                                {
+
+                                    buildLNKFile = buildLNKFile + fileName.Substring(match.Index) + Environment.NewLine;
+
+                                    match = match.NextMatch();
+                                } while (match.Success);
+
+                                readFileBytes = Encoding.UTF8.GetBytes(buildLNKFile);
                                 fileName = "C:\\LNK";
+
                             }
                             else
                             {
@@ -1057,7 +1069,8 @@ namespace ADD
                         imgFriend.Enabled = false;
                         imgFriend.Image = Properties.Resources.FriendDisabled;
                     }
-                }else
+                }
+                else
                 {
                     imgLink.Enabled = false;
                     imgLink.Image = Properties.Resources.LinkDisabled;
@@ -1191,7 +1204,7 @@ namespace ADD
                 txtMessage.Select();
                 if (txtMessage.TextLength < 1) { imgEnterMessageHere.Visible = true; }
                 imgLink.Enabled = true;
-                imgLink.Image = Properties.Resources.Link;                
+                imgLink.Image = Properties.Resources.Link;
 
             }
             else
@@ -1326,6 +1339,7 @@ namespace ADD
             {
                 int intFileByteCount = 0;
                 int intPayLoadSize = 0;
+                int MakeUniqueFileName = 1;
 
 
                 if (RawBytes == null)
@@ -1413,7 +1427,14 @@ namespace ADD
                                 }
                             }
 
-                            buildFiles.Add(header[0], buildingFile);
+                            try
+                            {
+                                buildFiles.Add(header[0], buildingFile);
+                            }
+                            catch
+                            { MakeUniqueFileName++;
+                            buildFiles.Add(header[0] + MakeUniqueFileName.ToString(), buildingFile);
+                            }
 
                             i = i - 1;
 
@@ -1445,7 +1466,14 @@ namespace ADD
                             if (!characterMap.ContainsKey(buildingFile[c])) { return false; };
                         }
                     }
-                    buildFiles.Add(header[0], buildingFile);
+                    try
+                    {
+                        buildFiles.Add(header[0], buildingFile);
+                    }
+                    catch {
+                        MakeUniqueFileName++;
+                        buildFiles.Add(header[0] + MakeUniqueFileName.ToString(), buildingFile);
+                    }
 
 
                 }
@@ -1526,9 +1554,10 @@ namespace ADD
                         }
                         else
                         {
-                            if (entry.Key == "LNK")
+                            if (!entry.Key.Contains('.') && entry.Key.StartsWith("LNK"))
                             {
-                                string LinkID = Encoding.UTF8.GetString(entry.Value);
+                                string LinkID = Encoding.UTF8.GetString(entry.Value).Replace(Environment.NewLine, "");
+                                
                                 Match match = Regex.Match(LinkID, @"([a-fA-F0-9]{64})");
                                 if (match.Success)
                                 {
@@ -1547,8 +1576,9 @@ namespace ADD
                                         }
 
                                     }
-                                    CreateArchive(TransID, wallet, false, false, match.Value, trustContent,NavigateResults);
+                                    CreateArchive(TransID, wallet, false, false, match.Value, trustContent, NavigateResults);
                                 }
+                                   
                             }
 
                             ParseData(entry.Value, TransID, entry.Key, trustContent, (chkMonitorBlockChains.Checked & DisplayResults));
@@ -1631,7 +1661,7 @@ namespace ADD
                     {
                         BuildBackLinks(TransID);
                         Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/" + TransID + "/index.htm");
-                        if (NavigateResults) {webBrowser1.Url = BrowseURL; }
+                        if (NavigateResults) { webBrowser1.Url = BrowseURL; }
 
                     }
 
@@ -1683,7 +1713,7 @@ namespace ADD
                                 {
                                     lock (_buildLocker)
                                     {
-                                        isFound = CreateArchive(match.ToString().Replace("/", ""), i, false, true, null, null,true);
+                                        isFound = CreateArchive(match.ToString().Replace("/", ""), i, false, true, null, null, true);
                                     }
 
                                     if (isFound)
@@ -1781,11 +1811,11 @@ namespace ADD
 
                 if (TrustContent)
                 {
-                    
+
                     if (FileName == "PRO")
                     {
 
-                        string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length);                        int start = readFile.IndexOf("NIK=") + 4;
+                        string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length); int start = readFile.IndexOf("NIK=") + 4;
                         int length = readFile.IndexOf(Environment.NewLine, start);
 
                         string strNickName = readFile.Substring(start, length - start);
@@ -1823,13 +1853,13 @@ namespace ADD
                         start = readFile.IndexOf("TIP=") + 4;
                         length = readFile.IndexOf(Environment.NewLine, start);
                         string strTipAddress = readFile.Substring(start, length - start);
-                        strPrintLine = "<div class=\"item\"><div class=\"content\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\""+ strProfileImage +"\"><br>Tip Address<br>" + strTipAddress + " </div></div>";
+                        strPrintLine = "<div class=\"item\"><div class=\"content\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\"" + strProfileImage + "\"><br>Tip Address<br>" + strTipAddress + " </div></div>";
 
 
                     }
-                    
+
                     FileStream attachStream = null;
-                    if (FileName == "LNK" || FileName == "TKN")
+                    if ((!FileName.Contains('.') && FileName.Substring(0,3) == "LNK") || FileName == "TKN")
                     {
                         attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Append);
                         byte[] newline = Encoding.UTF8.GetBytes(Environment.NewLine);
@@ -2134,7 +2164,7 @@ namespace ADD
                             {
                                 lock (_buildLocker)
                                 {
-                                    CreateArchive(s, i.Key, true, false, null, null,true);
+                                    CreateArchive(s, i.Key, true, false, null, null, true);
                                 }
 
                                 transactionsSearched++;
@@ -2320,7 +2350,7 @@ namespace ADD
                         }
                         else
                         {
-                            DialogResult prompt = MessageBox.Show("Address import required. Do you want to perform a full index scan?", "Confirmation", MessageBoxButtons.YesNoCancel);
+                            DialogResult prompt = MessageBox.Show("A full index scan is required to see old Transactions. Do you want to perform a full index scan?", "Confirmation", MessageBoxButtons.YesNoCancel);
                             if (prompt == DialogResult.Yes)
                             {
                                 try
@@ -2397,7 +2427,7 @@ namespace ADD
                 {
                     lock (_buildLocker)
                     {
-                        isFound = CreateArchive(transID, i, true, useCache, null, null,true);
+                        isFound = CreateArchive(transID, i, true, useCache, null, null, true);
                     }
 
                     if (isFound)
@@ -2548,7 +2578,7 @@ namespace ADD
                         string transID = f.Replace("root\\", "");
                         lock (_buildLocker)
                         {
-                            isFound = CreateArchive(transID, i, true, false, null, null,true);
+                            isFound = CreateArchive(transID, i, true, false, null, null, true);
                         }
                         if (isFound)
                         {
@@ -2608,7 +2638,7 @@ namespace ADD
                 {
                     lock (_buildLocker)
                     {
-                        CreateArchive(transArray[0], transArray[1], false, false, null, null,true);
+                        CreateArchive(transArray[0], transArray[1], false, false, null, null, true);
                     }
                 }
                 catch { }
@@ -2659,7 +2689,7 @@ namespace ADD
         private void searchToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-           
+
 
         }
 
@@ -2733,7 +2763,7 @@ namespace ADD
             if (match.Success && webBrowser1.Url.OriginalString.StartsWith("file"))
             {
                 txtTransIDSearch.Text = webBrowser1.Url.OriginalString.Substring(match.Index + 1);
-                
+
             }
             else { txtTransIDSearch.Text = webBrowser1.Url.OriginalString; }
         }
@@ -2764,19 +2794,19 @@ namespace ADD
 
             if (System.IO.File.Exists("root\\" + transID + "\\PRO") && cmbCoinType.SelectedIndex > 0)
             {
-                     string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
-                     int start = readFile.IndexOf("TIP=") + 4;
-                     int length = readFile.IndexOf(Environment.NewLine, start);
-                     if (length > 10)
-                     {
-                         imgTip.Image = Properties.Resources.Tip;
-                         imgTip.Enabled = true;
-                     }
-                     else
-                     {
-                         imgTip.Image = Properties.Resources.TipDisabled;
-                         imgTip.Enabled = false;
-                     }
+                string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
+                int start = readFile.IndexOf("TIP=") + 4;
+                int length = readFile.IndexOf(Environment.NewLine, start);
+                if (length > 10)
+                {
+                    imgTip.Image = Properties.Resources.Tip;
+                    imgTip.Enabled = true;
+                }
+                else
+                {
+                    imgTip.Image = Properties.Resources.TipDisabled;
+                    imgTip.Enabled = false;
+                }
 
                 imgFriend.Image = Properties.Resources.Friend;
                 imgFriend.Enabled = true;
@@ -2961,6 +2991,7 @@ namespace ADD
                             {
                                 imgTip.Image = Properties.Resources.Tip;
                                 imgTip.Enabled = true;
+
                             }
                             else
                             {
@@ -2969,6 +3000,7 @@ namespace ADD
                             }
 
                             node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
+
                         }
                     }
                     treeView1.Nodes["Profile"].Expand();
@@ -3053,7 +3085,7 @@ namespace ADD
             cmbVault.Visible = false;
         }
 
-     
+
 
         private void txtAddSignature_KeyDown(object sender, KeyEventArgs e)
         {
@@ -3175,7 +3207,7 @@ namespace ADD
         private void cmbSignature_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshSignatureList();
-            if (cmbSignature.SelectedIndex > 0 )
+            if (cmbSignature.SelectedIndex > 0)
             { SignatureLabel = cmbSignature.Text; }
             else { SignatureLabel = ""; }
         }
@@ -3368,13 +3400,10 @@ namespace ADD
 
         private void imgLink_Click(object sender, EventArgs e)
         {
-            Match match1 = Regex.Match(txtFileName.Text, @"([a-fA-F0-9]{64})");
-            if (!match1.Success)
-            {
-
+          
                 Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
                 string fileName = "";
-                if (match.Success)
+                if (match.Success && !txtFileName.Text.Contains(match.Value))
                 {
                     try
                     {
@@ -3391,7 +3420,7 @@ namespace ADD
                 else { txtFileName.Text = txtFileName.Text + "," + fileName; }
 
 
-            }
+            
         }
 
         private void fileToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -3432,44 +3461,41 @@ namespace ADD
 
         private void imgTip_Click(object sender, EventArgs e)
         {
-             Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
+            Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
              if (match.Success)
              {
                  if (File.Exists("root//" + match.Value + "//PRO"))
-                 {
-                     string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
-                     
-                     int start = readFile.IndexOf("TIP=") + 4;
-                     if (start > 3)
-                     {
-                         int length = readFile.IndexOf(Environment.NewLine, start);
-                         txtMessage.Text = txtMessage.Text + Environment.NewLine + " A Tip @" + readFile.Substring(start, length - start) + ">" + coinTipAmount[CoinType];
-                     }
-                 }
+            {
+                string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
+
+                int start = readFile.IndexOf("TIP=") + 4;
+                if (start > 3)
+                {
+                    int length = readFile.IndexOf(Environment.NewLine, start);
+                    txtMessage.Text = txtMessage.Text + Environment.NewLine + " A Tip @" + readFile.Substring(start, length - start) + ">" + coinTipAmount[CoinType];
+                }
+            }
              }
         }
+
 
         private void txtTransIDSearch_TextChanged(object sender, EventArgs e)
         {
             TransIDSearch = txtTransIDSearch.Text;
         }
 
-        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-
-        }
 
         private void imgFriend_Click(object sender, EventArgs e)
         {
-             Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
-             if (match.Success)
-             {
-                 StreamWriter writeFollowList = new StreamWriter("Follow.txt", true);
-                 writeFollowList.WriteLine();
-                 writeFollowList.Close();
+            Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
+            if (match.Success)
+            {
+                StreamWriter writeFollowList = new StreamWriter("Follow.txt", true);
+                writeFollowList.WriteLine();
+                writeFollowList.Close();
 
 
-             }
+            }
 
 
         }
