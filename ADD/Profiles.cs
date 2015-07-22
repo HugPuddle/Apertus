@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using BitcoinNET.RPCClient;
 using ADD.Tools;
@@ -25,14 +26,14 @@ namespace ADD
         private void RefreshListBoxes()
         {
             try
-            {      
-            CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
-            var allAccounts = a.ListAccounts(1);
-            cmbProfileAddress.Items.Clear();
-            cmbTipAddress.Items.Clear();
+            {
+                CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
+                var allAccounts = a.ListAccounts(1);
+                cmbProfileAddress.Items.Clear();
+                cmbTipAddress.Items.Clear();
 
-            cmbProfileAddress.Items.Add("Select Profile");
-            cmbTipAddress.Items.Add("Select Tip Address");
+                cmbProfileAddress.Items.Add("Select Profile");
+                cmbTipAddress.Items.Add("Select Tip Address");
 
                 foreach (string Account in allAccounts.Keys)
                 {
@@ -130,6 +131,12 @@ namespace ADD
 
         private void cmbProfileAddress_SelectedIndexChanged(object sender, EventArgs e)
         {
+            BuildSelectedProfile();
+
+        }
+
+        private void BuildSelectedProfile()
+        {
             if (cmbProfileAddress.SelectedIndex > 0)
             {
                 txtNickName.Enabled = true;
@@ -141,6 +148,7 @@ namespace ADD
                 txtAddress1.Enabled = true;
                 txtAddress2.Enabled = true;
                 txtAddress3.Enabled = true;
+                txtTransID.Enabled = true;
                 cmbTipAddress.Enabled = true;
                 btnArchive.Enabled = true;
                 btnTipAddress.Enabled = true;
@@ -155,77 +163,93 @@ namespace ADD
                 txtAddress1.Text = "";
                 txtAddress2.Text = "";
                 txtAddress3.Text = "";
+                txtTransID.Text = "";
                 imgProfilePhoto.Image = Properties.Resources.Profile;
                 cmbTipAddress.SelectedIndex = 0;
                 btnArchive.Enabled = true;
                 btnTipAddress.Enabled = true;
 
-                  var b = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
-                  var transactions = b.ListTransactions("~~~~" + cmbProfileAddress.Text, 100, 0);
+                var b = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
+                var transactions = b.ListTransactions("~~~~" + cmbProfileAddress.Text, 100, 0);
 
-                  foreach (var transaction in transactions.Reverse())
-                  {
-                      if (transaction.category == "receive")
-                      {
-                          var mainForm = Application.OpenForms.OfType<Main>().Single();
-                          if (mainForm.CreateArchive(transaction.txid, Main.CoinType, false, true, null, null,false))
-                          {
-                              if (System.IO.File.Exists("root//" + transaction.txid + "//PRO"))
-                              {
+                foreach (var transaction in transactions.Reverse())
+                {
+                    if (transaction.category == "receive")
+                    {
+                        var mainForm = Application.OpenForms.OfType<Main>().Single();
+                        if (mainForm.CreateArchive(transaction.txid, Main.CoinType, false, true, null, null, false))
+                        {
+                            if (System.IO.File.Exists("root//" + transaction.txid + "//PRO"))
+                            {
 
-                                  var doc = new HtmlAgilityPack.HtmlDocument();
-                                  doc.Load("root\\" + transaction.txid + "\\index.htm");
-                                  var signature = doc.GetElementbyId("signature").InnerText;
-                                  if (transaction.address == signature)
-                                  {
+                                var doc = new HtmlAgilityPack.HtmlDocument();
+                                doc.Load("root\\" + transaction.txid + "\\index.htm");
+                                var signature = doc.GetElementbyId("signature").InnerText;
+                                if (transaction.address == signature)
+                                {
+                                    txtTransID.Text = transaction.txid;
+                                    string readFile = System.IO.File.ReadAllText("root//" + transaction.txid + "//PRO");
+                                    int start = readFile.IndexOf("NIK=") + 4;
+                                    int length = readFile.IndexOf(Environment.NewLine, start);
+                                    txtNickName.Text = readFile.Substring(start, length - start);
+                                    start = readFile.IndexOf("PRE=") + 4;
+                                    length = readFile.IndexOf(Environment.NewLine, start);
+                                    txtPrefix.Text = readFile.Substring(start, length - start);
+                                    start = readFile.IndexOf("FNM=") + 4;
+                                    length = readFile.IndexOf(Environment.NewLine, start);
+                                    txtFirstName.Text = readFile.Substring(start, length - start);
+                                    start = readFile.IndexOf("MNM=") + 4;
+                                    length = readFile.IndexOf(Environment.NewLine, start);
+                                    txtMiddleName.Text = readFile.Substring(start, length - start);
+                                    start = readFile.IndexOf("LNM=") + 4;
+                                    length = readFile.IndexOf(Environment.NewLine, start);
+                                    txtLastName.Text = readFile.Substring(start, length - start);
+                                    start = readFile.IndexOf("SUF=") + 4;
+                                    length = readFile.IndexOf(Environment.NewLine, start);
+                                    txtSuffix.Text = readFile.Substring(start, length - start);
+                                    start = readFile.IndexOf("AD1=") + 4;
+                                    length = readFile.IndexOf(Environment.NewLine, start);
+                                    txtAddress1.Text = readFile.Substring(start, length - start);
+                                    start = readFile.IndexOf("AD2=") + 4;
+                                    length = readFile.IndexOf(Environment.NewLine, start);
+                                    txtAddress2.Text = readFile.Substring(start, length - start);
+                                    start = readFile.IndexOf("AD3=") + 4;
+                                    length = readFile.IndexOf(Environment.NewLine, start);
+                                    txtAddress3.Text = readFile.Substring(start, length - start);
 
-                                      string readFile = System.IO.File.ReadAllText("root//" + transaction.txid + "//PRO");
-                                      int start = readFile.IndexOf("NIK=") + 4;
-                                      int length = readFile.IndexOf(Environment.NewLine, start);
-                                      txtNickName.Text = readFile.Substring(start, length - start);
-                                       start = readFile.IndexOf("PRE=") + 4;
-                                       length = readFile.IndexOf(Environment.NewLine, start);
-                                       txtPrefix.Text = readFile.Substring(start, length - start);
-                                       start = readFile.IndexOf("FNM=") + 4;
-                                       length = readFile.IndexOf(Environment.NewLine, start);
-                                      txtFirstName.Text = readFile.Substring(start, length - start);
-                                       start = readFile.IndexOf("MNM=") + 4;
-                                       length = readFile.IndexOf(Environment.NewLine, start);
-                                      txtMiddleName.Text = readFile.Substring(start, length - start);
-                                       start = readFile.IndexOf("LNM=") + 4;
-                                       length = readFile.IndexOf(Environment.NewLine, start);
-                                      txtLastName.Text = readFile.Substring(start, length - start);
-                                       start = readFile.IndexOf("SUF=") + 4;
-                                       length = readFile.IndexOf(Environment.NewLine, start);
-                                      txtSuffix.Text = readFile.Substring(start, length - start);
-                                       start = readFile.IndexOf("AD1=") + 4;
-                                       length = readFile.IndexOf(Environment.NewLine, start);
-                                      txtAddress1.Text = readFile.Substring(start, length - start);
-                                      start = readFile.IndexOf("AD2=") + 4;
-                                      length = readFile.IndexOf(Environment.NewLine, start);
-                                      txtAddress2.Text = readFile.Substring(start, length - start);
-                                      start = readFile.IndexOf("AD3=") + 4;
-                                      length = readFile.IndexOf(Environment.NewLine, start);
-                                      txtAddress3.Text = readFile.Substring(start, length - start);
-                                      start = readFile.IndexOf("IMG=") + 4;
-                                      length = readFile.IndexOf(Environment.NewLine, start);
-                                      string strProfileImage = readFile.Substring(start, length - start);
+                                    try
+                                    {
+                                        start = readFile.IndexOf("TIP=") + 4;
+                                        length = readFile.IndexOf(Environment.NewLine, start);
+                                        var addData = b.ValidateAddress(readFile.Substring(start, length - start));
+                                        string accData = addData.account.Substring(5);
+                                        cmbTipAddress.Text = accData;
 
-                                      try
-                                      {
-                                          imgProfilePhoto.Image = Image.FromFile(Application.StartupPath + "//root//" + strProfileImage.Substring(3));
-                                      }
-                                      catch { }
-                                      break;
-                                  }
-
-                              }
+                                    }
+                                    catch { }
 
 
-                          }
-                      }
-                  }
-                                    
+
+                                    try
+                                    {
+                                        start = readFile.IndexOf("IMG=") + 4;
+                                        length = readFile.IndexOf(Environment.NewLine, start);
+                                        string strProfileImage = readFile.Substring(start, length - start);
+
+                                        imgProfilePhoto.Image = Image.FromFile(Application.StartupPath + "//root//" + strProfileImage.Substring(3).Replace('/', '\\'));
+
+                                    }
+                                    catch { }
+                                    break;
+                                }
+
+                            }
+
+
+                        }
+                    }
+                }
+
 
             }
             else
@@ -239,6 +263,7 @@ namespace ADD
                 txtAddress1.Enabled = false;
                 txtAddress2.Enabled = false;
                 txtAddress3.Enabled = false;
+                txtTransID.Enabled = false;
                 cmbTipAddress.Enabled = false;
                 btnArchive.Enabled = false;
                 btnTipAddress.Enabled = false;
@@ -251,10 +276,10 @@ namespace ADD
                 txtAddress1.Text = "";
                 txtAddress2.Text = "";
                 txtAddress3.Text = "";
+                txtTransID.Text = "";
                 imgProfilePhoto.Image = Properties.Resources.Profile;
-            
-                             }
-                    
+
+            }
         }
 
         private void imgProfilePhoto_Click(object sender, EventArgs e)
@@ -268,7 +293,6 @@ namespace ADD
         }
 
         private DialogResult STAShowDialog(FileDialog dialog)
-
         {
 
             DialogState state = new DialogState();
@@ -289,65 +313,81 @@ namespace ADD
 
         private void btnArchive_Click(object sender, EventArgs e)
         {
-            var mainForm = Application.OpenForms.OfType<Main>().Single();
-            string tempSignature = Main.SignatureLabel;
-            Main.SignatureLabel = "~~" + cmbProfileAddress.Text;
-            mainForm.PerformArchive(Main.CoinType,openFileDialog1.FileName, "");
-            string profileImagePath = "";
 
-              var b = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
-                  var transactions = b.ListTransactions("~~~~" + cmbProfileAddress.Text, 100, 0);
+            DialogResult prompt = MessageBox.Show("You are about to permanently etch a profile onto " + Main.CoinType + ".", "Confirmation", MessageBoxButtons.YesNoCancel);
+            if (prompt == DialogResult.Yes)
+            {
 
-                  foreach (var transaction in transactions.Reverse())
-                  {
-                      if (transaction.category == "receive")
-                      {
+                var mainForm = Application.OpenForms.OfType<Main>().Single();
+                string tempSignature = Main.SignatureLabel;
+                Main.SignatureLabel = "~~" + cmbProfileAddress.Text;
+                Match match = Regex.Match(openFileDialog1.FileName, @"([a-fA-F0-9]{64})");
+                string profileImagePath = "";
+                if (openFileDialog1.FileName != "openFileDialog1" && !match.Success)
 
-                          if (mainForm.CreateArchive(transaction.txid, Main.CoinType, false, true, null, null, false))
-                          {
-                              if (System.IO.File.Exists("root//" + transaction.txid + "//" + Path.GetFileName(openFileDialog1.FileName)))
-                              {
-                                  profileImagePath = "..\\" + transaction.txid + "\\" + Path.GetFileName(openFileDialog1.FileName);
-                                  break;
-                              }
-                          }
+                {
+                    mainForm.PerformArchive(Main.CoinType, openFileDialog1.FileName, "");
+                    var b = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
+                    var transactions = b.ListTransactions("~~~~" + cmbProfileAddress.Text, 100, 0);
 
-                      }
-                  }
-                  String processId = Guid.NewGuid().ToString();
-                  System.IO.Directory.CreateDirectory("process//" + processId);
-                  System.IO.StreamWriter proFile = new System.IO.StreamWriter("process//" + processId + "//PRO");
-                  proFile.WriteLine("IMG=" + profileImagePath);
-                  proFile.WriteLine("NIK=" + txtNickName.Text);
-                  proFile.WriteLine("PRE=" + txtPrefix.Text);
-                  proFile.WriteLine("FNM=" + txtFirstName.Text);
-                  proFile.WriteLine("MNM=" + txtMiddleName.Text);
-                  proFile.WriteLine("LNM=" + txtLastName.Text);
-                  proFile.WriteLine("SUF=" + txtSuffix.Text);
-                  proFile.WriteLine("AD1=" + txtAddress1.Text);
-                  proFile.WriteLine("AD2=" + txtAddress2.Text);
-                  proFile.WriteLine("AD3=" + txtAddress3.Text);
-                  CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
-                  IEnumerable<string> Address = null;
-            if (cmbTipAddress.SelectedIndex > 0)
-                  {
-                       Address = a.GetAddressesByAccount("~~~~~" + cmbTipAddress.Text);
-                       proFile.WriteLine("TIP=" + Address.First());
-  
-                  }
-                  Address = a.GetAddressesByAccount("~~~~" + cmbProfileAddress.Text);
-                  var privKeyHex = BitConverter.ToString(Base58.Decode(a.DumpPrivateKey(Address.First()))).Replace("-", "");
-                  privKeyHex = privKeyHex.Substring(2, 64);
-                  BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
-                  ECPoint publicKey = Secp256k1.Secp256k1.G.Multiply(privateKey);
-                  proFile.WriteLine("PKX=" + publicKey.X.ToHex());
-                  proFile.WriteLine("PKY=" + publicKey.Y.ToHex());
-                  proFile.Close();
-                  
-                  mainForm.PerformArchive(Main.CoinType, Application.StartupPath + "//process//" + processId + "//PRO", "");
-                  Main.SignatureLabel = tempSignature;
+                    foreach (var transaction in transactions.Reverse())
+                    {
+                        if (transaction.category == "receive")
+                        {
 
-        
+                            if (mainForm.CreateArchive(transaction.txid, Main.CoinType, false, true, null, null, false))
+                            {
+                                if (System.IO.File.Exists("root//" + transaction.txid + "//" + Path.GetFileName(openFileDialog1.FileName)))
+                                {
+                                    profileImagePath = "../" + transaction.txid + "/" + Path.GetFileName(openFileDialog1.FileName);
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+                }
+                
+                if (match.Success) {  profileImagePath = "../" + match.Value + "/" + Path.GetFileName(openFileDialog1.FileName);}
+            
+
+                String processId = Guid.NewGuid().ToString();
+                System.IO.Directory.CreateDirectory("process//" + processId);
+                System.IO.StreamWriter proFile = new System.IO.StreamWriter("process//" + processId + "//PRO");
+                proFile.WriteLine("IMG=" + profileImagePath);
+                proFile.WriteLine("NIK=" + txtNickName.Text);
+                proFile.WriteLine("PRE=" + txtPrefix.Text);
+                proFile.WriteLine("FNM=" + txtFirstName.Text);
+                proFile.WriteLine("MNM=" + txtMiddleName.Text);
+                proFile.WriteLine("LNM=" + txtLastName.Text);
+                proFile.WriteLine("SUF=" + txtSuffix.Text);
+                proFile.WriteLine("AD1=" + txtAddress1.Text);
+                proFile.WriteLine("AD2=" + txtAddress2.Text);
+                proFile.WriteLine("AD3=" + txtAddress3.Text);
+                CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
+                IEnumerable<string> Address = null;
+                if (cmbTipAddress.SelectedIndex > 0)
+                {
+                    Address = a.GetAddressesByAccount("~~~~~" + cmbTipAddress.Text);
+                    proFile.WriteLine("TIP=" + Address.First());
+
+                }
+                Address = a.GetAddressesByAccount("~~~~" + cmbProfileAddress.Text);
+                var privKeyHex = BitConverter.ToString(Base58.Decode(a.DumpPrivateKey(Address.First()))).Replace("-", "");
+                privKeyHex = privKeyHex.Substring(2, 64);
+                BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
+                ECPoint publicKey = Secp256k1.Secp256k1.G.Multiply(privateKey);
+
+                proFile.WriteLine("MSG=" + Address.First());
+                proFile.WriteLine("PKX=" + publicKey.X.ToHex());
+                proFile.WriteLine("PKY=" + publicKey.Y.ToHex());
+                proFile.Close();
+
+                mainForm.PerformArchive(Main.CoinType, Application.StartupPath + "//process//" + processId + "//PRO", "");
+                Main.SignatureLabel = tempSignature;
+                BuildSelectedProfile();
+
+            }
         }
     }
       

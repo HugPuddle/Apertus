@@ -217,6 +217,16 @@ namespace ADD
             mainForm.RefreshHashCache();
         }
 
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
 
     }
 }

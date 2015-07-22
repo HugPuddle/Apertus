@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using Secp256k1;
 using System.Numerics;
 using Microsoft.Win32;
+using System.ComponentModel;
 
 namespace ADD
 {
@@ -72,12 +73,14 @@ namespace ADD
         IDictionary<int, ushort> characterMap;
         string[] infoArray;
         bool Loading = true;
+        bool busy = true;
 
         public Main()
         {
             InitializeComponent();
             Startup();
             FixBrowser();
+            backgroundWorker1.WorkerReportsProgress = true;
 
         }
 
@@ -357,7 +360,6 @@ namespace ADD
 
                         arcPayloadBytes[payloadBytePosition] = fileBytes[arcBytePosition];
                         payloadBytePosition++;
-                        progressBar.PerformStep();
 
 
                     }
@@ -371,9 +373,6 @@ namespace ADD
                     arcFile.Close();
                     lblStatusInfo.ForeColor = System.Drawing.Color.Black;
                     lblStatusInfo.Text = "Encoded " + fileBytes.Length.ToString() + " bytes of data.";
-                    progressBar.Value = 1;
-                    progressBar.Maximum = (fileBytes.Length + PayloadByteSize) / PayloadByteSize;
-                    progressBar.PerformStep();
 
 
                 }
@@ -484,7 +483,6 @@ namespace ADD
                         {
                             toMany.Add(line, CoinMinTransaction);
                         }
-                        progressBar.PerformStep();
 
                     }
                     catch
@@ -512,7 +510,7 @@ namespace ADD
                         {
                             toMany.Add(line, CoinMinTransaction);
                         }
-                        progressBar.PerformStep();
+                        
                         tranCount = 0;
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
@@ -588,7 +586,7 @@ namespace ADD
                 return;
             }
             lblStatusInfo.ForeColor = System.Drawing.Color.Black;
-            lblStatusInfo.Text = "Encoded " + (progressBar.Maximum * PayloadByteSize) + " bytes of data.";
+            lblStatusInfo.Text = "Encoded " + fileBytes.Length.ToString() + " bytes of data.";
             tmrStatusUpdate.Start();
             tmrProgressBar.Start();
             if (!chkMonitorBlockChains.Checked)
@@ -1815,7 +1813,8 @@ namespace ADD
                     if (FileName == "PRO")
                     {
 
-                        string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length); int start = readFile.IndexOf("NIK=") + 4;
+                        string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length); 
+                        int start = readFile.IndexOf("NIK=") + 4;
                         int length = readFile.IndexOf(Environment.NewLine, start);
 
                         string strNickName = readFile.Substring(start, length - start);
@@ -1952,11 +1951,6 @@ namespace ADD
 
         }
 
-        private void tmrProgressBar_Tick(object sender, EventArgs e)
-        {
-            progressBar.Visible = false;
-            tmrProgressBar.Stop();
-        }
 
         public Boolean CreateArchive(string TransID, string WalletKey, bool DisplayResults, bool UseCache, string LinkID, bool? TrustLink, bool NavigateResults)
         {
@@ -2212,28 +2206,39 @@ namespace ADD
 
             if (e.KeyValue == 13)
             {
+               
+
                 if (TransIDSearch.Contains("://"))
                 {
                     try
                     {
                         Uri BrowseURL = new Uri(TransIDSearch);
+
                         webBrowser1.Url = BrowseURL;
                         return;
                     }
-                    catch { return; }
+                    catch
+                    {
+                      
+                        return; }
                 }
 
                 Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
-                if (match.Success) { performTransIDSearch(ModifierKeys != Keys.Control); }
+                if (match.Success) { performTransIDSearch(ModifierKeys != Keys.Control);
+                
+                }
 
                 else
                 {
                     if (TransIDSearch.StartsWith("@") || TransIDSearch.StartsWith("#"))
-                    { performTextSearch(TransIDSearch.Replace("@", "").Replace("#", "")); }
+                    { performTextSearch(TransIDSearch.Replace("@", "").Replace("#", ""));
+                    
+                    }
                     else
                     {
                         Search.GetWindowsSearchResults(TransIDSearch);
                         var searchURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/search.htm");
+                        
                         webBrowser1.Url = searchURL;
                     }
 
@@ -2264,7 +2269,6 @@ namespace ADD
                     txtTransIDSearch.ForeColor = System.Drawing.Color.LightGray;
                 }
             }
-
         }
 
 
@@ -3490,12 +3494,28 @@ namespace ADD
             Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
             if (match.Success)
             {
+                          if (File.Exists("root//" + match.Value + "//PRO"))
+                          {
+            
+                string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
+                int start = readFile.IndexOf("NIK=") + 4;
+                int length = readFile.IndexOf(Environment.NewLine, start);
+                string strNickName = readFile.Substring(start, length - start);
+
+
                 StreamWriter writeFollowList = new StreamWriter("Follow.txt", true);
                 writeFollowList.WriteLine();
                 writeFollowList.Close();
 
-
+                StreamWriter writeFriendList = new StreamWriter("Friend.txt", true);
+                writeFriendList.WriteLine(strNickName + "@" +  match.Value);
+                writeFriendList.Close();
+                          }
             }
+        
+
+
+            
 
 
         }

@@ -43,7 +43,7 @@
             this.txtFirstName = new System.Windows.Forms.TextBox();
             this.txtPrefix = new System.Windows.Forms.TextBox();
             this.txtNickName = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.txtTransID = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnTipAddress = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
@@ -58,9 +58,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.txtTipAddress = new System.Windows.Forms.TextBox();
             this.txtProfileAddress = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -220,17 +217,17 @@
             this.txtNickName.Size = new System.Drawing.Size(217, 22);
             this.txtNickName.TabIndex = 103;
             // 
-            // textBox9
+            // txtTransID
             // 
-            this.textBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtTransID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.textBox9.Location = new System.Drawing.Point(9, 388);
-            this.textBox9.MaximumSize = new System.Drawing.Size(547, 19);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.ReadOnly = true;
-            this.textBox9.Size = new System.Drawing.Size(431, 19);
-            this.textBox9.TabIndex = 108;
+            this.txtTransID.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
+            this.txtTransID.Location = new System.Drawing.Point(9, 352);
+            this.txtTransID.MaximumSize = new System.Drawing.Size(547, 19);
+            this.txtTransID.Name = "txtTransID";
+            this.txtTransID.ReadOnly = true;
+            this.txtTransID.Size = new System.Drawing.Size(431, 19);
+            this.txtTransID.TabIndex = 108;
             // 
             // label2
             // 
@@ -396,45 +393,9 @@
             this.label6.TabIndex = 131;
             this.label6.Text = "Tkn Address";
             // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(105, 351);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(21, 27);
-            this.button3.TabIndex = 136;
-            this.button3.Text = "+";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.Enabled = false;
-            this.comboBox2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "Select Funding Source"});
-            this.comboBox2.Location = new System.Drawing.Point(132, 352);
-            this.comboBox2.MaximumSize = new System.Drawing.Size(424, 0);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(308, 25);
-            this.comboBox2.TabIndex = 135;
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 356);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(92, 17);
-            this.label7.TabIndex = 134;
-            this.label7.Text = "Encrypt  With";
-            // 
             // txtTipAddress
             // 
+            this.txtTipAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtTipAddress.Location = new System.Drawing.Point(133, 291);
             this.txtTipAddress.Name = "txtTipAddress";
             this.txtTipAddress.Size = new System.Drawing.Size(307, 22);
@@ -459,12 +420,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(452, 414);
+            this.ClientSize = new System.Drawing.Size(452, 378);
             this.Controls.Add(this.txtProfileAddress);
             this.Controls.Add(this.txtTipAddress);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label6);
@@ -483,7 +441,7 @@
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.txtPrefix);
             this.Controls.Add(this.txtNickName);
-            this.Controls.Add(this.textBox9);
+            this.Controls.Add(this.txtTransID);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnTipAddress);
             this.Controls.Add(this.label10);
@@ -495,6 +453,7 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.imgProfilePhoto);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(470, 423);
             this.MinimumSize = new System.Drawing.Size(470, 423);
             this.Name = "Profiles";
             this.Text = "Profile";
@@ -521,7 +480,7 @@
         private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.TextBox txtPrefix;
         private System.Windows.Forms.TextBox txtNickName;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox txtTransID;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnTipAddress;
         private System.Windows.Forms.Label label10;
@@ -536,9 +495,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtTipAddress;
         private System.Windows.Forms.TextBox txtProfileAddress;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;

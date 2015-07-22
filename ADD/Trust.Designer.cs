@@ -49,10 +49,12 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -63,6 +65,8 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtBlockList
@@ -71,12 +75,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBlockList.BackColor = System.Drawing.Color.White;
-            this.txtBlockList.Location = new System.Drawing.Point(18, 62);
+            this.txtBlockList.Location = new System.Drawing.Point(18, 60);
             this.txtBlockList.Multiline = true;
             this.txtBlockList.Name = "txtBlockList";
             this.txtBlockList.ReadOnly = true;
             this.txtBlockList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBlockList.Size = new System.Drawing.Size(342, 0);
+            this.txtBlockList.Size = new System.Drawing.Size(294, 0);
             this.txtBlockList.TabIndex = 8;
             this.txtBlockList.WordWrap = false;
             // 
@@ -84,15 +88,16 @@
             // 
             this.txtBlock.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBlock.Location = new System.Drawing.Point(18, 34);
+            this.txtBlock.Location = new System.Drawing.Point(18, 32);
             this.txtBlock.Name = "txtBlock";
-            this.txtBlock.Size = new System.Drawing.Size(289, 22);
+            this.txtBlock.Size = new System.Drawing.Size(241, 22);
             this.txtBlock.TabIndex = 16;
+            this.txtBlock.WordWrap = false;
             // 
             // btnRemoveBlock
             // 
             this.btnRemoveBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveBlock.Location = new System.Drawing.Point(339, 33);
+            this.btnRemoveBlock.Location = new System.Drawing.Point(291, 32);
             this.btnRemoveBlock.Name = "btnRemoveBlock";
             this.btnRemoveBlock.Size = new System.Drawing.Size(21, 23);
             this.btnRemoveBlock.TabIndex = 18;
@@ -103,7 +108,7 @@
             // btnAddBlock
             // 
             this.btnAddBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddBlock.Location = new System.Drawing.Point(313, 33);
+            this.btnAddBlock.Location = new System.Drawing.Point(265, 32);
             this.btnAddBlock.Name = "btnAddBlock";
             this.btnAddBlock.Size = new System.Drawing.Size(21, 23);
             this.btnAddBlock.TabIndex = 17;
@@ -115,7 +120,7 @@
             // 
             this.chkBlockUnsignedContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkBlockUnsignedContent.AutoSize = true;
-            this.chkBlockUnsignedContent.Location = new System.Drawing.Point(18, 118);
+            this.chkBlockUnsignedContent.Location = new System.Drawing.Point(18, 101);
             this.chkBlockUnsignedContent.Name = "chkBlockUnsignedContent";
             this.chkBlockUnsignedContent.Size = new System.Drawing.Size(199, 21);
             this.chkBlockUnsignedContent.TabIndex = 21;
@@ -127,7 +132,7 @@
             // 
             this.chkBlockUntrustedContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkBlockUntrustedContent.AutoSize = true;
-            this.chkBlockUntrustedContent.Location = new System.Drawing.Point(18, 91);
+            this.chkBlockUntrustedContent.Location = new System.Drawing.Point(18, 83);
             this.chkBlockUntrustedContent.Name = "chkBlockUntrustedContent";
             this.chkBlockUntrustedContent.Size = new System.Drawing.Size(201, 21);
             this.chkBlockUntrustedContent.TabIndex = 20;
@@ -139,7 +144,7 @@
             // 
             this.chkBlockBlockedListContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkBlockBlockedListContent.AutoSize = true;
-            this.chkBlockBlockedListContent.Location = new System.Drawing.Point(18, 64);
+            this.chkBlockBlockedListContent.Location = new System.Drawing.Point(18, 65);
             this.chkBlockBlockedListContent.Name = "chkBlockBlockedListContent";
             this.chkBlockBlockedListContent.Size = new System.Drawing.Size(305, 21);
             this.chkBlockBlockedListContent.TabIndex = 17;
@@ -150,7 +155,7 @@
             // btnRemoveTrust
             // 
             this.btnRemoveTrust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveTrust.Location = new System.Drawing.Point(339, 26);
+            this.btnRemoveTrust.Location = new System.Drawing.Point(289, 30);
             this.btnRemoveTrust.Name = "btnRemoveTrust";
             this.btnRemoveTrust.Size = new System.Drawing.Size(21, 23);
             this.btnRemoveTrust.TabIndex = 24;
@@ -161,7 +166,7 @@
             // btnAddTrust
             // 
             this.btnAddTrust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTrust.Location = new System.Drawing.Point(313, 26);
+            this.btnAddTrust.Location = new System.Drawing.Point(263, 30);
             this.btnAddTrust.Name = "btnAddTrust";
             this.btnAddTrust.Size = new System.Drawing.Size(21, 23);
             this.btnAddTrust.TabIndex = 23;
@@ -173,7 +178,7 @@
             // 
             this.chkTrustTrustedlistContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkTrustTrustedlistContent.AutoSize = true;
-            this.chkTrustTrustedlistContent.Location = new System.Drawing.Point(18, 210);
+            this.chkTrustTrustedlistContent.Location = new System.Drawing.Point(19, 66);
             this.chkTrustTrustedlistContent.Name = "chkTrustTrustedlistContent";
             this.chkTrustTrustedlistContent.Size = new System.Drawing.Size(257, 21);
             this.chkTrustTrustedlistContent.TabIndex = 19;
@@ -187,12 +192,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTrustList.BackColor = System.Drawing.Color.White;
-            this.txtTrustList.Location = new System.Drawing.Point(18, 56);
+            this.txtTrustList.Location = new System.Drawing.Point(19, 60);
             this.txtTrustList.Multiline = true;
             this.txtTrustList.Name = "txtTrustList";
             this.txtTrustList.ReadOnly = true;
             this.txtTrustList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTrustList.Size = new System.Drawing.Size(342, 148);
+            this.txtTrustList.Size = new System.Drawing.Size(291, 0);
             this.txtTrustList.TabIndex = 8;
             this.txtTrustList.WordWrap = false;
             // 
@@ -200,15 +205,16 @@
             // 
             this.txtTrust.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTrust.Location = new System.Drawing.Point(18, 26);
+            this.txtTrust.Location = new System.Drawing.Point(19, 30);
             this.txtTrust.Name = "txtTrust";
-            this.txtTrust.Size = new System.Drawing.Size(289, 22);
+            this.txtTrust.Size = new System.Drawing.Size(238, 22);
             this.txtTrust.TabIndex = 16;
+            this.txtTrust.WordWrap = false;
             // 
             // btnRemoveFollow
             // 
             this.btnRemoveFollow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveFollow.Location = new System.Drawing.Point(371, 26);
+            this.btnRemoveFollow.Location = new System.Drawing.Point(234, 26);
             this.btnRemoveFollow.Name = "btnRemoveFollow";
             this.btnRemoveFollow.Size = new System.Drawing.Size(21, 23);
             this.btnRemoveFollow.TabIndex = 28;
@@ -219,7 +225,7 @@
             // btnAddFollow
             // 
             this.btnAddFollow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddFollow.Location = new System.Drawing.Point(345, 26);
+            this.btnAddFollow.Location = new System.Drawing.Point(208, 26);
             this.btnAddFollow.Name = "btnAddFollow";
             this.btnAddFollow.Size = new System.Drawing.Size(21, 23);
             this.btnAddFollow.TabIndex = 27;
@@ -231,7 +237,7 @@
             // 
             this.chkFollowFollowedlistContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkFollowFollowedlistContent.AutoSize = true;
-            this.chkFollowFollowedlistContent.Location = new System.Drawing.Point(18, 368);
+            this.chkFollowFollowedlistContent.Location = new System.Drawing.Point(18, 222);
             this.chkFollowFollowedlistContent.Name = "chkFollowFollowedlistContent";
             this.chkFollowFollowedlistContent.Size = new System.Drawing.Size(243, 21);
             this.chkFollowFollowedlistContent.TabIndex = 19;
@@ -249,7 +255,7 @@
             this.txtFollowList.Name = "txtFollowList";
             this.txtFollowList.ReadOnly = true;
             this.txtFollowList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtFollowList.Size = new System.Drawing.Size(374, 305);
+            this.txtFollowList.Size = new System.Drawing.Size(237, 159);
             this.txtFollowList.TabIndex = 8;
             this.txtFollowList.WordWrap = false;
             // 
@@ -259,8 +265,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFollow.Location = new System.Drawing.Point(18, 28);
             this.txtFollow.Name = "txtFollow";
-            this.txtFollow.Size = new System.Drawing.Size(321, 22);
+            this.txtFollow.Size = new System.Drawing.Size(184, 22);
             this.txtFollow.TabIndex = 16;
+            this.txtFollow.WordWrap = false;
             // 
             // panel1
             // 
@@ -270,50 +277,47 @@
             this.panel1.Controls.Add(this.splitContainer1);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(379, 396);
+            this.panel1.Size = new System.Drawing.Size(331, 250);
             this.panel1.TabIndex = 27;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.label1);
-            this.splitContainer1.Panel1.Controls.Add(this.txtTrustList);
-            this.splitContainer1.Panel1.Controls.Add(this.txtTrust);
-            this.splitContainer1.Panel1.Controls.Add(this.chkTrustTrustedlistContent);
-            this.splitContainer1.Panel1.Controls.Add(this.btnAddTrust);
-            this.splitContainer1.Panel1.Controls.Add(this.btnRemoveTrust);
+            this.splitContainer1.Panel1.Controls.Add(this.panel4);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.txtBlock);
-            this.splitContainer1.Panel2.Controls.Add(this.chkBlockUnsignedContent);
-            this.splitContainer1.Panel2.Controls.Add(this.chkBlockBlockedListContent);
-            this.splitContainer1.Panel2.Controls.Add(this.btnRemoveBlock);
-            this.splitContainer1.Panel2.Controls.Add(this.label3);
-            this.splitContainer1.Panel2.Controls.Add(this.chkBlockUntrustedContent);
-            this.splitContainer1.Panel2.Controls.Add(this.btnAddBlock);
-            this.splitContainer1.Panel2.Controls.Add(this.txtBlockList);
-            this.splitContainer1.Size = new System.Drawing.Size(379, 396);
-            this.splitContainer1.SplitterDistance = 245;
+            this.splitContainer1.Panel2.Controls.Add(this.panel3);
+            this.splitContainer1.Size = new System.Drawing.Size(331, 250);
+            this.splitContainer1.SplitterDistance = 98;
             this.splitContainer1.TabIndex = 0;
+            this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 6);
+            this.label1.Location = new System.Drawing.Point(16, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 17);
             this.label1.TabIndex = 25;
             this.label1.Text = "Trusted";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(15, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 17);
+            this.label3.TabIndex = 29;
+            this.label3.Text = "Blocked";
             // 
             // label2
             // 
@@ -323,15 +327,6 @@
             this.label2.Size = new System.Drawing.Size(63, 17);
             this.label2.TabIndex = 26;
             this.label2.Text = "Followed";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 14);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 17);
-            this.label3.TabIndex = 29;
-            this.label3.Text = "Blocked";
             // 
             // panel2
             // 
@@ -346,7 +341,7 @@
             this.panel2.Controls.Add(this.chkFollowFollowedlistContent);
             this.panel2.Location = new System.Drawing.Point(5, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(402, 396);
+            this.panel2.Size = new System.Drawing.Size(265, 250);
             this.panel2.TabIndex = 30;
             // 
             // splitContainer2
@@ -363,15 +358,47 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.panel2);
-            this.splitContainer2.Size = new System.Drawing.Size(805, 406);
-            this.splitContainer2.SplitterDistance = 389;
+            this.splitContainer2.Size = new System.Drawing.Size(620, 260);
+            this.splitContainer2.SplitterDistance = 341;
             this.splitContainer2.TabIndex = 31;
+            // 
+            // panel3
+            // 
+            this.panel3.AutoSize = true;
+            this.panel3.Controls.Add(this.label3);
+            this.panel3.Controls.Add(this.txtBlock);
+            this.panel3.Controls.Add(this.txtBlockList);
+            this.panel3.Controls.Add(this.btnRemoveBlock);
+            this.panel3.Controls.Add(this.chkBlockUnsignedContent);
+            this.panel3.Controls.Add(this.chkBlockUntrustedContent);
+            this.panel3.Controls.Add(this.btnAddBlock);
+            this.panel3.Controls.Add(this.chkBlockBlockedListContent);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(329, 146);
+            this.panel3.TabIndex = 30;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.label1);
+            this.panel4.Controls.Add(this.txtTrustList);
+            this.panel4.Controls.Add(this.btnRemoveTrust);
+            this.panel4.Controls.Add(this.txtTrust);
+            this.panel4.Controls.Add(this.btnAddTrust);
+            this.panel4.Controls.Add(this.chkTrustTrustedlistContent);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(329, 96);
+            this.panel4.TabIndex = 29;
             // 
             // Trust
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(805, 406);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(620, 260);
             this.Controls.Add(this.splitContainer2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -383,7 +410,6 @@
             this.Load += new System.EventHandler(this.Trust_Load);
             this.panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -394,6 +420,10 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -424,6 +454,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
 
     }
 }

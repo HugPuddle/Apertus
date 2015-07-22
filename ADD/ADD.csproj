@@ -224,6 +224,7 @@
     <None Include="Resources\Friend.png" />
     <None Include="Resources\Link.png" />
     <None Include="Resources\LinkDisabled.png" />
+    <None Include="Resources\loading.gif" />
     <Content Include="Resources\Splash.png" />
     <None Include="Resources\Profile.png" />
     <Content Include="Resources\file-icon.png" />
