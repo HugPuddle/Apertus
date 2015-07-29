@@ -1203,6 +1203,11 @@ namespace ADD
                 if (txtMessage.TextLength < 1) { imgEnterMessageHere.Visible = true; }
                 imgLink.Enabled = true;
                 imgLink.Image = Properties.Resources.Link;
+                if (WalletLabel == "")
+                {
+                    MessageBox.Show("Accounts without a label are not supported. Assign a label using your wallet software and retry.");
+                }
+
 
             }
             else
