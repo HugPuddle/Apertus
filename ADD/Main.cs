@@ -1818,12 +1818,19 @@ namespace ADD
                     if (FileName == "PRO")
                     {
 
-                        string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length); 
-                        int start = readFile.IndexOf("NIK=") + 4;
-                        int length = readFile.IndexOf(Environment.NewLine, start);
+                        string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length);
+                        string strTipAddress = "";
+                        string strNickName = "";
+                        string strProfileImage = "";
+                        int start = 0;
+                        int length = 0;
 
-                        string strNickName = readFile.Substring(start, length - start);
-
+                        start = readFile.IndexOf("NIK=") + 4;
+                        if (start > 3)
+                        {
+                            length = readFile.IndexOf(Environment.NewLine, start);
+                            strNickName = readFile.Substring(start, length - start);
+                        }
 
                         //txtNickName.Text = readFile.Substring(start, length - start);
                         //start = readFile.IndexOf("PRE=") + 4;
@@ -1850,13 +1857,21 @@ namespace ADD
                         //start = readFile.IndexOf("AD3=") + 4;
                         //length = readFile.IndexOf(Environment.NewLine, start);
                         //txtAddress3.Text = readFile.Substring(start, length - start);
+
                         start = readFile.IndexOf("IMG=") + 4;
-                        length = readFile.IndexOf(Environment.NewLine, start);
-                        string strProfileImage = readFile.Substring(start, length - start);
+                        if (start > 3)
+                        {
+                            length = readFile.IndexOf(Environment.NewLine, start);
+                            strProfileImage = readFile.Substring(start, length - start);
+                        }
 
                         start = readFile.IndexOf("TIP=") + 4;
-                        length = readFile.IndexOf(Environment.NewLine, start);
-                        string strTipAddress = readFile.Substring(start, length - start);
+                        if (start > 3)
+                        {
+                            length = readFile.IndexOf(Environment.NewLine, start);
+                            strTipAddress = readFile.Substring(start, length - start);
+                        }
+
                         strPrintLine = "<div class=\"item\"><div class=\"content\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\"" + strProfileImage + "\"><br>Tip Address<br>" + strTipAddress + " </div></div>";
 
 
@@ -3524,6 +3539,12 @@ namespace ADD
 
 
         }
+        public void AddProfile(string label)
+        {
+                this.Invoke(new MethodInvoker(delegate() {cmbFolder.Items.Add(label); cmbFolder.SelectedItem = label;}));
+        }
+
+
 
     }
 

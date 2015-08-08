@@ -184,63 +184,67 @@ namespace ADD
 
                                 var doc = new HtmlAgilityPack.HtmlDocument();
                                 doc.Load("root\\" + transaction.txid + "\\index.htm");
-                                var signature = doc.GetElementbyId("signature").InnerText;
-                                if (transaction.address == signature)
+                                if (doc.GetElementbyId("signature") != null)
                                 {
-                                    txtTransID.Text = transaction.txid;
-                                    string readFile = System.IO.File.ReadAllText("root//" + transaction.txid + "//PRO");
-                                    int start = readFile.IndexOf("NIK=") + 4;
-                                    int length = readFile.IndexOf(Environment.NewLine, start);
-                                    txtNickName.Text = readFile.Substring(start, length - start);
-                                    start = readFile.IndexOf("PRE=") + 4;
-                                    length = readFile.IndexOf(Environment.NewLine, start);
-                                    txtPrefix.Text = readFile.Substring(start, length - start);
-                                    start = readFile.IndexOf("FNM=") + 4;
-                                    length = readFile.IndexOf(Environment.NewLine, start);
-                                    txtFirstName.Text = readFile.Substring(start, length - start);
-                                    start = readFile.IndexOf("MNM=") + 4;
-                                    length = readFile.IndexOf(Environment.NewLine, start);
-                                    txtMiddleName.Text = readFile.Substring(start, length - start);
-                                    start = readFile.IndexOf("LNM=") + 4;
-                                    length = readFile.IndexOf(Environment.NewLine, start);
-                                    txtLastName.Text = readFile.Substring(start, length - start);
-                                    start = readFile.IndexOf("SUF=") + 4;
-                                    length = readFile.IndexOf(Environment.NewLine, start);
-                                    txtSuffix.Text = readFile.Substring(start, length - start);
-                                    start = readFile.IndexOf("AD1=") + 4;
-                                    length = readFile.IndexOf(Environment.NewLine, start);
-                                    txtAddress1.Text = readFile.Substring(start, length - start);
-                                    start = readFile.IndexOf("AD2=") + 4;
-                                    length = readFile.IndexOf(Environment.NewLine, start);
-                                    txtAddress2.Text = readFile.Substring(start, length - start);
-                                    start = readFile.IndexOf("AD3=") + 4;
-                                    length = readFile.IndexOf(Environment.NewLine, start);
-                                    txtAddress3.Text = readFile.Substring(start, length - start);
 
-                                    try
+                                    var signature = doc.GetElementbyId("signature").InnerText;
+                                    if (transaction.address == signature)
                                     {
-                                        start = readFile.IndexOf("TIP=") + 4;
+                                        txtTransID.Text = transaction.txid;
+                                        string readFile = System.IO.File.ReadAllText("root//" + transaction.txid + "//PRO");
+                                        int start = readFile.IndexOf("NIK=") + 4;
+                                        int length = readFile.IndexOf(Environment.NewLine, start);
+                                        txtNickName.Text = readFile.Substring(start, length - start);
+                                        start = readFile.IndexOf("PRE=") + 4;
                                         length = readFile.IndexOf(Environment.NewLine, start);
-                                        var addData = b.ValidateAddress(readFile.Substring(start, length - start));
-                                        string accData = addData.account.Substring(5);
-                                        cmbTipAddress.Text = accData;
-
-                                    }
-                                    catch { }
-
-
-
-                                    try
-                                    {
-                                        start = readFile.IndexOf("IMG=") + 4;
+                                        txtPrefix.Text = readFile.Substring(start, length - start);
+                                        start = readFile.IndexOf("FNM=") + 4;
                                         length = readFile.IndexOf(Environment.NewLine, start);
-                                        string strProfileImage = readFile.Substring(start, length - start);
+                                        txtFirstName.Text = readFile.Substring(start, length - start);
+                                        start = readFile.IndexOf("MNM=") + 4;
+                                        length = readFile.IndexOf(Environment.NewLine, start);
+                                        txtMiddleName.Text = readFile.Substring(start, length - start);
+                                        start = readFile.IndexOf("LNM=") + 4;
+                                        length = readFile.IndexOf(Environment.NewLine, start);
+                                        txtLastName.Text = readFile.Substring(start, length - start);
+                                        start = readFile.IndexOf("SUF=") + 4;
+                                        length = readFile.IndexOf(Environment.NewLine, start);
+                                        txtSuffix.Text = readFile.Substring(start, length - start);
+                                        start = readFile.IndexOf("AD1=") + 4;
+                                        length = readFile.IndexOf(Environment.NewLine, start);
+                                        txtAddress1.Text = readFile.Substring(start, length - start);
+                                        start = readFile.IndexOf("AD2=") + 4;
+                                        length = readFile.IndexOf(Environment.NewLine, start);
+                                        txtAddress2.Text = readFile.Substring(start, length - start);
+                                        start = readFile.IndexOf("AD3=") + 4;
+                                        length = readFile.IndexOf(Environment.NewLine, start);
+                                        txtAddress3.Text = readFile.Substring(start, length - start);
 
-                                        imgProfilePhoto.Image = Image.FromFile(Application.StartupPath + "//root//" + strProfileImage.Substring(3).Replace('/', '\\'));
+                                        try
+                                        {
+                                            start = readFile.IndexOf("TIP=") + 4;
+                                            length = readFile.IndexOf(Environment.NewLine, start);
+                                            var addData = b.ValidateAddress(readFile.Substring(start, length - start));
+                                            string accData = addData.account.Substring(5);
+                                            cmbTipAddress.Text = accData;
 
+                                        }
+                                        catch { }
+
+
+
+                                        try
+                                        {
+                                            start = readFile.IndexOf("IMG=") + 4;
+                                            length = readFile.IndexOf(Environment.NewLine, start);
+                                            string strProfileImage = readFile.Substring(start, length - start);
+
+                                            imgProfilePhoto.Image = Image.FromFile(Application.StartupPath + "//root//" + strProfileImage.Substring(3).Replace('/', '\\'));
+
+                                        }
+                                        catch { }
+                                        break;
                                     }
-                                    catch { }
-                                    break;
                                 }
 
                             }
@@ -386,6 +390,7 @@ namespace ADD
                 mainForm.PerformArchive(Main.CoinType, Application.StartupPath + "//process//" + processId + "//PRO", "");
                 Main.SignatureLabel = tempSignature;
                 BuildSelectedProfile();
+                mainForm.AddProfile(cmbProfileAddress.Text);
 
             }
         }
