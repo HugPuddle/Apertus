@@ -73,6 +73,12 @@ namespace BitcoinNET.RPCClient
                 (new RPCRequest("importaddress", new Object[] { Address, Label, Rescan }));
         }
 
+        public string ImportPrivateKey(string PrivateKey, string Label, bool Rescan)
+        {
+            return RpcCall<string>
+                (new RPCRequest("importprivkey", new Object[] { PrivateKey, Label, Rescan }));
+        }
+
 		
 		public string SendMany( string FromAddress, IDictionary<string, decimal> ToBitcoinAddresses)
 		{

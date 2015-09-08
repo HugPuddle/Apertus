@@ -94,6 +94,9 @@
             this.imgEnterMessageHere = new System.Windows.Forms.PictureBox();
             this.txtFileName = new System.Windows.Forms.TextBox();
             this.txtMessage = new System.Windows.Forms.TextBox();
+            this.btnExportVault = new System.Windows.Forms.Button();
+            this.btnExportSignature = new System.Windows.Forms.Button();
+            this.btnExportProfile = new System.Windows.Forms.Button();
             this.imgOpenDown = new System.Windows.Forms.PictureBox();
             this.txtAddVault = new System.Windows.Forms.TextBox();
             this.txtAddSignature = new System.Windows.Forms.TextBox();
@@ -697,6 +700,9 @@
             // 
             // splitArchiveTools.Panel2
             // 
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnExportVault);
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnExportSignature);
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnExportProfile);
             this.splitArchiveTools.Panel2.Controls.Add(this.imgOpenDown);
             this.splitArchiveTools.Panel2.Controls.Add(this.txtAddVault);
             this.splitArchiveTools.Panel2.Controls.Add(this.txtAddSignature);
@@ -836,6 +842,45 @@
             this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
             this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyDown);
             // 
+            // btnExportVault
+            // 
+            this.btnExportVault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportVault.Enabled = false;
+            this.btnExportVault.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportVault.Location = new System.Drawing.Point(30, 287);
+            this.btnExportVault.Name = "btnExportVault";
+            this.btnExportVault.Size = new System.Drawing.Size(21, 25);
+            this.btnExportVault.TabIndex = 48;
+            this.btnExportVault.Text = "↯";
+            this.btnExportVault.UseVisualStyleBackColor = true;
+            this.btnExportVault.Click += new System.EventHandler(this.btnExportVault_Click);
+            // 
+            // btnExportSignature
+            // 
+            this.btnExportSignature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportSignature.Enabled = false;
+            this.btnExportSignature.Font = new System.Drawing.Font("Arial", 10.2F);
+            this.btnExportSignature.Location = new System.Drawing.Point(30, 257);
+            this.btnExportSignature.Name = "btnExportSignature";
+            this.btnExportSignature.Size = new System.Drawing.Size(21, 25);
+            this.btnExportSignature.TabIndex = 47;
+            this.btnExportSignature.Text = "↯";
+            this.btnExportSignature.UseVisualStyleBackColor = true;
+            this.btnExportSignature.Click += new System.EventHandler(this.btnExportSignature_Click);
+            // 
+            // btnExportProfile
+            // 
+            this.btnExportProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportProfile.Enabled = false;
+            this.btnExportProfile.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportProfile.Location = new System.Drawing.Point(30, 227);
+            this.btnExportProfile.Name = "btnExportProfile";
+            this.btnExportProfile.Size = new System.Drawing.Size(21, 25);
+            this.btnExportProfile.TabIndex = 46;
+            this.btnExportProfile.Text = "↯";
+            this.btnExportProfile.UseVisualStyleBackColor = true;
+            this.btnExportProfile.Click += new System.EventHandler(this.btnExportProfile_Click);
+            // 
             // imgOpenDown
             // 
             this.imgOpenDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -853,9 +898,9 @@
             // 
             this.txtAddVault.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAddVault.Location = new System.Drawing.Point(30, 288);
+            this.txtAddVault.Location = new System.Drawing.Point(57, 288);
             this.txtAddVault.Name = "txtAddVault";
-            this.txtAddVault.Size = new System.Drawing.Size(402, 22);
+            this.txtAddVault.Size = new System.Drawing.Size(375, 22);
             this.txtAddVault.TabIndex = 45;
             this.txtAddVault.Visible = false;
             this.txtAddVault.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddVault_KeyDown);
@@ -864,9 +909,9 @@
             // 
             this.txtAddSignature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAddSignature.Location = new System.Drawing.Point(30, 258);
+            this.txtAddSignature.Location = new System.Drawing.Point(57, 258);
             this.txtAddSignature.Name = "txtAddSignature";
-            this.txtAddSignature.Size = new System.Drawing.Size(402, 22);
+            this.txtAddSignature.Size = new System.Drawing.Size(375, 22);
             this.txtAddSignature.TabIndex = 44;
             this.txtAddSignature.Visible = false;
             this.txtAddSignature.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddSignature_KeyDown);
@@ -905,10 +950,10 @@
             this.cmbVault.FormattingEnabled = true;
             this.cmbVault.Items.AddRange(new object[] {
             "Select Folder"});
-            this.cmbVault.Location = new System.Drawing.Point(30, 287);
+            this.cmbVault.Location = new System.Drawing.Point(57, 287);
             this.cmbVault.MaxDropDownItems = 100;
             this.cmbVault.Name = "cmbVault";
-            this.cmbVault.Size = new System.Drawing.Size(402, 25);
+            this.cmbVault.Size = new System.Drawing.Size(375, 25);
             this.cmbVault.TabIndex = 40;
             this.cmbVault.SelectedIndexChanged += new System.EventHandler(this.cmbVault_SelectedIndexChanged);
             // 
@@ -934,10 +979,10 @@
             this.cmbSignature.FormattingEnabled = true;
             this.cmbSignature.Items.AddRange(new object[] {
             "Select Folder"});
-            this.cmbSignature.Location = new System.Drawing.Point(30, 257);
+            this.cmbSignature.Location = new System.Drawing.Point(57, 257);
             this.cmbSignature.MaxDropDownItems = 100;
             this.cmbSignature.Name = "cmbSignature";
-            this.cmbSignature.Size = new System.Drawing.Size(402, 25);
+            this.cmbSignature.Size = new System.Drawing.Size(375, 25);
             this.cmbSignature.TabIndex = 34;
             this.cmbSignature.SelectedIndexChanged += new System.EventHandler(this.cmbSignature_SelectedIndexChanged);
             // 
@@ -949,10 +994,10 @@
             this.cmbFolder.Enabled = false;
             this.cmbFolder.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbFolder.FormattingEnabled = true;
-            this.cmbFolder.Location = new System.Drawing.Point(30, 227);
+            this.cmbFolder.Location = new System.Drawing.Point(57, 227);
             this.cmbFolder.MaxDropDownItems = 100;
             this.cmbFolder.Name = "cmbFolder";
-            this.cmbFolder.Size = new System.Drawing.Size(402, 25);
+            this.cmbFolder.Size = new System.Drawing.Size(375, 25);
             this.cmbFolder.TabIndex = 32;
             this.cmbFolder.SelectedIndexChanged += new System.EventHandler(this.cmbFolder_SelectedIndexChanged);
             // 
@@ -1319,6 +1364,9 @@
         private System.Windows.Forms.PictureBox imgTip;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button btnExportVault;
+        private System.Windows.Forms.Button btnExportSignature;
+        private System.Windows.Forms.Button btnExportProfile;
     }
 }
 

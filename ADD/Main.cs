@@ -396,13 +396,17 @@ namespace ADD
                     {
                         foreach (string keyword in keywords)
                         {
+                            var addressOnly = keyword.Split('>');
                             //allow Keyword functionality by putting keyword addresses on the end of the archive
-                            if (keyword != signingAddress)
+                            if (addressOnly[0] != signingAddress)
                             {
-                                System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
-                                if (!addressHash.Contains(keyword)) { arcSign.WriteLine(keyword); }
-                                addressHash.Add(keyword);
-                                arcSign.Close();
+                                if (!addressHash.Contains(addressOnly[0]))
+                                {
+                                    System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                                    arcSign.WriteLine(keyword);
+                                    addressHash.Add(addressOnly[0]);
+                                    arcSign.Close();
+                                }
                             }
                         }
                     }
@@ -413,15 +417,20 @@ namespace ADD
                     var keywords = GetKeyWords(txtMessage.Text, "@");
                     if (keywords != null)
                     {
+
                         foreach (string keyword in keywords)
                         {
+                            var addressOnly = keyword.Split('>');
                             //allow Send to @Address functionality by putting Deliver To addresses on the end of the archive
-                            if (keyword != signingAddress)
+                            if (addressOnly[0] != signingAddress)
                             {
-                                System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
-                                if (!addressHash.Contains(keyword)) { arcSign.WriteLine(keyword); }
-                                addressHash.Add(keyword);
-                                arcSign.Close();
+                                if (!addressHash.Contains(addressOnly[0]))
+                                {
+                                    System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                                    arcSign.WriteLine(keyword);
+                                    addressHash.Add(addressOnly[0]);
+                                    arcSign.Close();
+                                }
                             }
                         }
                     }
@@ -432,22 +441,28 @@ namespace ADD
                 {
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
 
-                    System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
-                    IEnumerable<string> Address = a.GetAddressesByAccount("~~~~" + ProfileLabel);
-                    if (!addressHash.Contains(Address.First())) { arcSign.WriteLine(Address.First()); }
-                    addressHash.Add(Address.First());
-                    arcSign.Close();
+                     IEnumerable<string> Address = a.GetAddressesByAccount("~~~~" + ProfileLabel);
+                     if (!addressHash.Contains(Address.First()))
+                     {
+                         System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                         arcSign.WriteLine(Address.First());
+                         addressHash.Add(Address.First());
+                         arcSign.Close();
+                     }
                 }
 
                 if (VaultLabel != "" && chkTrackVault.Checked)
                 {
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
                     //allow tracking by putting a signature address on the end of the file
-                    System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
                     IEnumerable<string> Address = a.GetAddressesByAccount("~~~" + VaultLabel);
-                    if (!addressHash.Contains(Address.First())) { arcSign.WriteLine(Address.First()); }
-                    addressHash.Add(Address.First());
-                    arcSign.Close();
+                    if (!addressHash.Contains(Address.First()))
+                    {
+                        System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                        arcSign.WriteLine(Address.First());
+                        addressHash.Add(Address.First());
+                        arcSign.Close();
+                    }
                 }
 
                 //Signing address should always be the last address in the array to allow for Signature Lookups.
@@ -501,6 +516,7 @@ namespace ADD
                         lastTransaction = new Dictionary<string, decimal>(toMany);
                         lastTransactionID = transactionId;
                         toMany.Clear();
+
                         if (line.Contains('>'))
                         {
                             var tip = line.Split('>');
@@ -2929,7 +2945,7 @@ namespace ADD
         private string[] GetKeyWords(string message, string startsWith)
         {
             string strKeyWordAddress = null;
-            char[] delimiters = new char[] { '\r', '\n', '!', '?', ' ', ',', '\'' };
+            char[] delimiters = new char[] { '\r', '\n', ':', ';', ' ', ',', '\'' };
             string[] tokens = message.Split(delimiters);
             foreach (string token in tokens)
             {
@@ -2975,8 +2991,15 @@ namespace ADD
         {
             RefreshFolderList();
             if (cmbFolder.SelectedIndex > 0)
-            { ProfileLabel = cmbFolder.Text; }
-            else { ProfileLabel = ""; }
+            {
+                ProfileLabel = cmbFolder.Text;
+                btnExportProfile.Enabled = true;
+            }
+            else
+            {
+                ProfileLabel = "";
+                btnExportProfile.Enabled = false;
+            }
         }
 
         private void RefreshFolderList()
@@ -3113,27 +3136,48 @@ namespace ADD
 
         private void txtAddSignature_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyValue == 13)
+            if (e.KeyValue == 13 && txtAddSignature.Text.Length > 0)
             {
                 try
                 {
-                    CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                    string label;
-                    if (txtAddSignature.Text.LastIndexOf('~') > 0)
-                    { label = txtAddSignature.Text; }
-                    else { label = "~~" + txtAddSignature.Text; }
-                    label = a.GetNewAddress(label);
-                    cmbSignature.Items.Add(txtAddSignature.Text);
-                    txtAddSignature.Visible = false;
-                    cmbSignature.Visible = true;
-                    cmbSignature.SelectedItem = txtAddSignature.Text;
-                    StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
-                    writeTrustList.WriteLine(label);
-                    writeTrustList.Close();
-                    RefreshHashCache();
-                    txtAddSignature.Text = "";
-                    lblStatusInfo.Text = "Signature linked to " + label;
-                    tmrStatusUpdate.Start();
+
+                    Match match = Regex.Match(txtAddSignature.Text, @"([a-zA-Z0-9]{52})");
+                    if (match.Success)
+                    {
+                        string label = "";
+                        if (User.InputBox("Apertus", "Enter label to import key.", ref label) == DialogResult.OK)
+                        {
+                            CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                            var result = a.ImportPrivateKey(txtAddSignature.Text, "~~" + label, false);
+                            cmbSignature.Items.Add(label);
+                            txtAddSignature.Text = "";
+                            txtAddSignature.Visible = false;
+                            cmbSignature.Visible = true;
+                            cmbSignature.SelectedItem = label;
+
+                        }
+                    }
+                    else
+                    {
+
+                        CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                        string label;
+                        if (txtAddSignature.Text.LastIndexOf('~') > 0)
+                        { label = txtAddSignature.Text; }
+                        else { label = "~~" + txtAddSignature.Text; }
+                        label = a.GetNewAddress(label);
+                        cmbSignature.Items.Add(txtAddSignature.Text);
+                        txtAddSignature.Visible = false;
+                        cmbSignature.Visible = true;
+                        cmbSignature.SelectedItem = txtAddSignature.Text;
+                        StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
+                        writeTrustList.WriteLine(label);
+                        writeTrustList.Close();
+                        RefreshHashCache();
+                        txtAddSignature.Text = "";
+                        lblStatusInfo.Text = "Signature linked to " + label;
+                        tmrStatusUpdate.Start();
+                    }
 
                 }
                 catch (Exception m)
@@ -3149,27 +3193,48 @@ namespace ADD
 
         private void txtAddVault_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyValue == 13)
+            if (e.KeyValue == 13 && txtAddVault.Text.Length > 0)
             {
                 try
                 {
-                    CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                    string label;
-                    if (txtAddVault.Text.LastIndexOf('~') > 1)
-                    { label = txtAddVault.Text; }
-                    else { label = "~~~" + txtAddVault.Text; }
-                    label = a.GetNewAddress(label);
-                    cmbVault.Items.Add(txtAddVault.Text);
-                    txtAddVault.Visible = false;
-                    cmbVault.Visible = true;
-                    cmbVault.SelectedItem = txtAddVault.Text;
-                    StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
-                    writeTrustList.WriteLine(label);
-                    writeTrustList.Close();
-                    RefreshHashCache();
-                    txtAddVault.Text = "";
-                    lblStatusInfo.Text = "Vault linked to " + label;
-                    tmrStatusUpdate.Start();
+                    
+                    Match match = Regex.Match(txtAddVault.Text, @"([a-zA-Z0-9]{52})");
+                    if (match.Success)
+                    {
+                        string label = "";
+                        if (User.InputBox("Apertus", "Enter label to import key.", ref label) == DialogResult.OK)
+                        {
+                            CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                            var result = a.ImportPrivateKey(txtAddVault.Text, "~~~" + label, false);
+                            cmbVault.Items.Add(label);
+                            txtAddVault.Text = "";
+                            txtAddVault.Visible = false;
+                            cmbVault.Visible = true;
+                            cmbVault.SelectedItem = label;
+
+                        }
+                    }
+                    else
+                    {
+
+                        CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                        string label;
+                        if (txtAddVault.Text.LastIndexOf('~') > 1)
+                        { label = txtAddVault.Text; }
+                        else { label = "~~~" + txtAddVault.Text; }
+                        label = a.GetNewAddress(label);
+                        cmbVault.Items.Add(txtAddVault.Text);
+                        txtAddVault.Visible = false;
+                        cmbVault.Visible = true;
+                        cmbVault.SelectedItem = txtAddVault.Text;
+                        StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
+                        writeTrustList.WriteLine(label);
+                        writeTrustList.Close();
+                        RefreshHashCache();
+                        txtAddVault.Text = "";
+                        lblStatusInfo.Text = "Vault linked to " + label;
+                        tmrStatusUpdate.Start();
+                    }
 
                 }
                 catch (Exception m)
@@ -3232,8 +3297,15 @@ namespace ADD
         {
             RefreshSignatureList();
             if (cmbSignature.SelectedIndex > 0)
-            { SignatureLabel = cmbSignature.Text; }
-            else { SignatureLabel = ""; }
+            {
+                SignatureLabel = cmbSignature.Text;
+                btnExportSignature.Enabled = true;
+            }
+            else
+            {
+                SignatureLabel = "";
+                btnExportSignature.Enabled = false;
+            }
         }
 
         private void RefreshSignatureList()
@@ -3290,8 +3362,15 @@ namespace ADD
         {
             RefreshVaultList();
             if (cmbVault.SelectedIndex > 0)
-            { VaultLabel = cmbVault.Text; }
-            else { VaultLabel = ""; }
+            {
+                VaultLabel = cmbVault.Text;
+                btnExportVault.Enabled = true;
+            }
+            else
+            {
+                VaultLabel = "";
+                btnExportVault.Enabled = false;
+            }
         }
 
         private void CreateBlockedPage(string transactionID, string reason)
@@ -3544,6 +3623,67 @@ namespace ADD
                 this.Invoke(new MethodInvoker(delegate() {cmbFolder.Items.Add(label); cmbFolder.SelectedItem = label;}));
         }
 
+        private void btnExportProfile_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                var b = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                var strAddress = b.GetAddressesByAccount("~~~~" + cmbFolder.Text);
+                Clipboard.SetText(b.DumpPrivateKey(strAddress.First()));
+                lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                lblStatusInfo.Text = "A private Key has been copied to the clipboard!";
+                tmrStatusUpdate.Start();
+            }
+            catch (Exception x)
+            {
+                lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                lblStatusInfo.Text = "Error: " + x.Message;
+                tmrStatusUpdate.Start();
+            }
+            
+        }
+
+        private void btnExportSignature_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var b = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                var strAddress = b.GetAddressesByAccount("~~" + cmbSignature.Text);
+                Clipboard.SetText(b.DumpPrivateKey(strAddress.First()));
+                lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                lblStatusInfo.Text = "A private Key has been copied to the clipboard!";
+                tmrStatusUpdate.Start();
+            }
+            catch (Exception x)
+            {
+                lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                lblStatusInfo.Text = "Error: " + x.Message;
+                tmrStatusUpdate.Start();
+            }
+            
+        }
+
+        private void btnExportVault_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var b = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                var strAddress = b.GetAddressesByAccount("~~~" + cmbVault.Text);
+                Clipboard.SetText(b.DumpPrivateKey(strAddress.First()));
+                lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                lblStatusInfo.Text = "A private Key has been copied to the clipboard!";
+                tmrStatusUpdate.Start();
+            }
+            catch (Exception x)
+            {
+                lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                lblStatusInfo.Text = "Error: " + x.Message;
+                tmrStatusUpdate.Start();
+            }
+        }
+
+  
 
 
     }
