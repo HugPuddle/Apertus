@@ -170,7 +170,7 @@ namespace ADD
                 btnTipAddress.Enabled = true;
 
                 var b = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
-                var transactions = b.ListTransactions("~~~~" + cmbProfileAddress.Text, 100, 0);
+                var transactions = b.ListTransactions("~~~~" + cmbProfileAddress.Text, 1000, 0);
 
                 foreach (var transaction in transactions.Reverse())
                 {
@@ -240,6 +240,7 @@ namespace ADD
                                             string strProfileImage = readFile.Substring(start, length - start);
 
                                             imgProfilePhoto.Image = Image.FromFile(Application.StartupPath + "//root//" + strProfileImage.Substring(3).Replace('/', '\\'));
+                                            openFileDialog1.FileName = Application.StartupPath + "//root//" + strProfileImage.Substring(3).Replace('/', '\\');
 
                                         }
                                         catch { }
@@ -318,10 +319,10 @@ namespace ADD
         private void btnArchive_Click(object sender, EventArgs e)
         {
 
-            DialogResult prompt = MessageBox.Show("You are about to permanently etch a profile onto " + Main.CoinType + ".", "Confirmation", MessageBoxButtons.YesNoCancel);
+            DialogResult prompt = MessageBox.Show("You are about to permanently etch a profile onto " + Main.CoinType + "." + Environment.NewLine + "            !!! Apertus may lock up during this process !!!" + Environment.NewLine + "       Please be patient.  We will thread it better next time.", "Confirmation", MessageBoxButtons.YesNoCancel);
             if (prompt == DialogResult.Yes)
             {
-
+                Main.ProfileID = "";
                 var mainForm = Application.OpenForms.OfType<Main>().Single();
                 string tempSignature = Main.SignatureLabel;
                 Main.SignatureLabel = "~~" + cmbProfileAddress.Text;
@@ -390,6 +391,7 @@ namespace ADD
                 mainForm.PerformArchive(Main.CoinType, Application.StartupPath + "//process//" + processId + "//PRO", "");
                 Main.SignatureLabel = tempSignature;
                 BuildSelectedProfile();
+                Main.ProfileID = txtTransID.Text;
                 mainForm.AddProfile(cmbProfileAddress.Text);
 
             }

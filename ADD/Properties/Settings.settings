@@ -15,13 +15,13 @@
       <Value Profile="(Default)">508</Value>
     </Setting>
     <Setting Name="AppWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">422</Value>
+      <Value Profile="(Default)">676</Value>
     </Setting>
     <Setting Name="BrowserPanel" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">149</Value>
+      <Value Profile="(Default)">203</Value>
     </Setting>
     <Setting Name="ArchivePanel" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">316</Value>
+      <Value Profile="(Default)">313</Value>
     </Setting>
     <Setting Name="HideArchive" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -30,7 +30,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="MainPanel" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">235</Value>
+      <Value Profile="(Default)">250</Value>
     </Setting>
     <Setting Name="AppLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)">150,150</Value>

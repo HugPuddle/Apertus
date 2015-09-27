@@ -64,7 +64,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("422")]
+        [global::System.Configuration.DefaultSettingValueAttribute("676")]
         public int AppWidth {
             get {
                 return ((int)(this["AppWidth"]));
@@ -76,7 +76,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("149")]
+        [global::System.Configuration.DefaultSettingValueAttribute("203")]
         public int BrowserPanel {
             get {
                 return ((int)(this["BrowserPanel"]));
@@ -88,7 +88,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("316")]
+        [global::System.Configuration.DefaultSettingValueAttribute("313")]
         public int ArchivePanel {
             get {
                 return ((int)(this["ArchivePanel"]));
@@ -124,7 +124,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("235")]
+        [global::System.Configuration.DefaultSettingValueAttribute("250")]
         public int MainPanel {
             get {
                 return ((int)(this["MainPanel"]));

@@ -50,6 +50,7 @@ namespace ADD
         public static string VaultLabel = "";
         public static string ProfileLabel = "";
         public static string TransIDSearch = "";
+        public static string ProfileID = "";
         IDictionary<string, decimal> allAccounts;
         Dictionary<string, IEnumerable<string>> coinLastMemoryDump;
 
@@ -67,6 +68,7 @@ namespace ADD
         HashSet<string> hashBlockedList = new HashSet<string>(StringComparer.Ordinal);
         HashSet<string> hashFollowedList = new HashSet<string>(StringComparer.Ordinal);
         HashSet<string> hashFavoritedList = new HashSet<string>(StringComparer.Ordinal);
+        HashSet<string> hashFriendList = new HashSet<string>(StringComparer.Ordinal);
         static readonly object _batchLocker = new object();
         static readonly object _buildLocker = new object();
         GlyphTypeface glyphTypeface = new GlyphTypeface(new Uri("file:///C:\\WINDOWS\\Fonts\\Arial.ttf"));
@@ -110,7 +112,7 @@ namespace ADD
         {
             tmrProcessBatch.Start();
             characterMap = glyphTypeface.CharacterToGlyphMap;
-            infoArray = "Apertus immutably stores and interprets data on blockchains.|Never build files or click links from sources you do not trust.|Click Help, then info for assistance.|Create a Folder and start sharing your thoughts.|#keywords allow people to discover and follow your causes.|Encrypt items by archiving them in the Vault.|Signing your archives allows people to trust you.|This is beta software use at your own risk!|Press CTRL while submitting a search to rebuild the cache.|You can search by Trans ID, Address or #Keyword".Split('|');
+            infoArray = "Apertus immutably stores and interprets data on blockchains.|Never build files or click links from sources you do not trust.|Send a direct message by using @ followed by Address.|Click Help, then info for assistance.|Create a Profile and start sharing your thoughts.|#keywords allow people to discover and follow your causes.|Encrypt items by creating and selecting a Vault.|Signing your archives allows people to trust you.|This is beta software use at your own risk!|Press CTRL while submitting a search to rebuild the cache.|Search by Trans ID, Address, Free Text or #Keyword".Split('|');
             URLSecurityZoneAPI.InternetSetFeatureEnabled(URLSecurityZoneAPI.InternetFeaturelist.DISABLE_NAVIGATION_SOUNDS, URLSecurityZoneAPI.SetFeatureOn.PROCESS, true);
 
         }
@@ -216,6 +218,8 @@ namespace ADD
                         cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(coinPayloadByteSize[CoinType] - 2, '0') + GetRandomDivider();
                         totalMsgSize = msgBytes.Length + cglText.Length;
                     }
+                    //Links the Appropriate Profile if Profile is selected.
+                    if (ProfileID != "") { if (FilePath.Length == 0) { FilePath = ProfileID; } else { FilePath = FilePath + "," + ProfileID; } }
 
                     if (FilePath.Length > 0)
                     {
@@ -808,6 +812,17 @@ namespace ADD
                 readFollow.Close();
             }
 
+            hashFriendList.Clear();
+            if (System.IO.File.Exists("Friend.txt"))
+            {
+                System.IO.StreamReader readFriend = new System.IO.StreamReader("Friend.txt");
+                while (!readFriend.EndOfStream)
+                {
+                    hashFriendList.Add(readFriend.ReadLine());
+                }
+                readFriend.Close();
+            }
+
             hashFavoritedList.Clear();
             if (System.IO.File.Exists("favorite.txt"))
             {
@@ -1059,6 +1074,11 @@ namespace ADD
             cmbVault.Items.Clear();
             cmbVault.Items.Add("Select Vault");
             cmbVault.SelectedIndex = 0;
+
+            cmbTo.Items.Clear();
+            cmbTo.Items.Add("Select Friend");
+            cmbTo.SelectedIndex = 0;
+
             if (cmbCoinType.SelectedIndex > 0)
             {
                 searchToolStripMenuItem.Enabled = true;
@@ -2160,8 +2180,26 @@ namespace ADD
 
             if (chkMonitorBlockChains.Checked)
             {
-                tmrGetNewTransactions.Start();
-                lblStatusInfo.ForeColor = System.Drawing.Color.Blue;
+
+                if (!chkFilterUnSafeContent.Checked)
+                {
+                    
+                        
+                        DialogResult dialogResult = MessageBox.Show("NOTICE: Monitoring with the filter disabled is crazy dangerous. Do you want to continue?", "Confirm Saving", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            tmrGetNewTransactions.Start();
+                            lblStatusInfo.ForeColor = System.Drawing.Color.Blue;
+                        }
+                        else { chkMonitorBlockChains.Checked = false; }
+                    
+                } else
+                {
+                    tmrGetNewTransactions.Start();
+                    lblStatusInfo.ForeColor = System.Drawing.Color.Blue;
+                }
+                
+
 
             }
             else
@@ -2989,6 +3027,7 @@ namespace ADD
 
         private void cmbFolder_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ProfileID = "";
             RefreshFolderList();
             if (cmbFolder.SelectedIndex > 0)
             {
@@ -2998,6 +3037,7 @@ namespace ADD
             else
             {
                 ProfileLabel = "";
+                ProfileID = "";
                 btnExportProfile.Enabled = false;
             }
         }
@@ -3052,6 +3092,40 @@ namespace ADD
                     }
                     treeView1.Nodes["Profile"].Expand();
                     treeView1.Nodes["Profile"].Nodes[cmbFolder.Text].ExpandAll();
+
+
+                    transactions = b.ListTransactions("~~~~" + cmbFolder.Text, 1000, 0);
+
+                    foreach (var transaction in transactions.Reverse())
+                    {
+                        if (transaction.category == "receive")
+                        {
+                            var mainForm = Application.OpenForms.OfType<Main>().Single();
+                            if (mainForm.CreateArchive(transaction.txid, Main.CoinType, false, true, null, null, false))
+                            {
+                                if (System.IO.File.Exists("root//" + transaction.txid + "//PRO"))
+                                {
+
+                                    var doc = new HtmlAgilityPack.HtmlDocument();
+                                    doc.Load("root\\" + transaction.txid + "\\index.htm");
+                                    if (doc.GetElementbyId("signature") != null)
+                                    {
+
+                                        var signature = doc.GetElementbyId("signature").InnerText;
+                                        if (transaction.address == signature)
+                                        {
+                                            ProfileID = transaction.txid;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+
+
 
                 }
                 catch (Exception b)
@@ -3593,29 +3667,30 @@ namespace ADD
             Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
             if (match.Success)
             {
-                          if (File.Exists("root//" + match.Value + "//PRO"))
-                          {
-            
-                string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
-                int start = readFile.IndexOf("NIK=") + 4;
-                int length = readFile.IndexOf(Environment.NewLine, start);
-                string strNickName = readFile.Substring(start, length - start);
+                if (File.Exists("root//" + match.Value + "//PRO"))
+                {
+
+                    var doc = new HtmlAgilityPack.HtmlDocument();
+                    doc.Load("root\\" + match.Value + "\\index.htm");
+                    var blockchain = doc.GetElementbyId("blockchain").InnerText;
+                    var fileName = match.Value + "@" + coinShortName[blockchain];
 
 
-                StreamWriter writeFollowList = new StreamWriter("Follow.txt", true);
-                writeFollowList.WriteLine();
-                writeFollowList.Close();
+                    string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
+                    int start = readFile.IndexOf("NIK=") + 4;
+                    int length = readFile.IndexOf(Environment.NewLine, start);
+                    string strNickName = readFile.Substring(start, length - start);
 
-                StreamWriter writeFriendList = new StreamWriter("Friend.txt", true);
-                writeFriendList.WriteLine(strNickName + "@" +  match.Value);
-                writeFriendList.Close();
-                          }
+
+                    if (!hashFriendList.Contains(strNickName + "@" + fileName))
+                    {
+                        hashFriendList.Add(strNickName + "@" + fileName);
+                        StreamWriter writeFriendList = new StreamWriter("Friend.txt", true);
+                        writeFriendList.WriteLine(strNickName + "@" + fileName);
+                        writeFriendList.Close();
+                    }
+                }
             }
-        
-
-
-            
-
 
         }
         public void AddProfile(string label)
