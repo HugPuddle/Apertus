@@ -219,66 +219,75 @@ namespace ADD
                         totalMsgSize = msgBytes.Length + cglText.Length;
                     }
                     //Links the Appropriate Profile if Profile is selected.
-                    if (ProfileID != "") { if (FilePath.Length == 0) { FilePath = ProfileID; } else { FilePath = FilePath + "," + ProfileID; } }
+                    if (ProfileID != "" && Path.GetFileName(FilePath) != "SEC") { if (FilePath.Length == 0) { FilePath = ProfileID; } else { FilePath = FilePath + "," + ProfileID; } }
 
                     if (FilePath.Length > 0)
                     {
 
 
                         var mergeFiles = FilePath.Split(',');
-
-
+                        bool isLNKFile = false;
+                        byte[] readFileBytes;
                         foreach (var f in mergeFiles)
                         {
                             //additional logic and padding to ensure text data begins at byte[0] to assist in future searching.
                             fileCount++;
                             var intCurrentSize = 0;
-                            byte[] readFileBytes;
+                            readFileBytes = null;
                             var fileName = f;
                             Match match = Regex.Match(fileName, @"([a-fA-F0-9]{64})");
 
                             if (match.Success)
                             {
-                                var buildLNKFile = "";
-                                do
+                                if (!isLNKFile)
                                 {
+                                    var buildLNKFile = "";
+                                    foreach (var l in mergeFiles)
+                                    {
+                                        var match2 = Regex.Match(l, @"([a-fA-F0-9]{64})");
+                                        if (match2.Success)
+                                        {
+                                            buildLNKFile = buildLNKFile + l + Environment.NewLine;
+                                        }
+                                    }
 
-                                    buildLNKFile = buildLNKFile + fileName.Substring(match.Index) + Environment.NewLine;
-
-                                    match = match.NextMatch();
-                                } while (match.Success);
-
-                                readFileBytes = Encoding.UTF8.GetBytes(buildLNKFile);
-                                fileName = "C:\\LNK";
-
-                            }
-                            else
-                            {
-                                readFileBytes = System.IO.File.ReadAllBytes(fileName);
-                            }
-                            if (fileBytes != null) { intCurrentSize = fileBytes.Length; }
-
-                            if (ledgerId != null)
-                            {
-                                cglText = ledgerId + GetRandomDivider() + readFileBytes.Length.ToString() + GetRandomDivider();
-                            }
-                            else
-                            {
-                                int totalFileSize = Path.GetFileName(fileName).Length + readFileBytes.Length.ToString().Length + readFileBytes.Length + 2;
-                                int filePadding = coinPayloadByteSize[CoinType] - (totalFileSize % coinPayloadByteSize[CoinType]);
-                                if (fileCount == mergeFiles.Length && totalMsgSize > 0)
-                                {
-                                    filePadding = filePadding + (coinPayloadByteSize[CoinType] - (totalMsgSize % coinPayloadByteSize[CoinType]));
+                                    readFileBytes = Encoding.UTF8.GetBytes(buildLNKFile);
+                                    fileName = "C:\\LNK";
+                                   
                                 }
 
-                                cglText = Path.GetFileName(fileName) + GetRandomDivider() + readFileBytes.Length.ToString().PadLeft(filePadding + readFileBytes.Length.ToString().Length, '0') + GetRandomDivider();
                             }
 
-                            buffer = new byte[cglText.Length + intCurrentSize + readFileBytes.Length];
-                            Encoding.UTF8.GetBytes(cglText).CopyTo(buffer, 0);
-                            readFileBytes.CopyTo(buffer, cglText.Length);
-                            if (fileBytes != null) { fileBytes.CopyTo(buffer, (readFileBytes.Length + cglText.Length)); }
-                            fileBytes = buffer;
+                            if (!match.Success || (match.Success && !isLNKFile))
+                            {
+                                if (match.Success) { isLNKFile = true; }
+
+                                if (readFileBytes == null) { readFileBytes = System.IO.File.ReadAllBytes(fileName); }
+
+                                if (fileBytes != null) { intCurrentSize = fileBytes.Length; }
+
+                                if (ledgerId != null)
+                                {
+                                    cglText = ledgerId + GetRandomDivider() + readFileBytes.Length.ToString() + GetRandomDivider();
+                                }
+                                else
+                                {
+                                    int totalFileSize = Path.GetFileName(fileName).Length + readFileBytes.Length.ToString().Length + readFileBytes.Length + 2;
+                                    int filePadding = coinPayloadByteSize[CoinType] - (totalFileSize % coinPayloadByteSize[CoinType]);
+                                    if (fileCount == mergeFiles.Length && totalMsgSize > 0)
+                                    {
+                                        filePadding = filePadding + (coinPayloadByteSize[CoinType] - (totalMsgSize % coinPayloadByteSize[CoinType]));
+                                    }
+
+                                    cglText = Path.GetFileName(fileName) + GetRandomDivider() + readFileBytes.Length.ToString().PadLeft(filePadding + readFileBytes.Length.ToString().Length, '0') + GetRandomDivider();
+                                }
+
+                                buffer = new byte[cglText.Length + intCurrentSize + readFileBytes.Length];
+                                Encoding.UTF8.GetBytes(cglText).CopyTo(buffer, 0);
+                                readFileBytes.CopyTo(buffer, cglText.Length);
+                                if (fileBytes != null) { fileBytes.CopyTo(buffer, (readFileBytes.Length + cglText.Length)); }
+                                fileBytes = buffer;
+                            }
                         }
 
                         //progressBar.Maximum = fileBytes.Length;
@@ -632,7 +641,7 @@ namespace ADD
         {
             if (chkWarnArchive.Checked)
             {
-                DialogResult dialogResult = MessageBox.Show("NOTICE: Files or messages with repetitive data will greatly increase the cost of archivng.", "Confirm Saving", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("You are about to permanently etch data on " + CoinType + "." + Environment.NewLine + "            !!! Apertus may lock up during this process !!!" + Environment.NewLine + "       Please be patient.  We will thread it better next time." + Environment.NewLine + Environment.NewLine + "NOTICE: Files or messages with repetitive data will greatly" + Environment.NewLine + "               increase the cost of archivng.", "Confirm Saving", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     CreateLedgerFile(coinPayloadByteSize[CoinType], GetRandomBuffer(coinPayloadByteSize[CoinType]), coinIP[CoinType], coinPort[CoinType], coinUser[CoinType], coinPassword[CoinType], WalletLabel, coinVersion[CoinType], coinMinTransaction[CoinType], txtFileName.Text, null, txtMessage.Text);
@@ -1595,29 +1604,31 @@ namespace ADD
                         {
                             if (!entry.Key.Contains('.') && entry.Key.StartsWith("LNK"))
                             {
-                                string LinkID = Encoding.UTF8.GetString(entry.Value).Replace(Environment.NewLine, "");
-                                
-                                Match match = Regex.Match(LinkID, @"([a-fA-F0-9]{64})");
-                                if (match.Success)
+                                var LinkID = Encoding.UTF8.GetString(entry.Value).Split((Environment.NewLine.ToCharArray()));
+                                foreach (string l in LinkID)
                                 {
-                                    var ForeignChain = LinkID.Split('@');
-                                    var wallet = WalletKey;
-                                    if (ForeignChain.Count() > 1)
+
+                                    Match match = Regex.Match(l, @"([a-fA-F0-9]{64})");
+                                    if (match.Success)
                                     {
-
-                                        foreach (KeyValuePair<string, string> pair in coinShortName)
+                                        var ForeignChain = l.Split('@');
+                                        var wallet = WalletKey;
+                                        if (ForeignChain.Count() > 1)
                                         {
-                                            if (pair.Value == ForeignChain[1])
-                                            {
-                                                wallet = pair.Key;
-                                                break;
-                                            }
-                                        }
 
+                                            foreach (KeyValuePair<string, string> pair in coinShortName)
+                                            {
+                                                if (pair.Value == ForeignChain[1])
+                                                {
+                                                    wallet = pair.Key;
+                                                    break;
+                                                }
+                                            }
+
+                                        }
+                                        CreateArchive(TransID, wallet, false, false, match.Value, trustContent, NavigateResults);
                                     }
-                                    CreateArchive(TransID, wallet, false, false, match.Value, trustContent, NavigateResults);
                                 }
-                                   
                             }
 
                             ParseData(entry.Value, TransID, entry.Key, trustContent, (chkMonitorBlockChains.Checked & DisplayResults));
@@ -1952,37 +1963,18 @@ namespace ADD
 
             if (SendToMonitor)
             {
-                string line = "";
-
-                if (!System.IO.File.Exists("monitor.htm"))
-                {
-                    StreamWriter newFile = new StreamWriter("monitor.htm");
-                    newFile.WriteLine("<html><head><meta charset=\"UTF-8\" /></head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\includes\\css.css\"><body><div class=\"main\">");
-                    newFile.WriteLine("</div></body></html>");
-                    newFile.Close();
-                }
-                StreamWriter tmpFile = new StreamWriter("~Monitor.htm");
-                StreamReader readFile = new StreamReader("monitor.htm");
-                tmpFile.WriteLine(readFile.ReadLine());
-                strPrintLine = strPrintLine.Replace("href=\"", "href=\"" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\" + TransID + "\\");
-                strPrintLine = strPrintLine.Replace("src=\"", "src=\"" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\" + TransID + "\\");
-                strPrintLine = strPrintLine.Replace("%20", " ");
-
-                tmpFile.WriteLine("<A href=\"" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\" + TransID + "\\index.htm" + "\">" + strPrintLine + "</a>");
-                while ((line = readFile.ReadLine()) != null)
-                {
-                    tmpFile.WriteLine(line);
-                }
-                tmpFile.Close();
-                readFile.Close();
-                File.Delete("monitor.htm");
-                File.Move("~Monitor.htm", "monitor.htm");
-
-                Uri MonitorUrl = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\monitor.htm");
-                webBrowser1.Url = MonitorUrl;
+                Search.GetLatestArchives();
+                var monitorURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/monitor.htm");
+                webBrowser1.Url = monitorURL;
+ 
 
             }
 
+
+        }
+
+        private void DisplayRecentTransactions()
+        {
 
         }
 
@@ -2933,8 +2925,12 @@ namespace ADD
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/catalog.htm");
-            webBrowser1.Url = BrowseURL;
+            //Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/catalog.htm");
+            //webBrowser1.Url = BrowseURL;
+
+            Search.GetLatestArchives();
+            var monitorURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/monitor.htm");
+            webBrowser1.Url = monitorURL;
         }
 
         private void pictureBox4_Click(object sender, EventArgs e)
