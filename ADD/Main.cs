@@ -707,6 +707,11 @@ namespace ADD
                             
                             fileName = Path.GetDirectoryName(Application.ExecutablePath) + @"\process\" + processID + @"\" + Path.GetFileNameWithoutExtension(f) + ".jpg";
                             bmp1.Save(fileName, jgpEncoder, myEncoderParameters);
+                            FileInfo f1 = new FileInfo(f);
+                            FileInfo f2 = new FileInfo(fileName);
+
+                            //Files aren't always smaller especially when converting png files
+                            if (f2.Length > f1.Length) { fileName = f;}
                         }
                         catch { }
 
