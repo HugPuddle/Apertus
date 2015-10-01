@@ -17,6 +17,8 @@ using Secp256k1;
 using System.Numerics;
 using Microsoft.Win32;
 using System.ComponentModel;
+using System.Drawing.Imaging;
+
 
 namespace ADD
 {
@@ -260,6 +262,9 @@ namespace ADD
 
                             if (!match.Success || (match.Success && !isLNKFile))
                             {
+                                
+                                
+                                
                                 if (match.Success) { isLNKFile = true; }
 
                                 if (readFileBytes == null) { readFileBytes = System.IO.File.ReadAllBytes(fileName); }
@@ -671,19 +676,62 @@ namespace ADD
             if (result == DialogResult.OK)
             {
                 fileSize = (decimal)0;
-                txtFileName.Text = String.Join(",", attachFiles.FileNames);
+                string fileNames = "";
+                string processID = "";
 
                 foreach (var f in attachFiles.FileNames)
                 {
-                    var filebytes = new System.IO.FileInfo(f).Length;
+                    string fileName = f;
+                    
+                    if (chkCompressImages.Checked)
+                    {
+
+                        try
+                        {
+                            Bitmap bmp1 = new Bitmap(fileName);
+                            if (processID == ""){ processID = Guid.NewGuid().ToString();}
+                            Directory.CreateDirectory("process//" + processID);
+                            ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
+                            System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+                            EncoderParameters myEncoderParameters = new EncoderParameters(1);
+                            EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 70L);
+                            myEncoderParameters.Param[0] = myEncoderParameter;
+                            
+                            fileName = Path.GetDirectoryName(Application.ExecutablePath) + @"\process\" + processID + @"\" + Path.GetFileNameWithoutExtension(f) + ".jpg";
+                            bmp1.Save(fileName, jgpEncoder, myEncoderParameters);
+                        }
+                        catch { }
+
+                    }
+                    
+                    
+                    if (fileNames != "") { fileNames = fileNames + ","; }
+                    fileNames = fileNames + fileName;
+
+                    var filebytes = new System.IO.FileInfo(fileName).Length;
                     fileSize = fileSize + filebytes;
                 }
-
+                txtFileName.Text = fileNames;
                 updateEstimatedCost();
 
             }
 
         }
+
+    private ImageCodecInfo GetEncoder(ImageFormat format)
+{
+
+    ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+
+    foreach (ImageCodecInfo codec in codecs)
+    {
+        if (codec.FormatID == format.Guid)
+        {
+            return codec;
+        }
+    }
+    return null;
+}
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -733,6 +781,7 @@ namespace ADD
                 chkTrackVault.Checked = Properties.Settings.Default.EnableTrackVault;
                 chkWarnArchive.Checked = Properties.Settings.Default.EnableSaveWarning;
                 chkSaveOnEnter.Checked = Properties.Settings.Default.EnableEnterEqualsSave;
+                chkCompressImages.Checked = Properties.Settings.Default.EnableImageCompression;
                 splitArchiveTools.SplitterDistance = Properties.Settings.Default.ArchivePanel;
                 splitHistoryBrowser.SplitterDistance = Properties.Settings.Default.BrowserPanel;
                 splitMain.Panel2Collapsed = Properties.Settings.Default.HideArchive;
@@ -1648,15 +1697,15 @@ namespace ADD
                         {
                             lock (_batchLocker)
                             {
-                                if (!System.IO.File.Exists("batch.txt"))
+                                if (!System.IO.File.Exists("root\\batch.txt"))
                                 {
-                                    System.IO.File.AppendAllText("batch.txt", TransID + "@" + WalletKey + Environment.NewLine);
+                                    System.IO.File.AppendAllText("root\\batch.txt", TransID + "@" + WalletKey + Environment.NewLine);
                                 }
                                 else
                                 {
-                                    if (!System.IO.File.ReadAllText("batch.txt").Contains(TransID))
+                                    if (!System.IO.File.ReadAllText("root\\batch.txt").Contains(TransID))
                                     {
-                                        System.IO.File.AppendAllText("batch.txt", TransID + "@" + WalletKey + Environment.NewLine);
+                                        System.IO.File.AppendAllText("root\\batch.txt", TransID + "@" + WalletKey + Environment.NewLine);
                                     }
                                 }
                             }
@@ -1966,8 +2015,7 @@ namespace ADD
                 Search.GetLatestArchives();
                 var monitorURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/monitor.htm");
                 webBrowser1.Url = monitorURL;
- 
-
+                tmrPauseBeforeRefreshingMonitor.Start();
             }
 
 
@@ -2689,13 +2737,13 @@ namespace ADD
             {
                 try
                 {
-                    System.IO.StreamReader readBatch = new System.IO.StreamReader("batch.txt");
+                    System.IO.StreamReader readBatch = new System.IO.StreamReader("root\\batch.txt");
                     while ((batchLine = readBatch.ReadLine()) != null)
                     {
                         batchList.Add(batchLine);
                     }
                     readBatch.Close();
-                    System.IO.File.Delete("batch.txt");
+                    System.IO.File.Delete("root\\batch.txt");
                 }
                 catch { }
             }
@@ -3752,6 +3800,20 @@ namespace ADD
                 lblStatusInfo.Text = "Error: " + x.Message;
                 tmrStatusUpdate.Start();
             }
+        }
+
+        private void tmrPauseBeforeRefreshingMonitor_Tick(object sender, EventArgs e)
+        {
+            Search.GetLatestArchives();
+            var monitorURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/monitor.htm");
+            webBrowser1.Url = monitorURL;
+            tmrPauseBeforeRefreshingMonitor.Stop();
+        }
+
+        private void chkCompressImages_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableImageCompression = chkCompressImages.Checked;
+            Properties.Settings.Default.Save();
         }
 
   

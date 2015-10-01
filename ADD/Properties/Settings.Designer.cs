@@ -205,5 +205,17 @@ namespace ADD.Properties {
                 this["EnableEnterEqualsSave"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableImageCompression {
+            get {
+                return ((bool)(this["EnableImageCompression"]));
+            }
+            set {
+                this["EnableImageCompression"] = value;
+            }
+        }
     }
 }

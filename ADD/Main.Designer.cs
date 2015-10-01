@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Profile");
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("Signature");
-            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("Vault");
-            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("Favorites");
-            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("Follow");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Profile");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Signature");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Vault");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Favorites");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Follow");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.attachFiles = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -42,7 +42,6 @@
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.historyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rebuildToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.notarizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,6 +92,7 @@
             this.imgEnterMessageHere = new System.Windows.Forms.PictureBox();
             this.txtFileName = new System.Windows.Forms.TextBox();
             this.txtMessage = new System.Windows.Forms.TextBox();
+            this.cmbTo = new System.Windows.Forms.ComboBox();
             this.btnExportVault = new System.Windows.Forms.Button();
             this.btnExportSignature = new System.Windows.Forms.Button();
             this.btnExportProfile = new System.Windows.Forms.Button();
@@ -112,18 +112,19 @@
             this.lblCoinTotal = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblTotalArchiveSize = new System.Windows.Forms.Label();
-            this.chkEnableRecipients = new System.Windows.Forms.CheckBox();
-            this.chkKeywords = new System.Windows.Forms.CheckBox();
             this.chkFilterUnSafeContent = new System.Windows.Forms.CheckBox();
             this.chkMonitorBlockChains = new System.Windows.Forms.CheckBox();
-            this.chkTrackVault = new System.Windows.Forms.CheckBox();
+            this.chkEnableRecipients = new System.Windows.Forms.CheckBox();
+            this.chkKeywords = new System.Windows.Forms.CheckBox();
+            this.chkCompressImages = new System.Windows.Forms.CheckBox();
             this.chkWarnArchive = new System.Windows.Forms.CheckBox();
             this.chkSaveOnEnter = new System.Windows.Forms.CheckBox();
+            this.chkTrackVault = new System.Windows.Forms.CheckBox();
             this.statusArchiveStatus = new System.Windows.Forms.StatusStrip();
             this.lblStatusInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.cmbTo = new System.Windows.Forms.ComboBox();
+            this.tmrPauseBeforeRefreshingMonitor = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.menuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
@@ -205,7 +206,6 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.saveToolStripMenuItem,
             this.historyToolStripMenuItem,
             this.notarizeToolStripMenuItem,
             this.exitToolStripMenuItem});
@@ -219,12 +219,6 @@
             this.newToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.saveToolStripMenuItem.Text = "Save";
             // 
             // historyToolStripMenuItem
             // 
@@ -460,22 +454,22 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode31.Name = "profile";
-            treeNode31.Text = "Profile";
-            treeNode32.Name = "signature";
-            treeNode32.Text = "Signature";
-            treeNode33.Name = "vault";
-            treeNode33.Text = "Vault";
-            treeNode34.Name = "favorites";
-            treeNode34.Text = "Favorites";
-            treeNode35.Name = "follow";
-            treeNode35.Text = "Follow";
+            treeNode6.Name = "profile";
+            treeNode6.Text = "Profile";
+            treeNode7.Name = "signature";
+            treeNode7.Text = "Signature";
+            treeNode8.Name = "vault";
+            treeNode8.Text = "Vault";
+            treeNode9.Name = "favorites";
+            treeNode9.Text = "Favorites";
+            treeNode10.Name = "follow";
+            treeNode10.Text = "Follow";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode31,
-            treeNode32,
-            treeNode33,
-            treeNode34,
-            treeNode35});
+            treeNode6,
+            treeNode7,
+            treeNode8,
+            treeNode9,
+            treeNode10});
             this.treeView1.Size = new System.Drawing.Size(259, 307);
             this.treeView1.TabIndex = 5;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -829,6 +823,20 @@
             this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
             this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyDown);
             // 
+            // cmbTo
+            // 
+            this.cmbTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTo.Enabled = false;
+            this.cmbTo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbTo.FormattingEnabled = true;
+            this.cmbTo.Location = new System.Drawing.Point(3, 196);
+            this.cmbTo.MaxDropDownItems = 100;
+            this.cmbTo.Name = "cmbTo";
+            this.cmbTo.Size = new System.Drawing.Size(548, 25);
+            this.cmbTo.TabIndex = 49;
+            // 
             // btnExportVault
             // 
             this.btnExportVault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1000,6 +1008,7 @@
             this.flowLayoutPanel1.Controls.Add(this.chkMonitorBlockChains);
             this.flowLayoutPanel1.Controls.Add(this.chkEnableRecipients);
             this.flowLayoutPanel1.Controls.Add(this.chkKeywords);
+            this.flowLayoutPanel1.Controls.Add(this.chkCompressImages);
             this.flowLayoutPanel1.Controls.Add(this.chkWarnArchive);
             this.flowLayoutPanel1.Controls.Add(this.chkSaveOnEnter);
             this.flowLayoutPanel1.Controls.Add(this.chkTrackVault);
@@ -1077,6 +1086,32 @@
             this.lblTotalArchiveSize.Text = "0.00000000";
             this.lblTotalArchiveSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // chkFilterUnSafeContent
+            // 
+            this.chkFilterUnSafeContent.AutoSize = true;
+            this.chkFilterUnSafeContent.Checked = true;
+            this.chkFilterUnSafeContent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(3, 50);
+            this.chkFilterUnSafeContent.Name = "chkFilterUnSafeContent";
+            this.chkFilterUnSafeContent.Size = new System.Drawing.Size(109, 21);
+            this.chkFilterUnSafeContent.TabIndex = 3;
+            this.chkFilterUnSafeContent.TabStop = false;
+            this.chkFilterUnSafeContent.Text = "Enable Filter";
+            this.chkFilterUnSafeContent.UseVisualStyleBackColor = true;
+            this.chkFilterUnSafeContent.CheckedChanged += new System.EventHandler(this.chkFilterUnSafeContent_CheckedChanged);
+            // 
+            // chkMonitorBlockChains
+            // 
+            this.chkMonitorBlockChains.AutoSize = true;
+            this.chkMonitorBlockChains.Location = new System.Drawing.Point(118, 50);
+            this.chkMonitorBlockChains.Name = "chkMonitorBlockChains";
+            this.chkMonitorBlockChains.Size = new System.Drawing.Size(125, 21);
+            this.chkMonitorBlockChains.TabIndex = 2;
+            this.chkMonitorBlockChains.TabStop = false;
+            this.chkMonitorBlockChains.Text = "Enable Monitor";
+            this.chkMonitorBlockChains.UseVisualStyleBackColor = true;
+            this.chkMonitorBlockChains.CheckedChanged += new System.EventHandler(this.chkMonitorBlockChains_CheckedChanged);
+            // 
             // chkEnableRecipients
             // 
             this.chkEnableRecipients.AutoSize = true;
@@ -1105,51 +1140,25 @@
             this.chkKeywords.UseVisualStyleBackColor = true;
             this.chkKeywords.CheckedChanged += new System.EventHandler(this.chkKeywords_CheckedChanged);
             // 
-            // chkFilterUnSafeContent
+            // chkCompressImages
             // 
-            this.chkFilterUnSafeContent.AutoSize = true;
-            this.chkFilterUnSafeContent.Checked = true;
-            this.chkFilterUnSafeContent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(3, 50);
-            this.chkFilterUnSafeContent.Name = "chkFilterUnSafeContent";
-            this.chkFilterUnSafeContent.Size = new System.Drawing.Size(109, 21);
-            this.chkFilterUnSafeContent.TabIndex = 3;
-            this.chkFilterUnSafeContent.TabStop = false;
-            this.chkFilterUnSafeContent.Text = "Enable Filter";
-            this.chkFilterUnSafeContent.UseVisualStyleBackColor = true;
-            this.chkFilterUnSafeContent.CheckedChanged += new System.EventHandler(this.chkFilterUnSafeContent_CheckedChanged);
-            // 
-            // chkMonitorBlockChains
-            // 
-            this.chkMonitorBlockChains.AutoSize = true;
-            this.chkMonitorBlockChains.Location = new System.Drawing.Point(118, 50);
-            this.chkMonitorBlockChains.Name = "chkMonitorBlockChains";
-            this.chkMonitorBlockChains.Size = new System.Drawing.Size(125, 21);
-            this.chkMonitorBlockChains.TabIndex = 2;
-            this.chkMonitorBlockChains.TabStop = false;
-            this.chkMonitorBlockChains.Text = "Enable Monitor";
-            this.chkMonitorBlockChains.UseVisualStyleBackColor = true;
-            this.chkMonitorBlockChains.CheckedChanged += new System.EventHandler(this.chkMonitorBlockChains_CheckedChanged);
-            // 
-            // chkTrackVault
-            // 
-            this.chkTrackVault.AutoSize = true;
-            this.chkTrackVault.Checked = true;
-            this.chkTrackVault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTrackVault.Location = new System.Drawing.Point(403, 81);
-            this.chkTrackVault.Name = "chkTrackVault";
-            this.chkTrackVault.Size = new System.Drawing.Size(102, 21);
-            this.chkTrackVault.TabIndex = 23;
-            this.chkTrackVault.Text = "Track Vault";
-            this.chkTrackVault.UseVisualStyleBackColor = true;
-            this.chkTrackVault.CheckedChanged += new System.EventHandler(this.chkTrackVault_CheckedChanged);
+            this.chkCompressImages.AutoSize = true;
+            this.chkCompressImages.Checked = true;
+            this.chkCompressImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCompressImages.Location = new System.Drawing.Point(160, 81);
+            this.chkCompressImages.Name = "chkCompressImages";
+            this.chkCompressImages.Size = new System.Drawing.Size(142, 21);
+            this.chkCompressImages.TabIndex = 25;
+            this.chkCompressImages.Text = "Compress Images";
+            this.chkCompressImages.UseVisualStyleBackColor = true;
+            this.chkCompressImages.CheckedChanged += new System.EventHandler(this.chkCompressImages_CheckedChanged);
             // 
             // chkWarnArchive
             // 
             this.chkWarnArchive.AutoSize = true;
             this.chkWarnArchive.Checked = true;
             this.chkWarnArchive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWarnArchive.Location = new System.Drawing.Point(160, 81);
+            this.chkWarnArchive.Location = new System.Drawing.Point(308, 81);
             this.chkWarnArchive.Name = "chkWarnArchive";
             this.chkWarnArchive.Size = new System.Drawing.Size(119, 21);
             this.chkWarnArchive.TabIndex = 21;
@@ -1160,13 +1169,26 @@
             // chkSaveOnEnter
             // 
             this.chkSaveOnEnter.AutoSize = true;
-            this.chkSaveOnEnter.Location = new System.Drawing.Point(285, 81);
+            this.chkSaveOnEnter.Location = new System.Drawing.Point(433, 81);
             this.chkSaveOnEnter.Name = "chkSaveOnEnter";
             this.chkSaveOnEnter.Size = new System.Drawing.Size(112, 21);
             this.chkSaveOnEnter.TabIndex = 22;
             this.chkSaveOnEnter.Text = "Enter = Save";
             this.chkSaveOnEnter.UseVisualStyleBackColor = true;
             this.chkSaveOnEnter.CheckedChanged += new System.EventHandler(this.chkSaveOnEnter_CheckedChanged);
+            // 
+            // chkTrackVault
+            // 
+            this.chkTrackVault.AutoSize = true;
+            this.chkTrackVault.Checked = true;
+            this.chkTrackVault.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkTrackVault.Location = new System.Drawing.Point(3, 112);
+            this.chkTrackVault.Name = "chkTrackVault";
+            this.chkTrackVault.Size = new System.Drawing.Size(102, 21);
+            this.chkTrackVault.TabIndex = 23;
+            this.chkTrackVault.Text = "Track Vault";
+            this.chkTrackVault.UseVisualStyleBackColor = true;
+            this.chkTrackVault.CheckedChanged += new System.EventHandler(this.chkTrackVault_CheckedChanged);
             // 
             // statusArchiveStatus
             // 
@@ -1190,19 +1212,10 @@
             this.lblStatusInfo.Text = "Select a blockchain to get started.";
             this.lblStatusInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cmbTo
+            // tmrPauseBeforeRefreshingMonitor
             // 
-            this.cmbTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTo.Enabled = false;
-            this.cmbTo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbTo.FormattingEnabled = true;
-            this.cmbTo.Location = new System.Drawing.Point(3, 196);
-            this.cmbTo.MaxDropDownItems = 100;
-            this.cmbTo.Name = "cmbTo";
-            this.cmbTo.Size = new System.Drawing.Size(548, 25);
-            this.cmbTo.TabIndex = 49;
+            this.tmrPauseBeforeRefreshingMonitor.Interval = 2000;
+            this.tmrPauseBeforeRefreshingMonitor.Tick += new System.EventHandler(this.tmrPauseBeforeRefreshingMonitor_Tick);
             // 
             // Main
             // 
@@ -1293,7 +1306,6 @@
         private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem historyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rPCToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem notarizeToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openDigestFile;
@@ -1368,6 +1380,8 @@
         private System.Windows.Forms.Button btnExportSignature;
         private System.Windows.Forms.Button btnExportProfile;
         private System.Windows.Forms.ComboBox cmbTo;
+        private System.Windows.Forms.Timer tmrPauseBeforeRefreshingMonitor;
+        private System.Windows.Forms.CheckBox chkCompressImages;
     }
 }
 

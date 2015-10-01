@@ -323,6 +323,7 @@ namespace ADD
             if (prompt == DialogResult.Yes)
             {
                 Main.ProfileID = "";
+                Main.ProfileLabel = "";
                 var mainForm = Application.OpenForms.OfType<Main>().Single();
                 string tempSignature = Main.SignatureLabel;
                 Main.SignatureLabel = "~~" + cmbProfileAddress.Text;
@@ -392,6 +393,7 @@ namespace ADD
                 Main.SignatureLabel = tempSignature;
                 BuildSelectedProfile();
                 Main.ProfileID = txtTransID.Text;
+                Main.ProfileLabel = cmbProfileAddress.Text;
                 mainForm.AddProfile(cmbProfileAddress.Text);
 
             }
