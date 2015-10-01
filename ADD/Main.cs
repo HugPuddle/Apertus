@@ -507,10 +507,18 @@ namespace ADD
                 {
                     try
                     {
-                        if (line.Contains('>'))
+                        if (line.Contains('>') && chkEnableTips.Checked)
                         {
                             var tip = line.Split('>');
-                            toMany.Add(tip[0], Convert.ToDecimal(tip[1]));
+                            decimal tipAmount = CoinMinTransaction;
+
+                            try
+                            { 
+                                tipAmount = Convert.ToDecimal(tip[1]);
+                            }
+                            catch {}
+
+                            toMany.Add(tip[0], tipAmount);
                         }
                         else
                         {
@@ -782,6 +790,7 @@ namespace ADD
                 chkWarnArchive.Checked = Properties.Settings.Default.EnableSaveWarning;
                 chkSaveOnEnter.Checked = Properties.Settings.Default.EnableEnterEqualsSave;
                 chkCompressImages.Checked = Properties.Settings.Default.EnableImageCompression;
+                chkEnableTips.Checked = Properties.Settings.Default.EnableTips;
                 splitArchiveTools.SplitterDistance = Properties.Settings.Default.ArchivePanel;
                 splitHistoryBrowser.SplitterDistance = Properties.Settings.Default.BrowserPanel;
                 splitMain.Panel2Collapsed = Properties.Settings.Default.HideArchive;
@@ -3814,6 +3823,13 @@ namespace ADD
         {
             Properties.Settings.Default.EnableImageCompression = chkCompressImages.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void chkEnableTips_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableTips = chkEnableTips.Checked;
+            Properties.Settings.Default.Save();
+
         }
 
   

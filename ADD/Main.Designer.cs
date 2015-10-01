@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Profile");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Signature");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Vault");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Favorites");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Follow");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Profile");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Signature");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Vault");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Favorites");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Follow");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.attachFiles = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -125,6 +125,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tmrPauseBeforeRefreshingMonitor = new System.Windows.Forms.Timer(this.components);
+            this.chkEnableTips = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
@@ -216,7 +217,7 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -225,13 +226,13 @@
             this.historyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rebuildToolStripMenuItem1});
             this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
-            this.historyToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.historyToolStripMenuItem.Text = "Catalog";
             // 
             // rebuildToolStripMenuItem1
             // 
             this.rebuildToolStripMenuItem1.Name = "rebuildToolStripMenuItem1";
-            this.rebuildToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.rebuildToolStripMenuItem1.Size = new System.Drawing.Size(175, 22);
             this.rebuildToolStripMenuItem1.Text = "Rebuild";
             this.rebuildToolStripMenuItem1.Click += new System.EventHandler(this.rebuildToolStripMenuItem_Click);
             // 
@@ -241,7 +242,7 @@
             this.proofToolStripMenuItem,
             this.searchToolStripMenuItem});
             this.notarizeToolStripMenuItem.Name = "notarizeToolStripMenuItem";
-            this.notarizeToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.notarizeToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.notarizeToolStripMenuItem.Text = "Proof";
             // 
             // proofToolStripMenuItem
@@ -280,7 +281,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -454,22 +455,22 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode6.Name = "profile";
-            treeNode6.Text = "Profile";
-            treeNode7.Name = "signature";
-            treeNode7.Text = "Signature";
-            treeNode8.Name = "vault";
-            treeNode8.Text = "Vault";
-            treeNode9.Name = "favorites";
-            treeNode9.Text = "Favorites";
-            treeNode10.Name = "follow";
-            treeNode10.Text = "Follow";
+            treeNode1.Name = "profile";
+            treeNode1.Text = "Profile";
+            treeNode2.Name = "signature";
+            treeNode2.Text = "Signature";
+            treeNode3.Name = "vault";
+            treeNode3.Text = "Vault";
+            treeNode4.Name = "favorites";
+            treeNode4.Text = "Favorites";
+            treeNode5.Name = "follow";
+            treeNode5.Text = "Follow";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode7,
-            treeNode8,
-            treeNode9,
-            treeNode10});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5});
             this.treeView1.Size = new System.Drawing.Size(259, 307);
             this.treeView1.TabIndex = 5;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -1008,6 +1009,7 @@
             this.flowLayoutPanel1.Controls.Add(this.chkMonitorBlockChains);
             this.flowLayoutPanel1.Controls.Add(this.chkEnableRecipients);
             this.flowLayoutPanel1.Controls.Add(this.chkKeywords);
+            this.flowLayoutPanel1.Controls.Add(this.chkEnableTips);
             this.flowLayoutPanel1.Controls.Add(this.chkCompressImages);
             this.flowLayoutPanel1.Controls.Add(this.chkWarnArchive);
             this.flowLayoutPanel1.Controls.Add(this.chkSaveOnEnter);
@@ -1145,7 +1147,7 @@
             this.chkCompressImages.AutoSize = true;
             this.chkCompressImages.Checked = true;
             this.chkCompressImages.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCompressImages.Location = new System.Drawing.Point(160, 81);
+            this.chkCompressImages.Location = new System.Drawing.Point(279, 81);
             this.chkCompressImages.Name = "chkCompressImages";
             this.chkCompressImages.Size = new System.Drawing.Size(142, 21);
             this.chkCompressImages.TabIndex = 25;
@@ -1158,7 +1160,7 @@
             this.chkWarnArchive.AutoSize = true;
             this.chkWarnArchive.Checked = true;
             this.chkWarnArchive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWarnArchive.Location = new System.Drawing.Point(308, 81);
+            this.chkWarnArchive.Location = new System.Drawing.Point(427, 81);
             this.chkWarnArchive.Name = "chkWarnArchive";
             this.chkWarnArchive.Size = new System.Drawing.Size(119, 21);
             this.chkWarnArchive.TabIndex = 21;
@@ -1169,7 +1171,7 @@
             // chkSaveOnEnter
             // 
             this.chkSaveOnEnter.AutoSize = true;
-            this.chkSaveOnEnter.Location = new System.Drawing.Point(433, 81);
+            this.chkSaveOnEnter.Location = new System.Drawing.Point(3, 112);
             this.chkSaveOnEnter.Name = "chkSaveOnEnter";
             this.chkSaveOnEnter.Size = new System.Drawing.Size(112, 21);
             this.chkSaveOnEnter.TabIndex = 22;
@@ -1182,7 +1184,7 @@
             this.chkTrackVault.AutoSize = true;
             this.chkTrackVault.Checked = true;
             this.chkTrackVault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTrackVault.Location = new System.Drawing.Point(3, 112);
+            this.chkTrackVault.Location = new System.Drawing.Point(121, 112);
             this.chkTrackVault.Name = "chkTrackVault";
             this.chkTrackVault.Size = new System.Drawing.Size(102, 21);
             this.chkTrackVault.TabIndex = 23;
@@ -1216,6 +1218,17 @@
             // 
             this.tmrPauseBeforeRefreshingMonitor.Interval = 2000;
             this.tmrPauseBeforeRefreshingMonitor.Tick += new System.EventHandler(this.tmrPauseBeforeRefreshingMonitor_Tick);
+            // 
+            // chkEnableTips
+            // 
+            this.chkEnableTips.AutoSize = true;
+            this.chkEnableTips.Location = new System.Drawing.Point(160, 81);
+            this.chkEnableTips.Name = "chkEnableTips";
+            this.chkEnableTips.Size = new System.Drawing.Size(113, 21);
+            this.chkEnableTips.TabIndex = 26;
+            this.chkEnableTips.Text = "Enable >Tips";
+            this.chkEnableTips.UseVisualStyleBackColor = true;
+            this.chkEnableTips.CheckedChanged += new System.EventHandler(this.chkEnableTips_CheckedChanged);
             // 
             // Main
             // 
@@ -1382,6 +1395,7 @@
         private System.Windows.Forms.ComboBox cmbTo;
         private System.Windows.Forms.Timer tmrPauseBeforeRefreshingMonitor;
         private System.Windows.Forms.CheckBox chkCompressImages;
+        private System.Windows.Forms.CheckBox chkEnableTips;
     }
 }
 

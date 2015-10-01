@@ -217,5 +217,17 @@ namespace ADD.Properties {
                 this["EnableImageCompression"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableTips {
+            get {
+                return ((bool)(this["EnableTips"]));
+            }
+            set {
+                this["EnableTips"] = value;
+            }
+        }
     }
 }
