@@ -1982,7 +1982,7 @@ namespace ADD
                             strTipAddress = readFile.Substring(start, length - start);
                         }
 
-                        strPrintLine = "<div class=\"item\"><div class=\"content\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\"" + strProfileImage + "\"><br>Tip Address<br>" + strTipAddress + " </div></div>";
+                        strPrintLine = "<div class=\"item\"><div class=\"content\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\"" + strProfileImage + "\"></div></div>";
 
 
                     }

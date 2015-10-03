@@ -13,6 +13,7 @@ using System.Net;
 using System.IO;
 using Secp256k1;
 using System.Numerics;
+using System.Drawing.Imaging;
 
 namespace ADD
 {
@@ -293,8 +294,49 @@ namespace ADD
             DialogResult result = STAShowDialog(openFileDialog1); // Show the dialog.
             if (result == DialogResult.OK) // Test result.
             {
-                imgProfilePhoto.Image = Image.FromFile(openFileDialog1.FileName);
+                string fileName = openFileDialog1.FileName;
+                string processID = "";
+                try
+                {
+
+                    Bitmap bmp1 = new Bitmap(fileName);
+                    if (processID == "") { processID = Guid.NewGuid().ToString(); }
+                    Directory.CreateDirectory("process//" + processID);
+                    ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
+                    System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+                    EncoderParameters myEncoderParameters = new EncoderParameters(1);
+                    EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 70L);
+                    myEncoderParameters.Param[0] = myEncoderParameter;
+
+                    fileName = Path.GetDirectoryName(Application.ExecutablePath) + @"\process\" + processID + @"\" + Path.GetFileNameWithoutExtension(openFileDialog1.FileName) + ".jpg";
+                    bmp1.Save(fileName, jgpEncoder, myEncoderParameters);
+                    FileInfo f1 = new FileInfo(openFileDialog1.FileName);
+                    FileInfo f2 = new FileInfo(fileName);
+
+                    //Files aren't always smaller especially when converting png files
+                    if (f2.Length < f1.Length) {openFileDialog1.FileName = fileName; }
+
+                    imgProfilePhoto.Image = Image.FromFile(openFileDialog1.FileName);
+                }
+                catch { }
+
+
             }
+        }
+
+        private ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
         }
 
         private DialogResult STAShowDialog(FileDialog dialog)
