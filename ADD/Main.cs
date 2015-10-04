@@ -77,7 +77,7 @@ namespace ADD
         IDictionary<int, ushort> characterMap;
         string[] infoArray;
         bool Loading = true;
-        bool busy = true;
+        string PROLinks = "";
 
         public Main()
         {
@@ -966,7 +966,7 @@ namespace ADD
                     writeIncludes = new StreamWriter("root\\includes\\css.css");
                     writeIncludes.WriteLine("body {font-family: Arial, Helvetica, sans-serif;background:white;}");
                     writeIncludes.WriteLine("a {color: #A0A0A0;}");
-                    writeIncludes.WriteLine("img {max-width: 100%;height: auto;}");
+                    writeIncludes.WriteLine("img {max-width: 400px;height: auto;}");
                     writeIncludes.WriteLine(".main{max-width: 100%;}");
                     writeIncludes.WriteLine(".main .item {margin: 5px;}");
                     writeIncludes.WriteLine(".main .item .content {word-wrap: break-word;background: #E6E6E6;color: #151515;padding: 10px;text-align: center;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;}");
@@ -1044,6 +1044,8 @@ namespace ADD
                 cmbWalletLabel.Enabled = false;
                 cmbFolder.SelectedIndex = 0;
                 cmbFolder.Enabled = false;
+                cmbFollow.SelectedIndex = 0;
+                cmbFollow.Enabled = false;
                 btnAddFolder.Enabled = false;
                 cmbVault.SelectedIndex = 0;
                 cmbVault.Enabled = false;
@@ -1146,6 +1148,9 @@ namespace ADD
             cmbVault.Items.Clear();
             cmbVault.Items.Add("Select Vault");
             cmbVault.SelectedIndex = 0;
+            cmbFollow.Items.Clear();
+            cmbFollow.Items.Add("Select Follow");
+            cmbFollow.SelectedIndex = 0;
 
             cmbTo.Items.Clear();
             cmbTo.Items.Add("Select Friend");
@@ -1154,38 +1159,17 @@ namespace ADD
             if (cmbCoinType.SelectedIndex > 0)
             {
                 searchToolStripMenuItem.Enabled = true;
-                string transID = TransIDSearch;
-                Match match = Regex.Match(transID, @"([a-fA-F0-9]{64})");
-                if (match.Success)
-                {
-                    imgLink.Enabled = true;
-                    imgLink.Image = Properties.Resources.Link;
 
-                    if (System.IO.File.Exists("root//" + match.Value + "//PRO"))
-                    {
-                        imgTip.Enabled = true;
-                        imgTip.Image = Properties.Resources.Tip;
-                        imgFriend.Enabled = true;
-                        imgFriend.Image = Properties.Resources.Friend;
-                    }
-                    else
-                    {
-                        imgTip.Enabled = false;
-                        imgTip.Image = Properties.Resources.TipDisabled;
-                        imgFriend.Enabled = false;
-                        imgFriend.Image = Properties.Resources.FriendDisabled;
-                    }
-                }
-                else
-                {
-                    imgLink.Enabled = false;
-                    imgLink.Image = Properties.Resources.LinkDisabled;
-                }
-
+ 
                 try
                 {
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                    allAccounts = a.ListAccounts(1);
+                    try
+                    {
+                        allAccounts = a.ListAccounts(1, true);
+                    }
+                    catch { allAccounts = a.ListAccounts(1); }
+
                     tmrStatusUpdate.Start();
 
                     try
@@ -1196,6 +1180,7 @@ namespace ADD
                             if (Account.LastIndexOf('~') == 3) { cmbFolder.Items.Add(Account.Substring(4)); }
                             if (Account.LastIndexOf('~') == 1) { cmbSignature.Items.Add(Account.Substring(2)); }
                             if (Account.LastIndexOf('~') == 2) { cmbVault.Items.Add(Account.Substring(3)); }
+                            if (Account.LastIndexOf('~') == 5) { cmbFollow.Items.Add(Account.Substring(6)); }
                             totalValue = totalValue + allAccounts[Account];
                         }
                         lblCoinTotal.Text = totalValue.ToString();
@@ -1211,6 +1196,7 @@ namespace ADD
                         cmbSignature.Enabled = true;
                         btnAddSignature.Enabled = true;
                         cmbVault.Enabled = true;
+                        cmbFollow.Enabled = true;
                         btnAddVault.Enabled = true;
                         cmbTo.Enabled = true;
                         profilesToolStripMenuItem.Enabled = true;
@@ -1226,6 +1212,8 @@ namespace ADD
                         cmbWalletLabel.Enabled = false;
                         cmbFolder.SelectedIndex = 0;
                         cmbFolder.Enabled = false;
+                        cmbFollow.SelectedIndex = 0;
+                        cmbFollow.Enabled = false;
                         btnAddFolder.Enabled = false;
                         cmbSignature.SelectedIndex = 0;
                         cmbSignature.Enabled = false;
@@ -1255,6 +1243,8 @@ namespace ADD
                     cmbFolder.SelectedIndex = 0;
                     cmbFolder.Enabled = false;
                     btnAddFolder.Enabled = false;
+                    cmbFollow.SelectedIndex = 0;
+                    cmbFollow.Enabled = false;
                     cmbVault.SelectedIndex = 0;
                     cmbVault.Enabled = false;
                     btnAddVault.Enabled = false;
@@ -1309,8 +1299,6 @@ namespace ADD
                 proofToolStripMenuItem.Enabled = true;
                 txtMessage.Select();
                 if (txtMessage.TextLength < 1) { imgEnterMessageHere.Visible = true; }
-                imgLink.Enabled = true;
-                imgLink.Image = Properties.Resources.Link;
                 if (WalletLabel == "")
                 {
                     MessageBox.Show("Accounts without a label are not supported. Assign a label using your wallet software and retry.");
@@ -1737,10 +1725,15 @@ namespace ADD
                         { strHTML = strHTML + "<tr><td>ROOT ID</td></tr><tr><td><a href=\"" + coinHelperUrl[WalletKey].Replace("%s", transaction.txid) + "\">" + transaction.txid + "</a></td></tr>"; }
                         else
                         { strHTML = strHTML + "<tr><td>ROOT ID</td></tr><tr><td>" + transaction.txid + "</td></tr>"; }
+                       
+                        if (PROLinks != "")
+                        { strHTML = strHTML + "<tr><td>PROFILES</td></tr><tr><td><div id=\"profiles\">" + PROLinks + "</div></td></tr>";
+                        PROLinks = "";
+                        }
 
                         if (isSigned)
                         { strHTML = strHTML + "<tr><td>SIGNED BY</td></tr><tr><td><a href=\"SIG\"><div id=\"signature\">" + strSigAddress + "</div></a></td></tr>"; }
-
+                
                         strHTML = strHTML + "<tr><td>BLOCK DATE</td></tr><tr><td nowrap><div id=\"block-date\">" + printDate + "</div></td></tr>";
                         strHTML = strHTML + "<tr><td>VERSION</td></tr><tr><td>" + transaction.version + "</td></tr>";
                         strHTML = strHTML + "<tr><td>BLOCKCHAIN</td></tr><tr><td><div id=\"blockchain\">" + WalletKey + "</div></td></tr>";
@@ -1981,8 +1974,11 @@ namespace ADD
                             length = readFile.IndexOf(Environment.NewLine, start);
                             strTipAddress = readFile.Substring(start, length - start);
                         }
-
-                        strPrintLine = "<div class=\"item\"><div class=\"content\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\"" + strProfileImage + "\"></div></div>";
+                        string newPro = "<div class=\"profile\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\"" + strProfileImage + "\"></div>";
+                        if (!PROLinks.Contains(newPro) && PROLinks.Length < 1000)
+                        {
+                            PROLinks = PROLinks + newPro;
+                        }
 
 
                     }
@@ -2020,9 +2016,12 @@ namespace ADD
                 strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"msg" + msgId + "\">" + result + "</div><p><a href=\"MSG" + msgId + "\">MSG" + msgId + "</a></p></div></div>";
 
             }
-            FileStream indexStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-            indexStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
-            indexStream.Close();
+            if (strPrintLine.Length > 0)
+            {
+                FileStream indexStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
+                indexStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
+                indexStream.Close();
+            }
 
             if (SendToMonitor)
             {
@@ -2332,7 +2331,7 @@ namespace ADD
         private void txtTransIDSearch_KeyDown(object sender, KeyEventArgs e)
         {
 
-            if (e.KeyValue == 13)
+            if (e.KeyValue == 13 && TransIDSearch.Length > 0)
             {
                
 
@@ -2341,7 +2340,6 @@ namespace ADD
                     try
                     {
                         Uri BrowseURL = new Uri(TransIDSearch);
-
                         webBrowser1.Url = BrowseURL;
                         return;
                     }
@@ -2894,10 +2892,25 @@ namespace ADD
             Match match = Regex.Match(webBrowser1.Url.OriginalString, @"/([a-fA-F0-9]{64})", RegexOptions.RightToLeft);
             if (match.Success && webBrowser1.Url.OriginalString.StartsWith("file"))
             {
-                txtTransIDSearch.Text = webBrowser1.Url.OriginalString.Substring(match.Index + 1);
+                txtTransIDSearch.Text = webBrowser1.Url.OriginalString.Substring(match.Index + 1).Replace(@"/index.htm","");
 
             }
-            else { txtTransIDSearch.Text = webBrowser1.Url.OriginalString; }
+            else {
+                if (!webBrowser1.Url.OriginalString.Contains(@"/monitor.htm") && !webBrowser1.Url.OriginalString.Contains(@"/search.htm"))
+                {
+                    txtTransIDSearch.Text = webBrowser1.Url.OriginalString;
+                }
+                else
+                {
+                    if (webBrowser1.Url.OriginalString.Contains(@"/monitor.htm"))
+                    {
+                        txtTransIDSearch.Text = "ENTER SEARCH STRING";
+                        txtTransIDSearch.ForeColor = System.Drawing.Color.LightGray;
+                    }
+                }
+
+
+            }
         }
 
         private void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
@@ -2906,7 +2919,7 @@ namespace ADD
 
             Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
             var transID = match.Value;
-            if (System.IO.Directory.Exists("root\\" + transID))
+            if (match.Success && System.IO.Directory.Exists("root\\" + transID))
             {
                 imgTrash.Image = Properties.Resources.Trash;
                 imgTrash.Enabled = true;
@@ -2924,7 +2937,7 @@ namespace ADD
                 imgLink.Enabled = false;
             }
 
-            if (System.IO.File.Exists("root\\" + transID + "\\PRO") && cmbCoinType.SelectedIndex > 0)
+            if (match.Success && System.IO.File.Exists("root\\" + transID + "\\PRO") && cmbCoinType.SelectedIndex > 0)
             {
                 string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
                 int start = readFile.IndexOf("TIP=") + 4;
@@ -3427,7 +3440,7 @@ namespace ADD
 
         private void cmbSignature_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshSignatureList();
+            
             if (cmbSignature.SelectedIndex > 0)
             {
                 SignatureLabel = cmbSignature.Text;
@@ -3438,6 +3451,7 @@ namespace ADD
                 SignatureLabel = "";
                 btnExportSignature.Enabled = false;
             }
+            RefreshSignatureList();
         }
 
         private void RefreshSignatureList()
@@ -3490,9 +3504,60 @@ namespace ADD
             }
         }
 
+
+        private void RefreshFollowList()
+        {
+            TreeNode node = null;
+            string msgData = "";
+            string datTime = null;
+            if (cmbFollow.SelectedIndex > 0)
+            {
+                try
+                {
+                    var b = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                    var transactions = b.ListTransactions("~~~~~~" + cmbFollow.Text, 100, 0, true);
+                    if (treeView1.Nodes["Follow"].Nodes.ContainsKey(cmbFollow.Text)) { treeView1.Nodes["Follow"].Nodes.RemoveByKey(cmbFollow.Text); }
+                    node = treeView1.Nodes["Follow"].Nodes.Add(cmbFollow.Text);
+                    node.Name = cmbFollow.Text;
+
+                    foreach (var transaction in transactions)
+                    {
+                        msgData = "";
+                        if (transaction.category == "receive")
+                        {
+                            System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+                            dateTime = dateTime.AddSeconds(transaction.blocktime);
+                            dateTime = dateTime.ToLocalTime();
+                            datTime = dateTime.ToShortDateString() + " " + dateTime.ToShortTimeString();
+
+                            if (System.IO.File.Exists("root//" + transaction.txid + "//MSG1"))
+                            {
+                                using (StreamReader reader = new StreamReader("root//" + transaction.txid + "//MSG1"))
+                                {
+                                    msgData = reader.ReadLine();
+                                }
+                            }
+
+                            node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
+                        }
+                    }
+                    treeView1.Nodes["Follow"].Expand();
+                    treeView1.Nodes["Follow"].Nodes[cmbFollow.Text].ExpandAll();
+
+                }
+                catch (Exception b)
+                {
+                    lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                    lblStatusInfo.Text = "Error: " + b.Message;
+                    tmrStatusUpdate.Start();
+                }
+
+            }
+        }
+
         private void cmbVault_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshVaultList();
+            
             if (cmbVault.SelectedIndex > 0)
             {
                 VaultLabel = cmbVault.Text;
@@ -3503,6 +3568,7 @@ namespace ADD
                 VaultLabel = "";
                 btnExportVault.Enabled = false;
             }
+            RefreshVaultList();
         }
 
         private void CreateBlockedPage(string transactionID, string reason)
@@ -3514,7 +3580,6 @@ namespace ADD
                 StreamWriter newFile = new StreamWriter("root\\" + transactionID + "\\index.htm");
                 newFile.WriteLine("<html><head><meta charset=\"UTF-8\" /></head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root\\includes\\css.css\"><body><div class=\"main\">");
                 newFile.WriteLine("<div class=\"item\"><div class=\"content\">" + reason + "</div></div>");
-                newFile.WriteLine("</div></body></html>");
                 newFile.Close();
                 StreamWriter msgFile = new StreamWriter("root\\" + transactionID + "\\MSG1");
                 msgFile.WriteLine("BLOCKED");
@@ -3650,9 +3715,11 @@ namespace ADD
                         { fileName = fileName + "@" + coinShortName[blockchain]; }
                     }
                     catch { }
+
+                    if (txtFileName.Text == "") { txtFileName.Text = fileName; }
+                    else { txtFileName.Text = txtFileName.Text + "," + fileName; }
                 }
-                if (txtFileName.Text == "") { txtFileName.Text = fileName; }
-                else { txtFileName.Text = txtFileName.Text + "," + fileName; }
+     
 
 
             
@@ -3835,6 +3902,11 @@ namespace ADD
             Properties.Settings.Default.EnableTips = chkEnableTips.Checked;
             Properties.Settings.Default.Save();
 
+        }
+
+        private void cmbFollow_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshFollowList();
         }
 
   

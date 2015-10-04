@@ -55,6 +55,7 @@ namespace ADD.Tools
                     var msg = "";
                     var date = "";
                     var blockchain = "";
+                    var profiles = "";
                     var doc = new HtmlAgilityPack.HtmlDocument();
                     try
                     {
@@ -62,13 +63,16 @@ namespace ADD.Tools
                     }
                     catch { break; }
 
+                    try { profiles = doc.GetElementbyId("profiles").InnerHtml.Replace(@"../", @"root/"); }
+                    catch { }
 
                     try
                     {
                         img = doc.GetElementbyId("img0").InnerText;
-                        monitorHTML = monitorHTML + "<div class=\"item\"><div class=\"content\"><table><tr><th rowspan=\"5\"><a href=\"" + s + "/index.htm\"><img src=\"root/" + s + "/" + img + "\" width = \"80px\" height = \"80px\"/></a></th><th></th></tr>";
+                        monitorHTML = monitorHTML + "<div class=\"item\"><div class=\"content\">"+ profiles + "<table><tr><th rowspan=\"5\"><a href=\"" + s + "/index.htm\"><img src=\"root/" + s + "/" + img + "\"/></a></th><th></th></tr>";
                     }
-                    catch { monitorHTML = monitorHTML + "<div class=\"item\"><div class=\"content\"><table><tr><th rowspan=\"5\"></th><th></th></tr>"; }
+                    catch { monitorHTML = monitorHTML + "<div class=\"item\"><div class=\"content\">" + profiles + "<table><tr><th rowspan=\"5\"></th><th></th></tr>"; }
+
                     try { signature = doc.GetElementbyId("signature").InnerText; }
                     catch { }
                     try { blockchain = doc.GetElementbyId("blockchain").InnerText; }

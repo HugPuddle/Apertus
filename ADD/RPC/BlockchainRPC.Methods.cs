@@ -48,6 +48,11 @@ namespace BitcoinNET.RPCClient
 				(new RPCRequest("listaccounts", new Object[] { MinConf }));
 		}
 
+        public IDictionary<string, decimal> ListAccounts(int MinConf = 1, bool IncludeWatch = false)
+        {
+            return RpcCall<IDictionary<string, decimal>>
+                (new RPCRequest("listaccounts", new Object[] { MinConf, IncludeWatch }));
+        }
 		
 		public IEnumerable<ListReceivedByAddressResponse> ListReceivedByAddress(int MinConf = 1, bool IncludeEmpty = false)
 		{
