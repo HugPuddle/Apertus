@@ -221,7 +221,7 @@ namespace ADD
                         totalMsgSize = msgBytes.Length + cglText.Length;
                     }
                     //Links the Appropriate Profile if Profile is selected.
-                    if (ProfileID != "" && Path.GetFileName(FilePath) != "SEC") { if (FilePath.Length == 0) { FilePath = ProfileID; } else { FilePath = FilePath + "," + ProfileID; } }
+                    if (ProfileID != "" && Path.GetFileName(FilePath) != "SEC" && ledgerId == null){ if (FilePath.Length == 0) { FilePath = ProfileID; } else { FilePath = FilePath + "," + ProfileID; } }
 
                     if (FilePath.Length > 0)
                     {
@@ -240,6 +240,7 @@ namespace ADD
                             Match match = Regex.Match(fileName, @"([a-fA-F0-9]{64})");
 
                             if (match.Success)
+                 
                             {
                                 if (!isLNKFile)
                                 {
@@ -262,9 +263,6 @@ namespace ADD
 
                             if (!match.Success || (match.Success && !isLNKFile))
                             {
-                                
-                                
-                                
                                 if (match.Success) { isLNKFile = true; }
 
                                 if (readFileBytes == null) { readFileBytes = System.IO.File.ReadAllBytes(fileName); }
@@ -454,6 +452,20 @@ namespace ADD
                     }
                 }
 
+                if (VaultLabel != "" && chkTrackVault.Checked)
+                {
+                    CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                    //allow tracking by putting a signature address on the end of the file
+                    IEnumerable<string> Address = a.GetAddressesByAccount("~~~" + VaultLabel);
+                    if (!addressHash.Contains(Address.First()))
+                    {
+                        System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                        arcSign.WriteLine(Address.First());
+                        addressHash.Add(Address.First());
+                        arcSign.Close();
+                    }
+                }
+
                 //Folder address should always be the last or second to the last address in the array to allow for Folder Lookups.
                 if (ProfileLabel != "")
                 {
@@ -467,20 +479,6 @@ namespace ADD
                          addressHash.Add(Address.First());
                          arcSign.Close();
                      }
-                }
-
-                if (VaultLabel != "" && chkTrackVault.Checked)
-                {
-                    CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                    //allow tracking by putting a signature address on the end of the file
-                    IEnumerable<string> Address = a.GetAddressesByAccount("~~~" + VaultLabel);
-                    if (!addressHash.Contains(Address.First()))
-                    {
-                        System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
-                        arcSign.WriteLine(Address.First());
-                        addressHash.Add(Address.First());
-                        arcSign.Close();
-                    }
                 }
 
                 //Signing address should always be the last address in the array to allow for Signature Lookups.
@@ -3117,6 +3115,7 @@ namespace ADD
         {
             TreeNode node = null;
             string msgData = "";
+            string lstTransID = "";
             string datTime = null;
             if (cmbFolder.SelectedIndex > 0)
             {
@@ -3131,6 +3130,7 @@ namespace ADD
                     foreach (var transaction in transactions)
                     {
                         msgData = "";
+                        lstTransID = transaction.txid;
                         if (transaction.category == "receive")
                         {
                             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
@@ -3145,24 +3145,24 @@ namespace ADD
                                     msgData = reader.ReadLine();
                                 }
                             }
-                            if (System.IO.File.Exists("root//" + transaction.txid + "//PRO"))
-                            {
-                                imgTip.Image = Properties.Resources.Tip;
-                                imgTip.Enabled = true;
-
-                            }
-                            else
-                            {
-                                imgTip.Image = Properties.Resources.TipDisabled;
-                                imgTip.Enabled = false;
-                            }
-
                             node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
 
                         }
                     }
                     treeView1.Nodes["Profile"].Expand();
                     treeView1.Nodes["Profile"].Nodes[cmbFolder.Text].ExpandAll();
+
+                    if (System.IO.File.Exists("root//" + lstTransID + "//PRO"))
+                    {
+                        imgTip.Image = Properties.Resources.Tip;
+                        imgTip.Enabled = true;
+
+                    }
+                    else
+                    {
+                        imgTip.Image = Properties.Resources.TipDisabled;
+                        imgTip.Enabled = false;
+                    }
 
 
                     transactions = b.ListTransactions("~~~~" + cmbFolder.Text, 1000, 0);

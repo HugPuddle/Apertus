@@ -171,7 +171,7 @@ namespace ADD
                 btnTipAddress.Enabled = true;
 
                 var b = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
-                var transactions = b.ListTransactions("~~~~" + cmbProfileAddress.Text, 1000, 0);
+                var transactions = b.ListTransactions("~~~~" + cmbProfileAddress.Text, 10000, 0);
 
                 foreach (var transaction in transactions.Reverse())
                 {
