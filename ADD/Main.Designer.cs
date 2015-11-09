@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Profile");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Signature");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Vault");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Favorites");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Follow");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Profile");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Signature");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Vault");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Favorites");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Follow");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.attachFiles = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -67,6 +67,7 @@
             this.tmrUpdateInfoText = new System.Windows.Forms.Timer(this.components);
             this.splitMain = new System.Windows.Forms.SplitContainer();
             this.splitHistoryBrowser = new System.Windows.Forms.SplitContainer();
+            this.cmbFollow = new System.Windows.Forms.ComboBox();
             this.imgOpenLeft = new System.Windows.Forms.PictureBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imgTip = new System.Windows.Forms.PictureBox();
@@ -116,6 +117,7 @@
             this.chkMonitorBlockChains = new System.Windows.Forms.CheckBox();
             this.chkEnableRecipients = new System.Windows.Forms.CheckBox();
             this.chkKeywords = new System.Windows.Forms.CheckBox();
+            this.chkEnableTips = new System.Windows.Forms.CheckBox();
             this.chkCompressImages = new System.Windows.Forms.CheckBox();
             this.chkWarnArchive = new System.Windows.Forms.CheckBox();
             this.chkSaveOnEnter = new System.Windows.Forms.CheckBox();
@@ -125,8 +127,6 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tmrPauseBeforeRefreshingMonitor = new System.Windows.Forms.Timer(this.components);
-            this.chkEnableTips = new System.Windows.Forms.CheckBox();
-            this.cmbFollow = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
@@ -218,7 +218,7 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -227,13 +227,13 @@
             this.historyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rebuildToolStripMenuItem1});
             this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
-            this.historyToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.historyToolStripMenuItem.Text = "Catalog";
             // 
             // rebuildToolStripMenuItem1
             // 
             this.rebuildToolStripMenuItem1.Name = "rebuildToolStripMenuItem1";
-            this.rebuildToolStripMenuItem1.Size = new System.Drawing.Size(175, 22);
+            this.rebuildToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
             this.rebuildToolStripMenuItem1.Text = "Rebuild";
             this.rebuildToolStripMenuItem1.Click += new System.EventHandler(this.rebuildToolStripMenuItem_Click);
             // 
@@ -243,7 +243,7 @@
             this.proofToolStripMenuItem,
             this.searchToolStripMenuItem});
             this.notarizeToolStripMenuItem.Name = "notarizeToolStripMenuItem";
-            this.notarizeToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.notarizeToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.notarizeToolStripMenuItem.Text = "Proof";
             // 
             // proofToolStripMenuItem
@@ -282,7 +282,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -439,6 +439,21 @@
             this.splitHistoryBrowser.TabIndex = 29;
             this.splitHistoryBrowser.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer2_SplitterMoved);
             // 
+            // cmbFollow
+            // 
+            this.cmbFollow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbFollow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFollow.Enabled = false;
+            this.cmbFollow.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbFollow.FormattingEnabled = true;
+            this.cmbFollow.Location = new System.Drawing.Point(4, 278);
+            this.cmbFollow.MaxDropDownItems = 100;
+            this.cmbFollow.Name = "cmbFollow";
+            this.cmbFollow.Size = new System.Drawing.Size(473, 25);
+            this.cmbFollow.TabIndex = 50;
+            this.cmbFollow.SelectedIndexChanged += new System.EventHandler(this.cmbFollow_SelectedIndexChanged);
+            // 
             // imgOpenLeft
             // 
             this.imgOpenLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -459,22 +474,22 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode6.Name = "profile";
-            treeNode6.Text = "Profile";
-            treeNode7.Name = "signature";
-            treeNode7.Text = "Signature";
-            treeNode8.Name = "vault";
-            treeNode8.Text = "Vault";
-            treeNode9.Name = "favorites";
-            treeNode9.Text = "Favorites";
-            treeNode10.Name = "follow";
-            treeNode10.Text = "Follow";
+            treeNode1.Name = "profile";
+            treeNode1.Text = "Profile";
+            treeNode2.Name = "signature";
+            treeNode2.Text = "Signature";
+            treeNode3.Name = "vault";
+            treeNode3.Text = "Vault";
+            treeNode4.Name = "favorites";
+            treeNode4.Text = "Favorites";
+            treeNode5.Name = "follow";
+            treeNode5.Text = "Follow";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode7,
-            treeNode8,
-            treeNode9,
-            treeNode10});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5});
             this.treeView1.Size = new System.Drawing.Size(480, 272);
             this.treeView1.TabIndex = 5;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -841,6 +856,7 @@
             this.cmbTo.Name = "cmbTo";
             this.cmbTo.Size = new System.Drawing.Size(548, 25);
             this.cmbTo.TabIndex = 49;
+            this.cmbTo.SelectedIndexChanged += new System.EventHandler(this.cmbTo_SelectedIndexChanged_1);
             // 
             // btnExportVault
             // 
@@ -1146,6 +1162,17 @@
             this.chkKeywords.UseVisualStyleBackColor = true;
             this.chkKeywords.CheckedChanged += new System.EventHandler(this.chkKeywords_CheckedChanged);
             // 
+            // chkEnableTips
+            // 
+            this.chkEnableTips.AutoSize = true;
+            this.chkEnableTips.Location = new System.Drawing.Point(160, 81);
+            this.chkEnableTips.Name = "chkEnableTips";
+            this.chkEnableTips.Size = new System.Drawing.Size(113, 21);
+            this.chkEnableTips.TabIndex = 26;
+            this.chkEnableTips.Text = "Enable >Tips";
+            this.chkEnableTips.UseVisualStyleBackColor = true;
+            this.chkEnableTips.CheckedChanged += new System.EventHandler(this.chkEnableTips_CheckedChanged);
+            // 
             // chkCompressImages
             // 
             this.chkCompressImages.AutoSize = true;
@@ -1222,32 +1249,6 @@
             // 
             this.tmrPauseBeforeRefreshingMonitor.Interval = 2000;
             this.tmrPauseBeforeRefreshingMonitor.Tick += new System.EventHandler(this.tmrPauseBeforeRefreshingMonitor_Tick);
-            // 
-            // chkEnableTips
-            // 
-            this.chkEnableTips.AutoSize = true;
-            this.chkEnableTips.Location = new System.Drawing.Point(160, 81);
-            this.chkEnableTips.Name = "chkEnableTips";
-            this.chkEnableTips.Size = new System.Drawing.Size(113, 21);
-            this.chkEnableTips.TabIndex = 26;
-            this.chkEnableTips.Text = "Enable >Tips";
-            this.chkEnableTips.UseVisualStyleBackColor = true;
-            this.chkEnableTips.CheckedChanged += new System.EventHandler(this.chkEnableTips_CheckedChanged);
-            // 
-            // cmbFollow
-            // 
-            this.cmbFollow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbFollow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFollow.Enabled = false;
-            this.cmbFollow.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbFollow.FormattingEnabled = true;
-            this.cmbFollow.Location = new System.Drawing.Point(4, 278);
-            this.cmbFollow.MaxDropDownItems = 100;
-            this.cmbFollow.Name = "cmbFollow";
-            this.cmbFollow.Size = new System.Drawing.Size(473, 25);
-            this.cmbFollow.TabIndex = 50;
-            this.cmbFollow.SelectedIndexChanged += new System.EventHandler(this.cmbFollow_SelectedIndexChanged);
             // 
             // Main
             // 

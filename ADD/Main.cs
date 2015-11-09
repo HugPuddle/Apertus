@@ -44,11 +44,13 @@ namespace ADD
         public static Dictionary<string, Boolean> coinEnableSigning;
         public static Dictionary<string, Boolean> coinEnableTracking;
         public static Dictionary<string, string> coinHelperUrl;
+        public static Dictionary<string, string> friendTransID;
         public static string CoinType = "";
         public static string arcfileName = "";
         public static string arcmessage = "";
         public static string WalletLabel = "";
         public static string SignatureLabel = "";
+        public static string FriendLabel = "";
         public static string VaultLabel = "";
         public static string ProfileLabel = "";
         public static string TransIDSearch = "";
@@ -343,21 +345,44 @@ namespace ADD
 
                     }
 
-                    if (ledgerId == null && VaultLabel != "" && Path.GetFileName(FilePath) != "SEC")
+                    if (ledgerId == null && Path.GetFileName(FilePath) != "SEC" && (VaultLabel != "" || FriendLabel != ""))
                     {
-                        CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                        IEnumerable<string> Address = a.GetAddressesByAccount("~~~" + VaultLabel);
-                        var privKeyHex = BitConverter.ToString(Base58.Decode(a.DumpPrivateKey(Address.First()))).Replace("-", "");
-                        privKeyHex = privKeyHex.Substring(2, 64);
-                        BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
-                        ECPoint publicKey = Secp256k1.Secp256k1.G.Multiply(privateKey);
+                        ECPoint publicKey = null;
+
+                        if (VaultLabel != "")
+                        {
+                            CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+                            IEnumerable<string> Address = a.GetAddressesByAccount("~~~" + VaultLabel);
+                            var privKeyHex = BitConverter.ToString(Base58.Decode(a.DumpPrivateKey(Address.First()))).Replace("-", "");
+                            privKeyHex = privKeyHex.Substring(2, 64);
+                            BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
+                            publicKey = Secp256k1.Secp256k1.G.Multiply(privateKey);
+
+                        }
+                        else
+                        {
+
+                            if (System.IO.File.Exists("root\\" + FriendLabel + "\\PRO"))
+                            {
+                                string readFile = System.IO.File.ReadAllText("root//" + FriendLabel + "//PRO");
+                                int startx = readFile.IndexOf("PKX=") + 4;
+                                int lengthx = readFile.IndexOf(Environment.NewLine, startx);
+                                int starty = readFile.IndexOf("PKY=") + 4;
+                                int lengthy = readFile.IndexOf(Environment.NewLine, starty);
+                                if (lengthx > 10 && lengthy > 10)
+                                {
+                                    publicKey = new ECPoint(Hex.HexToBigInteger(readFile.Substring(startx, lengthx - startx)), Hex.HexToBigInteger(readFile.Substring(starty, lengthy - starty)));
+                                }
+                            }
+                        }
                         ECEncryption encryption = new ECEncryption();
                         byte[] encrypted = encryption.Encrypt(publicKey, fileBytes);
                         Directory.CreateDirectory("process\\" + processId);
                         File.WriteAllBytes("process\\" + processId + "\\SEC", encrypted);
                         CreateLedgerFile(coinPayloadByteSize[CoinType], GetRandomBuffer(coinPayloadByteSize[CoinType]), coinIP[CoinType], coinPort[CoinType], coinUser[CoinType], coinPassword[CoinType], WalletLabel, coinVersion[CoinType], coinMinTransaction[CoinType], System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\process\\" + processId + "\\SEC", null, "");
                         return;
-                    }
+                        }
+
 
 
                     System.IO.StreamWriter arcFile = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
@@ -450,6 +475,26 @@ namespace ADD
                             }
                         }
                     }
+                }
+
+                if (FriendLabel != "")
+                {
+                    try
+                    {
+                        string readFile = System.IO.File.ReadAllText("root//" + cmbTo.SelectedValue + "//PRO");
+                        int start = readFile.IndexOf("MSG=") + 4;
+                        int length = readFile.IndexOf(Environment.NewLine, start);
+                        string sendToAddress = readFile.Substring(start, length - start);
+                        if (!addressHash.Contains(sendToAddress))
+                        {
+                            System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                            arcSign.WriteLine(sendToAddress);
+                            addressHash.Add(sendToAddress);
+                            arcSign.Close();
+                        }
+
+                    }
+                    catch { }
                 }
 
                 if (VaultLabel != "" && chkTrackVault.Checked)
@@ -1150,14 +1195,35 @@ namespace ADD
             cmbFollow.Items.Add("Select Follow");
             cmbFollow.SelectedIndex = 0;
 
-            cmbTo.Items.Clear();
-            cmbTo.Items.Add("Select Friend");
-            cmbTo.SelectedIndex = 0;
+            friendTransID = new Dictionary<string, string>();
+            friendTransID.Add("", "Select Friend");
+            
 
             if (cmbCoinType.SelectedIndex > 0)
             {
                 searchToolStripMenuItem.Enabled = true;
 
+                if (System.IO.File.Exists("friend.txt"))
+                {
+                    System.IO.StreamReader readFriend = new System.IO.StreamReader("friend.txt");
+                    string friendLine;
+
+                    while ((friendLine = readFriend.ReadLine()) != null)
+                    {
+                        var friend = friendLine.Split('@');
+                        if (friend[2] == coinShortName[cmbCoinType.Text])
+                        {
+                            friendTransID.Add(friend[1], friend[0]);
+                        }
+                        
+                    }
+                    readFriend.Close();
+                    
+                }
+                cmbTo.DataSource = new BindingSource(friendTransID, null);
+                cmbTo.DisplayMember = "Value";
+                cmbTo.ValueMember = "Key";
+                cmbTo.SelectedIndex = 0;
  
                 try
                 {
@@ -1626,14 +1692,25 @@ namespace ADD
 
                     foreach (KeyValuePair<string, byte[]> entry in buildFiles)
                     {
-                        if (VaultLabel != "" && entry.Key == "SEC")
+                        if (entry.Key == "SEC" && ( VaultLabel != "" || ProfileLabel != ""))
                         {
-
+                            string decryptAddress = "";
                             byte[] arcPayloadBytes = new byte[coinPayloadByteSize[CoinType] + 1];
                             arcPayloadBytes[0] = coinVersion[CoinType];
-                            CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                            IEnumerable<string> Address = a.GetAddressesByAccount("~~~" + VaultLabel);
-                            var privKeyHex = BitConverter.ToString(Base58.Decode(a.DumpPrivateKey(Address.First()))).Replace("-", "");
+                             CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
+ 
+                            if (VaultLabel != "")
+                            {
+                                IEnumerable<string> Address = a.GetAddressesByAccount("~~~" + VaultLabel);
+                                decryptAddress = Address.First();
+                            }
+                            else
+                            {
+                                IEnumerable<string> Address = a.GetAddressesByAccount("~~~~" + ProfileLabel);
+                                decryptAddress = Address.First();
+                            }
+
+                            var privKeyHex = BitConverter.ToString(Base58.Decode(a.DumpPrivateKey(decryptAddress))).Replace("-", "");
                             privKeyHex = privKeyHex.Substring(2, 64);
                             BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
                             ECEncryption encryption = new ECEncryption();
@@ -1972,7 +2049,7 @@ namespace ADD
                             length = readFile.IndexOf(Environment.NewLine, start);
                             strTipAddress = readFile.Substring(start, length - start);
                         }
-                        string newPro = "<div class=\"profile\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\"" + strProfileImage + "\"></div>";
+                        string newPro = "<div class=\"profile\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\"" + strProfileImage + "\"><br><font size=1>" + strTipAddress + "</font></div>";
                         if (!PROLinks.Contains(newPro) && PROLinks.Length < 1000)
                         {
                             PROLinks = PROLinks + newPro;
@@ -3085,6 +3162,31 @@ namespace ADD
                         }
                         else { strKeyWordAddress = strKeyWordAddress + "," + token.Substring(1); }
                     }
+                    else
+                    {
+                        
+                        if (friendTransID.ContainsValue(token.Substring(1)))
+                        {
+                            var keysWithMatchingValues = friendTransID.Where(p => p.Value == token.Substring(1)).Select(p => p.Key);
+                            string TransId = "";
+                            foreach (var key in keysWithMatchingValues)
+                            { TransId = key;
+                            break;
+                            }
+                             
+                            
+                            string readFile = System.IO.File.ReadAllText("root//" + TransId + "//PRO");
+                            int start = readFile.IndexOf("MSG=") + 4;
+                            int length = readFile.IndexOf(Environment.NewLine, start);
+                            string sendToAddress = readFile.Substring(start, length - start);
+                            if (strKeyWordAddress == null)
+                            {
+                                strKeyWordAddress = sendToAddress;
+                            }
+                            else { strKeyWordAddress = strKeyWordAddress + "," + sendToAddress; }
+
+                        }
+                    }
 
                 }
             }
@@ -3813,10 +3915,18 @@ namespace ADD
                         StreamWriter writeFriendList = new StreamWriter("Friend.txt", true);
                         writeFriendList.WriteLine(strNickName + "@" + fileName);
                         writeFriendList.Close();
+
+                        friendTransID.Add(fileName.Substring(0,fileName.IndexOf('@')), strNickName);
+                        cmbTo.DataSource = new BindingSource(friendTransID, null);
+                        cmbTo.DisplayMember = "Value";
+                        cmbTo.ValueMember = "Key";
+
                     }
+                    //select what was clicked on.
+                    cmbTo.SelectedIndex = cmbTo.FindString(strNickName);
+
                 }
             }
-
         }
         public void AddProfile(string label)
         {
@@ -3909,8 +4019,22 @@ namespace ADD
             RefreshFollowList();
         }
 
-  
+        private void cmbTo_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (cmbTo.SelectedIndex > 0)
+            {
+                FriendLabel = cmbTo.SelectedValue.ToString();
+            }
+            else
+            { FriendLabel = ""; }
+        }
 
+  
+        private void RefreshFriendList()
+        {
+
+
+        }
 
     }
 

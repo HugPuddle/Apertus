@@ -16,7 +16,6 @@ namespace ADD
         {
             RefreshTrustList();
             RefreshBlockList();
-            RefreshFollowList();
             RefreshSettings();
             
         }
@@ -40,8 +39,7 @@ namespace ADD
                     chkBlockBlockedListContent.Checked = Convert.ToBoolean(trustSettings[1]);
                     chkBlockUnsignedContent.Checked = Convert.ToBoolean(trustSettings[2]);
                     chkBlockUntrustedContent.Checked = Convert.ToBoolean(trustSettings[3]);
-                    chkFollowFollowedlistContent.Checked = Convert.ToBoolean(trustSettings[4]);
-
+  
                 }
                 catch { }
             
@@ -51,7 +49,7 @@ namespace ADD
         private void SaveSettings()
         {
             System.IO.StreamWriter writeTrustConf = new StreamWriter("trust.conf", false);
-            writeTrustConf.WriteLine(chkTrustTrustedlistContent.Checked + " " + chkBlockBlockedListContent.Checked + " " + chkBlockUnsignedContent.Checked + " " + chkBlockUntrustedContent.Checked + " " + chkFollowFollowedlistContent.Checked);
+            writeTrustConf.WriteLine(chkTrustTrustedlistContent.Checked + " " + chkBlockBlockedListContent.Checked + " " + chkBlockUnsignedContent.Checked + " " + chkBlockUntrustedContent.Checked);
             writeTrustConf.Close();
             var mainForm = Application.OpenForms.OfType<Main>().Single();
             mainForm.RefreshHashCache();
@@ -92,24 +90,7 @@ namespace ADD
             mainForm.RefreshHashCache();
         }
 
-        private void RefreshFollowList()
-        {
-            var FollowLine = "";
-            txtFollowList.Text = "";
-
-            if (System.IO.File.Exists("Follow.txt"))
-            {
-                System.IO.StreamReader readFollow = new System.IO.StreamReader("Follow.txt");
-                while ((FollowLine = readFollow.ReadLine()) != null)
-                {
-                    txtFollowList.Text = txtFollowList.Text + FollowLine + Environment.NewLine;
-                }
-                readFollow.Close();
-            }
-            var mainForm = Application.OpenForms.OfType<Main>().Single();
-            mainForm.RefreshHashCache();
-        }
-
+       
         private void btnRemoveTrust_Click(object sender, EventArgs e)
         {
             txtTrustList.Text = "";
@@ -185,48 +166,6 @@ namespace ADD
         {
             SaveSettings();
         }
-
-
-        private void btnAddFollow_Click(object sender, EventArgs e)
-        {
-            StreamWriter writeFollowList = new StreamWriter("Follow.txt", true);
-            writeFollowList.WriteLine(txtFollow.Text);
-            writeFollowList.Close();
-            RefreshFollowList();
-        }
-
-        private void btnRemoveFollow_Click(object sender, EventArgs e)
-        {
-            txtFollowList.Text = "";
-            System.IO.StreamReader readFollow = new System.IO.StreamReader("Follow.txt");
-            while (!readFollow.EndOfStream)
-            {
-                String FollowLine = readFollow.ReadLine();
-
-                if (FollowLine != txtFollow.Text)
-                {
-                    txtFollowList.Text = txtFollowList.Text + FollowLine + Environment.NewLine;
-                }
-            }
-            readFollow.Close();
-
-            StreamWriter writeFollowList = new StreamWriter("Follow.txt");
-            writeFollowList.Write(txtFollowList.Text);
-            writeFollowList.Close();
-            var mainForm = Application.OpenForms.OfType<Main>().Single();
-            mainForm.RefreshHashCache();
-        }
-
-        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
 
     }
 }
