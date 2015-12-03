@@ -60,12 +60,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBlockList.BackColor = System.Drawing.Color.White;
-            this.txtBlockList.Location = new System.Drawing.Point(3, 60);
+            this.txtBlockList.Location = new System.Drawing.Point(2, 49);
+            this.txtBlockList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtBlockList.Multiline = true;
             this.txtBlockList.Name = "txtBlockList";
             this.txtBlockList.ReadOnly = true;
             this.txtBlockList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBlockList.Size = new System.Drawing.Size(326, 223);
+            this.txtBlockList.Size = new System.Drawing.Size(283, 216);
             this.txtBlockList.TabIndex = 8;
             this.txtBlockList.WordWrap = false;
             // 
@@ -73,18 +74,20 @@
             // 
             this.txtBlock.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBlock.Location = new System.Drawing.Point(10, 33);
+            this.txtBlock.Location = new System.Drawing.Point(8, 27);
+            this.txtBlock.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtBlock.Name = "txtBlock";
-            this.txtBlock.Size = new System.Drawing.Size(265, 22);
+            this.txtBlock.Size = new System.Drawing.Size(237, 20);
             this.txtBlock.TabIndex = 16;
             this.txtBlock.WordWrap = false;
             // 
             // btnRemoveBlock
             // 
             this.btnRemoveBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveBlock.Location = new System.Drawing.Point(308, 32);
+            this.btnRemoveBlock.Location = new System.Drawing.Point(268, 26);
+            this.btnRemoveBlock.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRemoveBlock.Name = "btnRemoveBlock";
-            this.btnRemoveBlock.Size = new System.Drawing.Size(21, 23);
+            this.btnRemoveBlock.Size = new System.Drawing.Size(16, 19);
             this.btnRemoveBlock.TabIndex = 18;
             this.btnRemoveBlock.Text = "-";
             this.btnRemoveBlock.UseVisualStyleBackColor = true;
@@ -93,9 +96,10 @@
             // btnAddBlock
             // 
             this.btnAddBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddBlock.Location = new System.Drawing.Point(281, 32);
+            this.btnAddBlock.Location = new System.Drawing.Point(248, 26);
+            this.btnAddBlock.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAddBlock.Name = "btnAddBlock";
-            this.btnAddBlock.Size = new System.Drawing.Size(21, 23);
+            this.btnAddBlock.Size = new System.Drawing.Size(16, 19);
             this.btnAddBlock.TabIndex = 17;
             this.btnAddBlock.Text = "+";
             this.btnAddBlock.UseVisualStyleBackColor = true;
@@ -105,9 +109,10 @@
             // 
             this.chkBlockUnsignedContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkBlockUnsignedContent.AutoSize = true;
-            this.chkBlockUnsignedContent.Location = new System.Drawing.Point(10, 337);
+            this.chkBlockUnsignedContent.Location = new System.Drawing.Point(8, 308);
+            this.chkBlockUnsignedContent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.chkBlockUnsignedContent.Name = "chkBlockUnsignedContent";
-            this.chkBlockUnsignedContent.Size = new System.Drawing.Size(199, 21);
+            this.chkBlockUnsignedContent.Size = new System.Drawing.Size(154, 17);
             this.chkBlockUnsignedContent.TabIndex = 21;
             this.chkBlockUnsignedContent.Text = "Block all unsigned content.";
             this.chkBlockUnsignedContent.UseVisualStyleBackColor = true;
@@ -117,9 +122,10 @@
             // 
             this.chkBlockUntrustedContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkBlockUntrustedContent.AutoSize = true;
-            this.chkBlockUntrustedContent.Location = new System.Drawing.Point(10, 313);
+            this.chkBlockUntrustedContent.Location = new System.Drawing.Point(8, 289);
+            this.chkBlockUntrustedContent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.chkBlockUntrustedContent.Name = "chkBlockUntrustedContent";
-            this.chkBlockUntrustedContent.Size = new System.Drawing.Size(201, 21);
+            this.chkBlockUntrustedContent.Size = new System.Drawing.Size(155, 17);
             this.chkBlockUntrustedContent.TabIndex = 20;
             this.chkBlockUntrustedContent.Text = "Block all untrusted content.";
             this.chkBlockUntrustedContent.UseVisualStyleBackColor = true;
@@ -129,9 +135,10 @@
             // 
             this.chkBlockBlockedListContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkBlockBlockedListContent.AutoSize = true;
-            this.chkBlockBlockedListContent.Location = new System.Drawing.Point(10, 292);
+            this.chkBlockBlockedListContent.Location = new System.Drawing.Point(8, 271);
+            this.chkBlockBlockedListContent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.chkBlockBlockedListContent.Name = "chkBlockBlockedListContent";
-            this.chkBlockBlockedListContent.Size = new System.Drawing.Size(305, 21);
+            this.chkBlockBlockedListContent.Size = new System.Drawing.Size(233, 17);
             this.chkBlockBlockedListContent.TabIndex = 17;
             this.chkBlockBlockedListContent.Text = "Block all content from Blocked Address List.";
             this.chkBlockBlockedListContent.UseVisualStyleBackColor = true;
@@ -140,9 +147,10 @@
             // btnRemoveTrust
             // 
             this.btnRemoveTrust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveTrust.Location = new System.Drawing.Point(307, 32);
+            this.btnRemoveTrust.Location = new System.Drawing.Point(264, 26);
+            this.btnRemoveTrust.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRemoveTrust.Name = "btnRemoveTrust";
-            this.btnRemoveTrust.Size = new System.Drawing.Size(21, 23);
+            this.btnRemoveTrust.Size = new System.Drawing.Size(16, 19);
             this.btnRemoveTrust.TabIndex = 24;
             this.btnRemoveTrust.Text = "-";
             this.btnRemoveTrust.UseVisualStyleBackColor = true;
@@ -151,9 +159,10 @@
             // btnAddTrust
             // 
             this.btnAddTrust.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTrust.Location = new System.Drawing.Point(280, 32);
+            this.btnAddTrust.Location = new System.Drawing.Point(244, 26);
+            this.btnAddTrust.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnAddTrust.Name = "btnAddTrust";
-            this.btnAddTrust.Size = new System.Drawing.Size(21, 23);
+            this.btnAddTrust.Size = new System.Drawing.Size(16, 19);
             this.btnAddTrust.TabIndex = 23;
             this.btnAddTrust.Text = "+";
             this.btnAddTrust.UseVisualStyleBackColor = true;
@@ -163,9 +172,10 @@
             // 
             this.chkTrustTrustedlistContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkTrustTrustedlistContent.AutoSize = true;
-            this.chkTrustTrustedlistContent.Location = new System.Drawing.Point(8, 292);
+            this.chkTrustTrustedlistContent.Location = new System.Drawing.Point(6, 271);
+            this.chkTrustTrustedlistContent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.chkTrustTrustedlistContent.Name = "chkTrustTrustedlistContent";
-            this.chkTrustTrustedlistContent.Size = new System.Drawing.Size(257, 21);
+            this.chkTrustTrustedlistContent.Size = new System.Drawing.Size(196, 17);
             this.chkTrustTrustedlistContent.TabIndex = 19;
             this.chkTrustTrustedlistContent.Text = "Accept all content from Trusted List.";
             this.chkTrustTrustedlistContent.UseVisualStyleBackColor = true;
@@ -177,12 +187,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTrustList.BackColor = System.Drawing.Color.White;
-            this.txtTrustList.Location = new System.Drawing.Point(3, 60);
+            this.txtTrustList.Location = new System.Drawing.Point(2, 49);
+            this.txtTrustList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTrustList.Multiline = true;
             this.txtTrustList.Name = "txtTrustList";
             this.txtTrustList.ReadOnly = true;
             this.txtTrustList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTrustList.Size = new System.Drawing.Size(325, 223);
+            this.txtTrustList.Size = new System.Drawing.Size(279, 216);
             this.txtTrustList.TabIndex = 8;
             this.txtTrustList.WordWrap = false;
             // 
@@ -190,9 +201,10 @@
             // 
             this.txtTrust.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTrust.Location = new System.Drawing.Point(8, 32);
+            this.txtTrust.Location = new System.Drawing.Point(6, 26);
+            this.txtTrust.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTrust.Name = "txtTrust";
-            this.txtTrust.Size = new System.Drawing.Size(266, 22);
+            this.txtTrust.Size = new System.Drawing.Size(234, 20);
             this.txtTrust.TabIndex = 16;
             this.txtTrust.WordWrap = false;
             // 
@@ -207,26 +219,29 @@
             this.panel1.Controls.Add(this.btnAddTrust);
             this.panel1.Controls.Add(this.btnRemoveTrust);
             this.panel1.Controls.Add(this.txtTrust);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(331, 364);
+            this.panel1.Size = new System.Drawing.Size(282, 330);
             this.panel1.TabIndex = 27;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 10);
+            this.label1.Location = new System.Drawing.Point(4, 8);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 17);
+            this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 25;
             this.label1.Text = "Trusted";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 10);
+            this.label3.Location = new System.Drawing.Point(5, 8);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 17);
+            this.label3.Size = new System.Drawing.Size(46, 13);
             this.label3.TabIndex = 29;
             this.label3.Text = "Blocked";
             // 
@@ -243,9 +258,10 @@
             this.panel2.Controls.Add(this.btnRemoveBlock);
             this.panel2.Controls.Add(this.chkBlockUntrustedContent);
             this.panel2.Controls.Add(this.chkBlockUnsignedContent);
-            this.panel2.Location = new System.Drawing.Point(5, 3);
+            this.panel2.Location = new System.Drawing.Point(4, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(332, 364);
+            this.panel2.Size = new System.Drawing.Size(286, 330);
             this.panel2.TabIndex = 30;
             // 
             // splitContainer2
@@ -253,6 +269,7 @@
             this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -262,18 +279,20 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.panel2);
-            this.splitContainer2.Size = new System.Drawing.Size(687, 374);
-            this.splitContainer2.SplitterDistance = 341;
+            this.splitContainer2.Size = new System.Drawing.Size(587, 338);
+            this.splitContainer2.SplitterDistance = 290;
+            this.splitContainer2.SplitterWidth = 3;
             this.splitContainer2.TabIndex = 31;
             // 
             // Trust
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(687, 374);
+            this.ClientSize = new System.Drawing.Size(587, 338);
             this.Controls.Add(this.splitContainer2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Trust";

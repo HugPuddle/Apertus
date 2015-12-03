@@ -76,22 +76,42 @@ namespace ADD
             {
                 try
                 {
-                    CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
-                    string label;
-                    if (txtProfileAddress.Text.LastIndexOf('~') > 0)
-                    { label = txtProfileAddress.Text; }
-                    else { label = "~~~~" + txtProfileAddress.Text; }
-                    label = a.GetNewAddress(label);
-                    cmbProfileAddress.Items.Add(txtProfileAddress.Text);
-                    txtProfileAddress.Visible = false;
-                    cmbProfileAddress.Visible = true;
-                    cmbProfileAddress.SelectedItem = txtProfileAddress.Text;
-                    txtProfileAddress.Text = "";
-                    StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
-                    writeTrustList.WriteLine(label);
-                    writeTrustList.Close();
-                    var mainForm = Application.OpenForms.OfType<Main>().Single();
-                    mainForm.RefreshHashCache();
+                    Match match = Regex.Match(txtProfileAddress.Text, @"([a-zA-Z0-9]{52})");
+                    if (match.Success)
+                    {
+                        string label = "";
+                        if (User.InputBox("Apertus", "Enter label to import key.", ref label) == DialogResult.OK)
+                        {
+                            CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
+                            var result = a.ImportPrivateKey(txtProfileAddress.Text, "~~~~" + label, true);
+                            cmbProfileAddress.Items.Add(label);
+                            txtProfileAddress.Text = "";
+                            txtProfileAddress.Visible = false;
+                            cmbProfileAddress.Visible = true;
+                            cmbProfileAddress.SelectedItem = label;
+
+                        }
+                    }
+                    else
+                    {
+
+                        CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
+                        string label;
+                        if (txtProfileAddress.Text.LastIndexOf('~') > 0)
+                        { label = txtProfileAddress.Text; }
+                        else { label = "~~~~" + txtProfileAddress.Text; }
+                        label = a.GetNewAddress(label);
+                        cmbProfileAddress.Items.Add(txtProfileAddress.Text);
+                        txtProfileAddress.Visible = false;
+                        cmbProfileAddress.Visible = true;
+                        cmbProfileAddress.SelectedItem = txtProfileAddress.Text;
+                        txtProfileAddress.Text = "";
+                        StreamWriter writeTrustList = new StreamWriter("trust.txt", true);
+                        writeTrustList.WriteLine(label);
+                        writeTrustList.Close();
+                        var mainForm = Application.OpenForms.OfType<Main>().Single();
+                        mainForm.RefreshHashCache();
+                    }
                 }
                 catch { }
             }

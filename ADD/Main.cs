@@ -1213,7 +1213,10 @@ namespace ADD
                         var friend = friendLine.Split('@');
                         if (friend[2] == coinShortName[cmbCoinType.Text])
                         {
-                            friendTransID.Add(friend[1], friend[0]);
+
+                            try
+                            { friendTransID.Add(friend[1], friend[0]); }
+                            catch { }
                         }
                         
                     }
@@ -1945,6 +1948,7 @@ namespace ADD
                     ".jpg", ".jpeg", ".jpe", ".gif", ".png", ".tiff", ".tif", ".svg", ".svgz", ".xbm", ".bmp", ".ico"
                 };
 
+
                 if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)))
                 {
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file" + fileId + "\">[ " + FileName + " ]</div></div></div>";
@@ -1982,21 +1986,21 @@ namespace ADD
 
                 if (!foundType)
                 {
-                    if (Path.GetExtension(FileName).ToUpper() != ".SIG" && FileName != "SIG" && FileName != "LNK")
+                    if (FileName != "SIG" && FileName != "LNK" && FileName != "PRO")
                     {
                         strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + HttpUtility.UrlPathEncode(FileName) + "</a></div></div>";
                     }
                 }
 
-
-
-                if (TrustContent)
+                if (FileName == "PRO" || FileName == "SIG" || FileName == "LNK")
                 {
+                    string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length);
+                    readFile = WebUtility.HtmlEncode(readFile);
+                    ByteData = Encoding.UTF8.GetBytes(readFile);
 
                     if (FileName == "PRO")
                     {
 
-                        string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length);
                         string strTipAddress = "";
                         string strNickName = "";
                         string strProfileImage = "";
@@ -2009,32 +2013,6 @@ namespace ADD
                             length = readFile.IndexOf(Environment.NewLine, start);
                             strNickName = readFile.Substring(start, length - start);
                         }
-
-                        //txtNickName.Text = readFile.Substring(start, length - start);
-                        //start = readFile.IndexOf("PRE=") + 4;
-                        //length = readFile.IndexOf(Environment.NewLine, start);
-                        //txtPrefix.Text = readFile.Substring(start, length - start);
-                        //start = readFile.IndexOf("FNM=") + 4;
-                        //length = readFile.IndexOf(Environment.NewLine, start);
-                        //txtFirstName.Text = readFile.Substring(start, length - start);
-                        //start = readFile.IndexOf("MNM=") + 4;
-                        //length = readFile.IndexOf(Environment.NewLine, start);
-                        //txtMiddleName.Text = readFile.Substring(start, length - start);
-                        //start = readFile.IndexOf("LNM=") + 4;
-                        //length = readFile.IndexOf(Environment.NewLine, start);
-                        //txtLastName.Text = readFile.Substring(start, length - start);
-                        //start = readFile.IndexOf("SUF=") + 4;
-                        //length = readFile.IndexOf(Environment.NewLine, start);
-                        //txtSuffix.Text = readFile.Substring(start, length - start);
-                        //start = readFile.IndexOf("AD1=") + 4;
-                        //length = readFile.IndexOf(Environment.NewLine, start);
-                        //txtAddress1.Text = readFile.Substring(start, length - start);
-                        //start = readFile.IndexOf("AD2=") + 4;
-                        //length = readFile.IndexOf(Environment.NewLine, start);
-                        //txtAddress2.Text = readFile.Substring(start, length - start);
-                        //start = readFile.IndexOf("AD3=") + 4;
-                        //length = readFile.IndexOf(Environment.NewLine, start);
-                        //txtAddress3.Text = readFile.Substring(start, length - start);
 
                         start = readFile.IndexOf("IMG=") + 4;
                         if (start > 3)
@@ -2058,14 +2036,27 @@ namespace ADD
 
                     }
 
+
+                }
+
+        
+
+                if (TrustContent || FileName == "PRO" || FileName == "SIG")
+                {
                     FileStream attachStream = null;
-                    if ((!FileName.Contains('.') && FileName.Substring(0,3) == "LNK") || FileName == "TKN")
+                    if (FileName == "LNK")
                     {
                         attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Append);
                         byte[] newline = Encoding.UTF8.GetBytes(Environment.NewLine);
                         attachStream.Write(newline, 0, newline.Length);
                     }
-                    else { attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create); }
+                    else { 
+                        
+                        attachStream = new FileStream("root\\" + TransID + "\\" + FileName, FileMode.Create); 
+                    }
+
+                   
+
                     attachStream.Write(ByteData, 0, ByteData.Length);
                     attachStream.Close();
                 }
