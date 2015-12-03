@@ -1883,7 +1883,7 @@ namespace ADD
                 {
                     fileText = streamReader.ReadToEnd();
                 }
-                Match match = Regex.Match(fileText, @"\/([a-fA-F0-9]{64})");
+                Match match = Regex.Match(fileText, @"([a-fA-F0-9]{64})");
                 if (match.Success)
                 {
                     do
@@ -1897,7 +1897,7 @@ namespace ADD
                                 {
                                     lock (_buildLocker)
                                     {
-                                        isFound = CreateArchive(match.ToString().Replace("/", ""), i, false, true, null, null, true);
+                                        isFound = CreateArchive(match.ToString(), i, false, true, null, null, false);
                                     }
 
                                     if (isFound)
@@ -1949,7 +1949,7 @@ namespace ADD
                 };
 
 
-                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)))
+                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "PRO" && FileName != "SIG" && FileName != "LNK")
                 {
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file" + fileId + "\">[ " + FileName + " ]</div></div></div>";
                     foundType = true;
