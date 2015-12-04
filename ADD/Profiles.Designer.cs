@@ -61,6 +61,7 @@
             this.txtTipAddress = new System.Windows.Forms.TextBox();
             this.txtProfileAddress = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.btnExportTip = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.imgProfilePhoto)).BeginInit();
             this.SuspendLayout();
             // 
@@ -261,7 +262,7 @@
             this.btnTipAddress.Location = new System.Drawing.Point(79, 235);
             this.btnTipAddress.Margin = new System.Windows.Forms.Padding(2);
             this.btnTipAddress.Name = "btnTipAddress";
-            this.btnTipAddress.Size = new System.Drawing.Size(16, 22);
+            this.btnTipAddress.Size = new System.Drawing.Size(21, 25);
             this.btnTipAddress.TabIndex = 114;
             this.btnTipAddress.Text = "+";
             this.btnTipAddress.UseVisualStyleBackColor = true;
@@ -307,12 +308,13 @@
             this.cmbTipAddress.FormattingEnabled = true;
             this.cmbTipAddress.Items.AddRange(new object[] {
             "Select Funding Source"});
-            this.cmbTipAddress.Location = new System.Drawing.Point(99, 236);
+            this.cmbTipAddress.Location = new System.Drawing.Point(131, 236);
             this.cmbTipAddress.Margin = new System.Windows.Forms.Padding(2);
             this.cmbTipAddress.MaximumSize = new System.Drawing.Size(319, 0);
             this.cmbTipAddress.Name = "cmbTipAddress";
-            this.cmbTipAddress.Size = new System.Drawing.Size(232, 23);
+            this.cmbTipAddress.Size = new System.Drawing.Size(200, 23);
             this.cmbTipAddress.TabIndex = 111;
+            this.cmbTipAddress.SelectedIndexChanged += new System.EventHandler(this.cmbTipAddress_SelectedIndexChanged);
             // 
             // button2
             // 
@@ -403,11 +405,11 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Select Funding Source"});
-            this.comboBox1.Location = new System.Drawing.Point(99, 261);
+            this.comboBox1.Location = new System.Drawing.Point(133, 261);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.MaximumSize = new System.Drawing.Size(319, 0);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(232, 23);
+            this.comboBox1.Size = new System.Drawing.Size(198, 23);
             this.comboBox1.TabIndex = 132;
             // 
             // label6
@@ -424,10 +426,10 @@
             // txtTipAddress
             // 
             this.txtTipAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtTipAddress.Location = new System.Drawing.Point(100, 236);
+            this.txtTipAddress.Location = new System.Drawing.Point(134, 236);
             this.txtTipAddress.Margin = new System.Windows.Forms.Padding(2);
             this.txtTipAddress.Name = "txtTipAddress";
-            this.txtTipAddress.Size = new System.Drawing.Size(231, 20);
+            this.txtTipAddress.Size = new System.Drawing.Size(197, 20);
             this.txtTipAddress.TabIndex = 137;
             this.txtTipAddress.Visible = false;
             this.txtTipAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTipAddress_KeyDown);
@@ -447,11 +449,25 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // btnExportTip
+            // 
+            this.btnExportTip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportTip.Enabled = false;
+            this.btnExportTip.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportTip.Location = new System.Drawing.Point(105, 235);
+            this.btnExportTip.Name = "btnExportTip";
+            this.btnExportTip.Size = new System.Drawing.Size(21, 25);
+            this.btnExportTip.TabIndex = 1000;
+            this.btnExportTip.Text = "↯";
+            this.btnExportTip.UseVisualStyleBackColor = true;
+            this.btnExportTip.Click += new System.EventHandler(this.btnExportVault_Click);
+            // 
             // Profiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(340, 312);
+            this.Controls.Add(this.btnExportTip);
             this.Controls.Add(this.txtProfileAddress);
             this.Controls.Add(this.txtTipAddress);
             this.Controls.Add(this.button1);
@@ -530,5 +546,6 @@
         private System.Windows.Forms.TextBox txtTipAddress;
         private System.Windows.Forms.TextBox txtProfileAddress;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button btnExportTip;
     }
 }

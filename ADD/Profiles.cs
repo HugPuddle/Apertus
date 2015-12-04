@@ -132,17 +132,36 @@ namespace ADD
             {
                 try
                 {
-                    CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
-                    string label;
-                    if (txtTipAddress.Text.LastIndexOf('~') > 0)
-                    { label = txtTipAddress.Text; }
-                    else { label = "~~~~~" + txtTipAddress.Text; }
-                    label = a.GetNewAddress(label);
-                    cmbTipAddress.Items.Add(txtTipAddress.Text);
-                    txtTipAddress.Visible = false;
-                    cmbTipAddress.Visible = true;
-                    cmbTipAddress.SelectedItem = txtTipAddress.Text;
-                    txtTipAddress.Text = "";
+                    Match match = Regex.Match(txtTipAddress.Text, @"([a-zA-Z0-9]{52})");
+                    if (match.Success)
+                    {
+                        string label = "";
+                        if (User.InputBox("Apertus", "Enter label to import key.", ref label) == DialogResult.OK)
+                        {
+                            CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
+                            var result = a.ImportPrivateKey(txtTipAddress.Text, "~~~~~" + label, true);
+                            cmbTipAddress.Items.Add(label);
+                            txtTipAddress.Text = "";
+                            txtTipAddress.Visible = false;
+                            cmbTipAddress.Visible = true;
+                            cmbTipAddress.SelectedItem = label;
+
+                        }
+                    }
+                    else
+                    {
+                        CoinRPC a = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
+                        string label;
+                        if (txtTipAddress.Text.LastIndexOf('~') > 0)
+                        { label = txtTipAddress.Text; }
+                        else { label = "~~~~~" + txtTipAddress.Text; }
+                        label = a.GetNewAddress(label);
+                        cmbTipAddress.Items.Add(txtTipAddress.Text);
+                        txtTipAddress.Visible = false;
+                        cmbTipAddress.Visible = true;
+                        cmbTipAddress.SelectedItem = txtTipAddress.Text;
+                        txtTipAddress.Text = "";
+                    }
                 }
                 catch { }
             }
@@ -459,6 +478,24 @@ namespace ADD
                 mainForm.AddProfile(cmbProfileAddress.Text);
 
             }
+        }
+
+        private void btnExportVault_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                CoinRPC b = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
+                var strAddress = b.GetAddressesByAccount("~~~~~" + cmbTipAddress.Text);
+                Clipboard.SetText(b.DumpPrivateKey(strAddress.First()));
+
+            }
+            catch {  }
+        }
+
+        private void cmbTipAddress_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbTipAddress.SelectedIndex > 0) { btnExportTip.Enabled = true; } else { btnExportTip.Enabled = false; }
         }
     }
       

@@ -1840,10 +1840,11 @@ namespace ADD
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strHTML), 0, strHTML.Length);
                     fileStream.Close();
 
-                    //Don't crawl raw monitor results
+                    BuildBackLinks(TransID);
+
                     if (DisplayResults && !chkMonitorBlockChains.Checked)
                     {
-                        BuildBackLinks(TransID);
+                        
                         Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/" + TransID + "/index.htm");
                         if (NavigateResults) { webBrowser1.Url = BrowseURL; }
 
