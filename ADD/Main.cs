@@ -22,6 +22,7 @@ using System.Drawing.Imaging;
 
 namespace ADD
 {
+    
     public partial class Main : Form
     {
 
@@ -81,6 +82,7 @@ namespace ADD
         bool Loading = true;
         string PROLinks = "";
 
+
         public Main()
         {
             InitializeComponent();
@@ -116,7 +118,7 @@ namespace ADD
         {
             tmrProcessBatch.Start();
             characterMap = glyphTypeface.CharacterToGlyphMap;
-            infoArray = "Apertus immutably stores and interprets data on blockchains.|Never build files or click links from sources you do not trust.|Send a direct message by using @ followed by Address.|Click Help, then info for assistance.|Create a Profile and start sharing your thoughts.|#keywords allow people to discover and follow your causes.|Encrypt items by creating and selecting a Vault.|Signing your archives allows people to trust you.|This is beta software use at your own risk!|Press CTRL while submitting a search to rebuild the cache.|Search by Trans ID, Address, Free Text or #Keyword".Split('|');
+            infoArray = "Apertus immutably stores and interprets data on blockchains.|Never build files or click links from sources you do not trust.|Send a direct message by using @ followed by Address.|Click Help, then info for assistance.|Create a Profile and start sharing your thoughts.|#keywords allow people to discover and follow your causes.|Encrypt items by creating and selecting a Vault.|Signing your archives allows people to trust you.|This is beta software use at your own risk!|Press CTRL while submitting a search to rebuild the cache.|Search by Trans ID, Address, Free Text or #Keyword|Publish your work using a profile, signature, & tip address".Split('|');
             URLSecurityZoneAPI.InternetSetFeatureEnabled(URLSecurityZoneAPI.InternetFeaturelist.DISABLE_NAVIGATION_SOUNDS, URLSecurityZoneAPI.SetFeatureOn.PROCESS, true);
 
         }
@@ -2743,7 +2745,7 @@ namespace ADD
                     }
                 }
 
-                CreateLedgerFile(coinPayloadByteSize[CoinType], GetRandomBuffer(coinPayloadByteSize[CoinType]), coinIP[CoinType], coinPort[CoinType], coinUser[CoinType], coinPassword[CoinType], WalletLabel, coinVersion[CoinType], coinMinTransaction[CoinType], txtFileName.Text, null, strHash + "\n" + "FileName:" + Path.GetFileName(openDigestFile.FileName));
+                CreateLedgerFile(coinPayloadByteSize[CoinType], GetRandomBuffer(coinPayloadByteSize[CoinType]), coinIP[CoinType], coinPort[CoinType], coinUser[CoinType], coinPassword[CoinType], WalletLabel, coinVersion[CoinType], coinMinTransaction[CoinType], txtFileName.Text, null, strHash + "\n" + txtMessage.Text);
 
             }
 

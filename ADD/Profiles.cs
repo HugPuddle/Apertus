@@ -14,6 +14,7 @@ using System.IO;
 using Secp256k1;
 using System.Numerics;
 using System.Drawing.Imaging;
+using System.Threading;
 
 namespace ADD
 {
@@ -487,10 +488,15 @@ namespace ADD
 
                 CoinRPC b = new CoinRPC(new Uri(GetURL(Main.coinIP[Main.CoinType]) + ":" + Main.coinPort[Main.CoinType]), new NetworkCredential(Main.coinUser[Main.CoinType], Main.coinPassword[Main.CoinType]));
                 var strAddress = b.GetAddressesByAccount("~~~~~" + cmbTipAddress.Text);
-                Clipboard.SetText(b.DumpPrivateKey(strAddress.First()));
+                Thread thread = new Thread(() => Clipboard.SetText(b.DumpPrivateKey(strAddress.First())));
+                thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+                thread.Start();
+                thread.Join(); //Wait for the thread to end
+
+
 
             }
-            catch {  }
+            catch { }
         }
 
         private void cmbTipAddress_SelectedIndexChanged(object sender, EventArgs e)
