@@ -77,7 +77,7 @@ namespace ADD
             {
                 try
                 {
-                    Match match = Regex.Match(txtProfileAddress.Text, @"([a-zA-Z0-9]{52})");
+                    Match match = Regex.Match(txtProfileAddress.Text, @"([a-zA-Z0-9]{51,})");
                     if (match.Success)
                     {
                         string label = "";
@@ -133,7 +133,7 @@ namespace ADD
             {
                 try
                 {
-                    Match match = Regex.Match(txtTipAddress.Text, @"([a-zA-Z0-9]{52})");
+                    Match match = Regex.Match(txtTipAddress.Text, @"([a-zA-Z0-9]{51,})");
                     if (match.Success)
                     {
                         string label = "";

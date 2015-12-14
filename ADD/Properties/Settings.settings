@@ -24,10 +24,10 @@
       <Value Profile="(Default)">313</Value>
     </Setting>
     <Setting Name="HideArchive" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="HideHistory" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="MainPanel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">250</Value>

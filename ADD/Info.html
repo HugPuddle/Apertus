@@ -1,48 +1,80 @@
-<html>
-
+﻿<html>
+ <body bgcolor="#000000">
+ <body text="#ffffff" link="#ff0000" vlink="#ff0000" alink="#ff0000">
 <head>
     <meta charset="UTF-8" />
-    <TITLE>Info</TITLE>
+    <TITLE>Apertus Info</TITLE>
 </head>
  
  <body>
-  <h2>Apertus Instructions</h2>
-    <P>Apertus can support most coins with the proper settings; we have pre-loaded the settings for Bitcoin, Litecoin, Dogecoin, Mazacoin, and Anoncoin.</P>
-   <br>
- 
-  <p><h3>Index</h3></p>
+
+     <p>"Empowering people to publish creative works on an indelible global platform . . . We all have the power to immutably archive our history on the blockchains."</p>
+
+
+ <h1>Apertus Instructions</h1>
+    <p>Apertus is a Blockchain reader/writer that currently uses non-redeemable destination addresses as a free-form 20-byte field to immutably store data onto a blockchain. The data is referenced and retrieved by Apertus using the final transaction id of the process; the Root ID.<br> 
+    Coins used are forever burned into the blockchain in a process we call "etching." </p>
+    <p>Apertus can support most coins with the proper settings. Many cryptocoin settings are pre-loaded into Apertus.</P>
+    <P>Quick warning: Apertus is experimental software. Bugz will occur. Apertus is a great publishing tool - but use with caution. It's NOT wise to have large amounts of valuable cryptocoin in your Apertus-linked wallet.</p> 
+    <P>Another quick warning: Apertus currently doesn't support encrypted wallets. This upgrade is coming, but in the mean-time, it's extra-important to heed the warning to not keep lots of valuable coin in your wallet OR be doing silly etchings with signatures potentially for the taking.</p>
+    <p>Quick tip: When in doubt, if things aren't working like they should after you make changes in settings etc, try rebuilding the page (ctrl-enter) or restart Apertus, and/or the blockchain in question.</P>
+    <p>Not-so-quick warning: By default, Apertus attempts to filter out all unsafe content. Treat any etchings you see with the same caution you would use with unknown emails or links. When navigating blockchains, do not download or run executable files from sources you have not verified. We haven't seen any malicious content yet - it may be inevitable - but perhaps humans can change.</p>
+    <p>Quick perspective: Using Apertus and blockchains is kinda akin to using email in 1984. There's a learning curve due to the many manual things that must be done for now.</p>
+    <P>Quick shameless cry-for-help: Apertus is a HugPuddle open-source project. Your wisdom and resources to make this project better are more than welcome. We need your hugz.</p>
+	<p>The following instructions are in the best order to understand the full-functionality of Apertus. <br>
+	<p>Happy Blockchaining!</p>  
+    
+   <br><br>
+
+   
+  <h1><A NAME="I">Index</A></h1>
       
-   <A HREF="#I">I. Synchronize your Wallet(s)</A><BR>
-   <A HREF="#II">II. Conf File</A><BR>
-   <A HREF="#III">III. Wallet Configuration</A><BR>  
-   <A HREF="#IV">IV. Monitor and Search the Blockchain(s)</A><BR>
-   <A HREF="#V">V. Archiving</A><BR>
-   <A HREF="#VI">VI. How to Increase Transaction Fee, aka Parking Fee</A><BR>
-   <A HREF="#VII">VII. Signing your Archives</A><BR>
-   <A HREF="#VIII">VIII. Trust Center</A><BR>
-   <A HREF="#IX">IX. Adding a Coin</A><BR>
-   <A HREF="#X">X. How to upgrade Apertus</A><BR>
-   <A HREF="#XI">XI. Notes on Safety</A><BR>
-   <a href="#XII">XII. Known Issues</a>
-  <BR>
-  </P>
+   <A HREF="#I">Synchronize Your Wallet</A><BR>
+   <A HREF="#II">Conf File Creation</A><BR>
+   <A HREF="#III">Wallet Configuration</A><BR>  
+   <A HREF="#IV">Monitor the Blockchains</A><BR>
+   <a href="#Nav">Navigating on the Blockchains</A><BR>
+   <A HREF="#V">Etching</A><BR>
+   <A HREF="#VI">How to Increase Transaction Fee, aka Parking Fee</A><BR>
+   <a href="#hash">Proof of Existence Hash, and How to Search for It</A><br>
+   <a href="#qqq">Hashtags to Organize Threads</a><br>
+   <A href="#yyy">Linking Etches</a><br> 
+   <A href="#zzz">Creating a Profile</a><br>
+   <A HREF="#VII">Signing Your Archives</A><BR>
+   <A HREF="#VIII">Trust Center</A><BR>
+   <a href="#ttt">Tipping</a><br>
+   <a href="#dm">Messaging - Encrypted and Public</a><br>
+   <A href="#Vault">Vault</A><br>
+   <a href="Tokens">Blockchain Entities - Colored Coins - Token Creation</a><br>
+   <a href="#mmm">Apertus as a Quasi Multi-Wallet Interface</a><br>
+   <A HREF="#IX">Adding a Coin</A><BR>
+   <A HREF="#X">How to Upgrade Apertus</A><BR>
+   <A href="#freakout">Wallet Freakout - How to Fix it</a><br>
+   <a href="#XIII">Downloading Bitcoin Testnet & General Wallet Info</a><br>
+   <a href="#XIV">Getting Coin for your Wallet</a><br>
+   
+  <BR><br><br>
 
-  <h3><A NAME="I">I. Synchronize your Wallet(s)</A></h3>
-    <p>Apertus requires the full wallet/blockchain of the coin you are archiving on.<p>
-    <p>~Download the full wallet (and thus the blockchain) of the coin. (ex. go to Bitcoin.org, click “Get Started with Bitcoin”, then click “Choose your wallet”, download & run “Bitcoin Core”)</p>
-    <p>~Fully synchronize your wallet before you begin.</p>
-    <p>This process may take some time. Bitcoin is largest, but also the best chance of your data surviving over time. If you are looking for quicker results, try the other coins.</p>
-    <p>~After the coin(s) have fully synchronized, the wallet needs the RPC (remote procedure calls) enabled. A special file called a configuration file, aka, "conf" file needs to be created and placed in a certain spot. </p>
-   <br>
 
-  <h3><A NAME="II">II. Conf File Instructions</A></h3>
+  <h2><A NAME="I">Synchronize your Wallet</A></h2>
+    <p>Apertus requires the full wallet/blockchain of the coin you are using to be loaded and running on your computer.<p>
+    <p>We recommend using the Bitcoin Testnet for your first run, especially if you're not profecient with blockchain usage. Go to the chapter <a href="#XIII">Downloading Bitcoin Testnet & General Wallet Info</a></p> 
+    <p>~Download the full wallet (and thus the blockchain) of the coin you wish to work with.
+    <p>~Fully synchronize your wallet before you begin. (if you decide to move forward with editing your Apertus settings while it syncronizes, don't expect the etching process to work until the wallet syncs).</p>
+    <p>~Note that Apertus doesn't currently support encrypted wallets, Apertus-linked wallets must currently remain unencrypted. (Can you code this? Free hugz to whomever can do it :) Find us at <a href="https://github.com/HugPuddle/Apertus">Github - Apertus</a>).</p>
+    <p>~After the coin has fully synchronized, the wallet needs the RPC (remote procedure calls) enabled. A special file called a configuration file, aka, "conf" file needs to be created and placed in a certain spot. </p>
+    <A href="index">Back to Index</A><br>
+	<BR><br><br>
+
+
+  <h2><A NAME="II">Conf File Creation</A></h2>
     <p>1. Shut down your synced coin wallet.</p>
     <p>2. Open Notepad (located in programs/accessories).</p>
     <p>3. Copy the following code:<br>
-       server=1<br>
-       rpcuser=<br>
-       rpcpassword=</p>
-    <p>4. Paste into your Notepad file.</p>
+	server=1<br>
+	rpcuser=<br>
+	rpcpassword=</p>
+    <p>4. Paste into your Notepad file. Make sure they are left-justified, with no spaces on the left.</p>
     <p>5. After rpcuser= put any user name you want (spaces are not allowed).</p>
     <p>6. After prcpassword= put any password you want (spaces are not allowed).</p>
     <p>7. The configuration file must be placed into a special folder associated with your wallet. (go to 8 if you haven’t done this before) <br>
@@ -56,156 +88,74 @@
        (this process is different for each version of windows, google this process if need be)<br>
        (windows 7 example: Start button - Control Panel - Appearance and Personalization - Show hidden files and folders - Remove the checkmark from the checkbox labeled “Hide extensions for known file types.”  Remove the checkmark from the checkbox labeled “Hide protected operating system files.”)</p>
     <p>12. Click save. (keep the file open on your desktop for now)</p>
-   <br>
+    <p> (can you code the automation of conf files? free hugz & credit to whomever can do it! Find us at <a href="https://github.com/HugPuddle/Apertus">Github - Apertus</a>).</p>
+   <A href="index">Back to Index</A>
+   <br><br><br>
 
-  <h3><A NAME="III">III. Wallet Configuration Instructions</A></h3>
 
-    <p>1. Restart your coin wallet, wait for it to re-sync (will be quicker this time)</p>
+
+
+  <h2><A NAME="III">Wallet Configuration Instructions</A></h2>
+
+    <p>1. Restart your coin wallet, wait for it to re-sync (will be quicker this time).</p>
     <p>2. Open Apertus.</p>
-    <p>3. When open, click "Settings", then click "wallet".</p>
-    <p>4. Select the wallet you want from the top pulldown menu "Select Wallet From List".</p>
-    <p>5. At the bottom, change the  "RPC User" info to the user name you created in the conf file.</p>
-    <p>6. Change the "RPC Password" info to the password you created.</p>
-    <p>7. At the bottom, make sure "Enable Wallet" is check-marked.</p>
-    <p>8. Click save in the upper right corner.</p>
-    <p>9. Restart Apertus (exit all Apertus files, exit Apertus, re-start Apertus)</p>
-    <p>Apertus is now ready to read and write data on the coins blockchain.</p>
-   <br>
+	<p>3. If this is the first time you've opened Apertus, you'll need to click the two arrows to show features. It's recommened you open the window to the full screen during the first few uses so you can see all features/settings available. 
+    <p>4. When open, click "Settings", then click "wallet".</p>
+    <p>5. Select the wallet you want from the top pulldown menu "Select Wallet From List".</p>
+    <p>6. At the bottom, change the  "RPC User" info to the user name you created in the conf file.</p>
+    <p>7. Change the "RPC Password" info to the password you created.</p>
+    <p>8. At the bottom, make sure "Enable Wallet" is check-marked.</p>
+    <p>9. Click save in the upper right corner.</p>
+    <p>10. Restart Apertus (exit all Apertus files, exit Apertus, re-start Apertus).</p>
+    <p>Apertus is now ready to read and write data on the coin's blockchain.</p>
+   <A href="index">Back to Index</A>
+   <br><br><br>
 
-  <h3><A NAME="IV">IV. Monitor & Search the Blockchain(s)</A></h3>
 
-    <p>Prior to archiving, you may want to monitor and or search the blockchain(s) for data.  This will help you see that it is working.</p>
+
+
+  <h2><A NAME="IV">Monitor the Blockchains</A></h2>
+    <p> You may wish to Monitor the Blockchain for Apertus etched data prior to etching. We suggest you open a second Apertus window for monitoring, and keep the other one for etching. Apertus will run better this way.</p>
     <p>1. Ensure you have fully synchronized your coin, and you have rebooted it since making the conf file.</p>
-    <p>2. Ensure you have rebooted Apertus after you set the configurations for the coin. </p>
-    <p>3. Click the "Explore" tab in Apertus.</p>
-    <p>4. Copy and paste the transaction id of a known archive into the box labled “ENTER TRANSACTION ID”, Hit Enter.  If found the archive will be displayed in the explorer window.</p>
-    <p>5. To begin monitoring  check the "Monitor Blockchains" check box<br>
+    <p>2. Ensure you have rebooted Apertus after you set the configurations for the coin.</p>
+    <p>3. To begin monitoring, check the "Monitor Blockchains" check box on the middle right side of the main page.<br>
        NOTE: the checkmark may not show up right away, click once, wait, possibly a few seconds, don’t click multiple times, it may take a moment or two or longer depending on how many blockchains you are monitoring.</P>
-    <p>6. Apertus is now monitoring the blockchain(s) for data.</p>
-   <br>
-
-  <h3><A NAME="V">V. Archiving</A></h3>
-    <p>1. Apertus uses small amounts of coin to immutably embed data onto blockchains; you will need to put some into your wallet for this to work. (we get none of this btw, it is “burned” onto the blockchain, and will be lost to time. In the event of a mistake, we recommended you don’t use your primary wallet as a safety precaution)</p>
-    <p>2. Fully synchronized your coin and ensure it rebooted since making the conf file and setting the configerations.</p>
-    <p>3. At the bottom of the archive screen, click "Select Wallet"
-    <p>4. Select the wallet you are using.</p>
-    <p>5. Click "Select Account".</p>
-    <p>6. Select the account you want to use. If you haven't named your accounts in your wallet, it may appear as blank, click the blank area.</p>
-    <p>7. Go to the large main area where it says "ENTER MESSAGE HERE" - click on it.</p>
-    <p>8. Enter your message there, and/or add a file using the "attach" feature.</p>
-    <p>9. Click "SAVE" on the far right. (Have patience for files larger than 3K)</p>
-    <p>You’ve just put immutable data on a Blockchain</p>
-   <br>
+    <p>4. If no error appears, Apertus is now monitoring the blockchain(s) for data.</p>
+	<p> If an error appears here's debug checklist:<br>
+	~check to make sure your coin is synced <br>
+	~your conf file is saved correctly<br>
+	~your conf file is saved in the right place<br>
+	~your computer is in fact in the same universe as your corporeal self; check parallel universe settings.<br>
+	~your conf file has the same RPC User and Password as the Apertus Wallet Settings.<br> 
+	~you've tried to reboot your coin and Apertus at least once each</p>
+   <A href="index">Back to Index</A>
+   <br><br><br>
 
 
-  <h3><A NAME="VI">VI. How to Increase Transaction Fee, aka Parking Fee</A></h3>
-    <p>The immutability (unprunability) of Apertus comes from the fact that it deposits small amounts of unrecoverable coin per 20 bytes of data. <br>
-       This makes a blockchain permanently bigger and puts a burden on miners and pool operators.<br>
-       Apertus has adjustable settings that allow you to increase miner fees if you want to assess yourself a fee to offset this burden.</p>
-    <p>1. Under the “Settings” tab, click “Wallets.”</p>
-    <p>2. In the new box, select the wallet you are working with from the pull down menu.
-    <p>3. Under Transaction Fee change the setting to any larger amount you want.<br>
-       Ex. if it is set at 0.0001, you can increase it by a factor of 10 by setting it to 0.001
-    <p>4. Click Save.</p>
-
-  <br>
-
-  <h3><A NAME="VII">VII. Signing your Archives</A></h3>
-    <p>Signing an archive proves the archivist owns the signing address and that the data returned to the client matches the data archived by the signee.  It does this by creating a SHA256 HASH of the entire archive.  The HASH is passed in as a message to the wallets signing function to create a signature.  The signature and signing address is then attached to the archive for verification by other clients.   Signing your archives allows other Apertus users to trust , follow and find your archives.  </p>
-    <p>1. Under the “Settings” tab, click “Wallets.”</p>
-    <p>2. In the new window, select the wallet you are working with from the pull down menu.</p>
-    <p>3. Copy and paste the address you would like to use for signing in the box labeled “Signing Address”<br>
-       NOTE: The address must exist within the connected wallet.</p>
-    <p>4. Check the “Enable Signing” checkbox.</p>
-    <p>5. Click Save.</p>
-
-   <br>
-
-  <h3><A NAME="VIII">VIII. Trust Center</A></h3>
-    <p>The trust center allows users to trust or block content archived onto blockchains  by establishing  trusted or blocked address lists.  To add an address to either list, copy and paste the address into the input field located at the top of either list box and click the + button.  Click the – button to remove the address from the list.  Trust options can be adjusted by checking the various option boxes located below each address list.</P>
-    <p>Trust Center Options:</p>
-    <p>~Accept all content from Trusted Address List.<br>
-       Any archives signed by a trusted address will bypass  Apertus’s default security features ex.(html formatting and scripting, executable files) 
-    <p>~Block all content from Blocked Address List.<br>
-       Any archives signed by a blocked address will not be written to disk. A transaction ID not found message will be displayed if attempting to explore a blocked address.</p>
-    <p>~Block all untrusted content.<br>
-       Any archive not signed by an address listed in the Trusted address list will not be written to disk.  A transaction ID not found message will be displayed if attempting to explore a untrusted address.</p>
-    <p>~Block all unsigned content.<br>
-       Archives that have not been signed will not be written to disk.  A transaction ID not found message will be displayed if attempting to explore a unsigned transaction.</p>
 
 
-   <br>
-
-  <h3><A NAME="IX">IX. Adding a Coin</A></h3>
-    <p>~ Wallet must be synced prior to installing on Apertus.
-    <p>~ On the main Apertus page go to 'Settings' then click on 'Wallet Settings.
-    <p>~ Click the down arrow on 'Select Wallet From List.'
-    <p>~ If you don't see your coins name, click any of the coins to begin customizing a new one.
-    <p>~ Go to 'Wallet Name' and enter the name of the coin you are installing.
-    <p>~ Click the tab 'Copy'. The name will show up in the list.
-    <p>~ Enter the relavent data on this list:
-    <br>
-
-    <p>- Version Byte<br>
-       ~ Figure out what the leading character is in the coin's address. <br>
-       ~ Find it on the chart at https://en.bitcoin.it/wiki/List_of_address_prefixes. <br>
-       ~ Look to the left at the 'Decimal version.' This is your Version Byte.<br> 	
-       ~ If it gives you an address that you don't even use and tells you it's invalid, that means you have the Version Byte wrong. (there are a few options possible, try another one on the list)</p>
-
-    <p>- Payload Size<br>
-       ~ This is done by digging in the code for the numbers OR experimentation. Enter the number that's defauted on Bitoin. (may be different)
-    <p>- Transaction Size <br>
-       ~ this is done by digging in the code for the numbers OR experimentation. Enter the number that's defauted on Bitoin. (may be different)
-    <p>- Transaction fee<br>
-       ~ this is done by digging in the code for the numbers OR experimentation. Enter the number that's defauted on Bitoin. It can be higher or lower, Apertus will help, read the error & change as needed.</p>
-
-    <p>- Min Transaction<br>
-       ~ this is done by digging in the code for the numbers OR experimentation. Enter number that's defauted on Bitoin. It can be higher or lower Apertus will help, read the error & change as needed. <br>
-       ~ If it says "transaction amount too small", increase Min Transaction.<br>
-
-    <p>- RPC Port<br>
-       ~ Dig in the code for it, or:<br>
-       ~ Exit your coin.<br>
-       ~ Goto the command prompt and type netstat /a<br>
-       ~ Write down or copy/paste all the listening ports you see. (mark, copy (enter), paste into notepad).<br>
-       ~ Restart your coin then enter netstat /a into the command prompt again.<br>
-       ~ Look for the a new 0.0.0.0:XXXXX  If there are two of them, try both. One of them is it.<br>
-       ~ If it says "Check Wallet Settings. Value cannot be null." That usually means your RPC Port is wrong (each coin can open 2 RPC IP ports, but only one of them make Apertus go, try the other one) OR you didn't do your Conf File properly.</p>
-
-    <p>- RCP IP<br>
-       ~ 127.0.0.1 for every coin so far.</p>
-
-    <p>- RPC User & RPC Password<br>
-       ~ see Conf File Instructions.
-
-    <p>- Signing Address<br>
-       ~ Depends on your usage needs; see Signing your Archives.</p>
-    
-    <p>- Troubleshooting Adding a Coin:<br>
-       ~ If it says "Check Wallet Settings. Value cannot be null." That usually means your RPC Port is wrong (each coin can open 2 RPC IP ports, but only one of them make Apertus go, try the other one) OR you didn't do your Conf File properly.<br>
-       ~ If it gives you an address that you don't even use and tells you it's invalid, that means you have the Version Byte wrong. (there are a few options possible, try another one on the list)<br>
-       ~ If it says "transaction amount too small", increase Min Transaction.</p>
-
-   <br>
-
-
-  <h3><A NAME="X">X. How to Upgrade Apertus</a></h3>
-    <p>1. Download the newest version.</p>
-    <p>2. Copy the entire contents of the folder (control-a, then right-click, click "copy")</p>
-    <p>3. Paste the contents into the old Apertus folder (may require a search to find the original folder)</p>
-    <p>4. When prompted, click "copy and replace.”</p>
-
+  <h2><a name="Nav">Navigating on the Blockchains</A></h2>
+Data is referenced and retrieved by Apertus using the final transaction id of the process; the Root ID.<br>
+Using root ID's, one can navigate the data on blockchains like one does on the internet.<br>
 <br>
+Caution: As stated prior, Apertus attempts to filter out all unsafe content. Apertus allows basic text and picture, but filters out code that could be malicious until you "Trust" the signature, or click "Filter Content." <br>
+Always treat any etchings you see with the same caution you would use with unknown emails. When navigating blockchains, do not download or run executable files from sources you have not verified.</p>
+To look at data on a blockchain for the first time we suggest you either choose one of the root id's below, or go to <a href="http://www.bitfossil.com">bitFossil.com</a> and search for something to take a look at, or click "recent" and see what is available.<br>
+(note that bitFossil.com is an aggregation of Apertus-style data (and noise) from various blockchains put onto a standard webpage)<br>
+Once you find something you want to look at from a blockchain you are running, click on it, find the root id, copy it, then paste the root id into the navigation bar in Apertus.<br><br>
+Here are some you can try - Simply copy, paste into the Apertus navigation bar, then click enter (next version will have web to blockchain interface :) no cut/paste)<br>
+Bitcoin - Mandela Tribute - 78f0e6de0ce007f4dd4a09085e649d7e354f70bc7da06d697b167f353f115b8e<br>
+Bitcoin - The Mahabharata - An example of a series of Blockpages, constituting a Blocksite - 0618f12af65a4e82f8e7b41f8578721dfeb109e9a73ff71aebdbc982696e3720<br>
+Litecoin - China Moon Landing - 562c42cf86400db88ea8c5aa9f3de4054fe5e1e4055314b3b6c55282114982c3<br> 
+Dogecoin - 3D Printable Dogecoin Moon Glider - 89b023fde2e8e0350e35572662e38aa289912a2f3c3a246cbdbc46b6dac6d1b6<br> 
+Mazacoin - Fort Laramie Treaty, 1868 (rtf file) - f1a37b1c85bed3f561137789407735084065b41ecfaf262a190c4fdb4c4a278a<br>
+Bitcoin Testnet - "Flowers of War - US Bombs the World" by Allen Vandever - 7b9987b58b372bf491cc0703672a02a74d8a24a8d20d57d22ab32c23851eefec<br>
 
+You're now viewing data straight from a blockchain :) <br><br><br>
 
-  <h3><A NAME="XI">XI. Notes on Safety</a></h3>
-    <p>~ Apertus uses small amounts of coin to immutably embed data onto blockchains; you will need to put some into your wallet for this to work. We recieve none of this, it is etched onto the blockchain as unspendable transaction outputs in patterned data. In the event of a mistake, we recommended you don’t use your primary wallet as a safety precaution, and with a low cost of coins to work with </p>
-    <p>~ By default, Apertus attempts to Filter out all Unsafe Content. Treat any posting you see with the same caution you would use with unknown emails. When monitoring blockchains, do not download or run executable files from sources you have not verified. We haven’t seen any malicious content yet, it is inevitable, but perhaps humans can change. </p>  
-<br>
- 
-  <h3><a name="XII">XII. Known Issues</a></h3>
-
-     <p><b>Java error when browsing web sites</b><br>
+If you wish to navigate the web through Apertus, it may give you some errors.<br>
+Here's one we know about, and how to fix it.<br>
+ <p>Java error when browsing web sites using Apertus:<br>
      These errors are due to the Browser plugin defaulting to IE 7. This requires a registry setting to resolve.  Following the instruction below to add the appropriate setting<br>
      1. Run RegEdit<br>
      2. Browse to:  HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION<br>
@@ -213,12 +163,477 @@
      4. Enter ADD.exe into Label<br>
      5. Double Click New Entry, Select Decimal<br>
      6. Enter 1100, Click OK<br></p>
+<A href="index">Back to Index</A>
+
+
+<br><br><br>
+
+
+
+
+  <h2><A NAME="V">Etching</A></h2>
+    <p>Apertus uses small amounts of coin to immutably embed data onto blockchains. Apertus does this by using non-redeemable destination addresses as a free-form 20-byte field to store data onto a blockchain. Coins used are forever burned into the blockchain in a process we call etching. Apertus & HugPuddle assess no fees for this. All coins are used in the etching process, and on miner fees. You will need to put some coin into your wallet for this to work. Like we said, this is experimental, we recommended you don’t use your primary wallet as a safety precaution.</p>
+	<p>Go to <a href="#XIV">Getting Coin for your Wallet</a> to get some basic instructions on how go about getting cryptocoin.<p>
+    <p>1. Fully synchronize your coin and ensure it and Apertus are rebooted since making the conf file and setting the configurations.</p>
+    <p>2. At the middle/left of the Apertus screen, click "Select Wallet"
+    <p>3. Select the wallet you are using.</p>
+    <p>4. Click "Select Account".</p>
+    <p>5. Select the account you want to use. If you haven't named your accounts in your wallet, you will need to do that within your wallet. Apertus needs named accounts to work. If you don't know how to do this, go to <a href="#XIII">Downloading Bitcoin Testnet & General Wallet Info</a>, for more information.</p>
+    <p>6. Go to the large main area where it says "ENTER MESSAGE HERE" - click on it.</p>
+    <p>7. Enter your message there, and/or add a file using the "attach" feature.</p>
+    <p>8. Click "SAVE" on the far right. (You may need to have patience for files larger than 25kb).</p>
+    <p>A save warning will come up. It's making sure you are sure you want to save, and letting you know that if you happen to be etching a large file that has data that repeats (white spaces, etc), that Apertus may not have accurately predicted the cost of the etching (always wise to have more than Apertus says you need). The warning is also letting you know that Apertus may say "not responding" while etching. It is in fact etching. And when it appears to be doing nothing, and nothing has posted, and the file is larger than about 25kb - Apertus is waiting for the last grouping of sub-etchings to confirm before moving on to more.<br> 
+     Click yes if you're ready. You can shut off the warning by unclicking the checkmark in the "Save Warning" box.</p>
+    <p>You’ve just put immutable data on a Blockchain :)
+    <p>But there are a shit-ton more ways to use Apertus - keep rollin...</p>
+
+    <p>Note: Apertus currently doesn't update how much coin you have in your wallet after an etching - you'll need to reboot Apertus to see your new amount.<br>
+       (can you code better threading? wallet amount updates? other funky things? free hugz & credit to whomever can do it! Find us at <a href="https://github.com/HugPuddle/Apertus">Github - Apertus</a>).</p>
+   <A href="index">Back to Index</A>
+   <br><br><br>
+
+
+   
+   
+   
+    <h2><A NAME="VI">How to Increase Transaction Fee, aka Parking Fee</A></h2>
+    <p>The immutability (unprunability) of Apertus comes from the fact that it uses small amounts of unrecoverable coin per 20 bytes of data to ensure the network "saves" it. <br>
+       This makes a blockchain permanently bigger and increases the unspent transaction output ram, thus puts a burden on the system.<br>
+       Apertus has adjustable settings that allow you to increase miner fees if you want to assess yourself a fee to offset this burden. A Parking Fee. Apertus comes pre-set with current network minimuns, but we advocate for the miners and feel an additional parking fee should be considered.</p>
+    <p>1. Under the “Settings” tab, click “Wallets.”</p>
+    <p>2. In the new box, select the wallet you are working with from the pull down menu.
+    <p>3. Under Transaction Fee, change the setting to any larger amount you want.<br>
+       Ex. if it is set at 0.0001, you can increase it by a factor of 10 by setting it to 0.001
+    <p>4. Click Save.</p>
+    <p>HugPuddle is looking into ways to utilize the op_return 40 feature in a decentralized way which will eliminate the unspent tx output issue, and give miners the options to ignore the op_return data and reduce the bloat.<br>
+     We at HugPuddle believe however the costs involved to etch, and the value it gives to the blockchain, will in fact bring additional value to the blockchains. Apertus encourages downloading and usage of blockchains, generating interest and network strength.<br> 
+     We believe in a discussion to implement a basic standard into all cryptocoin. And op_return of at least 80 is more functional for decentralized features, and/or the sendmany to work during this operation.<br>
+     We support creative methods to embed data into blockchains so it may be sustainable and be preserved for future generations.<br>
+     Datacoin, Florincoin, & Namecoin offer unique data storing methods we are looking at to integrate functionality - in the meantime, Apertus works on all of these as-is, and more - let's get creative people :) <br>	 
+	 <br>
+	 <A href="index">Back to Index</A>
+	   <br><br><br>
+
+
+
+     
+   
+
+
+
+  <h2><A name="hash">Proof of Existence Hash, and How to Search for It</A></h2>
+    <p>Apertus allows you to archive a sha256 hash of your file using a built-in hashing system.<br>
+	<p>This allows a user to archive a "proof" of a file by the hash alone. When profiles and signatures are used, this can be done to "prove" the user is the one who created the file due to the properties of the blockchain (sig alg and decentralized time-stamp ledger). This hash also can be a step to ensure data integrity, especially when used in conjuction with profiles and signatures.</p>
+    <p>The hash will appear first, then any data you put in the data entry window.</p>
+	~Put any accompanying text or data you want to be with the hash in the data entry window first.<br>
+	~If you want to have the entire file on the blockchain, add that now using the "attach" feature.
+	~You can link your hash and data to another page as well.
+	~It needs to be done after a file is selected, and before you select the hash. (note that a file doesn't need to be etched, but if you do...)
+	~Ensure Apertus is on the page you wish to link to, then click the chain icon in the upper right corner.
+	~To get the hash, select "File" then "Proof."<br>
+    ~Select the file you wish to etch the hash of (note that Apertus will immediately etch that hash after you click "open" make sure everything is as you like it prior to that).
+    <br><br>
+	<p>Searching for Proof of Existence Hash</p>
+    ~Select "File" then "Search."<br>
+    ~Select "File" to search by file name.<br>
+    ~Select "Hash" to search by hash.<br>
+    ~Select "Yes" when asked to do a full index search (could take some time, after clicking yes, you'll need to minimize Apertus and all windows to see the search time bar to know when it completes).<br>
+    <br>	
+	
+	The applications for hashes extend well beyond our imagination.<br> 
+	Uses:<br>
+	Anchoring a creative work to your profile.<br>
+	File integrity check.<br>
+	Token/colored coin creation.<br>
+	Anchoring your corporeal self to your universe of origin.<br><br>
+	
+	<A href="index">Back to Index</A>
+   <br><br><br>
+
+
+   
+
+
+
+<h2><A NAME="qqq">Hashtags to Organize Threads</a></h2>
+<p> Apertus allows you to follow threads of information that people have hashtagged.</p>
+<p>To follow a thread, put the name of the thread with a hashtag # in front of it into the address bar of Apertus ex --> #Apertus </p>
+<p>This will require a full scan of the blockchain to get all the information - say yes when Apertus asks, it may take a few minutes. To know when it's done, you'll need to minimize Apertus and all window to see the Wallet's re-indexing timeline.</p>
+<p>When done, re-start Apertus.</p>
+<p>To see the thread, go to the middle left side of Apertus to the drop-down menu, "Select Follow." You'll see the hashtag you just followed.</p>
+<p>If you shut down Apertus and the blockchain, and then later reboot, Apertus will automatically scan for new content for thosee threads.</p>
+<p>Tip: If you are wanting to follow many threads, and you know which ones, the easiest way is to put in the hashtag in the address bar at the top as instructed, but then don't rescan yet, simply keep doing this procedure with all the threads you want to follow, then on the last one, THEN say yes. Apertus will scan for them all :) Reboot Apertus when done, and they'll all be there.</p>
+ <A href="index">Back to Index</A>
+<br><br><br>
+
+
+
+
+
+
+
+  <h2><a name="yyy">Linking Etches</a></h2>
+    <p> One can "link etches" in Apertus. This function allows a person to link previously etched content to newly etched content, without re-etching the old content. Apertus searches for the root ID and re-broadcasts linked to your new etch.</p>
+	 <p>When Apertus is on an etching you wish to link your response to, click the icon in the upper right hand corner of the main Apertus page that looks like two chain links.</p>	
+	<p>Enter your response in the text box, hit save.</p>
+	<A href="index">Back to Index</A>
+	<br><br><br>
+
+
+
+
+
+
+
+
+   <h2><a name="zzz">Creating a Profile</a></h2>	
+<p>A profile is essentially a blockchain based entity that is anchored using a cryptographic signature<br>
+<p>It can be utilized to create a personal profile, or one of an object, an entity, a file... frankly, we haven't fully explored the full potential of this yet. Our minds are kinda blown when we talk about it. We'd love to hear your ideas on this.</p>   
+<p>Currently there is no way to estimate the cost of etching your profile (on the to-do list).</p>
+<p>If you use only text, and a small photo, it won't take much.</p>
+<p>If you use a photo, ensure it is under 25kb for quick etching, and for lower coin usage. </p>
+<p>A thumbnail is all that is needed for profile purposes. If you go larger than 25kb, it could take Apertus and the wallet some time to etch. You'll have to be patient.</p>
+<p>If you are using Bitcoin, try using BitcoinTestnet first to practice & get an estimate on cost before you burn real Bitcoin. If you're using anything else, chances are it's cheap and there's no harm done.</p>
+<p>~ As always, the blockchain you are using must be synced.
+<p>~ Within Apertus, select the wallet you wish to use (middle left).</p> 
+<p>~ Select an account with coin. </p>
+<p>~ Click Settings \ Profiles (up top)</p>
+<p>~ Click the + button, click in the white space next to the + button,  enter a label for the profile, hit enter. </p>
+<p>~ Enter a shortname (this is what will appear with your etches), and any other data you would like to share (nothing else is required for it to work properly).</p>
+<p>~ Click on the Tip Address +, enter a label for your tip address, hit enter.</p>
+<p>~ If you wish to import a Tip Address - simply put the private key into the tip address box, hit enter, and Apertus will prompt you for a label.<br>
+(if you want to create a customized tip address - the best program we can find for that is here --> <a href="https://lifeboat.com/oclvanitygen">Lifeboat's VanityGen)</a></p>
+<p>~ When all the fields you want are entered, click on the Save button (upper right corner). Sit back and wait as your profile is created. If you chose a large pic, despite our recommendations, it could take awhile. Either way, the transactions have to confirm before you'll see the profile pic in action.</p>
+<p>~ To use your Profile the next time you load Apertus, just select it from the Profile drop down box on the lower right corner of the main screen before etching.</p>
+
+<A href="index">Back to Index</A>
+  <br><br><br>
+
+
+
+  
+
+
+
+
+  <h2><A NAME="VII">Signing your Archives - Signatures</A></h2>
+    <p>Signing an archive proves the archivist owns the signing address. It is above and beyond a profile. Signing your archives allows other Apertus users to trust, follow and find your archives.</p>
+    <p>Signatures, in conjunction with Profiles, allows you to be necessarily identified as the entity of your choice. (Theseus' ship - solved).</p>
+<p>~ On the main Apertus screen, go to the lower right corner and click the + symbol that's to the left of Select Signature.</p>
+<p>~ Enter the name of the signature you wish use, it can be the same name as your profile, or different, hit enter.</p>
+<p>~ It's ready to use.</p>
+<p>~ To use again, simply select it from the "Select Signatures" drop-down menu prior to etching.</p>
+Import Signature Address:<br>
+~ Click the + button.<br>
+~ Enter the private key.<br>
+~ Enter the label when prompted.<br>
+~ To use again, simply select it from the "Select Signatures" drop-down menu prior to etching.<br>
+<br>
+<A href="index">Back to Index</A>
+   <br><br><br>
+
+
+   
+
+
+
+
+  <h2><A NAME="VIII">Trust Center</A></h2>
+    <p>The trust center allows users to trust executable content archived onto blockchains by establishing a trusted address lists. <br>
+	One can see basic text and picture posts without trusting a signature. Trusting a signature will bypass Apertus’ default security features (ex. html formatting and scripting, executable files.
+    <p>If you wish to see all the content someone has posted, you'll need to Trust their signature to allow Apertus to do so.</p>
+	<p>~ Go to Settings / Trust Center</p>
+	<p>~ Click on the white area below the word "Trusted".</p>
+	<p>~ Enter the signature you wish to trust (one can cut and paste a signature, make sure there are no spaces in the front or it won't paste. If it doesn't work right -try pasting it into notepad and re-copying, then paste)</p>
+    <p>~ Click the "+" sign to the right.</p>
+	<p>~ It's done, you've trusted the signature.</p>
+	<br>
+	<p>The Trust Center also allows you to block content from signatures.</P>
+	<p>~ Click on the white area below the word "Blocked".</p>
+	<p>~ Click the "+" sign to the right.</p>
+	<p>~ It's done, you've just blocked the signature.</p>
+	<p>~ Entering a signature in the above process, then clicking "-" will then remove the sig from either Trusted or Blocked catagories.</P>
+	<p>Note: after trusting a signature, you may need to refresh the page for an expected function to work. Hold shift then push enter for this to happen.</p>
+
+	<A href="index">Back to Index</A>
+   <br><br><br>
+
+   
+  
+
+ 
+  <h2><A NAME="ttt">Tipping or Sending a Payment - Heart</a></h2>
+<p>Tipping is the act of sending someone cryptocoin because you dig an etching they did, or you generally like them, or this function can be utilized if you made a purchase and want to include some metadata, or just wanna send them some coin.</p>
+<p>Tipping works when the receiving user etched their work with their profile turned on, and their tip address activated.</p>
+<p>~ Navigate to an etching that you know to be a profile with tips enabled (seeing the profile with numbers/letters directly underneath the profile pic means the tip is enabled).</p>
+<p>~ The heart in the upper right hand corner will be black instead of grey. Sometimes one needs to push ctrl-enter to re-build the page properly. </p>
+<p>~ Click the heart, this will create "A Tip @xyz... " in your etching text box.</p>
+<p>~ You can enter a message along with it as well, and/or a file, and/or link to the etching you are tipping. You can also delete the words "a tip" - that's autogenerated. The "@xyz...>x.xxx" must remain. You can edit the tip amount as well.</p>
+<p>~ Click Save, and you've tipped.</p>
+<p>See <a href="#mmm">Apertus as a Quasi Multi-Wallet Interface</a> for information on how to use Apertus to send someone coin :) </p>
+
+<A href="index">Back to Index</A>
+<br><br><br>
+
+
+
+ 
+
+   <h2><A NAME="dm">Messaging - Encrypted and Public</a></h2><br>
+Apertus utilizes Bitcoin's Elliptic Curve Digital Signature Algorithm, Secp256k1 for direct encrypted messaging.<br>
+This allows one to encrypt an outgoing message with someones public signature, therefore only they can decrypt it with the cooresponding private keys they control. It's an extremely basic form of PGP.</p>
+To send an encrypted message requires a couple steps.<br>
+~ One must first find an etching that has a profile enabled into the etching.<br>
+~ If you aren't already on that page, put the transaction id of that etching into the Apertus navigation bar and hit enter.<br>
+~ While viewing that page, you'll see in the upper right hand corner that the icon that looks like a person will be dark, instead of light. Click on it.<br>
+~ Apertus now has the codes necessary to send them an ecrypted message.<br>
+~ You may need to reboot Apertus for this to take effect.<br>
+~ Now, on the middle right, click on the drop-down box labeled "Select Friend", click on the person you wish to contact. This part is the difference between sending an ecrypted message, or a public message. It must be selected for an ecrypted one.<br> 
+~ To send them an encrypted message, you need their profile name; scroll on their etching to their profile name.<br>
+~ Type @theirname plus a message into the message etching box and hit SAVE.<br>
+You've just sent an encrypted message using Blockchains.<br>
+<br><br>
+Public Messaging<br>
+Public messaging is when you don't select the person's name in the "Select Friend" drop-down box.
+~ Go through the procedure in the above instruction, but don't select your friends in the "Select Friend" drop-down box.
+~ all the rest is the same.<br>
+<br>
+Viewing incoming messages:<br>
+~ Go to the "Select Profile" drop-down menu.<br>
+~ Click your profile name - your messages will update in the upper-left.<br>
+~ Encrypted and public messages will be together.<br>
+<br>
+You'll notice that you won't have an "outbox" for your DEMs. This is because the message was encoded using the recipients public key, and only their private key can decode it. Apertus does not keep a pre-copy of the message.<br>
+If you want to have an "outbox" with someone you are DEMing, use the Vault tool to do this. 
+<br>
+(Challenge: We need wise individuals to scrutinize this part (and all parts for that matter) of Apertus. We need to expose and fix vunerabilities. 
+Find a vunerability? Know how to fix it? Find us at <a href="https://github.com/HugPuddle/Apertus">Github - Apertus</a>)</p>
+We recognize that most blockchains now may not be the best place to store messages. We do think some blockchains may customizing to this feature - but we see this more as a foreshadow to a mechanism that activates programs that also work outside of blockchains. Blockchains as a trust engine. Blockchains as a handshake. Blockchains as a key machine<br> 
+
+<A href="index">Back to Index</A>
+<br><br><br>
+
+
+
+
+
+  <h2><A NAME="Vault">The Vault</A></h2>
+	The Vault is a multi-purpose system that allows one to store data on a blockchain in an encypted format.<br>
+	The Vault allows you to be either the only one to decrypt it, or to export your key to share with others.<br>
+	With a shared key, The Vault can then become an encrypted group messaging system, or simply a shared key for access to certain files, etc.<br>
+	What's the difference between Vault and Encrypted Messaging? The Vault stores the private key so you are able to decrypt and read the message. The Vault doesn't necesarily have to shared with anyone. It can be all for you and your systems of pure brilliance.<br> 
+    <br>
+	To Create:<br>
+	~Click on the + on the lower right side in Apertus next to where it says Select Vault.<br>
+	~Enter a name, hit enter.<br>
+	<br>
+	To Use:<br>
+	~Go to the drop-down menu, click, then select the vault you created.
+	~Enter your sexy data into the message box - hit enter - the message is encrypted, it is accessable by selecting your vault again, then looking in the top left - it will archive the file location for you.<br>
+	<br>
+	To Use with others:<br>
+	The Vault can be utilized as a group messaging system, a group file access system, or even as a shared key wallet system.<br>
+	~Create the Vault using the steps above.<br>
+	~Select the Vault you want to share.<br>
+	~Click the lightning key next to the Vault name.<br>
+	~This exports it and saves it to the clipboard.<br>
+	~Paste it to where ever you need to - give to another using a secure method.<br>
+	~This key can be given to someone using the Apertus encrypted messaging service, however, we cannot guarentee the security in doing it this way.<br>
+	<br><br>
+	
+   Track Vault<br>   
+   ~Unchecking the Track Vault option in the check mark box zone the etchings will not show up when you reselect the vault drop down and their will be no link to the vault address.<br>
+<br><br>
+<A href="index">Back to Index</A>
+  <br><br><br>
+ 
+
+
+
+
+ 
+   <h2><A NAME="mmm">Apertus as a Quasi Multi-Wallet Interface</a></h2>
+     <p>Load the wallet you wish to work with. Configure it using the process' explained in proceeding or following chapters.</p>
+	 <p>Select the Blockchain and Account to work with.</p>
+	 <p>In the text field enter @Address>amount</p> 
+     <p>Add a comment if you want, ie, an explanation of the sale perhaps (reciept) then click save. </p>
+     <p>Boom, dawn of a new era. Crytocoin sent with a decentralized message :) </p>  
+	 <P>Also, sharing a Vault key with someone else allows people to share part of a wallet.<br>
+	 All coins put towards that private key will be accessable to all owners of that key.<br>
+
+	 <br>
+   <A href="index">Back to Index</A>
+   <br><br><br>
+
+
+
+
+   
+   
+   <h2><A NAME="Tokens">Blockchain Entities - Colored Coins - Token Creation</A></h2>
+   In the book, "Mastering Bitcoin," Andreas M. Antonopoulos describes colored coins and tokens as Bitcoin with associated metadata interpreted by a specialized wallet.<br>
+   We feel Apertus 0.3.0 currently possess the needed elements to create such things based on the metadata you provide in association with using the profile and signature features.<br>
+<br>
+   Theory: 
+   Apertus and the Blockchain can help solve Theseus' ship - however there are many different levels of etching one can do:<br>
+   If you are simply etching something to preserve it on the blockchain - with no care beyond that point - it doesn't matter if you use a profile, or raw signature, or whatever. Etch away.<br>
+   If you are looking to prove ownership, and preserve it on a blockchain, then one needs to at least a use profile-signature, or just a raw signature.<br>
+   If you are looking to prove ownership, preserve it on a blockchain, AND potentially move ownership to someone else, then one would be wise to use a profile in a slightly different way at this time.<br>
+   We plan to add another level of signatures in the next release to signify an entity/token/colored coin you create. It will be similar to how a profile is now. A profile within a profile. One is the profile of you, the other is the profile/attributes of the token you just created. One can create a "profile" that signifies an entity now using the current set-up - it won't be necessarily linked to your profile, but it can have a signature you control now. 0.4.0 will have the new sig layer.<br>
+   This anchors the creation to you AND gives a unique identifier to the creation itself.<br>
+   This is a token - it's been created and defined by the data, metadata, and associated signatures.<br>
+   The data entry field in Apertus (what I've been calling the meta-data) can give additional meaning to associated signature combinations by giving instruction on what they are doing.<br> 
+   Theoretically, Apertus can move around the asset around using the @ feature and additional metadata - and if one wants - use Vault functions to transfer keys. But, one can rely on the data transmitted with the etching to determine how it is to be interpreted as well.<br>  
+   This is a work-in-progress, and the direction Apertus is going. Authenticated publishing on indelible, long-lived platforms is our primary thrust - social-media capabilities is a side-effect.<br>
+   Things are subject to change - right now 0.4.0 will have some new layers that may not be backward compatible with 0.3.0 entirely.<br>
+   Apertus currently (0.3.0) has many elements of token creation - it just isn't a fully automated and layered at this time.<br>
+   We are releasing this version to inspire, and hopefully get more help out there.<br>
+   <br>
+   Join us<br>
+   <br>
+  
+   <A href="index">Back to Index</A>
+   
+   <br><br><br>
+
+
+
+   
+  <h2><A NAME="IX">Adding a Coin</A></h2>
+  <p>Apertus can support many cryptocoins - we've included many pre-installed settings - but if you don't see the coin in the wallet settings file - try this procedure to get it going.
+    <p>~ Wallet must be synced prior to installing on Apertus.
+    <p>~ On the main Apertus page go to 'Settings' then click on 'Wallet Settings.'
+    <p>~ Click the down arrow on 'Select Wallet From List.'
+    <p>~ If you don't see your coins name, click any of the coins to begin customizing a new one.
+    <p>~ Go to 'Wallet Name' and enter the name of the coin you are installing.
+    <p>~ Click the tab 'Copy'. The name will show up in the list.
+    <p>~ Enter the relavent data on this list:
+    <br>
+
+    <p>Version Byte<br>
+       ~ Figure out what the leading character is in the coin's address. <br>
+       ~ Find it on the Bitcoin wiki page <a href="https://en.bitcoin.it/wiki/List_of_address_prefixes">list of address prefixes.</a><br>
+       ~ Look to the left at the 'Decimal version.' This is your Version Byte.<br> 	
+       ~ If it gives you an address that you don't even use and tells you it's invalid, that means you have the Version Byte wrong. (there are a few options possible, try another one on the list)</p>
+
+    <p>Payload Size<br>
+       ~ This is done by digging in the code for the numbers OR experimentation. Enter the number that's defaulted on Bitcoin. (may be different)
+    <p>Transaction Size <br>
+       ~ this is done by digging in the code for the numbers OR experimentation. Enter the number that's defaulted on Bitcoin. (may be different)
+    <p>Transaction fee<br>
+       ~ this is done by digging in the code for the numbers OR experimentation. Enter the number that's defaulted on Bitcoin. It can be higher or lower, Apertus will help, read the error & change as needed.</p>
+
+    <p>Min Transaction<br>
+       ~ this is done by digging in the code for the numbers OR experimentation. Enter number that's defaulted on Bitoin. It can be higher or lower Apertus will help, read the error & change as needed. <br>
+       ~ If it says "transaction amount too small", increase Min Transaction.<br>
+
+    <p>RPC Port<br>
+       ~ Dig in the code for it, or:<br>
+       ~ While your code is running.
+       ~ Goto the command prompt and type netstat /a<br>
+       ~ Close your wallet, wait a minute, open a different command prompt, then enter netstat /a<br>
+       ~ Look for the a unique 0.0.0.0:XXXXX listening port in the 1st command box prompt you opened. If you don't see one, try the process again.  If there are two of them, try the lower number first. One of them is it.<br>
+       ~ If it says "Check Wallet Settings. Value cannot be null." That usually means your RPC Port is wrong (each coin can open 2 RPC IP ports, but only one of them make Apertus go, try the other one) OR you didn't do your Conf File properly.</p>
+
+    <p>RCP IP<br>
+       ~ 127.0.0.1 if using your own computer.</p>
+
+    <p>RPC User & RPC Password<br>
+       ~ See <A HREF="#II">Conf File</A> instructions.
 
     
+    <p>Troubleshooting Adding a Coin:<br>
+       ~ If it says "Check Wallet Settings. Value cannot be null." That usually means your RPC Port is wrong (each coin can open 2 RPC IP ports, but only one of them make Apertus go, try the other one) OR you didn't do your Conf File properly.<br>
+       ~ If it gives you an address that you don't even use and tells you it's invalid, that means you have the Version Byte wrong. (there are a few options possible, try another one on the list).<br>
+       ~ If it says "transaction amount too small", increase Min Transaction.</p>
+<A href="index">Back to Index</A>
+   <br><br><br>
 
-     <p>&copy; 2015 - <a href="http://hugpuddle.org">HugPuddle</a></p>
+
+   
+   
+  <h2><A NAME="X">How to Upgrade Apertus</a></h2>
+  Apertus is usually available on Mazacoin, and soon to be on Datacoin. Search bitFossil.com for the newest version, or go to getdiskdrive.com, or check out our Github page if you can compile.<br>
+  You can also search #Apertus on Mazacoin, Datacoin, or BitcoinTestnet.<br>
+  Updates to this section, info.html will also be available on those blockchain. Currently one can get the newest coin.conf file on BitcoinTestnet by searching #CoinConf. It may also be added to Datacoin, and possibly Mazacoin.<br>
+    <p>1. Download the newest version.</p>
+    <p>2. Unzip if needed. Copy the entire contents of the folder EXCEPT coin.conf and trust.txt (these most likely were customized by you, don't overwrite them).</p>
+    <p>3. Paste the contents into the old Apertus folder (may require a search to find the original folder).</p>
+    <p>4. When prompted, click "copy and replace.”</p>
+
+	<A href="index">Back to Index</A>
+<br><br><br>
 
 
+
+ 
+ <h2><A NAME="freakout">Wallet Freakout - How to Fix it</a></h2>
+ 
+ <p>There appears to be a bug in many coin wallets. After a high amount of transactions, the wallet can becomes unstable.<br>
+ As of right now this is the best method we have to end the wallet freakout.</P>
+ 
+ This procedure can be done within Apertus:<br>
+ ~Export out: Profiles, Signatures, Vault, & Tip private keys using the export buttons (the lightning button) <br>
+ ~Place these in a very safe place along with their previous label names - you will need to re-import them later.<br> 
+ Now, you'll need to get your coin out.<br>
+ ~You can either create a new Tip address, or use one you already like. <br>
+ ~Send all your funds to this address - You can transfer funds to the address using Apertus like so @n1yeY2fUwuP1RquEhfndYTxiXPofmFihju>1.12345 <br>
+ (see <a href="mmm">Apertus as a Quasi Multi-Wallet Interface</a> for more info on how to do this)<br>
+ ~Export tip private key using the export feature (the lightning button) - save in a safe place.<br>
+ ~Shutdown your wallet software.<br> 
+ ~Find your wallet.dat file in C:\Users\[your user name]\AppData\Roaming\xxxcoin\wallet.dat (see <A HREF="#II">Conf File Creation</A> for more details on how to find it. It may be hidden)<br>
+ ~Copy and paste that wallet.dat file in a safe place just in case everything goes wrong in this procedure. If it goes right, you won't need that particular wallet.dat file again.<br>
+ ~Delete the wallet.dat from C:\Users\[your user name]\AppData\Roaming\xxxcoin\<br>
+ ~Restart your wallet. This will create a new wallet.dat file and take care of the wallet bug.<br>
+ ~In Apertus re-import all Profiles, Signatures, Vaults & the Tip Address by pressing the + button and pasting the private key into the textbox that appears and hitting enter. you will be prompted to add a label enter it and click OK.<br>
+ ~Restart Apertus. All should be keen :)<br>
+ <br>
+ <A href="index">Back to Index</A>
+ <br><br><br>
+
+
+
+
+   <h2><a name="XIII">Downloading Bitcoin Testnet & General Wallet Info</a></h2>
+	  <p>The best way to get started is to use a testnet. The best testnet right now is the Bitcoin Testnet.</p>
+	  <p>At some point you'll want to pick a real blockchain that fits your needs based on cost, desire to stand the test of time, etc; but right now the Bitcoin Testnet is easiest to set-up and demonstate the features of Apertus.<p>
+	  <p>Bitcoin Testnet is a test version of Bitcoin. One needs to first get the Bitcoin code at <a href="http://www.Bitcoin.org"> Bitcoin.org</a> </p>
+	  <p>Click “Get Started with Bitcoin”, then click “Choose your wallet”, download “Bitcoin Core"</p>
+	  <p>Run Bitcoin Core. Follow the setup procedure BUT uncheck the "Run Bitcoin now" box at the end. If you forget to uncheck the box, no big deal, just shut down the wallet when it starts. The Bitcoin blockchain is currently around 60 gigs - it takes 12 to 72 hours to download and verify (depending on your computer power). The Bitcoin Testnet can take from 2 to 12 hours. Note that some testnets first require you to load their main blockchain program first (if only for a few seconds, it sets up some needed files, you can then shut it down) before you can properly run their testnet. Bitcoin Testnet is not one of them. Seem wierd yet? Damn right, this is the wild-west of computing.</p>
+	  <p>To get the Testnet working takes a bit of effort:</p>
+	  <p>First, click on the Windows icon in the lower left, click Computer, double click Local Disk c:, double click Program Files, double click Bitcoin, right-click Bitcoin-qt, select Create a Shortcut, say yes; right-click on the shortcut you just created on your desktop; select Properties; find Target; scroll to the far left in the Target box; put one space then type -testnet</p> 
+          <p>It will kinda look like "C:\Program Files\Bitcoin\bitcoin-qt.exe" -testnet</p>
+          <p>Now click Apply, exit the window, double click the shortcut, and the Bitcoin Testnet will load.</p>
+	  <p>One can easily find Bitcoin Testnet coins by searching for "Bitcoin Testnet Faucet" in a search engine. In the Bitcoin Testnet wallet click Recieve; then Request Payment; copy the address; paste this into the Bitcoin Testnet Faucets you find and jump through whatever hoop they require for them to send them to you :)
+          <p>After they confirm, Apertus needs at least one account to be named, to do this, go to your wallet and click on "Transactions," then scroll down under the "type" to a "recieved with" entry. Right click on this, select "Edit label." Edit the label. Restart the coin and restart Apertus. 
+	  <p>Ooof. Yeah, we know. All this stuff isn't easy - but the internet wasn't easy in the 80's either. The Power of the Blockchains will soon be yours.</p>
+	  <p>Return to <a href="#I">Syncronize Your Wallet</a></p>
+   <br>
+
+<A href="index">Back to Index</A>
+   
+<br><br><br>
+
+   
+   <h2><a name="XIV">Getting Coin for your Wallet</a></h2>
+   <p>Bitcoin Testnet coins aren't to hard to get these days, simply enter "bitcoin testnet faucet" into your favorite search engine. In the Bitcoin Testnet wallet click Recieve; then Request Payment; copy the address; paste this into the Bitcoin Testnet Faucets you find and jump through whatever hoop they require for them to send them to you :)</p>
+   <p>Bitcoin itself is a bit more difficult. One can mine it, but that requires an ASIC these days. The best way is to buy it. Try <a href="https://localbitcoins.com/">Local Bitcoins</a>, or <a href="www.coinbase.com">Coinbase</a>. You can try a search engine to find other ways, but buyer beware!</p>
+   <p>Getting other coins can be difficult as well. Once you have Bitcoin, you can trade Bitcoin for "alt coins," another name for coins that aren't Bitcoin.</p>
+   <p>The best place for many different kinds of alt-coins is <a href="www.cryptsy.com">Cryptsy<a/>. <a href="http://btc-e.com">BTC e</a> is also an option for some, and Bitcoin, plus the knowledge (or lack-of) in the troll-box is legendary. Another place is <a href="http://bter.com">Bter</a>.</p>
+   <p>It's always good practice to NEVER store your coins on an exchange. And NEVER keep a large amount of valuable coin in your Apertus wallet - remember - this is experimental software. </p>
+   <A href="index">Back to Index</A>
+   <br><br><br>
+
+   
+  
+   
+     <center><p>2013-2016 Open-Source joy, feel free to share, but please attribute to <a href="http://hugpuddle.org">HugPuddle</a> & The AtomSea and embii.</p>
+     <p>Hugz as Bitcoin Tips for Apertus development 1HuGpUDDLEhvehXE1P6xeudqAHqKfs1BFM</p>
+     <p>Want to help code? (please :) ) Find us on <a href="https://github.com/HugPuddle/Apertus"> Github - Apertus</a>.</center>      
+
+
+
+<!-- written by The AtomSea and embii -->
  </body>
 
 </html>

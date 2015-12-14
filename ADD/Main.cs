@@ -983,15 +983,21 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001");
-                    writeCoinConf.WriteLine("Bitcoin-Test 111 20 .0001 .00000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00001 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001");
+                    writeCoinConf.WriteLine("BitcoinTestnet 111 20 .0001 .00000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001");
                     writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False   .001");
+                    writeCoinConf.WriteLine("LitecoinTestnet 111 20 .001 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC-T False   .001");
                     writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001");
                     writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False   .001");
                     writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False   .001");
                     writeCoinConf.WriteLine("Devcoin 0 20 .6 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False   .001");
                     writeCoinConf.WriteLine("Potcoin 55 20 .001 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False   .001");
-
+                    writeCoinConf.WriteLine("Florincoin 35 20 .0001 .00001 330 7317 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  FLC False   .001");
+                    writeCoinConf.WriteLine("Curecoin 25 20 .0001 .00001 330 19911 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001");
+                    writeCoinConf.WriteLine("Namecoin 52 20 .1 .01 330 8336 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  NMC False   .001");
+                    writeCoinConf.WriteLine("Primecoin 23 20 .1 .01 330 9912 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM False   .001");
+                    writeCoinConf.WriteLine("PrimecoinTestnet 111 20 .1 .01 330 9914 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM-T False   .001");
+                    writeCoinConf.WriteLine("DashTestnet 139 20 .0001 .0001 330 19998 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  DASH-T False   .001");
                     writeCoinConf.Close();
                 }
 
@@ -3382,7 +3388,7 @@ namespace ADD
                 try
                 {
 
-                    Match match = Regex.Match(txtAddSignature.Text, @"([a-zA-Z0-9]{52})");
+                    Match match = Regex.Match(txtAddSignature.Text, @"([a-zA-Z0-9]{51,})");
                     if (match.Success)
                     {
                         string label = "";
@@ -3439,7 +3445,7 @@ namespace ADD
                 try
                 {
                     
-                    Match match = Regex.Match(txtAddVault.Text, @"([a-zA-Z0-9]{52})");
+                    Match match = Regex.Match(txtAddVault.Text, @"([a-zA-Z0-9]{51,})");
                     if (match.Success)
                     {
                         string label = "";
