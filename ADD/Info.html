@@ -36,7 +36,7 @@
    <a href="#Nav">Navigating on the Blockchains</A><BR>
    <A HREF="#V">Etching</A><BR>
    <A HREF="#VI">How to Increase Transaction Fee, aka Parking Fee</A><BR>
-   <a href="#hash">Proof of Existence Hash, and How to Search for It</A><br>
+   <a href="#hash">Proof Hash & How to Search for It</A><br>
    <a href="#qqq">Hashtags to Organize Threads</a><br>
    <A href="#yyy">Linking Etches</a><br> 
    <A href="#zzz">Creating a Profile</a><br>
@@ -221,19 +221,24 @@ Here's one we know about, and how to fix it.<br>
 
 
 
-  <h2><A name="hash">Proof of Existence Hash, and How to Search for It</A></h2>
+  <h2><A name="hash">Proof Hash & How to Search for It</A></h2>
     <p>Apertus allows you to archive a sha256 hash of your file using a built-in hashing system.<br>
-	<p>This allows a user to archive a "proof" of a file by the hash alone. When profiles and signatures are used, this can be done to "prove" the user is the one who created the file due to the properties of the blockchain (sig alg and decentralized time-stamp ledger). This hash also can be a step to ensure data integrity, especially when used in conjuction with profiles and signatures.</p>
-    <p>The hash will appear first, then any data you put in the data entry window.</p>
-	~Put any accompanying text or data you want to be with the hash in the data entry window first.<br>
-	~If you want to have the entire file on the blockchain, add that now using the "attach" feature.
-	~You can link your hash and data to another page as well.
-	~It needs to be done after a file is selected, and before you select the hash. (note that a file doesn't need to be etched, but if you do...)
-	~Ensure Apertus is on the page you wish to link to, then click the chain icon in the upper right corner.
+	<p>This allows a user to archive a "proof" of a file by the hash alone. When profiles and signatures are used, this can be done to "prove" the user is the one who created the file due to the properties of the blockchain (sig alg and decentralized time-stamp ledger). This hash also can be a step to ensure data integrity, especially when used in conjuction with profiles and signatures.<br>
+    In the output, the hash will appear first, then any data you put in the data entry window will appear after.<br></p>
+	How to:<br>
+	~First, put any accompanying text or data you want to be with the hash in the data entry window.<br>
+	~If you want to have the entire file on the blockchain too, add that now using the "attach" feature.<br>
 	~To get the hash, select "File" then "Proof."<br>
-    ~Select the file you wish to etch the hash of (note that Apertus will immediately etch that hash after you click "open" make sure everything is as you like it prior to that).
-    <br><br>
-	<p>Searching for Proof of Existence Hash</p>
+    ~Select the file you wish to etch the hash of (note that Apertus will immediately etch that hash after you click "open" make sure everything is as you like it prior to that).<br>
+    <br>
+	Note: if you want to use the Link feature and link to another etching while you create a Proof:<br> 
+	~First, you must be on the page you wish to link before you start the process.<br>
+	~The link option currently needs to be after a file is selected (if one is selected), and before you select the hash.<br>
+	~Ensure Apertus is on the page you wish to link to, then click the chain icon in the upper right corner.<br>
+	~Follow the procedure as described above.<br>
+	
+	<br>
+	<p>Searching for Proof Hash</p>
     ~Select "File" then "Search."<br>
     ~Select "File" to search by file name.<br>
     ~Select "Hash" to search by hash.<br>
@@ -408,8 +413,10 @@ If you want to have an "outbox" with someone you are DEMing, use the Vault tool 
 <br>
 (Challenge: We need wise individuals to scrutinize this part (and all parts for that matter) of Apertus. We need to expose and fix vunerabilities. 
 Find a vunerability? Know how to fix it? Find us at <a href="https://github.com/HugPuddle/Apertus">Github - Apertus</a>)</p>
-We recognize that most blockchains now may not be the best place to store messages. We do think some blockchains may customizing to this feature - but we see this more as a foreshadow to a mechanism that activates programs that also work outside of blockchains. Blockchains as a trust engine. Blockchains as a handshake. Blockchains as a key machine<br> 
-
+We recognize that most blockchains now may not be the best place to store messages. We do think some blockchains, or some blockchain based programs, may customizing to this feature - but we see this more as a foreshadow to a mechanism that activates programs that also work outside of blockchains. Blockchains as a trust engine. Blockchains as a handshake. Blockchains as a key machine.<br> 
+The PGP Web of Trust may be well-suited on a blockchain. Limited, important information, decentralized platform, signature/profile based.<br>
+ 
+<br>
 <A href="index">Back to Index</A>
 <br><br><br>
 
@@ -421,7 +428,8 @@ We recognize that most blockchains now may not be the best place to store messag
 	The Vault is a multi-purpose system that allows one to store data on a blockchain in an encypted format.<br>
 	The Vault allows you to be either the only one to decrypt it, or to export your key to share with others.<br>
 	With a shared key, The Vault can then become an encrypted group messaging system, or simply a shared key for access to certain files, etc.<br>
-	What's the difference between Vault and Encrypted Messaging? The Vault stores the private key so you are able to decrypt and read the message. The Vault doesn't necesarily have to shared with anyone. It can be all for you and your systems of pure brilliance.<br> 
+	What's the difference between Vault and Encrypted Messaging? The Vault stores the private key so you are able to decrypt and read the message.<br>
+	But The Vault doesn't necesarily have to be shared with anyone. It can be all for you, and your systems of pure brilliance.<br> 
     <br>
 	To Create:<br>
 	~Click on the + on the lower right side in Apertus next to where it says Select Vault.<br>
@@ -601,7 +609,7 @@ We recognize that most blockchains now may not be the best place to store messag
 	  <p>Click “Get Started with Bitcoin”, then click “Choose your wallet”, download “Bitcoin Core"</p>
 	  <p>Run Bitcoin Core. Follow the setup procedure BUT uncheck the "Run Bitcoin now" box at the end. If you forget to uncheck the box, no big deal, just shut down the wallet when it starts. The Bitcoin blockchain is currently around 60 gigs - it takes 12 to 72 hours to download and verify (depending on your computer power). The Bitcoin Testnet can take from 2 to 12 hours. Note that some testnets first require you to load their main blockchain program first (if only for a few seconds, it sets up some needed files, you can then shut it down) before you can properly run their testnet. Bitcoin Testnet is not one of them. Seem wierd yet? Damn right, this is the wild-west of computing.</p>
 	  <p>To get the Testnet working takes a bit of effort:</p>
-	  <p>First, click on the Windows icon in the lower left, click Computer, double click Local Disk c:, double click Program Files, double click Bitcoin, right-click Bitcoin-qt, select Create a Shortcut, say yes; right-click on the shortcut you just created on your desktop; select Properties; find Target; scroll to the far left in the Target box; put one space then type -testnet</p> 
+	  <p>First, click on the Windows icon in the lower left, click Computer, double click Local Disk c:, double click Program Files, double click Bitcoin, right-click Bitcoin-qt, select Create a Shortcut, say yes; right-click on the shortcut you just created on your desktop; select Properties; find Target; scroll to the far right in the Target box; put one space then type -testnet</p> 
           <p>It will kinda look like "C:\Program Files\Bitcoin\bitcoin-qt.exe" -testnet</p>
           <p>Now click Apply, exit the window, double click the shortcut, and the Bitcoin Testnet will load.</p>
 	  <p>One can easily find Bitcoin Testnet coins by searching for "Bitcoin Testnet Faucet" in a search engine. In the Bitcoin Testnet wallet click Recieve; then Request Payment; copy the address; paste this into the Bitcoin Testnet Faucets you find and jump through whatever hoop they require for them to send them to you :)
@@ -619,7 +627,7 @@ We recognize that most blockchains now may not be the best place to store messag
    <p>Bitcoin Testnet coins aren't to hard to get these days, simply enter "bitcoin testnet faucet" into your favorite search engine. In the Bitcoin Testnet wallet click Recieve; then Request Payment; copy the address; paste this into the Bitcoin Testnet Faucets you find and jump through whatever hoop they require for them to send them to you :)</p>
    <p>Bitcoin itself is a bit more difficult. One can mine it, but that requires an ASIC these days. The best way is to buy it. Try <a href="https://localbitcoins.com/">Local Bitcoins</a>, or <a href="www.coinbase.com">Coinbase</a>. You can try a search engine to find other ways, but buyer beware!</p>
    <p>Getting other coins can be difficult as well. Once you have Bitcoin, you can trade Bitcoin for "alt coins," another name for coins that aren't Bitcoin.</p>
-   <p>The best place for many different kinds of alt-coins is <a href="www.cryptsy.com">Cryptsy<a/>. <a href="http://btc-e.com">BTC e</a> is also an option for some, and Bitcoin, plus the knowledge (or lack-of) in the troll-box is legendary. Another place is <a href="http://bter.com">Bter</a>.</p>
+   <p>The best place for many different kinds of alt-coins is <a href="http://www.cryptsy.com">Cryptsy</a>. <a href="http://btc-e.com">BTC e</a> is also an option for some, and Bitcoin, plus the knowledge (or lack-of) in the troll-box is legendary. Another place is <a href="http://bter.com">Bter </a> & <a href="https://www.coins-e.com">Coins-e</a>. Again, buyer beware, keep coins in a private wallet when possible, backup your wallet, encrypt your soul.</p>
    <p>It's always good practice to NEVER store your coins on an exchange. And NEVER keep a large amount of valuable coin in your Apertus wallet - remember - this is experimental software. </p>
    <A href="index">Back to Index</A>
    <br><br><br>
