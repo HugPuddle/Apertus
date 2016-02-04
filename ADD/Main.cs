@@ -81,7 +81,7 @@ namespace ADD
         string[] infoArray;
         bool Loading = true;
         string PROLinks = "";
-
+        string lastTransID = "";
 
         public Main()
         {
@@ -212,7 +212,7 @@ namespace ADD
 
 
             CoinRPC b = new CoinRPC(new Uri(GetURL(WalletRPCIP) + ":" + WalletRPCPort), new NetworkCredential(WalletRPCUser, WalletRPCPassword));
-            b.SetTXFee(coinTransactionFee[CoinType]);
+            if (coinTransactionFee[CoinType] > 0) { b.SetTXFee(coinTransactionFee[CoinType]); }
 
             try
             {
@@ -735,7 +735,11 @@ namespace ADD
                 foreach (var f in attachFiles.FileNames)
                 {
                     string fileName = f;
-                    
+                    if (fileName.Contains(',') || fileName.Split('.').Count() > 2)
+                    {
+                        DialogResult dialogResult = MessageBox.Show("One or more filename(s) contains special characters such as (/,) or (/.). Please rename before etching.", "Notice", MessageBoxButtons.OK);
+                        break;
+                    }                    
                     if (chkCompressImages.Checked)
                     {
 
@@ -983,21 +987,21 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 .0001 .00001 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001");
-                    writeCoinConf.WriteLine("BitcoinTestnet 111 20 .0001 .00000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001");
-                    writeCoinConf.WriteLine("Litecoin 48 20 .001 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False   .001");
-                    writeCoinConf.WriteLine("LitecoinTestnet 111 20 .001 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC-T False   .001");
-                    writeCoinConf.WriteLine("Dogecoin 30 20 1 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001");
-                    writeCoinConf.WriteLine("Mazacoin 50 20 .0001 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False   .001");
-                    writeCoinConf.WriteLine("Anoncoin 23 20 .01 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False   .001");
-                    writeCoinConf.WriteLine("Devcoin 0 20 .6 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False   .001");
-                    writeCoinConf.WriteLine("Potcoin 55 20 .001 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False   .001");
-                    writeCoinConf.WriteLine("Florincoin 35 20 .0001 .00001 330 7317 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  FLC False   .001");
-                    writeCoinConf.WriteLine("Curecoin 25 20 .0001 .00001 330 19911 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001");
-                    writeCoinConf.WriteLine("Namecoin 52 20 .1 .01 330 8336 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  NMC False   .001");
-                    writeCoinConf.WriteLine("Primecoin 23 20 .1 .01 330 9912 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM False   .001");
-                    writeCoinConf.WriteLine("PrimecoinTestnet 111 20 .1 .01 330 9914 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM-T False   .001");
-                    writeCoinConf.WriteLine("DashTestnet 139 20 .0001 .0001 330 19998 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  DASH-T False   .001");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 0 .00001 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001");
+                    writeCoinConf.WriteLine("BitcoinTestnet 111 20 0 .00000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001");
+                    writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False   .001");
+                    writeCoinConf.WriteLine("LitecoinTestnet 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC-T False   .001");
+                    writeCoinConf.WriteLine("Dogecoin 30 20 0 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001");
+                    writeCoinConf.WriteLine("Mazacoin 50 20 0 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False   .001");
+                    writeCoinConf.WriteLine("Anoncoin 23 20 0 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False   .001");
+                    writeCoinConf.WriteLine("Devcoin 0 20 0 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False   .001");
+                    writeCoinConf.WriteLine("Potcoin 55 20 0 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False   .001");
+                    writeCoinConf.WriteLine("Florincoin 35 20 0 .00001 330 7317 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  FLC False   .001");
+                    writeCoinConf.WriteLine("Curecoin 25 20 0 .00001 330 19911 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001");
+                    writeCoinConf.WriteLine("Namecoin 52 20 0 .01 330 8336 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  NMC False   .001");
+                    writeCoinConf.WriteLine("Primecoin 23 20 0 .01 330 9912 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM False   .001");
+                    writeCoinConf.WriteLine("PrimecoinTestnet 111 20 0 .01 330 9914 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM-T False   .001");
+                    writeCoinConf.WriteLine("DashTestnet 139 20 0 .0001 330 19998 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  DASH-T False   .001");
                     writeCoinConf.Close();
                 }
 
@@ -1032,7 +1036,7 @@ namespace ADD
                 System.IO.StreamReader readCoinConf = new System.IO.StreamReader("coin.conf");
                 while ((confLine = readCoinConf.ReadLine()) != null)
                 {
-                    string[] coins = new string[] { "Coin", "0", "20", ".00001", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "", "False", "", "", ".001" };
+                    string[] coins = new string[] { "Coin", "0", "20", "0", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "", "False", "", "", ".001" };
                     string[] loadCoin = confLine.Split(' ');
                     int intSetting = 0;
                     foreach (string s in loadCoin)
@@ -1568,9 +1572,18 @@ namespace ADD
 
                         //Has Found enough Special Characters for a simple file Check
                         if (intHeaderPosition == 2)
-                        {
+                        {   
                             var containsFileSize = int.TryParse(header[1], out intFileSize);
-                            if (!containsFileSize || ((RawBytes.Length - i) < intFileSize) || header[0].Count() > 255 || header[0].IndexOfAny(Path.GetInvalidFileNameChars()) > -1 || (header[0].Count() == 0 && intFileSize == 0)) { if (!containsData) { return false; } else { break; } }
+                            if (!containsFileSize || ((RawBytes.Length - i) < intFileSize) || header[0].Count() > 255 || header[0].IndexOfAny(Path.GetInvalidFileNameChars()) > -1 || (header[0].Count() == 0 && intFileSize == 0)) {
+                                if (!containsData)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    break;
+                                } 
+                            }
                             intHeaderPosition = 0;
                             intFilePosition = 0;
                             strFileName = header[0];
@@ -1833,7 +1846,7 @@ namespace ADD
                         strHTML = strHTML + "</table></div></div>";
                         strHTML = strHTML + "<!--#include file=\"..\\includes\\footer.ssi\" --></div></body></html>";
                     }
-                    catch { }
+                    catch {  }
 
 
                     FileStream dataFileStream = new FileStream("root\\" + TransID + "\\ADD", FileMode.Create);
@@ -2183,7 +2196,9 @@ namespace ADD
             {
                 AddressArray = CreateAddressArrayFromTransactionID(TransactionID, WalletKey);
             }
-            catch { return false; }
+            catch { 
+                return false;
+            }
 
             try
             {
@@ -2218,13 +2233,14 @@ namespace ADD
             var delimiter = "";
             string addressBuilder = "";
             var arcValue = (decimal)999999999;
+            
 
             var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
 
             try
             {
                 var transaction = b.GetRawTransaction(TransactionId, 1);
-
+                lastTransID = TransactionId;
 
                 foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
                 {
@@ -2247,23 +2263,28 @@ namespace ADD
             }
             catch (Exception e)
             {
-                var transaction = b.GetTransaction(TransactionId);
-                foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
+                try
                 {
-                    if (arcValue > detail.amount && detail.amount > 0)
+                    var transaction = b.GetTransaction(TransactionId);
+                    foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
                     {
-                        arcValue = detail.amount;
+                        if (arcValue > detail.amount && detail.amount > 0)
+                        {
+                            arcValue = detail.amount;
+                        }
                     }
-                }
 
-                foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
-                {
-                    if (detail.amount == arcValue && detail.category == "receive")
+                    foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
                     {
-                        addressBuilder = addressBuilder + delimiter + detail.address;
-                        delimiter = ",";
+                        if (detail.amount == arcValue && detail.category == "receive")
+                        {
+                            addressBuilder = addressBuilder + delimiter + detail.address;
+                            delimiter = ",";
+                        }
                     }
                 }
+                catch (Exception f) 
+                { }
 
             }
 
@@ -2432,8 +2453,24 @@ namespace ADD
                 else
                 {
                     if (TransIDSearch.StartsWith("@") || TransIDSearch.StartsWith("#"))
-                    { performTextSearch(TransIDSearch.Replace("@", "").Replace("#", ""));
-                    
+                    {
+
+                        if (TransIDSearch.StartsWith("#"))
+                        {
+                            var safeKeyWord = TransIDSearch;
+                            safeKeyWord = safeKeyWord.Replace("#", "");
+                            safeKeyWord = safeKeyWord.Replace(" ", "");
+                            safeKeyWord = safeKeyWord.Replace('\\', '#');
+                            safeKeyWord = safeKeyWord.Replace('*', '#');
+                            safeKeyWord = safeKeyWord.Replace('/', '#');
+                            safeKeyWord = safeKeyWord.Replace('\'', '#');
+                            safeKeyWord = safeKeyWord.Replace('>', '#');
+                            safeKeyWord = safeKeyWord.Replace('<', '#');
+                            safeKeyWord = safeKeyWord.Replace('|', '#');         
+                            performTextSearch(safeKeyWord);
+                        }
+                        else {performTextSearch(TransIDSearch.Replace("@", ""));}
+                                       
                     }
                     else
                     {
@@ -2488,7 +2525,7 @@ namespace ADD
             {
                 if (cmbCoinType.SelectedIndex > 0)
                 {
-                    Match match = Regex.Match(searchString, @"^[\w]{1," + coinPayloadByteSize[i].ToString() + "}$");
+                    Match match = Regex.Match(searchString, @"^[A-Za-z0-9#+.-]{1," + coinPayloadByteSize[i].ToString() + "}$");
                     if (match.Success)
                     {
                         byte[] keyword = Encoding.UTF8.GetBytes(searchString.PadRight(coinPayloadByteSize[i], '#'));
@@ -3129,14 +3166,24 @@ namespace ADD
         private string[] GetKeyWords(string message, string startsWith)
         {
             string strKeyWordAddress = null;
-            char[] delimiters = new char[] { '\r', '\n', ':', ';', ' ', ',', '\'' };
+            char[] delimiters = new char[] { '\r', '\n', ':', ';', ' ', ',', '\'','\'','!','?','.' };
             string[] tokens = message.Split(delimiters);
+            string safeKeyWord = "";
             foreach (string token in tokens)
             {
                 if (startsWith == "#" && token.StartsWith(startsWith) && token.Length < coinPayloadByteSize[CoinType] + 2)
                 {
+                    //prevents characters that may be considered new files from being used as keywords and corrupting a file.
+                    safeKeyWord = token.Replace('\\', '#');
+                    safeKeyWord = safeKeyWord.Replace('*', '#');
+                    safeKeyWord = safeKeyWord.Replace('/', '#');
+                    safeKeyWord = safeKeyWord.Replace('\'', '#');
+                    safeKeyWord = safeKeyWord.Replace('>', '#');
+                    safeKeyWord = safeKeyWord.Replace('<', '#');
+                    safeKeyWord = safeKeyWord.Replace('|', '#');
 
-                    byte[] keyword = Encoding.UTF8.GetBytes(token.Substring(1).PadRight(coinPayloadByteSize[CoinType], Convert.ToChar(startsWith)));
+                    
+                    byte[] keyword = Encoding.UTF8.GetBytes(safeKeyWord.Substring(1).PadRight(coinPayloadByteSize[CoinType], Convert.ToChar(startsWith)));
                     var keyPayloadBytes = new byte[coinPayloadByteSize[CoinType] + 1];
                     keyPayloadBytes[0] = coinVersion[CoinType];
                     keyword.CopyTo(keyPayloadBytes, 1);
