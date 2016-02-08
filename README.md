@@ -8,7 +8,7 @@ Apertus is an open source client that enables basic data read-write, communicati
 NOTE: Coins used in the saving process are not recoverable. 
 
 
-Copyright ©  2013 - 2015 HugPuddle
+Copyright ©  2013 - 2016 HugPuddle
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
