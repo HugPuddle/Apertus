@@ -735,9 +735,9 @@ namespace ADD
                 foreach (var f in attachFiles.FileNames)
                 {
                     string fileName = f;
-                    if (fileName.Contains(',') || fileName.Split('.').Count() > 2)
+                    if (fileName.Contains(','))
                     {
-                        DialogResult dialogResult = MessageBox.Show("One or more filename(s) contains special characters such as (/,) or (/.). Please rename before etching.", "Notice", MessageBoxButtons.OK);
+                        DialogResult dialogResult = MessageBox.Show("One or more filename(s) contains special characters such as (/,). Please rename before etching.", "Notice", MessageBoxButtons.OK);
                         break;
                     }                    
                     if (chkCompressImages.Checked)
