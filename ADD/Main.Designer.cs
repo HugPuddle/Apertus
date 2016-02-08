@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Profile");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Signature");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Vault");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Favorites");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Follow");
+            System.Windows.Forms.TreeNode treeNode66 = new System.Windows.Forms.TreeNode("Profile");
+            System.Windows.Forms.TreeNode treeNode67 = new System.Windows.Forms.TreeNode("Signature");
+            System.Windows.Forms.TreeNode treeNode68 = new System.Windows.Forms.TreeNode("Vault");
+            System.Windows.Forms.TreeNode treeNode69 = new System.Windows.Forms.TreeNode("Favorites");
+            System.Windows.Forms.TreeNode treeNode70 = new System.Windows.Forms.TreeNode("Follow");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.attachFiles = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -127,6 +127,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tmrPauseBeforeRefreshingMonitor = new System.Windows.Forms.Timer(this.components);
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnFriendEncryption = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
@@ -161,6 +163,10 @@
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.statusArchiveStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // attachFiles
@@ -175,18 +181,18 @@
             this.blockToolStripMenuItem,
             this.followToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(121, 52);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 48);
             // 
             // blockToolStripMenuItem
             // 
             this.blockToolStripMenuItem.Name = "blockToolStripMenuItem";
-            this.blockToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
+            this.blockToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.blockToolStripMenuItem.Text = "block";
             // 
             // followToolStripMenuItem
             // 
             this.followToolStripMenuItem.Name = "followToolStripMenuItem";
-            this.followToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
+            this.followToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.followToolStripMenuItem.Text = "follow";
             // 
             // menuMain
@@ -200,7 +206,7 @@
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
             this.menuMain.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuMain.Size = new System.Drawing.Size(1019, 26);
+            this.menuMain.Size = new System.Drawing.Size(1019, 24);
             this.menuMain.TabIndex = 0;
             this.menuMain.Text = "menuStrip1";
             // 
@@ -212,13 +218,13 @@
             this.notarizeToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(43, 22);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -227,13 +233,13 @@
             this.historyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rebuildToolStripMenuItem1});
             this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
-            this.historyToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.historyToolStripMenuItem.Text = "Catalog";
             // 
             // rebuildToolStripMenuItem1
             // 
             this.rebuildToolStripMenuItem1.Name = "rebuildToolStripMenuItem1";
-            this.rebuildToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.rebuildToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.rebuildToolStripMenuItem1.Text = "Rebuild";
             this.rebuildToolStripMenuItem1.Click += new System.EventHandler(this.rebuildToolStripMenuItem_Click);
             // 
@@ -243,14 +249,14 @@
             this.proofToolStripMenuItem,
             this.searchToolStripMenuItem});
             this.notarizeToolStripMenuItem.Name = "notarizeToolStripMenuItem";
-            this.notarizeToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.notarizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.notarizeToolStripMenuItem.Text = "Proof";
             // 
             // proofToolStripMenuItem
             // 
             this.proofToolStripMenuItem.Enabled = false;
             this.proofToolStripMenuItem.Name = "proofToolStripMenuItem";
-            this.proofToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.proofToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.proofToolStripMenuItem.Text = "Insert";
             this.proofToolStripMenuItem.Click += new System.EventHandler(this.notarizeToolStripMenuItem_Click);
             // 
@@ -261,28 +267,28 @@
             this.hashToolStripMenuItem});
             this.searchToolStripMenuItem.Enabled = false;
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.searchToolStripMenuItem.Text = "Search";
             this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
             // 
             // fileToolStripMenuItem1
             // 
             this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(111, 22);
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
             this.fileToolStripMenuItem1.Text = "File";
             this.fileToolStripMenuItem1.Click += new System.EventHandler(this.fileToolStripMenuItem1_Click);
             // 
             // hashToolStripMenuItem
             // 
             this.hashToolStripMenuItem.Name = "hashToolStripMenuItem";
-            this.hashToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.hashToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.hashToolStripMenuItem.Text = "Hash";
             this.hashToolStripMenuItem.Click += new System.EventHandler(this.hashToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -294,35 +300,35 @@
             this.fontToolStripMenuItem,
             this.trustToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(73, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // profilesToolStripMenuItem
             // 
             this.profilesToolStripMenuItem.Enabled = false;
             this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
-            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.profilesToolStripMenuItem.Text = "Profiles";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
             // 
             // walletsToolStripMenuItem
             // 
             this.walletsToolStripMenuItem.Name = "walletsToolStripMenuItem";
-            this.walletsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.walletsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.walletsToolStripMenuItem.Text = "Wallets";
             this.walletsToolStripMenuItem.Click += new System.EventHandler(this.walletsToolStripMenuItem_Click);
             // 
             // fontToolStripMenuItem
             // 
             this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
-            this.fontToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.fontToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.fontToolStripMenuItem.Text = "Font";
             this.fontToolStripMenuItem.Click += new System.EventHandler(this.fontToolStripMenuItem_Click);
             // 
             // trustToolStripMenuItem
             // 
             this.trustToolStripMenuItem.Name = "trustToolStripMenuItem";
-            this.trustToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.trustToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.trustToolStripMenuItem.Text = "Trust Center";
             this.trustToolStripMenuItem.Click += new System.EventHandler(this.trustToolStripMenuItem_Click);
             // 
@@ -332,20 +338,20 @@
             this.aboutToolStripMenuItem,
             this.rPCToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(50, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // rPCToolStripMenuItem
             // 
             this.rPCToolStripMenuItem.Name = "rPCToolStripMenuItem";
-            this.rPCToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.rPCToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.rPCToolStripMenuItem.Text = "Info";
             this.rPCToolStripMenuItem.Click += new System.EventHandler(this.rPCToolStripMenuItem_Click);
             // 
@@ -399,7 +405,7 @@
             // splitMain.Panel2
             // 
             this.splitMain.Panel2.Controls.Add(this.splitArchiveTools);
-            this.splitMain.Panel2MinSize = 146;
+            this.splitMain.Panel2MinSize = 128;
             this.splitMain.Size = new System.Drawing.Size(1019, 633);
             this.splitMain.SplitterDistance = 309;
             this.splitMain.TabIndex = 23;
@@ -419,6 +425,7 @@
             this.splitHistoryBrowser.Panel1.Controls.Add(this.imgOpenLeft);
             this.splitHistoryBrowser.Panel1.Controls.Add(this.treeView1);
             this.splitHistoryBrowser.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitHistoryBrowser_Panel1_Paint);
+            this.splitHistoryBrowser.Panel1MinSize = 120;
             // 
             // splitHistoryBrowser.Panel2
             // 
@@ -450,7 +457,7 @@
             this.cmbFollow.Location = new System.Drawing.Point(4, 278);
             this.cmbFollow.MaxDropDownItems = 100;
             this.cmbFollow.Name = "cmbFollow";
-            this.cmbFollow.Size = new System.Drawing.Size(473, 25);
+            this.cmbFollow.Size = new System.Drawing.Size(473, 23);
             this.cmbFollow.TabIndex = 50;
             this.cmbFollow.SelectedIndexChanged += new System.EventHandler(this.cmbFollow_SelectedIndexChanged);
             // 
@@ -474,22 +481,22 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "profile";
-            treeNode1.Text = "Profile";
-            treeNode2.Name = "signature";
-            treeNode2.Text = "Signature";
-            treeNode3.Name = "vault";
-            treeNode3.Text = "Vault";
-            treeNode4.Name = "favorites";
-            treeNode4.Text = "Favorites";
-            treeNode5.Name = "follow";
-            treeNode5.Text = "Follow";
+            treeNode66.Name = "profile";
+            treeNode66.Text = "Profile";
+            treeNode67.Name = "signature";
+            treeNode67.Text = "Signature";
+            treeNode68.Name = "vault";
+            treeNode68.Text = "Vault";
+            treeNode69.Name = "favorites";
+            treeNode69.Text = "Favorites";
+            treeNode70.Name = "follow";
+            treeNode70.Text = "Follow";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
+            treeNode66,
+            treeNode67,
+            treeNode68,
+            treeNode69,
+            treeNode70});
             this.treeView1.Size = new System.Drawing.Size(480, 272);
             this.treeView1.TabIndex = 5;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -568,7 +575,7 @@
             this.txtTransIDSearch.Location = new System.Drawing.Point(62, 3);
             this.txtTransIDSearch.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.txtTransIDSearch.Name = "txtTransIDSearch";
-            this.txtTransIDSearch.Size = new System.Drawing.Size(291, 23);
+            this.txtTransIDSearch.Size = new System.Drawing.Size(291, 20);
             this.txtTransIDSearch.TabIndex = 1;
             this.txtTransIDSearch.TabStop = false;
             this.txtTransIDSearch.Text = "ENTER SEARCH STRING";
@@ -703,16 +710,17 @@
             // 
             // splitArchiveTools.Panel1
             // 
+            this.splitArchiveTools.Panel1.Controls.Add(this.splitContainer1);
             this.splitArchiveTools.Panel1.Controls.Add(this.btnArchive);
             this.splitArchiveTools.Panel1.Controls.Add(this.btnAttachFile);
-            this.splitArchiveTools.Panel1.Controls.Add(this.cmbCoinType);
-            this.splitArchiveTools.Panel1.Controls.Add(this.cmbWalletLabel);
             this.splitArchiveTools.Panel1.Controls.Add(this.imgEnterMessageHere);
             this.splitArchiveTools.Panel1.Controls.Add(this.txtFileName);
             this.splitArchiveTools.Panel1.Controls.Add(this.txtMessage);
+            this.splitArchiveTools.Panel1MinSize = 270;
             // 
             // splitArchiveTools.Panel2
             // 
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnFriendEncryption);
             this.splitArchiveTools.Panel2.Controls.Add(this.cmbTo);
             this.splitArchiveTools.Panel2.Controls.Add(this.btnExportVault);
             this.splitArchiveTools.Panel2.Controls.Add(this.btnExportSignature);
@@ -727,7 +735,7 @@
             this.splitArchiveTools.Panel2.Controls.Add(this.cmbSignature);
             this.splitArchiveTools.Panel2.Controls.Add(this.cmbFolder);
             this.splitArchiveTools.Panel2.Controls.Add(this.flowLayoutPanel1);
-            this.splitArchiveTools.Panel2MinSize = 169;
+            this.splitArchiveTools.Panel2MinSize = 180;
             this.splitArchiveTools.Size = new System.Drawing.Size(1019, 320);
             this.splitArchiveTools.SplitterDistance = 458;
             this.splitArchiveTools.TabIndex = 33;
@@ -766,33 +774,34 @@
             // 
             // cmbCoinType
             // 
+            this.cmbCoinType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbCoinType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCoinType.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbCoinType.FormattingEnabled = true;
-            this.cmbCoinType.ItemHeight = 17;
-            this.cmbCoinType.Location = new System.Drawing.Point(4, 5);
+            this.cmbCoinType.ItemHeight = 15;
+            this.cmbCoinType.Location = new System.Drawing.Point(0, 0);
             this.cmbCoinType.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.cmbCoinType.MaxDropDownItems = 100;
             this.cmbCoinType.MaximumSize = new System.Drawing.Size(571, 0);
             this.cmbCoinType.Name = "cmbCoinType";
-            this.cmbCoinType.Size = new System.Drawing.Size(146, 25);
+            this.cmbCoinType.Size = new System.Drawing.Size(211, 23);
             this.cmbCoinType.TabIndex = 11;
             this.cmbCoinType.SelectedIndexChanged += new System.EventHandler(this.cmbCoinType_SelectedIndexChanged);
             // 
             // cmbWalletLabel
             // 
-            this.cmbWalletLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbWalletLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbWalletLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbWalletLabel.Enabled = false;
             this.cmbWalletLabel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbWalletLabel.FormattingEnabled = true;
+            this.cmbWalletLabel.ItemHeight = 15;
             this.cmbWalletLabel.Items.AddRange(new object[] {
             "Select Funding Source"});
-            this.cmbWalletLabel.Location = new System.Drawing.Point(158, 5);
+            this.cmbWalletLabel.Location = new System.Drawing.Point(0, 0);
             this.cmbWalletLabel.MaxDropDownItems = 100;
             this.cmbWalletLabel.Name = "cmbWalletLabel";
-            this.cmbWalletLabel.Size = new System.Drawing.Size(293, 25);
+            this.cmbWalletLabel.Size = new System.Drawing.Size(232, 23);
             this.cmbWalletLabel.TabIndex = 21;
             this.cmbWalletLabel.SelectedIndexChanged += new System.EventHandler(this.cmbWalletLabel_SelectedIndexChanged);
             // 
@@ -834,11 +843,11 @@
             this.txtMessage.Enabled = false;
             this.txtMessage.Font = new System.Drawing.Font("unifont", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMessage.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtMessage.Location = new System.Drawing.Point(4, 36);
+            this.txtMessage.Location = new System.Drawing.Point(4, 33);
             this.txtMessage.MaxLength = 1024000000;
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(449, 248);
+            this.txtMessage.Size = new System.Drawing.Size(449, 251);
             this.txtMessage.TabIndex = 5;
             this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
             this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyDown);
@@ -851,10 +860,10 @@
             this.cmbTo.Enabled = false;
             this.cmbTo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTo.FormattingEnabled = true;
-            this.cmbTo.Location = new System.Drawing.Point(3, 196);
+            this.cmbTo.Location = new System.Drawing.Point(57, 196);
             this.cmbTo.MaxDropDownItems = 100;
             this.cmbTo.Name = "cmbTo";
-            this.cmbTo.Size = new System.Drawing.Size(548, 25);
+            this.cmbTo.Size = new System.Drawing.Size(494, 23);
             this.cmbTo.TabIndex = 49;
             this.cmbTo.SelectedIndexChanged += new System.EventHandler(this.cmbTo_SelectedIndexChanged_1);
             // 
@@ -916,7 +925,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAddVault.Location = new System.Drawing.Point(57, 288);
             this.txtAddVault.Name = "txtAddVault";
-            this.txtAddVault.Size = new System.Drawing.Size(494, 22);
+            this.txtAddVault.Size = new System.Drawing.Size(494, 19);
             this.txtAddVault.TabIndex = 45;
             this.txtAddVault.Visible = false;
             this.txtAddVault.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddVault_KeyDown);
@@ -927,7 +936,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAddSignature.Location = new System.Drawing.Point(57, 258);
             this.txtAddSignature.Name = "txtAddSignature";
-            this.txtAddSignature.Size = new System.Drawing.Size(494, 22);
+            this.txtAddSignature.Size = new System.Drawing.Size(494, 19);
             this.txtAddSignature.TabIndex = 44;
             this.txtAddSignature.Visible = false;
             this.txtAddSignature.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddSignature_KeyDown);
@@ -969,7 +978,7 @@
             this.cmbVault.Location = new System.Drawing.Point(57, 287);
             this.cmbVault.MaxDropDownItems = 100;
             this.cmbVault.Name = "cmbVault";
-            this.cmbVault.Size = new System.Drawing.Size(494, 25);
+            this.cmbVault.Size = new System.Drawing.Size(494, 23);
             this.cmbVault.TabIndex = 40;
             this.cmbVault.SelectedIndexChanged += new System.EventHandler(this.cmbVault_SelectedIndexChanged);
             // 
@@ -998,7 +1007,7 @@
             this.cmbSignature.Location = new System.Drawing.Point(57, 257);
             this.cmbSignature.MaxDropDownItems = 100;
             this.cmbSignature.Name = "cmbSignature";
-            this.cmbSignature.Size = new System.Drawing.Size(494, 25);
+            this.cmbSignature.Size = new System.Drawing.Size(494, 23);
             this.cmbSignature.TabIndex = 34;
             this.cmbSignature.SelectedIndexChanged += new System.EventHandler(this.cmbSignature_SelectedIndexChanged);
             // 
@@ -1013,7 +1022,7 @@
             this.cmbFolder.Location = new System.Drawing.Point(57, 227);
             this.cmbFolder.MaxDropDownItems = 100;
             this.cmbFolder.Name = "cmbFolder";
-            this.cmbFolder.Size = new System.Drawing.Size(494, 25);
+            this.cmbFolder.Size = new System.Drawing.Size(494, 23);
             this.cmbFolder.TabIndex = 32;
             this.cmbFolder.SelectedIndexChanged += new System.EventHandler(this.cmbFolder_SelectedIndexChanged);
             // 
@@ -1025,8 +1034,8 @@
             this.flowLayoutPanel1.Controls.Add(this.groupBox1);
             this.flowLayoutPanel1.Controls.Add(this.groupBox2);
             this.flowLayoutPanel1.Controls.Add(this.groupBox3);
-            this.flowLayoutPanel1.Controls.Add(this.chkFilterUnSafeContent);
             this.flowLayoutPanel1.Controls.Add(this.chkMonitorBlockChains);
+            this.flowLayoutPanel1.Controls.Add(this.chkFilterUnSafeContent);
             this.flowLayoutPanel1.Controls.Add(this.chkEnableRecipients);
             this.flowLayoutPanel1.Controls.Add(this.chkKeywords);
             this.flowLayoutPanel1.Controls.Add(this.chkEnableTips);
@@ -1057,7 +1066,7 @@
             this.lblEstimatedCost.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEstimatedCost.Location = new System.Drawing.Point(6, 18);
             this.lblEstimatedCost.Name = "lblEstimatedCost";
-            this.lblEstimatedCost.Size = new System.Drawing.Size(84, 16);
+            this.lblEstimatedCost.Size = new System.Drawing.Size(64, 14);
             this.lblEstimatedCost.TabIndex = 0;
             this.lblEstimatedCost.Text = "0.00000000";
             this.lblEstimatedCost.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1080,7 +1089,7 @@
             this.lblCoinTotal.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCoinTotal.Location = new System.Drawing.Point(6, 18);
             this.lblCoinTotal.Name = "lblCoinTotal";
-            this.lblCoinTotal.Size = new System.Drawing.Size(84, 16);
+            this.lblCoinTotal.Size = new System.Drawing.Size(64, 14);
             this.lblCoinTotal.TabIndex = 0;
             this.lblCoinTotal.Text = "0.00000000";
             this.lblCoinTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1103,7 +1112,7 @@
             this.lblTotalArchiveSize.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalArchiveSize.Location = new System.Drawing.Point(6, 18);
             this.lblTotalArchiveSize.Name = "lblTotalArchiveSize";
-            this.lblTotalArchiveSize.Size = new System.Drawing.Size(84, 16);
+            this.lblTotalArchiveSize.Size = new System.Drawing.Size(64, 14);
             this.lblTotalArchiveSize.TabIndex = 0;
             this.lblTotalArchiveSize.Text = "0.00000000";
             this.lblTotalArchiveSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1113,24 +1122,24 @@
             this.chkFilterUnSafeContent.AutoSize = true;
             this.chkFilterUnSafeContent.Checked = true;
             this.chkFilterUnSafeContent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(3, 50);
+            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(70, 50);
             this.chkFilterUnSafeContent.Name = "chkFilterUnSafeContent";
-            this.chkFilterUnSafeContent.Size = new System.Drawing.Size(109, 21);
+            this.chkFilterUnSafeContent.Size = new System.Drawing.Size(48, 17);
             this.chkFilterUnSafeContent.TabIndex = 3;
             this.chkFilterUnSafeContent.TabStop = false;
-            this.chkFilterUnSafeContent.Text = "Enable Filter";
+            this.chkFilterUnSafeContent.Text = "Filter";
             this.chkFilterUnSafeContent.UseVisualStyleBackColor = true;
             this.chkFilterUnSafeContent.CheckedChanged += new System.EventHandler(this.chkFilterUnSafeContent_CheckedChanged);
             // 
             // chkMonitorBlockChains
             // 
             this.chkMonitorBlockChains.AutoSize = true;
-            this.chkMonitorBlockChains.Location = new System.Drawing.Point(118, 50);
+            this.chkMonitorBlockChains.Location = new System.Drawing.Point(3, 50);
             this.chkMonitorBlockChains.Name = "chkMonitorBlockChains";
-            this.chkMonitorBlockChains.Size = new System.Drawing.Size(125, 21);
+            this.chkMonitorBlockChains.Size = new System.Drawing.Size(61, 17);
             this.chkMonitorBlockChains.TabIndex = 2;
             this.chkMonitorBlockChains.TabStop = false;
-            this.chkMonitorBlockChains.Text = "Enable Monitor";
+            this.chkMonitorBlockChains.Text = "Monitor";
             this.chkMonitorBlockChains.UseVisualStyleBackColor = true;
             this.chkMonitorBlockChains.CheckedChanged += new System.EventHandler(this.chkMonitorBlockChains_CheckedChanged);
             // 
@@ -1139,12 +1148,12 @@
             this.chkEnableRecipients.AutoSize = true;
             this.chkEnableRecipients.Checked = true;
             this.chkEnableRecipients.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEnableRecipients.Location = new System.Drawing.Point(251, 52);
+            this.chkEnableRecipients.Location = new System.Drawing.Point(126, 52);
             this.chkEnableRecipients.Margin = new System.Windows.Forms.Padding(5);
             this.chkEnableRecipients.Name = "chkEnableRecipients";
-            this.chkEnableRecipients.Size = new System.Drawing.Size(158, 21);
+            this.chkEnableRecipients.Size = new System.Drawing.Size(87, 17);
             this.chkEnableRecipients.TabIndex = 24;
-            this.chkEnableRecipients.Text = "Enable @Recipients";
+            this.chkEnableRecipients.Text = "@Recipients";
             this.chkEnableRecipients.UseVisualStyleBackColor = true;
             this.chkEnableRecipients.CheckedChanged += new System.EventHandler(this.chkEnableRecipients_CheckedChanged);
             // 
@@ -1153,23 +1162,23 @@
             this.chkKeywords.AutoSize = true;
             this.chkKeywords.Checked = true;
             this.chkKeywords.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkKeywords.Location = new System.Drawing.Point(5, 83);
+            this.chkKeywords.Location = new System.Drawing.Point(223, 52);
             this.chkKeywords.Margin = new System.Windows.Forms.Padding(5);
             this.chkKeywords.Name = "chkKeywords";
-            this.chkKeywords.Size = new System.Drawing.Size(147, 21);
+            this.chkKeywords.Size = new System.Drawing.Size(79, 17);
             this.chkKeywords.TabIndex = 0;
-            this.chkKeywords.Text = "Enable #Keywords";
+            this.chkKeywords.Text = "#Keywords";
             this.chkKeywords.UseVisualStyleBackColor = true;
             this.chkKeywords.CheckedChanged += new System.EventHandler(this.chkKeywords_CheckedChanged);
             // 
             // chkEnableTips
             // 
             this.chkEnableTips.AutoSize = true;
-            this.chkEnableTips.Location = new System.Drawing.Point(160, 81);
+            this.chkEnableTips.Location = new System.Drawing.Point(310, 50);
             this.chkEnableTips.Name = "chkEnableTips";
-            this.chkEnableTips.Size = new System.Drawing.Size(113, 21);
+            this.chkEnableTips.Size = new System.Drawing.Size(52, 17);
             this.chkEnableTips.TabIndex = 26;
-            this.chkEnableTips.Text = "Enable >Tips";
+            this.chkEnableTips.Text = ">Tips";
             this.chkEnableTips.UseVisualStyleBackColor = true;
             this.chkEnableTips.CheckedChanged += new System.EventHandler(this.chkEnableTips_CheckedChanged);
             // 
@@ -1178,9 +1187,9 @@
             this.chkCompressImages.AutoSize = true;
             this.chkCompressImages.Checked = true;
             this.chkCompressImages.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCompressImages.Location = new System.Drawing.Point(279, 81);
+            this.chkCompressImages.Location = new System.Drawing.Point(368, 50);
             this.chkCompressImages.Name = "chkCompressImages";
-            this.chkCompressImages.Size = new System.Drawing.Size(142, 21);
+            this.chkCompressImages.Size = new System.Drawing.Size(109, 17);
             this.chkCompressImages.TabIndex = 25;
             this.chkCompressImages.Text = "Compress Images";
             this.chkCompressImages.UseVisualStyleBackColor = true;
@@ -1191,9 +1200,9 @@
             this.chkWarnArchive.AutoSize = true;
             this.chkWarnArchive.Checked = true;
             this.chkWarnArchive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWarnArchive.Location = new System.Drawing.Point(427, 81);
+            this.chkWarnArchive.Location = new System.Drawing.Point(3, 77);
             this.chkWarnArchive.Name = "chkWarnArchive";
-            this.chkWarnArchive.Size = new System.Drawing.Size(119, 21);
+            this.chkWarnArchive.Size = new System.Drawing.Size(94, 17);
             this.chkWarnArchive.TabIndex = 21;
             this.chkWarnArchive.Text = "Save Warning";
             this.chkWarnArchive.UseVisualStyleBackColor = true;
@@ -1202,9 +1211,9 @@
             // chkSaveOnEnter
             // 
             this.chkSaveOnEnter.AutoSize = true;
-            this.chkSaveOnEnter.Location = new System.Drawing.Point(3, 112);
+            this.chkSaveOnEnter.Location = new System.Drawing.Point(103, 77);
             this.chkSaveOnEnter.Name = "chkSaveOnEnter";
-            this.chkSaveOnEnter.Size = new System.Drawing.Size(112, 21);
+            this.chkSaveOnEnter.Size = new System.Drawing.Size(88, 17);
             this.chkSaveOnEnter.TabIndex = 22;
             this.chkSaveOnEnter.Text = "Enter = Save";
             this.chkSaveOnEnter.UseVisualStyleBackColor = true;
@@ -1215,9 +1224,9 @@
             this.chkTrackVault.AutoSize = true;
             this.chkTrackVault.Checked = true;
             this.chkTrackVault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTrackVault.Location = new System.Drawing.Point(121, 112);
+            this.chkTrackVault.Location = new System.Drawing.Point(197, 77);
             this.chkTrackVault.Name = "chkTrackVault";
-            this.chkTrackVault.Size = new System.Drawing.Size(102, 21);
+            this.chkTrackVault.Size = new System.Drawing.Size(81, 17);
             this.chkTrackVault.TabIndex = 23;
             this.chkTrackVault.Text = "Track Vault";
             this.chkTrackVault.UseVisualStyleBackColor = true;
@@ -1250,9 +1259,39 @@
             this.tmrPauseBeforeRefreshingMonitor.Interval = 2000;
             this.tmrPauseBeforeRefreshingMonitor.Tick += new System.EventHandler(this.tmrPauseBeforeRefreshingMonitor_Tick);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(6, 4);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.cmbCoinType);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.cmbWalletLabel);
+            this.splitContainer1.Size = new System.Drawing.Size(447, 27);
+            this.splitContainer1.SplitterDistance = 211;
+            this.splitContainer1.TabIndex = 30;
+            // 
+            // btnFriendEncryption
+            // 
+            this.btnFriendEncryption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnFriendEncryption.Enabled = false;
+            this.btnFriendEncryption.Location = new System.Drawing.Point(3, 196);
+            this.btnFriendEncryption.Name = "btnFriendEncryption";
+            this.btnFriendEncryption.Size = new System.Drawing.Size(48, 23);
+            this.btnFriendEncryption.TabIndex = 50;
+            this.btnFriendEncryption.Text = "Public";
+            this.btnFriendEncryption.UseVisualStyleBackColor = true;
+            this.btnFriendEncryption.Click += new System.EventHandler(this.btnFriendEncryption_Click);
+            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -1265,7 +1304,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.MinimumSize = new System.Drawing.Size(419, 422);
+            this.MinimumSize = new System.Drawing.Size(510, 422);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Apertus";
@@ -1318,6 +1357,10 @@
             this.groupBox3.PerformLayout();
             this.statusArchiveStatus.ResumeLayout(false);
             this.statusArchiveStatus.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1417,6 +1460,8 @@
         private System.Windows.Forms.CheckBox chkCompressImages;
         private System.Windows.Forms.CheckBox chkEnableTips;
         private System.Windows.Forms.ComboBox cmbFollow;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Button btnFriendEncryption;
     }
 }
 

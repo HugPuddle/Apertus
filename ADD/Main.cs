@@ -347,7 +347,7 @@ namespace ADD
 
                     }
 
-                    if (ledgerId == null && Path.GetFileName(FilePath) != "SEC" && (VaultLabel != "" || FriendLabel != ""))
+                    if (ledgerId == null && Path.GetFileName(FilePath) != "SEC" && (VaultLabel != "" || (FriendLabel != "" && btnFriendEncryption.Text == "Private")))
                     {
                         ECPoint publicKey = null;
 
@@ -831,6 +831,7 @@ namespace ADD
         {
             this.Width = Properties.Settings.Default.AppWidth;
             this.Height = Properties.Settings.Default.AppHeight;
+            btnFriendEncryption.Text = Properties.Settings.Default.DirectMessage;
 
 
             try
@@ -849,6 +850,8 @@ namespace ADD
                 splitHistoryBrowser.SplitterDistance = Properties.Settings.Default.BrowserPanel;
                 splitMain.Panel2Collapsed = Properties.Settings.Default.HideArchive;
                 splitHistoryBrowser.Panel1Collapsed = Properties.Settings.Default.HideHistory;
+                txtMessage.Font = Properties.Settings.Default.TextFont;
+                txtMessage.ForeColor = Properties.Settings.Default.TextColor;
                 if (Properties.Settings.Default.HideArchive)
                 {
                     imgOpenUp.Visible = true;
@@ -987,8 +990,8 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 0 .00001 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001");
-                    writeCoinConf.WriteLine("BitcoinTestnet 111 20 0 .00000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 0 .0000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001");
+                    writeCoinConf.WriteLine("BitcoinTestnet 111 20 0 .0000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001");
                     writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False   .001");
                     writeCoinConf.WriteLine("LitecoinTestnet 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC-T False   .001");
                     writeCoinConf.WriteLine("Dogecoin 30 20 0 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001");
@@ -1102,6 +1105,7 @@ namespace ADD
                 cmbFollow.SelectedIndex = 0;
                 cmbFollow.Enabled = false;
                 btnAddFolder.Enabled = false;
+                btnFriendEncryption.Enabled = false;
                 cmbVault.SelectedIndex = 0;
                 cmbVault.Enabled = false;
                 btnAddVault.Enabled = false;
@@ -1192,23 +1196,29 @@ namespace ADD
             }
             lblCoinTotal.Text = "0.00000000";
             cmbWalletLabel.Items.Clear();
-            cmbWalletLabel.Items.Add("Select Account");
+            cmbWalletLabel.Items.Add("Active Accounts");
             cmbWalletLabel.SelectedIndex = 0;
             cmbFolder.Items.Clear();
-            cmbFolder.Items.Add("Select Profile");
+            cmbFolder.Items.Add("Active Profiles");
             cmbFolder.SelectedIndex = 0;
             cmbSignature.Items.Clear();
-            cmbSignature.Items.Add("Select Signature");
+            cmbSignature.Items.Add("Active Signatures");
             cmbSignature.SelectedIndex = 0;
             cmbVault.Items.Clear();
-            cmbVault.Items.Add("Select Vault");
+            cmbVault.Items.Add("Active Vaults");
             cmbVault.SelectedIndex = 0;
             cmbFollow.Items.Clear();
-            cmbFollow.Items.Add("Select Follow");
+            cmbFollow.Items.Add("Refresh Follow");
             cmbFollow.SelectedIndex = 0;
 
             friendTransID = new Dictionary<string, string>();
-            friendTransID.Add("", "Select Friend");
+            friendTransID.Add("", "Active Friends");
+
+            cmbTo.DataSource = new BindingSource(friendTransID, null);
+            cmbTo.DisplayMember = "Value";
+            cmbTo.ValueMember = "Key";
+            cmbTo.SelectedIndex = 0;
+            
             
 
             if (cmbCoinType.SelectedIndex > 0)
@@ -1255,7 +1265,7 @@ namespace ADD
                     {
                         foreach (string Account in allAccounts.Keys)
                         {
-                            if (allAccounts[Account] > 0) { cmbWalletLabel.Items.Add(Account); }
+                            if (allAccounts[Account] > 0 && Account.LastIndexOf('~')<5) { cmbWalletLabel.Items.Add(Account); }
                             if (Account.LastIndexOf('~') == 3) { cmbFolder.Items.Add(Account.Substring(4)); }
                             if (Account.LastIndexOf('~') == 1) { cmbSignature.Items.Add(Account.Substring(2)); }
                             if (Account.LastIndexOf('~') == 2) { cmbVault.Items.Add(Account.Substring(3)); }
@@ -1272,6 +1282,7 @@ namespace ADD
                         cmbWalletLabel.Enabled = true;
                         cmbFolder.Enabled = true;
                         btnAddFolder.Enabled = true;
+                        btnFriendEncryption.Enabled = true;
                         cmbSignature.Enabled = true;
                         btnAddSignature.Enabled = true;
                         cmbVault.Enabled = true;
@@ -1294,6 +1305,7 @@ namespace ADD
                         cmbFollow.SelectedIndex = 0;
                         cmbFollow.Enabled = false;
                         btnAddFolder.Enabled = false;
+                        btnFriendEncryption.Enabled = false;
                         cmbSignature.SelectedIndex = 0;
                         cmbSignature.Enabled = false;
                         btnAddSignature.Enabled = false;
@@ -1322,6 +1334,7 @@ namespace ADD
                     cmbFolder.SelectedIndex = 0;
                     cmbFolder.Enabled = false;
                     btnAddFolder.Enabled = false;
+                    btnFriendEncryption.Enabled = false;
                     cmbFollow.SelectedIndex = 0;
                     cmbFollow.Enabled = false;
                     cmbVault.SelectedIndex = 0;
@@ -2169,29 +2182,7 @@ namespace ADD
                 if (NavigateResults) { webBrowser1.Url = BrowseURL; }
                 return true;
             }
-            else
-            {
-                if (System.IO.Directory.Exists("root\\" + TransactionID) && TransactionID.ToUpper() != "INCLUDES" && LinkID == null)
-                {
-                    System.IO.DirectoryInfo tranFolder = new DirectoryInfo("root\\" + TransactionID);
-
-                    foreach (FileInfo file in tranFolder.GetFiles())
-                    {
-                        try
-                        {
-                            file.Delete();
-                        }
-                        catch
-                        {
-
-                            lblStatusInfo.ForeColor = System.Drawing.Color.Black;
-                            lblStatusInfo.Text = "Error: Unable to delete " + file.FullName;
-                            tmrStatusUpdate.Start();
-                        }
-                    }
-                }
-            }
-
+           
             try
             {
                 AddressArray = CreateAddressArrayFromTransactionID(TransactionID, WalletKey);
@@ -2221,6 +2212,26 @@ namespace ADD
                     }
 
                 } while (LedgerArray != null);
+
+                if (System.IO.Directory.Exists("root\\" + TransactionID) && TransactionID.ToUpper() != "INCLUDES" && LinkID == null)
+                {
+                    System.IO.DirectoryInfo tranFolder = new DirectoryInfo("root\\" + TransactionID);
+
+                    foreach (FileInfo file in tranFolder.GetFiles())
+                    {
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch
+                        {
+
+                            lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                            lblStatusInfo.Text = "Error: Unable to delete " + file.FullName;
+                            tmrStatusUpdate.Start();
+                        }
+                    }
+                }
 
                 return ConvertAddressArrayToFile(AddressArray, null, TransID, WalletKey, DisplayResults, TrustLink, NavigateResults);
             }
@@ -2414,13 +2425,16 @@ namespace ADD
         private void fontToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FontDialog fontDialog1 = new FontDialog();
-            fontDialog1.Font = txtMessage.Font;
-            fontDialog1.Color = txtMessage.ForeColor;
+            fontDialog1.Font = Properties.Settings.Default.TextFont;
+            fontDialog1.Color = Properties.Settings.Default.TextColor;
 
             if (fontDialog1.ShowDialog() != DialogResult.Cancel)
             {
                 txtMessage.Font = fontDialog1.Font;
+                Properties.Settings.Default.TextFont = fontDialog1.Font;
                 txtMessage.ForeColor = fontDialog1.Color;
+                Properties.Settings.Default.TextColor = fontDialog1.Color;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -2466,7 +2480,8 @@ namespace ADD
                             safeKeyWord = safeKeyWord.Replace('\'', '#');
                             safeKeyWord = safeKeyWord.Replace('>', '#');
                             safeKeyWord = safeKeyWord.Replace('<', '#');
-                            safeKeyWord = safeKeyWord.Replace('|', '#');         
+                            safeKeyWord = safeKeyWord.Replace('|', '#');
+                            safeKeyWord = safeKeyWord.Replace('.', '#');
                             performTextSearch(safeKeyWord);
                         }
                         else {performTextSearch(TransIDSearch.Replace("@", ""));}
@@ -3879,22 +3894,22 @@ namespace ADD
             searchByFile();
         }
 
-        private void cmbTo_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (cmbTo.Text == "TO:")
-            { cmbTo.Text = ""; }
-        }
+        //private void cmbTo_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (cmbTo.Text == "TO:")
+        //    { cmbTo.Text = ""; }
+        //}
 
-        private void cmbTo_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        //private void cmbTo_SelectedIndexChanged(object sender, EventArgs e)
+        //{
 
-        }
+        //}
 
-        private void cmbTo_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (cmbTo.Text == "TO:")
-            { cmbTo.Text = ""; }
-        }
+        //private void cmbTo_MouseClick(object sender, MouseEventArgs e)
+        //{
+        //    if (cmbTo.Text == "TO:")
+        //    { cmbTo.Text = ""; }
+        //}
 
         private void hashToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -4077,10 +4092,14 @@ namespace ADD
         }
 
   
-        private void RefreshFriendList()
+        private void btnFriendEncryption_Click(object sender, EventArgs e)
         {
+            if (Properties.Settings.Default.DirectMessage == "Public")
+            { Properties.Settings.Default.DirectMessage = "Private"; }
+            else { Properties.Settings.Default.DirectMessage = "Public"; }
+            Properties.Settings.Default.Save();
 
-
+            btnFriendEncryption.Text = Properties.Settings.Default.DirectMessage;
         }
 
     }

@@ -175,9 +175,9 @@ Here's one we know about, and how to fix it.<br>
     <p>Apertus uses small amounts of coin to immutably embed data onto blockchains. Apertus does this by using non-redeemable destination addresses as a free-form 20-byte field to store data onto a blockchain. Coins used are forever burned into the blockchain in a process we call etching. Apertus & HugPuddle assess no fees for this. All coins are used in the etching process, and on miner fees. You will need to put some coin into your wallet for this to work. Like we said, this is experimental, we recommended you don’t use your primary wallet as a safety precaution.</p>
 	<p>Go to <a href="#XIV">Getting Coin for your Wallet</a> to get some basic instructions on how go about getting cryptocoin.<p>
     <p>1. Fully synchronize your coin and ensure it and Apertus are rebooted since making the conf file and setting the configurations.</p>
-    <p>2. At the middle/left of the Apertus screen, click "Select Wallet"
+    <p>2. At the middle/left of the Apertus screen, click "Select Blockchain"
     <p>3. Select the wallet you are using.</p>
-    <p>4. Click "Select Account".</p>
+    <p>4. Click "Active Accounts".</p>
     <p>5. Select the account you want to use. If you haven't named your accounts in your wallet, you will need to do that within your wallet. Apertus needs named accounts to work. If you don't know how to do this, go to <a href="#XIII">Downloading Bitcoin Testnet & General Wallet Info</a>, for more information.</p>
     <p>6. Go to the large main area where it says "ENTER MESSAGE HERE" - click on it.</p>
     <p>7. Enter your message there, and/or add a file using the "attach" feature.</p>
@@ -265,7 +265,7 @@ Here's one we know about, and how to fix it.<br>
 <p>To follow a thread, put the name of the thread with a hashtag # in front of it into the address bar of Apertus ex --> #Apertus </p>
 <p>This will require a full scan of the blockchain to get all the information - say yes when Apertus asks, it may take a few minutes. To know when it's done, you'll need to minimize Apertus and all window to see the Wallet's re-indexing timeline.</p>
 <p>When done, re-start Apertus.</p>
-<p>To see the thread, go to the middle left side of Apertus to the drop-down menu, "Select Follow." You'll see the hashtag you just followed.</p>
+<p>To see the thread, go to the middle left side of Apertus to the drop-down menu, "Refresh Follow." You'll see the hashtag you just followed.</p>
 <p>If you shut down Apertus and the blockchain, and then later reboot, Apertus will automatically scan for new content for thosee threads.</p>
 <p>Tip: If you are wanting to follow many threads, and you know which ones, the easiest way is to put in the hashtag in the address bar at the top as instructed, but then don't rescan yet, simply keep doing this procedure with all the threads you want to follow, then on the last one, THEN say yes. Apertus will scan for them all :) Reboot Apertus when done, and they'll all be there.</p>
  <A href="#index">Back to Index</A>
@@ -327,12 +327,12 @@ Here's one we know about, and how to fix it.<br>
 <p>~ On the main Apertus screen, go to the lower right corner and click the + symbol that's to the left of Select Signature.</p>
 <p>~ Enter the name of the signature you wish use, it can be the same name as your profile, or different, hit enter.</p>
 <p>~ It's ready to use.</p>
-<p>~ To use again, simply select it from the "Select Signatures" drop-down menu prior to etching.</p>
+<p>~ To use again, simply select it from the "Active Signatures" drop-down menu prior to etching.</p>
 Import Signature Address:<br>
 ~ Click the + button.<br>
 ~ Enter the private key.<br>
 ~ Enter the label when prompted.<br>
-~ To use again, simply select it from the "Select Signatures" drop-down menu prior to etching.<br>
+~ To use again, simply select it from the "Active Signatures" drop-down menu prior to etching.<br>
 <br>
 <A href="#index">Back to Index</A>
    <br><br><br>
@@ -388,23 +388,21 @@ Import Signature Address:<br>
 Apertus utilizes Bitcoin's Elliptic Curve Digital Signature Algorithm, Secp256k1 for direct encrypted messaging.<br>
 This allows one to encrypt an outgoing message with someones public signature, therefore only they can decrypt it with the cooresponding private keys they control. It's an extremely basic form of PGP.</p>
 To send an encrypted message requires a couple steps.<br>
-~ One must first find an etching that has a profile enabled into the etching.<br>
-~ If you aren't already on that page, put the transaction id of that etching into the Apertus navigation bar and hit enter.<br>
+~ You must first find an etching with a profile of the person you wish to contact.<br>
+~ If you aren't already on the profile page, put the transaction id of that etching into the Apertus navigation bar and hit enter.<br>
 ~ While viewing that page, you'll see in the upper right hand corner that the icon that looks like a person will be dark, instead of light. Click on it.<br>
-~ Apertus now has the codes necessary to send them an ecrypted message.<br>
-~ You may need to reboot Apertus for this to take effect.<br>
-~ Now, on the middle right, click on the drop-down box labeled "Select Friend", click on the person you wish to contact. This part is the difference between sending an ecrypted message, or a public message. It must be selected for an ecrypted one.<br> 
-~ To send them an encrypted message, you need their profile name; scroll on their etching to their profile name.<br>
-~ Type @theirname plus a message into the message etching box and hit SAVE.<br>
-You've just sent an encrypted message using Blockchains.<br>
+~ Apertus has just imported the codes necessary to send an ecrypted message.<br>
+~ NOTE: The profile shortname is auto selected in the "Active Friends" drop down box.<br>
+~ Make sure the button next to the "Active Friends" drop down list says "Private" by clicking on it until it does.<br>
+~ Type a message into the message etching box and hit SAVE.<br>
+You've just sent an encrypted message using the Blockchains.<br>
 <br><br>
 Public Messaging<br>
-Public messaging is when you don't select the person's name in the "Select Friend" drop-down box.
-~ Go through the procedure in the above instruction, but don't select your friends in the "Select Friend" drop-down box.
+~ Go through the procedure in the above instruction, but make sure the button next to the "Active Friends" drop-down box says "Public" by clicking on it until it does.
 ~ all the rest is the same.<br>
-<br>
+~ You can also CC any friend listed in your "Active Friends" drop down box by etching an @ followed by the profile shortname displayed. EX @ShortName<br>
 Viewing incoming messages:<br>
-~ Go to the "Select Profile" drop-down menu.<br>
+~ Go to the "Active Profiles" drop-down menu.<br>
 ~ Click your profile name - your messages will update in the upper-left.<br>
 ~ Encrypted and public messages will be together.<br>
 <br>
@@ -446,7 +444,7 @@ The PGP Web of Trust may be well-suited on a blockchain. Limited, important info
 	~Click the lightning key next to the Vault name.<br>
 	~This exports it and saves it to the clipboard.<br>
 	~Paste it to where ever you need to - give to another using a secure method.<br>
-	~This key can be given to someone using the Apertus encrypted messaging service, however, we cannot guarentee the security in doing it this way.<br>
+	~This key can be given to someone using the Apertus private messaging feature, however, we cannot guarentee the security in doing it this way.<br>
 	<br><br>
 	
    Track Vault<br>   
@@ -561,7 +559,7 @@ The PGP Web of Trust may be well-suited on a blockchain. Limited, important info
    
    
   <h2><A NAME="X">How to Upgrade Apertus</a></h2>
-  Apertus is usually available on Mazacoin, and soon to be on Datacoin. Search bitFossil.com for the newest version, or go to getdiskdrive.com, or check out our Github page if you can compile.<br>
+  Apertus is usually available on Mazacoin, and soon to be on Datacoin. Search bitFossil.com for the newest version, or go to apertus.io, or check out our Github page if you can compile.<br>
   You can also search #Apertus on Mazacoin, Datacoin, or BitcoinTestnet.<br>
   Updates to this section, info.html will also be available on those blockchain. Currently one can get the newest coin.conf file on BitcoinTestnet by searching #CoinConf. It may also be added to Datacoin, and possibly Mazacoin.<br>
     <p>1. Download the newest version.</p>
