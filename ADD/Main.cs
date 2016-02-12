@@ -4102,6 +4102,7 @@ namespace ADD
             btnFriendEncryption.Text = Properties.Settings.Default.DirectMessage;
         }
 
+
     }
 
 }

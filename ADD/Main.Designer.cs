@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode66 = new System.Windows.Forms.TreeNode("Profile");
-            System.Windows.Forms.TreeNode treeNode67 = new System.Windows.Forms.TreeNode("Signature");
-            System.Windows.Forms.TreeNode treeNode68 = new System.Windows.Forms.TreeNode("Vault");
-            System.Windows.Forms.TreeNode treeNode69 = new System.Windows.Forms.TreeNode("Favorites");
-            System.Windows.Forms.TreeNode treeNode70 = new System.Windows.Forms.TreeNode("Follow");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Profile");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Signature");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Vault");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Favorites");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Follow");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.attachFiles = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -66,10 +66,49 @@
             this.tmrProcessBatch = new System.Windows.Forms.Timer(this.components);
             this.tmrUpdateInfoText = new System.Windows.Forms.Timer(this.components);
             this.splitMain = new System.Windows.Forms.SplitContainer();
-            this.splitHistoryBrowser = new System.Windows.Forms.SplitContainer();
-            this.cmbFollow = new System.Windows.Forms.ComboBox();
+            this.imgOpenUp = new System.Windows.Forms.PictureBox();
             this.imgOpenLeft = new System.Windows.Forms.PictureBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.cmbCoinType = new System.Windows.Forms.ComboBox();
+            this.cmbWalletLabel = new System.Windows.Forms.ComboBox();
+            this.cmbFollow = new System.Windows.Forms.ComboBox();
+            this.splitArchiveTools = new System.Windows.Forms.SplitContainer();
+            this.imgEnterMessageHere = new System.Windows.Forms.PictureBox();
+            this.cmbTo = new System.Windows.Forms.ComboBox();
+            this.imgOpenDown = new System.Windows.Forms.PictureBox();
+            this.btnFriendEncryption = new System.Windows.Forms.Button();
+            this.txtMessage = new System.Windows.Forms.TextBox();
+            this.btnAttachFile = new System.Windows.Forms.Button();
+            this.btnArchive = new System.Windows.Forms.Button();
+            this.txtFileName = new System.Windows.Forms.TextBox();
+            this.txtAddVault = new System.Windows.Forms.TextBox();
+            this.txtAddSignature = new System.Windows.Forms.TextBox();
+            this.cmbFolder = new System.Windows.Forms.ComboBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblEstimatedCost = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblCoinTotal = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblTotalArchiveSize = new System.Windows.Forms.Label();
+            this.chkMonitorBlockChains = new System.Windows.Forms.CheckBox();
+            this.chkFilterUnSafeContent = new System.Windows.Forms.CheckBox();
+            this.chkEnableRecipients = new System.Windows.Forms.CheckBox();
+            this.chkKeywords = new System.Windows.Forms.CheckBox();
+            this.chkEnableTips = new System.Windows.Forms.CheckBox();
+            this.chkCompressImages = new System.Windows.Forms.CheckBox();
+            this.chkWarnArchive = new System.Windows.Forms.CheckBox();
+            this.chkSaveOnEnter = new System.Windows.Forms.CheckBox();
+            this.chkTrackVault = new System.Windows.Forms.CheckBox();
+            this.btnExportVault = new System.Windows.Forms.Button();
+            this.cmbSignature = new System.Windows.Forms.ComboBox();
+            this.btnExportSignature = new System.Windows.Forms.Button();
+            this.btnAddSignature = new System.Windows.Forms.Button();
+            this.btnExportProfile = new System.Windows.Forms.Button();
+            this.cmbVault = new System.Windows.Forms.ComboBox();
+            this.btnAddVault = new System.Windows.Forms.Button();
+            this.btnAddFolder = new System.Windows.Forms.Button();
+            this.splitHistoryBrowser = new System.Windows.Forms.SplitContainer();
             this.imgTip = new System.Windows.Forms.PictureBox();
             this.imgLink = new System.Windows.Forms.PictureBox();
             this.imgFriend = new System.Windows.Forms.PictureBox();
@@ -80,78 +119,23 @@
             this.imgNextButton = new System.Windows.Forms.PictureBox();
             this.imgBackButton = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.imgOpenUp = new System.Windows.Forms.PictureBox();
             this.imgOpenRight = new System.Windows.Forms.PictureBox();
             this.txtInfoBox = new System.Windows.Forms.TextBox();
             this.imgApertusSplash = new System.Windows.Forms.PictureBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.splitArchiveTools = new System.Windows.Forms.SplitContainer();
-            this.btnArchive = new System.Windows.Forms.Button();
-            this.btnAttachFile = new System.Windows.Forms.Button();
-            this.cmbCoinType = new System.Windows.Forms.ComboBox();
-            this.cmbWalletLabel = new System.Windows.Forms.ComboBox();
-            this.imgEnterMessageHere = new System.Windows.Forms.PictureBox();
-            this.txtFileName = new System.Windows.Forms.TextBox();
-            this.txtMessage = new System.Windows.Forms.TextBox();
-            this.cmbTo = new System.Windows.Forms.ComboBox();
-            this.btnExportVault = new System.Windows.Forms.Button();
-            this.btnExportSignature = new System.Windows.Forms.Button();
-            this.btnExportProfile = new System.Windows.Forms.Button();
-            this.imgOpenDown = new System.Windows.Forms.PictureBox();
-            this.txtAddVault = new System.Windows.Forms.TextBox();
-            this.txtAddSignature = new System.Windows.Forms.TextBox();
-            this.btnAddFolder = new System.Windows.Forms.Button();
-            this.btnAddVault = new System.Windows.Forms.Button();
-            this.cmbVault = new System.Windows.Forms.ComboBox();
-            this.btnAddSignature = new System.Windows.Forms.Button();
-            this.cmbSignature = new System.Windows.Forms.ComboBox();
-            this.cmbFolder = new System.Windows.Forms.ComboBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblEstimatedCost = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lblCoinTotal = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lblTotalArchiveSize = new System.Windows.Forms.Label();
-            this.chkFilterUnSafeContent = new System.Windows.Forms.CheckBox();
-            this.chkMonitorBlockChains = new System.Windows.Forms.CheckBox();
-            this.chkEnableRecipients = new System.Windows.Forms.CheckBox();
-            this.chkKeywords = new System.Windows.Forms.CheckBox();
-            this.chkEnableTips = new System.Windows.Forms.CheckBox();
-            this.chkCompressImages = new System.Windows.Forms.CheckBox();
-            this.chkWarnArchive = new System.Windows.Forms.CheckBox();
-            this.chkSaveOnEnter = new System.Windows.Forms.CheckBox();
-            this.chkTrackVault = new System.Windows.Forms.CheckBox();
             this.statusArchiveStatus = new System.Windows.Forms.StatusStrip();
             this.lblStatusInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tmrPauseBeforeRefreshingMonitor = new System.Windows.Forms.Timer(this.components);
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.btnFriendEncryption = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
             this.splitMain.Panel1.SuspendLayout();
             this.splitMain.Panel2.SuspendLayout();
             this.splitMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitHistoryBrowser)).BeginInit();
-            this.splitHistoryBrowser.Panel1.SuspendLayout();
-            this.splitHistoryBrowser.Panel2.SuspendLayout();
-            this.splitHistoryBrowser.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imgOpenLeft)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgTip)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgFriend)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgTrash)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgFavorite)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgCatalog)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgNextButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgBackButton)).BeginInit();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgOpenUp)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgOpenRight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgApertusSplash)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgOpenLeft)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitArchiveTools)).BeginInit();
             this.splitArchiveTools.Panel1.SuspendLayout();
             this.splitArchiveTools.Panel2.SuspendLayout();
@@ -162,11 +146,22 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitHistoryBrowser)).BeginInit();
+            this.splitHistoryBrowser.Panel1.SuspendLayout();
+            this.splitHistoryBrowser.Panel2.SuspendLayout();
+            this.splitHistoryBrowser.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgTip)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgFriend)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgTrash)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgFavorite)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgCatalog)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgNextButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgBackButton)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgOpenRight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgApertusSplash)).BeginInit();
             this.statusArchiveStatus.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // attachFiles
@@ -181,18 +176,18 @@
             this.blockToolStripMenuItem,
             this.followToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 80);
             // 
             // blockToolStripMenuItem
             // 
             this.blockToolStripMenuItem.Name = "blockToolStripMenuItem";
-            this.blockToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.blockToolStripMenuItem.Size = new System.Drawing.Size(180, 38);
             this.blockToolStripMenuItem.Text = "block";
             // 
             // followToolStripMenuItem
             // 
             this.followToolStripMenuItem.Name = "followToolStripMenuItem";
-            this.followToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.followToolStripMenuItem.Size = new System.Drawing.Size(180, 38);
             this.followToolStripMenuItem.Text = "follow";
             // 
             // menuMain
@@ -206,7 +201,7 @@
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
             this.menuMain.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuMain.Size = new System.Drawing.Size(1019, 24);
+            this.menuMain.Size = new System.Drawing.Size(1428, 37);
             this.menuMain.TabIndex = 0;
             this.menuMain.Text = "menuStrip1";
             // 
@@ -218,13 +213,13 @@
             this.notarizeToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(66, 33);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(194, 38);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -233,13 +228,13 @@
             this.historyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rebuildToolStripMenuItem1});
             this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
-            this.historyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(194, 38);
             this.historyToolStripMenuItem.Text = "Catalog";
             // 
             // rebuildToolStripMenuItem1
             // 
             this.rebuildToolStripMenuItem1.Name = "rebuildToolStripMenuItem1";
-            this.rebuildToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.rebuildToolStripMenuItem1.Size = new System.Drawing.Size(195, 38);
             this.rebuildToolStripMenuItem1.Text = "Rebuild";
             this.rebuildToolStripMenuItem1.Click += new System.EventHandler(this.rebuildToolStripMenuItem_Click);
             // 
@@ -249,14 +244,14 @@
             this.proofToolStripMenuItem,
             this.searchToolStripMenuItem});
             this.notarizeToolStripMenuItem.Name = "notarizeToolStripMenuItem";
-            this.notarizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.notarizeToolStripMenuItem.Size = new System.Drawing.Size(194, 38);
             this.notarizeToolStripMenuItem.Text = "Proof";
             // 
             // proofToolStripMenuItem
             // 
             this.proofToolStripMenuItem.Enabled = false;
             this.proofToolStripMenuItem.Name = "proofToolStripMenuItem";
-            this.proofToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.proofToolStripMenuItem.Size = new System.Drawing.Size(187, 38);
             this.proofToolStripMenuItem.Text = "Insert";
             this.proofToolStripMenuItem.Click += new System.EventHandler(this.notarizeToolStripMenuItem_Click);
             // 
@@ -267,28 +262,28 @@
             this.hashToolStripMenuItem});
             this.searchToolStripMenuItem.Enabled = false;
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(187, 38);
             this.searchToolStripMenuItem.Text = "Search";
             this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
             // 
             // fileToolStripMenuItem1
             // 
             this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(166, 38);
             this.fileToolStripMenuItem1.Text = "File";
             this.fileToolStripMenuItem1.Click += new System.EventHandler(this.fileToolStripMenuItem1_Click);
             // 
             // hashToolStripMenuItem
             // 
             this.hashToolStripMenuItem.Name = "hashToolStripMenuItem";
-            this.hashToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.hashToolStripMenuItem.Size = new System.Drawing.Size(166, 38);
             this.hashToolStripMenuItem.Text = "Hash";
             this.hashToolStripMenuItem.Click += new System.EventHandler(this.hashToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(194, 38);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -300,35 +295,35 @@
             this.fontToolStripMenuItem,
             this.trustToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(112, 33);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // profilesToolStripMenuItem
             // 
             this.profilesToolStripMenuItem.Enabled = false;
             this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
-            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(244, 38);
             this.profilesToolStripMenuItem.Text = "Profiles";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
             // 
             // walletsToolStripMenuItem
             // 
             this.walletsToolStripMenuItem.Name = "walletsToolStripMenuItem";
-            this.walletsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.walletsToolStripMenuItem.Size = new System.Drawing.Size(244, 38);
             this.walletsToolStripMenuItem.Text = "Wallets";
             this.walletsToolStripMenuItem.Click += new System.EventHandler(this.walletsToolStripMenuItem_Click);
             // 
             // fontToolStripMenuItem
             // 
             this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
-            this.fontToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.fontToolStripMenuItem.Size = new System.Drawing.Size(244, 38);
             this.fontToolStripMenuItem.Text = "Font";
             this.fontToolStripMenuItem.Click += new System.EventHandler(this.fontToolStripMenuItem_Click);
             // 
             // trustToolStripMenuItem
             // 
             this.trustToolStripMenuItem.Name = "trustToolStripMenuItem";
-            this.trustToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.trustToolStripMenuItem.Size = new System.Drawing.Size(244, 38);
             this.trustToolStripMenuItem.Text = "Trust Center";
             this.trustToolStripMenuItem.Click += new System.EventHandler(this.trustToolStripMenuItem_Click);
             // 
@@ -338,20 +333,20 @@
             this.aboutToolStripMenuItem,
             this.rPCToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(76, 33);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(173, 38);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // rPCToolStripMenuItem
             // 
             this.rPCToolStripMenuItem.Name = "rPCToolStripMenuItem";
-            this.rPCToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.rPCToolStripMenuItem.Size = new System.Drawing.Size(173, 38);
             this.rPCToolStripMenuItem.Text = "Info";
             this.rPCToolStripMenuItem.Click += new System.EventHandler(this.rPCToolStripMenuItem_Click);
             // 
@@ -389,41 +384,657 @@
             // 
             // splitMain
             // 
-            this.splitMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitMain.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitMain.Location = new System.Drawing.Point(0, 29);
+            this.splitMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitMain.Location = new System.Drawing.Point(0, 0);
             this.splitMain.Name = "splitMain";
             this.splitMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitMain.Panel1
             // 
-            this.splitMain.Panel1.Controls.Add(this.splitHistoryBrowser);
-            this.splitMain.Panel1MinSize = 70;
+            this.splitMain.Panel1.Controls.Add(this.imgOpenUp);
+            this.splitMain.Panel1.Controls.Add(this.imgOpenLeft);
+            this.splitMain.Panel1.Controls.Add(this.treeView1);
+            this.splitMain.Panel1.Controls.Add(this.cmbCoinType);
+            this.splitMain.Panel1.Controls.Add(this.cmbWalletLabel);
+            this.splitMain.Panel1.Controls.Add(this.cmbFollow);
+            this.splitMain.Panel1MinSize = 0;
             // 
             // splitMain.Panel2
             // 
             this.splitMain.Panel2.Controls.Add(this.splitArchiveTools);
-            this.splitMain.Panel2MinSize = 128;
-            this.splitMain.Size = new System.Drawing.Size(1019, 633);
-            this.splitMain.SplitterDistance = 309;
+            this.splitMain.Panel2MinSize = 0;
+            this.splitMain.Size = new System.Drawing.Size(602, 1159);
+            this.splitMain.SplitterDistance = 372;
+            this.splitMain.SplitterWidth = 10;
             this.splitMain.TabIndex = 23;
             this.splitMain.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
+            // imgOpenUp
+            // 
+            this.imgOpenUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.imgOpenUp.BackColor = System.Drawing.Color.Transparent;
+            this.imgOpenUp.Image = global::ADD.Properties.Resources.OpenUp;
+            this.imgOpenUp.Location = new System.Drawing.Point(558, 319);
+            this.imgOpenUp.Name = "imgOpenUp";
+            this.imgOpenUp.Size = new System.Drawing.Size(33, 41);
+            this.imgOpenUp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imgOpenUp.TabIndex = 4;
+            this.imgOpenUp.TabStop = false;
+            this.imgOpenUp.Visible = false;
+            this.imgOpenUp.Click += new System.EventHandler(this.imgOpenUp_Click);
+            // 
+            // imgOpenLeft
+            // 
+            this.imgOpenLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.imgOpenLeft.BackColor = System.Drawing.Color.Transparent;
+            this.imgOpenLeft.Image = global::ADD.Properties.Resources.OpenLeft;
+            this.imgOpenLeft.Location = new System.Drawing.Point(519, 319);
+            this.imgOpenLeft.Name = "imgOpenLeft";
+            this.imgOpenLeft.Size = new System.Drawing.Size(33, 41);
+            this.imgOpenLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imgOpenLeft.TabIndex = 2;
+            this.imgOpenLeft.TabStop = false;
+            this.imgOpenLeft.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // treeView1
+            // 
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeView1.Font = new System.Drawing.Font("Arial", 10.875F);
+            this.treeView1.Location = new System.Drawing.Point(11, 130);
+            this.treeView1.Name = "treeView1";
+            treeNode16.Name = "profile";
+            treeNode16.Text = "Profile";
+            treeNode17.Name = "signature";
+            treeNode17.Text = "Signature";
+            treeNode18.Name = "vault";
+            treeNode18.Text = "Vault";
+            treeNode19.Name = "favorites";
+            treeNode19.Text = "Favorites";
+            treeNode20.Name = "follow";
+            treeNode20.Text = "Follow";
+            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode16,
+            treeNode17,
+            treeNode18,
+            treeNode19,
+            treeNode20});
+            this.treeView1.Size = new System.Drawing.Size(580, 171);
+            this.treeView1.TabIndex = 5;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+            // 
+            // cmbCoinType
+            // 
+            this.cmbCoinType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbCoinType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCoinType.Font = new System.Drawing.Font("Arial", 10.875F);
+            this.cmbCoinType.FormattingEnabled = true;
+            this.cmbCoinType.ItemHeight = 33;
+            this.cmbCoinType.Location = new System.Drawing.Point(11, 14);
+            this.cmbCoinType.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.cmbCoinType.MaxDropDownItems = 100;
+            this.cmbCoinType.Name = "cmbCoinType";
+            this.cmbCoinType.Size = new System.Drawing.Size(580, 41);
+            this.cmbCoinType.TabIndex = 11;
+            this.cmbCoinType.SelectedIndexChanged += new System.EventHandler(this.cmbCoinType_SelectedIndexChanged);
+            // 
+            // cmbWalletLabel
+            // 
+            this.cmbWalletLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbWalletLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbWalletLabel.Enabled = false;
+            this.cmbWalletLabel.Font = new System.Drawing.Font("Arial", 10.875F);
+            this.cmbWalletLabel.FormattingEnabled = true;
+            this.cmbWalletLabel.ItemHeight = 33;
+            this.cmbWalletLabel.Items.AddRange(new object[] {
+            "Select Funding Source"});
+            this.cmbWalletLabel.Location = new System.Drawing.Point(11, 74);
+            this.cmbWalletLabel.MaxDropDownItems = 100;
+            this.cmbWalletLabel.Name = "cmbWalletLabel";
+            this.cmbWalletLabel.Size = new System.Drawing.Size(580, 41);
+            this.cmbWalletLabel.TabIndex = 21;
+            this.cmbWalletLabel.SelectedIndexChanged += new System.EventHandler(this.cmbWalletLabel_SelectedIndexChanged);
+            // 
+            // cmbFollow
+            // 
+            this.cmbFollow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbFollow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFollow.Enabled = false;
+            this.cmbFollow.Font = new System.Drawing.Font("Arial", 10.875F);
+            this.cmbFollow.FormattingEnabled = true;
+            this.cmbFollow.Location = new System.Drawing.Point(13, 319);
+            this.cmbFollow.MaxDropDownItems = 100;
+            this.cmbFollow.Name = "cmbFollow";
+            this.cmbFollow.Size = new System.Drawing.Size(500, 41);
+            this.cmbFollow.TabIndex = 50;
+            this.cmbFollow.SelectedIndexChanged += new System.EventHandler(this.cmbFollow_SelectedIndexChanged);
+            // 
+            // splitArchiveTools
+            // 
+            this.splitArchiveTools.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitArchiveTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitArchiveTools.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitArchiveTools.Location = new System.Drawing.Point(0, 0);
+            this.splitArchiveTools.Name = "splitArchiveTools";
+            this.splitArchiveTools.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitArchiveTools.Panel1
+            // 
+            this.splitArchiveTools.Panel1.Controls.Add(this.imgEnterMessageHere);
+            this.splitArchiveTools.Panel1.Controls.Add(this.cmbTo);
+            this.splitArchiveTools.Panel1.Controls.Add(this.imgOpenDown);
+            this.splitArchiveTools.Panel1.Controls.Add(this.btnFriendEncryption);
+            this.splitArchiveTools.Panel1.Controls.Add(this.txtMessage);
+            this.splitArchiveTools.Panel1.Controls.Add(this.btnAttachFile);
+            this.splitArchiveTools.Panel1.Controls.Add(this.btnArchive);
+            this.splitArchiveTools.Panel1.Controls.Add(this.txtFileName);
+            this.splitArchiveTools.Panel1MinSize = 0;
+            // 
+            // splitArchiveTools.Panel2
+            // 
+            this.splitArchiveTools.Panel2.Controls.Add(this.txtAddVault);
+            this.splitArchiveTools.Panel2.Controls.Add(this.txtAddSignature);
+            this.splitArchiveTools.Panel2.Controls.Add(this.cmbFolder);
+            this.splitArchiveTools.Panel2.Controls.Add(this.flowLayoutPanel1);
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnExportVault);
+            this.splitArchiveTools.Panel2.Controls.Add(this.cmbSignature);
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnExportSignature);
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnAddSignature);
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnExportProfile);
+            this.splitArchiveTools.Panel2.Controls.Add(this.cmbVault);
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnAddVault);
+            this.splitArchiveTools.Panel2.Controls.Add(this.btnAddFolder);
+            this.splitArchiveTools.Panel2MinSize = 0;
+            this.splitArchiveTools.Size = new System.Drawing.Size(602, 777);
+            this.splitArchiveTools.SplitterDistance = 375;
+            this.splitArchiveTools.SplitterWidth = 10;
+            this.splitArchiveTools.TabIndex = 33;
+            this.splitArchiveTools.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer5_SplitterMoved);
+            // 
+            // imgEnterMessageHere
+            // 
+            this.imgEnterMessageHere.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.imgEnterMessageHere.BackColor = System.Drawing.Color.White;
+            this.imgEnterMessageHere.Image = ((System.Drawing.Image)(resources.GetObject("imgEnterMessageHere.Image")));
+            this.imgEnterMessageHere.Location = new System.Drawing.Point(95, 79);
+            this.imgEnterMessageHere.Name = "imgEnterMessageHere";
+            this.imgEnterMessageHere.Size = new System.Drawing.Size(418, 218);
+            this.imgEnterMessageHere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.imgEnterMessageHere.TabIndex = 29;
+            this.imgEnterMessageHere.TabStop = false;
+            this.imgEnterMessageHere.Visible = false;
+            this.imgEnterMessageHere.Click += new System.EventHandler(this.imgEnterMessageHere_Click);
+            // 
+            // cmbTo
+            // 
+            this.cmbTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTo.Enabled = false;
+            this.cmbTo.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cmbTo.Font = new System.Drawing.Font("Arial", 10.875F);
+            this.cmbTo.FormattingEnabled = true;
+            this.cmbTo.Location = new System.Drawing.Point(118, 9);
+            this.cmbTo.MaxDropDownItems = 100;
+            this.cmbTo.Name = "cmbTo";
+            this.cmbTo.Size = new System.Drawing.Size(434, 41);
+            this.cmbTo.TabIndex = 49;
+            this.cmbTo.SelectedIndexChanged += new System.EventHandler(this.cmbTo_SelectedIndexChanged_1);
+            // 
+            // imgOpenDown
+            // 
+            this.imgOpenDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.imgOpenDown.BackColor = System.Drawing.Color.Transparent;
+            this.imgOpenDown.Image = global::ADD.Properties.Resources.OpenDown;
+            this.imgOpenDown.Location = new System.Drawing.Point(560, 9);
+            this.imgOpenDown.Name = "imgOpenDown";
+            this.imgOpenDown.Size = new System.Drawing.Size(33, 41);
+            this.imgOpenDown.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imgOpenDown.TabIndex = 33;
+            this.imgOpenDown.TabStop = false;
+            this.imgOpenDown.Click += new System.EventHandler(this.imgOpenDown_Click);
+            // 
+            // btnFriendEncryption
+            // 
+            this.btnFriendEncryption.Enabled = false;
+            this.btnFriendEncryption.Location = new System.Drawing.Point(13, 9);
+            this.btnFriendEncryption.Name = "btnFriendEncryption";
+            this.btnFriendEncryption.Size = new System.Drawing.Size(98, 41);
+            this.btnFriendEncryption.TabIndex = 50;
+            this.btnFriendEncryption.Text = "Public";
+            this.btnFriendEncryption.UseVisualStyleBackColor = true;
+            this.btnFriendEncryption.Click += new System.EventHandler(this.btnFriendEncryption_Click);
+            // 
+            // txtMessage
+            // 
+            this.txtMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMessage.Enabled = false;
+            this.txtMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMessage.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.txtMessage.Location = new System.Drawing.Point(13, 65);
+            this.txtMessage.MaxLength = 1024000000;
+            this.txtMessage.Multiline = true;
+            this.txtMessage.Name = "txtMessage";
+            this.txtMessage.Size = new System.Drawing.Size(578, 242);
+            this.txtMessage.TabIndex = 5;
+            this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
+            this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyDown);
+            // 
+            // btnAttachFile
+            // 
+            this.btnAttachFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAttachFile.Enabled = false;
+            this.btnAttachFile.FlatAppearance.BorderSize = 0;
+            this.btnAttachFile.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAttachFile.Location = new System.Drawing.Point(118, 324);
+            this.btnAttachFile.Margin = new System.Windows.Forms.Padding(0);
+            this.btnAttachFile.Name = "btnAttachFile";
+            this.btnAttachFile.Size = new System.Drawing.Size(86, 41);
+            this.btnAttachFile.TabIndex = 6;
+            this.btnAttachFile.Text = "Attach";
+            this.btnAttachFile.UseVisualStyleBackColor = true;
+            this.btnAttachFile.Click += new System.EventHandler(this.btnAttachFiles_Click);
+            // 
+            // btnArchive
+            // 
+            this.btnArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnArchive.Enabled = false;
+            this.btnArchive.FlatAppearance.BorderSize = 0;
+            this.btnArchive.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnArchive.Location = new System.Drawing.Point(11, 324);
+            this.btnArchive.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.btnArchive.Name = "btnArchive";
+            this.btnArchive.Size = new System.Drawing.Size(100, 41);
+            this.btnArchive.TabIndex = 3;
+            this.btnArchive.Tag = "12345678901234567890";
+            this.btnArchive.Text = "Etch";
+            this.btnArchive.UseVisualStyleBackColor = true;
+            this.btnArchive.Click += new System.EventHandler(this.btnArchive_Click);
+            // 
+            // txtFileName
+            // 
+            this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFileName.Enabled = false;
+            this.txtFileName.Font = new System.Drawing.Font("Arial", 10.875F);
+            this.txtFileName.Location = new System.Drawing.Point(214, 324);
+            this.txtFileName.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.txtFileName.Multiline = true;
+            this.txtFileName.Name = "txtFileName";
+            this.txtFileName.Size = new System.Drawing.Size(377, 41);
+            this.txtFileName.TabIndex = 8;
+            this.txtFileName.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
+            // 
+            // txtAddVault
+            // 
+            this.txtAddVault.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAddVault.Location = new System.Drawing.Point(97, 116);
+            this.txtAddVault.Name = "txtAddVault";
+            this.txtAddVault.Size = new System.Drawing.Size(458, 31);
+            this.txtAddVault.TabIndex = 45;
+            this.txtAddVault.Visible = false;
+            this.txtAddVault.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddVault_KeyDown);
+            // 
+            // txtAddSignature
+            // 
+            this.txtAddSignature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAddSignature.Location = new System.Drawing.Point(97, 66);
+            this.txtAddSignature.Name = "txtAddSignature";
+            this.txtAddSignature.Size = new System.Drawing.Size(458, 31);
+            this.txtAddSignature.TabIndex = 44;
+            this.txtAddSignature.Visible = false;
+            this.txtAddSignature.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddSignature_KeyDown);
+            // 
+            // cmbFolder
+            // 
+            this.cmbFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbFolder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFolder.Enabled = false;
+            this.cmbFolder.Font = new System.Drawing.Font("Arial", 10.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbFolder.FormattingEnabled = true;
+            this.cmbFolder.Location = new System.Drawing.Point(97, 11);
+            this.cmbFolder.MaxDropDownItems = 100;
+            this.cmbFolder.Name = "cmbFolder";
+            this.cmbFolder.Size = new System.Drawing.Size(496, 41);
+            this.cmbFolder.TabIndex = 32;
+            this.cmbFolder.SelectedIndexChanged += new System.EventHandler(this.cmbFolder_SelectedIndexChanged);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Controls.Add(this.groupBox1);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox2);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox3);
+            this.flowLayoutPanel1.Controls.Add(this.chkMonitorBlockChains);
+            this.flowLayoutPanel1.Controls.Add(this.chkFilterUnSafeContent);
+            this.flowLayoutPanel1.Controls.Add(this.chkEnableRecipients);
+            this.flowLayoutPanel1.Controls.Add(this.chkKeywords);
+            this.flowLayoutPanel1.Controls.Add(this.chkEnableTips);
+            this.flowLayoutPanel1.Controls.Add(this.chkCompressImages);
+            this.flowLayoutPanel1.Controls.Add(this.chkWarnArchive);
+            this.flowLayoutPanel1.Controls.Add(this.chkSaveOnEnter);
+            this.flowLayoutPanel1.Controls.Add(this.chkTrackVault);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 168);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(20);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(580, 184);
+            this.flowLayoutPanel1.TabIndex = 33;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox1.Controls.Add(this.lblEstimatedCost);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(23, 23);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(252, 72);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Estimated Cost";
+            // 
+            // lblEstimatedCost
+            // 
+            this.lblEstimatedCost.AutoSize = true;
+            this.lblEstimatedCost.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEstimatedCost.Location = new System.Drawing.Point(6, 32);
+            this.lblEstimatedCost.Name = "lblEstimatedCost";
+            this.lblEstimatedCost.Size = new System.Drawing.Size(124, 24);
+            this.lblEstimatedCost.TabIndex = 0;
+            this.lblEstimatedCost.Text = "0.00000000";
+            this.lblEstimatedCost.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox2.Controls.Add(this.lblCoinTotal);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(281, 23);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(252, 72);
+            this.groupBox2.TabIndex = 19;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Available Funds";
+            // 
+            // lblCoinTotal
+            // 
+            this.lblCoinTotal.AutoSize = true;
+            this.lblCoinTotal.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCoinTotal.Location = new System.Drawing.Point(6, 32);
+            this.lblCoinTotal.Name = "lblCoinTotal";
+            this.lblCoinTotal.Size = new System.Drawing.Size(124, 24);
+            this.lblCoinTotal.TabIndex = 0;
+            this.lblCoinTotal.Text = "0.00000000";
+            this.lblCoinTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox3.Controls.Add(this.lblTotalArchiveSize);
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(23, 101);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(252, 72);
+            this.groupBox3.TabIndex = 20;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Total Archive Size";
+            // 
+            // lblTotalArchiveSize
+            // 
+            this.lblTotalArchiveSize.AutoSize = true;
+            this.lblTotalArchiveSize.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalArchiveSize.Location = new System.Drawing.Point(6, 32);
+            this.lblTotalArchiveSize.Name = "lblTotalArchiveSize";
+            this.lblTotalArchiveSize.Size = new System.Drawing.Size(124, 24);
+            this.lblTotalArchiveSize.TabIndex = 0;
+            this.lblTotalArchiveSize.Text = "0.00000000";
+            this.lblTotalArchiveSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // chkMonitorBlockChains
+            // 
+            this.chkMonitorBlockChains.AutoSize = true;
+            this.chkMonitorBlockChains.Location = new System.Drawing.Point(281, 101);
+            this.chkMonitorBlockChains.Name = "chkMonitorBlockChains";
+            this.chkMonitorBlockChains.Size = new System.Drawing.Size(116, 29);
+            this.chkMonitorBlockChains.TabIndex = 2;
+            this.chkMonitorBlockChains.TabStop = false;
+            this.chkMonitorBlockChains.Text = "Monitor";
+            this.chkMonitorBlockChains.UseVisualStyleBackColor = true;
+            this.chkMonitorBlockChains.CheckedChanged += new System.EventHandler(this.chkMonitorBlockChains_CheckedChanged);
+            // 
+            // chkFilterUnSafeContent
+            // 
+            this.chkFilterUnSafeContent.AutoSize = true;
+            this.chkFilterUnSafeContent.Checked = true;
+            this.chkFilterUnSafeContent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(403, 101);
+            this.chkFilterUnSafeContent.Name = "chkFilterUnSafeContent";
+            this.chkFilterUnSafeContent.Size = new System.Drawing.Size(92, 29);
+            this.chkFilterUnSafeContent.TabIndex = 3;
+            this.chkFilterUnSafeContent.TabStop = false;
+            this.chkFilterUnSafeContent.Text = "Filter";
+            this.chkFilterUnSafeContent.UseVisualStyleBackColor = true;
+            this.chkFilterUnSafeContent.CheckedChanged += new System.EventHandler(this.chkFilterUnSafeContent_CheckedChanged);
+            // 
+            // chkEnableRecipients
+            // 
+            this.chkEnableRecipients.AutoSize = true;
+            this.chkEnableRecipients.Checked = true;
+            this.chkEnableRecipients.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkEnableRecipients.Location = new System.Drawing.Point(25, 181);
+            this.chkEnableRecipients.Margin = new System.Windows.Forms.Padding(5);
+            this.chkEnableRecipients.Name = "chkEnableRecipients";
+            this.chkEnableRecipients.Size = new System.Drawing.Size(166, 29);
+            this.chkEnableRecipients.TabIndex = 24;
+            this.chkEnableRecipients.Text = "@Recipients";
+            this.chkEnableRecipients.UseVisualStyleBackColor = true;
+            this.chkEnableRecipients.CheckedChanged += new System.EventHandler(this.chkEnableRecipients_CheckedChanged);
+            // 
+            // chkKeywords
+            // 
+            this.chkKeywords.AutoSize = true;
+            this.chkKeywords.Checked = true;
+            this.chkKeywords.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkKeywords.Location = new System.Drawing.Point(201, 181);
+            this.chkKeywords.Margin = new System.Windows.Forms.Padding(5);
+            this.chkKeywords.Name = "chkKeywords";
+            this.chkKeywords.Size = new System.Drawing.Size(150, 29);
+            this.chkKeywords.TabIndex = 0;
+            this.chkKeywords.Text = "#Keywords";
+            this.chkKeywords.UseVisualStyleBackColor = true;
+            this.chkKeywords.CheckedChanged += new System.EventHandler(this.chkKeywords_CheckedChanged);
+            // 
+            // chkEnableTips
+            // 
+            this.chkEnableTips.AutoSize = true;
+            this.chkEnableTips.Location = new System.Drawing.Point(359, 179);
+            this.chkEnableTips.Name = "chkEnableTips";
+            this.chkEnableTips.Size = new System.Drawing.Size(97, 29);
+            this.chkEnableTips.TabIndex = 26;
+            this.chkEnableTips.Text = ">Tips";
+            this.chkEnableTips.UseVisualStyleBackColor = true;
+            this.chkEnableTips.CheckedChanged += new System.EventHandler(this.chkEnableTips_CheckedChanged);
+            // 
+            // chkCompressImages
+            // 
+            this.chkCompressImages.AutoSize = true;
+            this.chkCompressImages.Checked = true;
+            this.chkCompressImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCompressImages.Location = new System.Drawing.Point(23, 218);
+            this.chkCompressImages.Name = "chkCompressImages";
+            this.chkCompressImages.Size = new System.Drawing.Size(216, 29);
+            this.chkCompressImages.TabIndex = 25;
+            this.chkCompressImages.Text = "Compress Images";
+            this.chkCompressImages.UseVisualStyleBackColor = true;
+            this.chkCompressImages.CheckedChanged += new System.EventHandler(this.chkCompressImages_CheckedChanged);
+            // 
+            // chkWarnArchive
+            // 
+            this.chkWarnArchive.AutoSize = true;
+            this.chkWarnArchive.Checked = true;
+            this.chkWarnArchive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkWarnArchive.Location = new System.Drawing.Point(245, 218);
+            this.chkWarnArchive.Name = "chkWarnArchive";
+            this.chkWarnArchive.Size = new System.Drawing.Size(179, 29);
+            this.chkWarnArchive.TabIndex = 21;
+            this.chkWarnArchive.Text = "Save Warning";
+            this.chkWarnArchive.UseVisualStyleBackColor = true;
+            this.chkWarnArchive.CheckedChanged += new System.EventHandler(this.chkWarnArchive_CheckedChanged);
+            // 
+            // chkSaveOnEnter
+            // 
+            this.chkSaveOnEnter.AutoSize = true;
+            this.chkSaveOnEnter.Location = new System.Drawing.Point(23, 253);
+            this.chkSaveOnEnter.Name = "chkSaveOnEnter";
+            this.chkSaveOnEnter.Size = new System.Drawing.Size(168, 29);
+            this.chkSaveOnEnter.TabIndex = 22;
+            this.chkSaveOnEnter.Text = "Enter = Save";
+            this.chkSaveOnEnter.UseVisualStyleBackColor = true;
+            this.chkSaveOnEnter.CheckedChanged += new System.EventHandler(this.chkSaveOnEnter_CheckedChanged);
+            // 
+            // chkTrackVault
+            // 
+            this.chkTrackVault.AutoSize = true;
+            this.chkTrackVault.Checked = true;
+            this.chkTrackVault.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkTrackVault.Location = new System.Drawing.Point(197, 253);
+            this.chkTrackVault.Name = "chkTrackVault";
+            this.chkTrackVault.Size = new System.Drawing.Size(153, 29);
+            this.chkTrackVault.TabIndex = 23;
+            this.chkTrackVault.Text = "Track Vault";
+            this.chkTrackVault.UseVisualStyleBackColor = true;
+            this.chkTrackVault.CheckedChanged += new System.EventHandler(this.chkTrackVault_CheckedChanged);
+            // 
+            // btnExportVault
+            // 
+            this.btnExportVault.Enabled = false;
+            this.btnExportVault.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportVault.Location = new System.Drawing.Point(57, 109);
+            this.btnExportVault.Name = "btnExportVault";
+            this.btnExportVault.Size = new System.Drawing.Size(32, 41);
+            this.btnExportVault.TabIndex = 48;
+            this.btnExportVault.Text = "↯";
+            this.btnExportVault.UseVisualStyleBackColor = true;
+            this.btnExportVault.Click += new System.EventHandler(this.btnExportVault_Click);
+            // 
+            // cmbSignature
+            // 
+            this.cmbSignature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbSignature.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSignature.Enabled = false;
+            this.cmbSignature.Font = new System.Drawing.Font("Arial", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbSignature.FormattingEnabled = true;
+            this.cmbSignature.Items.AddRange(new object[] {
+            "Select Folder"});
+            this.cmbSignature.Location = new System.Drawing.Point(95, 60);
+            this.cmbSignature.MaxDropDownItems = 100;
+            this.cmbSignature.Name = "cmbSignature";
+            this.cmbSignature.Size = new System.Drawing.Size(498, 40);
+            this.cmbSignature.TabIndex = 34;
+            this.cmbSignature.SelectedIndexChanged += new System.EventHandler(this.cmbSignature_SelectedIndexChanged);
+            // 
+            // btnExportSignature
+            // 
+            this.btnExportSignature.Enabled = false;
+            this.btnExportSignature.Font = new System.Drawing.Font("Arial", 10.2F);
+            this.btnExportSignature.Location = new System.Drawing.Point(57, 60);
+            this.btnExportSignature.Name = "btnExportSignature";
+            this.btnExportSignature.Size = new System.Drawing.Size(32, 41);
+            this.btnExportSignature.TabIndex = 47;
+            this.btnExportSignature.Text = "↯";
+            this.btnExportSignature.UseVisualStyleBackColor = true;
+            this.btnExportSignature.Click += new System.EventHandler(this.btnExportSignature_Click);
+            // 
+            // btnAddSignature
+            // 
+            this.btnAddSignature.Enabled = false;
+            this.btnAddSignature.Location = new System.Drawing.Point(13, 60);
+            this.btnAddSignature.Name = "btnAddSignature";
+            this.btnAddSignature.Size = new System.Drawing.Size(32, 41);
+            this.btnAddSignature.TabIndex = 39;
+            this.btnAddSignature.Text = "+";
+            this.btnAddSignature.UseVisualStyleBackColor = true;
+            this.btnAddSignature.Click += new System.EventHandler(this.btnAddSignature_Click);
+            // 
+            // btnExportProfile
+            // 
+            this.btnExportProfile.Enabled = false;
+            this.btnExportProfile.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportProfile.Location = new System.Drawing.Point(57, 11);
+            this.btnExportProfile.Name = "btnExportProfile";
+            this.btnExportProfile.Size = new System.Drawing.Size(32, 41);
+            this.btnExportProfile.TabIndex = 46;
+            this.btnExportProfile.Text = "↯";
+            this.btnExportProfile.UseVisualStyleBackColor = true;
+            this.btnExportProfile.Click += new System.EventHandler(this.btnExportProfile_Click);
+            // 
+            // cmbVault
+            // 
+            this.cmbVault.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbVault.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbVault.Enabled = false;
+            this.cmbVault.Font = new System.Drawing.Font("Arial", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbVault.FormattingEnabled = true;
+            this.cmbVault.Items.AddRange(new object[] {
+            "Select Folder"});
+            this.cmbVault.Location = new System.Drawing.Point(95, 110);
+            this.cmbVault.MaxDropDownItems = 100;
+            this.cmbVault.Name = "cmbVault";
+            this.cmbVault.Size = new System.Drawing.Size(498, 40);
+            this.cmbVault.TabIndex = 40;
+            this.cmbVault.SelectedIndexChanged += new System.EventHandler(this.cmbVault_SelectedIndexChanged);
+            // 
+            // btnAddVault
+            // 
+            this.btnAddVault.Enabled = false;
+            this.btnAddVault.Location = new System.Drawing.Point(13, 109);
+            this.btnAddVault.Name = "btnAddVault";
+            this.btnAddVault.Size = new System.Drawing.Size(32, 41);
+            this.btnAddVault.TabIndex = 41;
+            this.btnAddVault.Text = "+";
+            this.btnAddVault.UseVisualStyleBackColor = true;
+            this.btnAddVault.Click += new System.EventHandler(this.btnAddVault_Click);
+            // 
+            // btnAddFolder
+            // 
+            this.btnAddFolder.Enabled = false;
+            this.btnAddFolder.Location = new System.Drawing.Point(11, 11);
+            this.btnAddFolder.Name = "btnAddFolder";
+            this.btnAddFolder.Size = new System.Drawing.Size(34, 41);
+            this.btnAddFolder.TabIndex = 42;
+            this.btnAddFolder.Text = "+";
+            this.btnAddFolder.UseVisualStyleBackColor = true;
+            this.btnAddFolder.Click += new System.EventHandler(this.btnAddFolder_Click);
+            // 
             // splitHistoryBrowser
             // 
+            this.splitHistoryBrowser.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitHistoryBrowser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitHistoryBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitHistoryBrowser.Location = new System.Drawing.Point(0, 0);
+            this.splitHistoryBrowser.Location = new System.Drawing.Point(0, 37);
             this.splitHistoryBrowser.Name = "splitHistoryBrowser";
             // 
             // splitHistoryBrowser.Panel1
             // 
             this.splitHistoryBrowser.Panel1.BackColor = System.Drawing.Color.White;
-            this.splitHistoryBrowser.Panel1.Controls.Add(this.cmbFollow);
-            this.splitHistoryBrowser.Panel1.Controls.Add(this.imgOpenLeft);
-            this.splitHistoryBrowser.Panel1.Controls.Add(this.treeView1);
+            this.splitHistoryBrowser.Panel1.Controls.Add(this.splitMain);
             this.splitHistoryBrowser.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitHistoryBrowser_Panel1_Paint);
             this.splitHistoryBrowser.Panel1MinSize = 120;
             // 
@@ -441,73 +1052,18 @@
             this.splitHistoryBrowser.Panel2.Controls.Add(this.imgBackButton);
             this.splitHistoryBrowser.Panel2.Controls.Add(this.panel1);
             this.splitHistoryBrowser.Panel2MinSize = 372;
-            this.splitHistoryBrowser.Size = new System.Drawing.Size(1019, 309);
-            this.splitHistoryBrowser.SplitterDistance = 482;
+            this.splitHistoryBrowser.Size = new System.Drawing.Size(1428, 1159);
+            this.splitHistoryBrowser.SplitterDistance = 602;
+            this.splitHistoryBrowser.SplitterWidth = 10;
             this.splitHistoryBrowser.TabIndex = 29;
             this.splitHistoryBrowser.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer2_SplitterMoved);
-            // 
-            // cmbFollow
-            // 
-            this.cmbFollow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbFollow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFollow.Enabled = false;
-            this.cmbFollow.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbFollow.FormattingEnabled = true;
-            this.cmbFollow.Location = new System.Drawing.Point(4, 278);
-            this.cmbFollow.MaxDropDownItems = 100;
-            this.cmbFollow.Name = "cmbFollow";
-            this.cmbFollow.Size = new System.Drawing.Size(473, 23);
-            this.cmbFollow.TabIndex = 50;
-            this.cmbFollow.SelectedIndexChanged += new System.EventHandler(this.cmbFollow_SelectedIndexChanged);
-            // 
-            // imgOpenLeft
-            // 
-            this.imgOpenLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.imgOpenLeft.BackColor = System.Drawing.Color.Transparent;
-            this.imgOpenLeft.Image = global::ADD.Properties.Resources.OpenLeft;
-            this.imgOpenLeft.Location = new System.Drawing.Point(467, 1);
-            this.imgOpenLeft.Name = "imgOpenLeft";
-            this.imgOpenLeft.Size = new System.Drawing.Size(10, 18);
-            this.imgOpenLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.imgOpenLeft.TabIndex = 2;
-            this.imgOpenLeft.TabStop = false;
-            this.imgOpenLeft.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // treeView1
-            // 
-            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            treeNode66.Name = "profile";
-            treeNode66.Text = "Profile";
-            treeNode67.Name = "signature";
-            treeNode67.Text = "Signature";
-            treeNode68.Name = "vault";
-            treeNode68.Text = "Vault";
-            treeNode69.Name = "favorites";
-            treeNode69.Text = "Favorites";
-            treeNode70.Name = "follow";
-            treeNode70.Text = "Follow";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode66,
-            treeNode67,
-            treeNode68,
-            treeNode69,
-            treeNode70});
-            this.treeView1.Size = new System.Drawing.Size(480, 272);
-            this.treeView1.TabIndex = 5;
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
             // imgTip
             // 
             this.imgTip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imgTip.Enabled = false;
             this.imgTip.Image = global::ADD.Properties.Resources.TipDisabled;
-            this.imgTip.Location = new System.Drawing.Point(446, 3);
+            this.imgTip.Location = new System.Drawing.Point(713, 3);
             this.imgTip.Name = "imgTip";
             this.imgTip.Size = new System.Drawing.Size(23, 23);
             this.imgTip.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -520,7 +1076,7 @@
             this.imgLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imgLink.Enabled = false;
             this.imgLink.Image = global::ADD.Properties.Resources.LinkDisabled;
-            this.imgLink.Location = new System.Drawing.Point(475, 3);
+            this.imgLink.Location = new System.Drawing.Point(742, 3);
             this.imgLink.Name = "imgLink";
             this.imgLink.Size = new System.Drawing.Size(23, 23);
             this.imgLink.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -532,7 +1088,7 @@
             // 
             this.imgFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imgFriend.Image = global::ADD.Properties.Resources.FriendDisabled;
-            this.imgFriend.Location = new System.Drawing.Point(417, 3);
+            this.imgFriend.Location = new System.Drawing.Point(684, 3);
             this.imgFriend.Name = "imgFriend";
             this.imgFriend.Size = new System.Drawing.Size(23, 23);
             this.imgFriend.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -545,7 +1101,7 @@
             this.imgTrash.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imgTrash.Enabled = false;
             this.imgTrash.Image = global::ADD.Properties.Resources.TrashDisabled;
-            this.imgTrash.Location = new System.Drawing.Point(504, 3);
+            this.imgTrash.Location = new System.Drawing.Point(771, 3);
             this.imgTrash.Name = "imgTrash";
             this.imgTrash.Size = new System.Drawing.Size(23, 23);
             this.imgTrash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -557,7 +1113,7 @@
             // 
             this.imgFavorite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imgFavorite.Image = global::ADD.Properties.Resources.star;
-            this.imgFavorite.Location = new System.Drawing.Point(388, 3);
+            this.imgFavorite.Location = new System.Drawing.Point(655, 3);
             this.imgFavorite.Name = "imgFavorite";
             this.imgFavorite.Size = new System.Drawing.Size(23, 23);
             this.imgFavorite.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -575,7 +1131,7 @@
             this.txtTransIDSearch.Location = new System.Drawing.Point(62, 3);
             this.txtTransIDSearch.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.txtTransIDSearch.Name = "txtTransIDSearch";
-            this.txtTransIDSearch.Size = new System.Drawing.Size(291, 20);
+            this.txtTransIDSearch.Size = new System.Drawing.Size(558, 33);
             this.txtTransIDSearch.TabIndex = 1;
             this.txtTransIDSearch.TabStop = false;
             this.txtTransIDSearch.Text = "ENTER SEARCH STRING";
@@ -587,7 +1143,7 @@
             // 
             this.imgCatalog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imgCatalog.Image = global::ADD.Properties.Resources.home;
-            this.imgCatalog.Location = new System.Drawing.Point(359, 3);
+            this.imgCatalog.Location = new System.Drawing.Point(626, 3);
             this.imgCatalog.Name = "imgCatalog";
             this.imgCatalog.Size = new System.Drawing.Size(23, 23);
             this.imgCatalog.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -622,38 +1178,23 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.imgOpenUp);
             this.panel1.Controls.Add(this.imgOpenRight);
             this.panel1.Controls.Add(this.txtInfoBox);
             this.panel1.Controls.Add(this.imgApertusSplash);
             this.panel1.Controls.Add(this.webBrowser1);
             this.panel1.Location = new System.Drawing.Point(4, 35);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(528, 271);
+            this.panel1.Size = new System.Drawing.Size(795, 1121);
             this.panel1.TabIndex = 5;
-            // 
-            // imgOpenUp
-            // 
-            this.imgOpenUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.imgOpenUp.BackColor = System.Drawing.Color.Transparent;
-            this.imgOpenUp.Image = global::ADD.Properties.Resources.OpenUp;
-            this.imgOpenUp.Location = new System.Drawing.Point(2, 260);
-            this.imgOpenUp.Name = "imgOpenUp";
-            this.imgOpenUp.Size = new System.Drawing.Size(18, 10);
-            this.imgOpenUp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.imgOpenUp.TabIndex = 4;
-            this.imgOpenUp.TabStop = false;
-            this.imgOpenUp.Visible = false;
-            this.imgOpenUp.Click += new System.EventHandler(this.imgOpenUp_Click);
             // 
             // imgOpenRight
             // 
             this.imgOpenRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.imgOpenRight.BackColor = System.Drawing.Color.Transparent;
             this.imgOpenRight.Image = global::ADD.Properties.Resources.OpenRight;
-            this.imgOpenRight.Location = new System.Drawing.Point(-2, 246);
+            this.imgOpenRight.Location = new System.Drawing.Point(-3, 1082);
             this.imgOpenRight.Name = "imgOpenRight";
-            this.imgOpenRight.Size = new System.Drawing.Size(10, 18);
+            this.imgOpenRight.Size = new System.Drawing.Size(33, 41);
             this.imgOpenRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.imgOpenRight.TabIndex = 4;
             this.imgOpenRight.TabStop = false;
@@ -666,11 +1207,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInfoBox.BackColor = System.Drawing.Color.White;
             this.txtInfoBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtInfoBox.Location = new System.Drawing.Point(-4, 247);
+            this.txtInfoBox.Location = new System.Drawing.Point(-4, 1097);
             this.txtInfoBox.Multiline = true;
             this.txtInfoBox.Name = "txtInfoBox";
             this.txtInfoBox.ReadOnly = true;
-            this.txtInfoBox.Size = new System.Drawing.Size(532, 31);
+            this.txtInfoBox.Size = new System.Drawing.Size(798, 31);
             this.txtInfoBox.TabIndex = 0;
             this.txtInfoBox.TabStop = false;
             this.txtInfoBox.Text = "Click Help Then Info for Assistance.";
@@ -680,9 +1221,9 @@
             // 
             this.imgApertusSplash.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.imgApertusSplash.Image = global::ADD.Properties.Resources.About;
-            this.imgApertusSplash.Location = new System.Drawing.Point(193, 3);
+            this.imgApertusSplash.Location = new System.Drawing.Point(243, 3);
             this.imgApertusSplash.Name = "imgApertusSplash";
-            this.imgApertusSplash.Size = new System.Drawing.Size(143, 247);
+            this.imgApertusSplash.Size = new System.Drawing.Size(312, 1097);
             this.imgApertusSplash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgApertusSplash.TabIndex = 0;
             this.imgApertusSplash.TabStop = false;
@@ -690,547 +1231,17 @@
             // 
             // webBrowser1
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.Margin = new System.Windows.Forms.Padding(0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.ScriptErrorsSuppressed = true;
-            this.webBrowser1.Size = new System.Drawing.Size(528, 271);
+            this.webBrowser1.Size = new System.Drawing.Size(795, 1121);
             this.webBrowser1.TabIndex = 1;
             this.webBrowser1.TabStop = false;
             this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser1_Navigated);
-            // 
-            // splitArchiveTools
-            // 
-            this.splitArchiveTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitArchiveTools.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitArchiveTools.Location = new System.Drawing.Point(0, 0);
-            this.splitArchiveTools.Name = "splitArchiveTools";
-            // 
-            // splitArchiveTools.Panel1
-            // 
-            this.splitArchiveTools.Panel1.Controls.Add(this.splitContainer1);
-            this.splitArchiveTools.Panel1.Controls.Add(this.btnArchive);
-            this.splitArchiveTools.Panel1.Controls.Add(this.btnAttachFile);
-            this.splitArchiveTools.Panel1.Controls.Add(this.imgEnterMessageHere);
-            this.splitArchiveTools.Panel1.Controls.Add(this.txtFileName);
-            this.splitArchiveTools.Panel1.Controls.Add(this.txtMessage);
-            this.splitArchiveTools.Panel1MinSize = 270;
-            // 
-            // splitArchiveTools.Panel2
-            // 
-            this.splitArchiveTools.Panel2.Controls.Add(this.btnFriendEncryption);
-            this.splitArchiveTools.Panel2.Controls.Add(this.cmbTo);
-            this.splitArchiveTools.Panel2.Controls.Add(this.btnExportVault);
-            this.splitArchiveTools.Panel2.Controls.Add(this.btnExportSignature);
-            this.splitArchiveTools.Panel2.Controls.Add(this.btnExportProfile);
-            this.splitArchiveTools.Panel2.Controls.Add(this.imgOpenDown);
-            this.splitArchiveTools.Panel2.Controls.Add(this.txtAddVault);
-            this.splitArchiveTools.Panel2.Controls.Add(this.txtAddSignature);
-            this.splitArchiveTools.Panel2.Controls.Add(this.btnAddFolder);
-            this.splitArchiveTools.Panel2.Controls.Add(this.btnAddVault);
-            this.splitArchiveTools.Panel2.Controls.Add(this.cmbVault);
-            this.splitArchiveTools.Panel2.Controls.Add(this.btnAddSignature);
-            this.splitArchiveTools.Panel2.Controls.Add(this.cmbSignature);
-            this.splitArchiveTools.Panel2.Controls.Add(this.cmbFolder);
-            this.splitArchiveTools.Panel2.Controls.Add(this.flowLayoutPanel1);
-            this.splitArchiveTools.Panel2MinSize = 180;
-            this.splitArchiveTools.Size = new System.Drawing.Size(1019, 320);
-            this.splitArchiveTools.SplitterDistance = 458;
-            this.splitArchiveTools.TabIndex = 33;
-            this.splitArchiveTools.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer5_SplitterMoved);
-            // 
-            // btnArchive
-            // 
-            this.btnArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnArchive.Enabled = false;
-            this.btnArchive.FlatAppearance.BorderSize = 0;
-            this.btnArchive.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnArchive.Image = global::ADD.Properties.Resources.Save;
-            this.btnArchive.Location = new System.Drawing.Point(384, 288);
-            this.btnArchive.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.btnArchive.Name = "btnArchive";
-            this.btnArchive.Size = new System.Drawing.Size(67, 27);
-            this.btnArchive.TabIndex = 3;
-            this.btnArchive.Tag = "12345678901234567890";
-            this.btnArchive.UseVisualStyleBackColor = true;
-            this.btnArchive.Click += new System.EventHandler(this.btnArchive_Click);
-            // 
-            // btnAttachFile
-            // 
-            this.btnAttachFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAttachFile.Enabled = false;
-            this.btnAttachFile.FlatAppearance.BorderSize = 0;
-            this.btnAttachFile.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAttachFile.Image = global::ADD.Properties.Resources.Button2;
-            this.btnAttachFile.Location = new System.Drawing.Point(318, 288);
-            this.btnAttachFile.Margin = new System.Windows.Forms.Padding(0);
-            this.btnAttachFile.Name = "btnAttachFile";
-            this.btnAttachFile.Size = new System.Drawing.Size(61, 27);
-            this.btnAttachFile.TabIndex = 6;
-            this.btnAttachFile.UseVisualStyleBackColor = true;
-            this.btnAttachFile.Click += new System.EventHandler(this.btnAttachFiles_Click);
-            // 
-            // cmbCoinType
-            // 
-            this.cmbCoinType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbCoinType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCoinType.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbCoinType.FormattingEnabled = true;
-            this.cmbCoinType.ItemHeight = 15;
-            this.cmbCoinType.Location = new System.Drawing.Point(0, 0);
-            this.cmbCoinType.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.cmbCoinType.MaxDropDownItems = 100;
-            this.cmbCoinType.MaximumSize = new System.Drawing.Size(571, 0);
-            this.cmbCoinType.Name = "cmbCoinType";
-            this.cmbCoinType.Size = new System.Drawing.Size(211, 23);
-            this.cmbCoinType.TabIndex = 11;
-            this.cmbCoinType.SelectedIndexChanged += new System.EventHandler(this.cmbCoinType_SelectedIndexChanged);
-            // 
-            // cmbWalletLabel
-            // 
-            this.cmbWalletLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbWalletLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbWalletLabel.Enabled = false;
-            this.cmbWalletLabel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbWalletLabel.FormattingEnabled = true;
-            this.cmbWalletLabel.ItemHeight = 15;
-            this.cmbWalletLabel.Items.AddRange(new object[] {
-            "Select Funding Source"});
-            this.cmbWalletLabel.Location = new System.Drawing.Point(0, 0);
-            this.cmbWalletLabel.MaxDropDownItems = 100;
-            this.cmbWalletLabel.Name = "cmbWalletLabel";
-            this.cmbWalletLabel.Size = new System.Drawing.Size(232, 23);
-            this.cmbWalletLabel.TabIndex = 21;
-            this.cmbWalletLabel.SelectedIndexChanged += new System.EventHandler(this.cmbWalletLabel_SelectedIndexChanged);
-            // 
-            // imgEnterMessageHere
-            // 
-            this.imgEnterMessageHere.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.imgEnterMessageHere.BackColor = System.Drawing.Color.White;
-            this.imgEnterMessageHere.Image = ((System.Drawing.Image)(resources.GetObject("imgEnterMessageHere.Image")));
-            this.imgEnterMessageHere.Location = new System.Drawing.Point(18, 52);
-            this.imgEnterMessageHere.Name = "imgEnterMessageHere";
-            this.imgEnterMessageHere.Size = new System.Drawing.Size(423, 219);
-            this.imgEnterMessageHere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imgEnterMessageHere.TabIndex = 29;
-            this.imgEnterMessageHere.TabStop = false;
-            this.imgEnterMessageHere.Visible = false;
-            this.imgEnterMessageHere.Click += new System.EventHandler(this.imgEnterMessageHere_Click);
-            // 
-            // txtFileName
-            // 
-            this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFileName.Enabled = false;
-            this.txtFileName.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFileName.Location = new System.Drawing.Point(4, 288);
-            this.txtFileName.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.txtFileName.Multiline = true;
-            this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(309, 27);
-            this.txtFileName.TabIndex = 8;
-            this.txtFileName.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
-            // 
-            // txtMessage
-            // 
-            this.txtMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMessage.Enabled = false;
-            this.txtMessage.Font = new System.Drawing.Font("unifont", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMessage.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtMessage.Location = new System.Drawing.Point(4, 33);
-            this.txtMessage.MaxLength = 1024000000;
-            this.txtMessage.Multiline = true;
-            this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(449, 251);
-            this.txtMessage.TabIndex = 5;
-            this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
-            this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyDown);
-            // 
-            // cmbTo
-            // 
-            this.cmbTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTo.Enabled = false;
-            this.cmbTo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbTo.FormattingEnabled = true;
-            this.cmbTo.Location = new System.Drawing.Point(57, 196);
-            this.cmbTo.MaxDropDownItems = 100;
-            this.cmbTo.Name = "cmbTo";
-            this.cmbTo.Size = new System.Drawing.Size(494, 23);
-            this.cmbTo.TabIndex = 49;
-            this.cmbTo.SelectedIndexChanged += new System.EventHandler(this.cmbTo_SelectedIndexChanged_1);
-            // 
-            // btnExportVault
-            // 
-            this.btnExportVault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExportVault.Enabled = false;
-            this.btnExportVault.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportVault.Location = new System.Drawing.Point(30, 287);
-            this.btnExportVault.Name = "btnExportVault";
-            this.btnExportVault.Size = new System.Drawing.Size(21, 25);
-            this.btnExportVault.TabIndex = 48;
-            this.btnExportVault.Text = "↯";
-            this.btnExportVault.UseVisualStyleBackColor = true;
-            this.btnExportVault.Click += new System.EventHandler(this.btnExportVault_Click);
-            // 
-            // btnExportSignature
-            // 
-            this.btnExportSignature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExportSignature.Enabled = false;
-            this.btnExportSignature.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnExportSignature.Location = new System.Drawing.Point(30, 257);
-            this.btnExportSignature.Name = "btnExportSignature";
-            this.btnExportSignature.Size = new System.Drawing.Size(21, 25);
-            this.btnExportSignature.TabIndex = 47;
-            this.btnExportSignature.Text = "↯";
-            this.btnExportSignature.UseVisualStyleBackColor = true;
-            this.btnExportSignature.Click += new System.EventHandler(this.btnExportSignature_Click);
-            // 
-            // btnExportProfile
-            // 
-            this.btnExportProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExportProfile.Enabled = false;
-            this.btnExportProfile.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportProfile.Location = new System.Drawing.Point(30, 227);
-            this.btnExportProfile.Name = "btnExportProfile";
-            this.btnExportProfile.Size = new System.Drawing.Size(21, 25);
-            this.btnExportProfile.TabIndex = 46;
-            this.btnExportProfile.Text = "↯";
-            this.btnExportProfile.UseVisualStyleBackColor = true;
-            this.btnExportProfile.Click += new System.EventHandler(this.btnExportProfile_Click);
-            // 
-            // imgOpenDown
-            // 
-            this.imgOpenDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.imgOpenDown.BackColor = System.Drawing.Color.Transparent;
-            this.imgOpenDown.Image = global::ADD.Properties.Resources.OpenDown;
-            this.imgOpenDown.Location = new System.Drawing.Point(533, 2);
-            this.imgOpenDown.Name = "imgOpenDown";
-            this.imgOpenDown.Size = new System.Drawing.Size(18, 10);
-            this.imgOpenDown.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.imgOpenDown.TabIndex = 33;
-            this.imgOpenDown.TabStop = false;
-            this.imgOpenDown.Click += new System.EventHandler(this.imgOpenDown_Click);
-            // 
-            // txtAddVault
-            // 
-            this.txtAddVault.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAddVault.Location = new System.Drawing.Point(57, 288);
-            this.txtAddVault.Name = "txtAddVault";
-            this.txtAddVault.Size = new System.Drawing.Size(494, 19);
-            this.txtAddVault.TabIndex = 45;
-            this.txtAddVault.Visible = false;
-            this.txtAddVault.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddVault_KeyDown);
-            // 
-            // txtAddSignature
-            // 
-            this.txtAddSignature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAddSignature.Location = new System.Drawing.Point(57, 258);
-            this.txtAddSignature.Name = "txtAddSignature";
-            this.txtAddSignature.Size = new System.Drawing.Size(494, 19);
-            this.txtAddSignature.TabIndex = 44;
-            this.txtAddSignature.Visible = false;
-            this.txtAddSignature.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAddSignature_KeyDown);
-            // 
-            // btnAddFolder
-            // 
-            this.btnAddFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddFolder.Enabled = false;
-            this.btnAddFolder.Location = new System.Drawing.Point(3, 227);
-            this.btnAddFolder.Name = "btnAddFolder";
-            this.btnAddFolder.Size = new System.Drawing.Size(21, 25);
-            this.btnAddFolder.TabIndex = 42;
-            this.btnAddFolder.Text = "+";
-            this.btnAddFolder.UseVisualStyleBackColor = true;
-            this.btnAddFolder.Click += new System.EventHandler(this.btnAddFolder_Click);
-            // 
-            // btnAddVault
-            // 
-            this.btnAddVault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddVault.Enabled = false;
-            this.btnAddVault.Location = new System.Drawing.Point(3, 287);
-            this.btnAddVault.Name = "btnAddVault";
-            this.btnAddVault.Size = new System.Drawing.Size(21, 25);
-            this.btnAddVault.TabIndex = 41;
-            this.btnAddVault.Text = "+";
-            this.btnAddVault.UseVisualStyleBackColor = true;
-            this.btnAddVault.Click += new System.EventHandler(this.btnAddVault_Click);
-            // 
-            // cmbVault
-            // 
-            this.cmbVault.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbVault.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbVault.Enabled = false;
-            this.cmbVault.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbVault.FormattingEnabled = true;
-            this.cmbVault.Items.AddRange(new object[] {
-            "Select Folder"});
-            this.cmbVault.Location = new System.Drawing.Point(57, 287);
-            this.cmbVault.MaxDropDownItems = 100;
-            this.cmbVault.Name = "cmbVault";
-            this.cmbVault.Size = new System.Drawing.Size(494, 23);
-            this.cmbVault.TabIndex = 40;
-            this.cmbVault.SelectedIndexChanged += new System.EventHandler(this.cmbVault_SelectedIndexChanged);
-            // 
-            // btnAddSignature
-            // 
-            this.btnAddSignature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddSignature.Enabled = false;
-            this.btnAddSignature.Location = new System.Drawing.Point(3, 257);
-            this.btnAddSignature.Name = "btnAddSignature";
-            this.btnAddSignature.Size = new System.Drawing.Size(21, 25);
-            this.btnAddSignature.TabIndex = 39;
-            this.btnAddSignature.Text = "+";
-            this.btnAddSignature.UseVisualStyleBackColor = true;
-            this.btnAddSignature.Click += new System.EventHandler(this.btnAddSignature_Click);
-            // 
-            // cmbSignature
-            // 
-            this.cmbSignature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbSignature.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSignature.Enabled = false;
-            this.cmbSignature.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbSignature.FormattingEnabled = true;
-            this.cmbSignature.Items.AddRange(new object[] {
-            "Select Folder"});
-            this.cmbSignature.Location = new System.Drawing.Point(57, 257);
-            this.cmbSignature.MaxDropDownItems = 100;
-            this.cmbSignature.Name = "cmbSignature";
-            this.cmbSignature.Size = new System.Drawing.Size(494, 23);
-            this.cmbSignature.TabIndex = 34;
-            this.cmbSignature.SelectedIndexChanged += new System.EventHandler(this.cmbSignature_SelectedIndexChanged);
-            // 
-            // cmbFolder
-            // 
-            this.cmbFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbFolder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFolder.Enabled = false;
-            this.cmbFolder.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbFolder.FormattingEnabled = true;
-            this.cmbFolder.Location = new System.Drawing.Point(57, 227);
-            this.cmbFolder.MaxDropDownItems = 100;
-            this.cmbFolder.Name = "cmbFolder";
-            this.cmbFolder.Size = new System.Drawing.Size(494, 23);
-            this.cmbFolder.TabIndex = 32;
-            this.cmbFolder.SelectedIndexChanged += new System.EventHandler(this.cmbFolder_SelectedIndexChanged);
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Controls.Add(this.groupBox1);
-            this.flowLayoutPanel1.Controls.Add(this.groupBox2);
-            this.flowLayoutPanel1.Controls.Add(this.groupBox3);
-            this.flowLayoutPanel1.Controls.Add(this.chkMonitorBlockChains);
-            this.flowLayoutPanel1.Controls.Add(this.chkFilterUnSafeContent);
-            this.flowLayoutPanel1.Controls.Add(this.chkEnableRecipients);
-            this.flowLayoutPanel1.Controls.Add(this.chkKeywords);
-            this.flowLayoutPanel1.Controls.Add(this.chkEnableTips);
-            this.flowLayoutPanel1.Controls.Add(this.chkCompressImages);
-            this.flowLayoutPanel1.Controls.Add(this.chkWarnArchive);
-            this.flowLayoutPanel1.Controls.Add(this.chkSaveOnEnter);
-            this.flowLayoutPanel1.Controls.Add(this.chkTrackVault);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 4);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(550, 186);
-            this.flowLayoutPanel1.TabIndex = 33;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.groupBox1.Controls.Add(this.lblEstimatedCost);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(158, 41);
-            this.groupBox1.TabIndex = 18;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Estimated Cost";
-            // 
-            // lblEstimatedCost
-            // 
-            this.lblEstimatedCost.AutoSize = true;
-            this.lblEstimatedCost.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEstimatedCost.Location = new System.Drawing.Point(6, 18);
-            this.lblEstimatedCost.Name = "lblEstimatedCost";
-            this.lblEstimatedCost.Size = new System.Drawing.Size(64, 14);
-            this.lblEstimatedCost.TabIndex = 0;
-            this.lblEstimatedCost.Text = "0.00000000";
-            this.lblEstimatedCost.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.groupBox2.Controls.Add(this.lblCoinTotal);
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(167, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(158, 41);
-            this.groupBox2.TabIndex = 19;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Available Funds";
-            // 
-            // lblCoinTotal
-            // 
-            this.lblCoinTotal.AutoSize = true;
-            this.lblCoinTotal.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCoinTotal.Location = new System.Drawing.Point(6, 18);
-            this.lblCoinTotal.Name = "lblCoinTotal";
-            this.lblCoinTotal.Size = new System.Drawing.Size(64, 14);
-            this.lblCoinTotal.TabIndex = 0;
-            this.lblCoinTotal.Text = "0.00000000";
-            this.lblCoinTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.groupBox3.Controls.Add(this.lblTotalArchiveSize);
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(331, 3);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(158, 41);
-            this.groupBox3.TabIndex = 20;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Total Archive Size";
-            // 
-            // lblTotalArchiveSize
-            // 
-            this.lblTotalArchiveSize.AutoSize = true;
-            this.lblTotalArchiveSize.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalArchiveSize.Location = new System.Drawing.Point(6, 18);
-            this.lblTotalArchiveSize.Name = "lblTotalArchiveSize";
-            this.lblTotalArchiveSize.Size = new System.Drawing.Size(64, 14);
-            this.lblTotalArchiveSize.TabIndex = 0;
-            this.lblTotalArchiveSize.Text = "0.00000000";
-            this.lblTotalArchiveSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // chkFilterUnSafeContent
-            // 
-            this.chkFilterUnSafeContent.AutoSize = true;
-            this.chkFilterUnSafeContent.Checked = true;
-            this.chkFilterUnSafeContent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFilterUnSafeContent.Location = new System.Drawing.Point(70, 50);
-            this.chkFilterUnSafeContent.Name = "chkFilterUnSafeContent";
-            this.chkFilterUnSafeContent.Size = new System.Drawing.Size(48, 17);
-            this.chkFilterUnSafeContent.TabIndex = 3;
-            this.chkFilterUnSafeContent.TabStop = false;
-            this.chkFilterUnSafeContent.Text = "Filter";
-            this.chkFilterUnSafeContent.UseVisualStyleBackColor = true;
-            this.chkFilterUnSafeContent.CheckedChanged += new System.EventHandler(this.chkFilterUnSafeContent_CheckedChanged);
-            // 
-            // chkMonitorBlockChains
-            // 
-            this.chkMonitorBlockChains.AutoSize = true;
-            this.chkMonitorBlockChains.Location = new System.Drawing.Point(3, 50);
-            this.chkMonitorBlockChains.Name = "chkMonitorBlockChains";
-            this.chkMonitorBlockChains.Size = new System.Drawing.Size(61, 17);
-            this.chkMonitorBlockChains.TabIndex = 2;
-            this.chkMonitorBlockChains.TabStop = false;
-            this.chkMonitorBlockChains.Text = "Monitor";
-            this.chkMonitorBlockChains.UseVisualStyleBackColor = true;
-            this.chkMonitorBlockChains.CheckedChanged += new System.EventHandler(this.chkMonitorBlockChains_CheckedChanged);
-            // 
-            // chkEnableRecipients
-            // 
-            this.chkEnableRecipients.AutoSize = true;
-            this.chkEnableRecipients.Checked = true;
-            this.chkEnableRecipients.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEnableRecipients.Location = new System.Drawing.Point(126, 52);
-            this.chkEnableRecipients.Margin = new System.Windows.Forms.Padding(5);
-            this.chkEnableRecipients.Name = "chkEnableRecipients";
-            this.chkEnableRecipients.Size = new System.Drawing.Size(87, 17);
-            this.chkEnableRecipients.TabIndex = 24;
-            this.chkEnableRecipients.Text = "@Recipients";
-            this.chkEnableRecipients.UseVisualStyleBackColor = true;
-            this.chkEnableRecipients.CheckedChanged += new System.EventHandler(this.chkEnableRecipients_CheckedChanged);
-            // 
-            // chkKeywords
-            // 
-            this.chkKeywords.AutoSize = true;
-            this.chkKeywords.Checked = true;
-            this.chkKeywords.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkKeywords.Location = new System.Drawing.Point(223, 52);
-            this.chkKeywords.Margin = new System.Windows.Forms.Padding(5);
-            this.chkKeywords.Name = "chkKeywords";
-            this.chkKeywords.Size = new System.Drawing.Size(79, 17);
-            this.chkKeywords.TabIndex = 0;
-            this.chkKeywords.Text = "#Keywords";
-            this.chkKeywords.UseVisualStyleBackColor = true;
-            this.chkKeywords.CheckedChanged += new System.EventHandler(this.chkKeywords_CheckedChanged);
-            // 
-            // chkEnableTips
-            // 
-            this.chkEnableTips.AutoSize = true;
-            this.chkEnableTips.Location = new System.Drawing.Point(310, 50);
-            this.chkEnableTips.Name = "chkEnableTips";
-            this.chkEnableTips.Size = new System.Drawing.Size(52, 17);
-            this.chkEnableTips.TabIndex = 26;
-            this.chkEnableTips.Text = ">Tips";
-            this.chkEnableTips.UseVisualStyleBackColor = true;
-            this.chkEnableTips.CheckedChanged += new System.EventHandler(this.chkEnableTips_CheckedChanged);
-            // 
-            // chkCompressImages
-            // 
-            this.chkCompressImages.AutoSize = true;
-            this.chkCompressImages.Checked = true;
-            this.chkCompressImages.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCompressImages.Location = new System.Drawing.Point(368, 50);
-            this.chkCompressImages.Name = "chkCompressImages";
-            this.chkCompressImages.Size = new System.Drawing.Size(109, 17);
-            this.chkCompressImages.TabIndex = 25;
-            this.chkCompressImages.Text = "Compress Images";
-            this.chkCompressImages.UseVisualStyleBackColor = true;
-            this.chkCompressImages.CheckedChanged += new System.EventHandler(this.chkCompressImages_CheckedChanged);
-            // 
-            // chkWarnArchive
-            // 
-            this.chkWarnArchive.AutoSize = true;
-            this.chkWarnArchive.Checked = true;
-            this.chkWarnArchive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWarnArchive.Location = new System.Drawing.Point(3, 77);
-            this.chkWarnArchive.Name = "chkWarnArchive";
-            this.chkWarnArchive.Size = new System.Drawing.Size(94, 17);
-            this.chkWarnArchive.TabIndex = 21;
-            this.chkWarnArchive.Text = "Save Warning";
-            this.chkWarnArchive.UseVisualStyleBackColor = true;
-            this.chkWarnArchive.CheckedChanged += new System.EventHandler(this.chkWarnArchive_CheckedChanged);
-            // 
-            // chkSaveOnEnter
-            // 
-            this.chkSaveOnEnter.AutoSize = true;
-            this.chkSaveOnEnter.Location = new System.Drawing.Point(103, 77);
-            this.chkSaveOnEnter.Name = "chkSaveOnEnter";
-            this.chkSaveOnEnter.Size = new System.Drawing.Size(88, 17);
-            this.chkSaveOnEnter.TabIndex = 22;
-            this.chkSaveOnEnter.Text = "Enter = Save";
-            this.chkSaveOnEnter.UseVisualStyleBackColor = true;
-            this.chkSaveOnEnter.CheckedChanged += new System.EventHandler(this.chkSaveOnEnter_CheckedChanged);
-            // 
-            // chkTrackVault
-            // 
-            this.chkTrackVault.AutoSize = true;
-            this.chkTrackVault.Checked = true;
-            this.chkTrackVault.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTrackVault.Location = new System.Drawing.Point(197, 77);
-            this.chkTrackVault.Name = "chkTrackVault";
-            this.chkTrackVault.Size = new System.Drawing.Size(81, 17);
-            this.chkTrackVault.TabIndex = 23;
-            this.chkTrackVault.Text = "Track Vault";
-            this.chkTrackVault.UseVisualStyleBackColor = true;
-            this.chkTrackVault.CheckedChanged += new System.EventHandler(this.chkTrackVault_CheckedChanged);
             // 
             // statusArchiveStatus
             // 
@@ -1238,10 +1249,10 @@
             this.statusArchiveStatus.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusArchiveStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatusInfo});
-            this.statusArchiveStatus.Location = new System.Drawing.Point(0, 668);
+            this.statusArchiveStatus.Location = new System.Drawing.Point(0, 1196);
             this.statusArchiveStatus.Name = "statusArchiveStatus";
             this.statusArchiveStatus.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusArchiveStatus.Size = new System.Drawing.Size(1019, 22);
+            this.statusArchiveStatus.Size = new System.Drawing.Size(1428, 30);
             this.statusArchiveStatus.SizingGrip = false;
             this.statusArchiveStatus.TabIndex = 32;
             // 
@@ -1249,7 +1260,7 @@
             // 
             this.lblStatusInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatusInfo.Name = "lblStatusInfo";
-            this.lblStatusInfo.Size = new System.Drawing.Size(1002, 17);
+            this.lblStatusInfo.Size = new System.Drawing.Size(1411, 25);
             this.lblStatusInfo.Spring = true;
             this.lblStatusInfo.Text = "Select a blockchain to get started.";
             this.lblStatusInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1259,45 +1270,15 @@
             this.tmrPauseBeforeRefreshingMonitor.Interval = 2000;
             this.tmrPauseBeforeRefreshingMonitor.Tick += new System.EventHandler(this.tmrPauseBeforeRefreshingMonitor_Tick);
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(6, 4);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.cmbCoinType);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.cmbWalletLabel);
-            this.splitContainer1.Size = new System.Drawing.Size(447, 27);
-            this.splitContainer1.SplitterDistance = 211;
-            this.splitContainer1.TabIndex = 30;
-            // 
-            // btnFriendEncryption
-            // 
-            this.btnFriendEncryption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnFriendEncryption.Enabled = false;
-            this.btnFriendEncryption.Location = new System.Drawing.Point(3, 196);
-            this.btnFriendEncryption.Name = "btnFriendEncryption";
-            this.btnFriendEncryption.Size = new System.Drawing.Size(48, 23);
-            this.btnFriendEncryption.TabIndex = 50;
-            this.btnFriendEncryption.Text = "Public";
-            this.btnFriendEncryption.UseVisualStyleBackColor = true;
-            this.btnFriendEncryption.Click += new System.EventHandler(this.btnFriendEncryption_Click);
-            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1019, 690);
+            this.ClientSize = new System.Drawing.Size(1428, 1226);
+            this.Controls.Add(this.splitHistoryBrowser);
             this.Controls.Add(this.statusArchiveStatus);
-            this.Controls.Add(this.splitMain);
             this.Controls.Add(this.menuMain);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1320,25 +1301,8 @@
             this.splitMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).EndInit();
             this.splitMain.ResumeLayout(false);
-            this.splitHistoryBrowser.Panel1.ResumeLayout(false);
-            this.splitHistoryBrowser.Panel2.ResumeLayout(false);
-            this.splitHistoryBrowser.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitHistoryBrowser)).EndInit();
-            this.splitHistoryBrowser.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.imgOpenLeft)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgTip)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgFriend)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgTrash)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgFavorite)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgCatalog)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgNextButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgBackButton)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgOpenUp)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgOpenRight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgApertusSplash)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgOpenLeft)).EndInit();
             this.splitArchiveTools.Panel1.ResumeLayout(false);
             this.splitArchiveTools.Panel1.PerformLayout();
             this.splitArchiveTools.Panel2.ResumeLayout(false);
@@ -1355,12 +1319,25 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.splitHistoryBrowser.Panel1.ResumeLayout(false);
+            this.splitHistoryBrowser.Panel2.ResumeLayout(false);
+            this.splitHistoryBrowser.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitHistoryBrowser)).EndInit();
+            this.splitHistoryBrowser.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imgTip)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgFriend)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgTrash)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgFavorite)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgCatalog)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgNextButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgBackButton)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgOpenRight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgApertusSplash)).EndInit();
             this.statusArchiveStatus.ResumeLayout(false);
             this.statusArchiveStatus.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1460,7 +1437,6 @@
         private System.Windows.Forms.CheckBox chkCompressImages;
         private System.Windows.Forms.CheckBox chkEnableTips;
         private System.Windows.Forms.ComboBox cmbFollow;
-        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnFriendEncryption;
     }
 }
