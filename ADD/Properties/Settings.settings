@@ -59,11 +59,14 @@
     <Setting Name="DirectMessage" Type="System.String" Scope="User">
       <Value Profile="(Default)">Public</Value>
     </Setting>
-    <Setting Name="TextFont" Type="System.Drawing.Font" Scope="User">
-      <Value Profile="(Default)">unifont, 10.2pt, style=Bold</Value>
-    </Setting>
     <Setting Name="TextColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="TextFont" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">Microsoft Sans Serif, 10.2pt, style=Bold</Value>
+    </Setting>
+    <Setting Name="HideOptions" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

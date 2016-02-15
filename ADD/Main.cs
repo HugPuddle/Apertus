@@ -117,6 +117,7 @@ namespace ADD
         public void Startup()
         {
             tmrProcessBatch.Start();
+            splitArchiveTools.SplitterWidth = 10;
             characterMap = glyphTypeface.CharacterToGlyphMap;
             infoArray = "Apertus immutably stores and interprets data on blockchains.|Never build files or click links from sources you do not trust.|Send a direct message by using @ followed by Address.|Click Help, then info for assistance.|Create a Profile and start sharing your thoughts.|#keywords allow people to discover and follow your causes.|Encrypt items by creating and selecting a Vault.|Signing your archives allows people to trust you.|This is beta software use at your own risk!|Press CTRL while submitting a search to rebuild the cache.|Search by Trans ID, Address, Free Text or #Keyword|Publish your work using a profile, signature, & tip address".Split('|');
             URLSecurityZoneAPI.InternetSetFeatureEnabled(URLSecurityZoneAPI.InternetFeaturelist.DISABLE_NAVIGATION_SOUNDS, URLSecurityZoneAPI.SetFeatureOn.PROCESS, true);
@@ -4102,7 +4103,23 @@ namespace ADD
             btnFriendEncryption.Text = Properties.Settings.Default.DirectMessage;
         }
 
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+            imgOptionsOpen.Visible = true;
+            imgOptionsClose.Visible = false;
+            splitArchiveTools.Panel2Collapsed= true;
+            Properties.Settings.Default.HideOptions = true;
+            Properties.Settings.Default.Save();
+        }
 
+        private void imgOptionsOpen_Click(object sender, EventArgs e)
+        {
+            imgOptionsClose.Visible = true;
+            imgOptionsOpen.Visible = false;
+            splitArchiveTools.Panel2Collapsed = false;
+            Properties.Settings.Default.HideOptions = false;
+            Properties.Settings.Default.Save();
+        }
     }
 
 }
