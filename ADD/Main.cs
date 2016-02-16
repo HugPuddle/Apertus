@@ -89,7 +89,7 @@ namespace ADD
             Startup();
             FixBrowser();
             backgroundWorker1.WorkerReportsProgress = true;
-
+            splitArchiveTools.SplitterWidth = 10;
         }
 
         private void FixBrowser()
@@ -117,7 +117,6 @@ namespace ADD
         public void Startup()
         {
             tmrProcessBatch.Start();
-            splitArchiveTools.SplitterWidth = 10;
             characterMap = glyphTypeface.CharacterToGlyphMap;
             infoArray = "Apertus immutably stores and interprets data on blockchains.|Never build files or click links from sources you do not trust.|Send a direct message by using @ followed by Address.|Click Help, then info for assistance.|Create a Profile and start sharing your thoughts.|#keywords allow people to discover and follow your causes.|Encrypt items by creating and selecting a Vault.|Signing your archives allows people to trust you.|This is beta software use at your own risk!|Press CTRL while submitting a search to rebuild the cache.|Search by Trans ID, Address, Free Text or #Keyword|Publish your work using a profile, signature, & tip address".Split('|');
             URLSecurityZoneAPI.InternetSetFeatureEnabled(URLSecurityZoneAPI.InternetFeaturelist.DISABLE_NAVIGATION_SOUNDS, URLSecurityZoneAPI.SetFeatureOn.PROCESS, true);
@@ -851,6 +850,7 @@ namespace ADD
                 splitHistoryBrowser.SplitterDistance = Properties.Settings.Default.BrowserPanel;
                 splitMain.Panel2Collapsed = Properties.Settings.Default.HideArchive;
                 splitHistoryBrowser.Panel1Collapsed = Properties.Settings.Default.HideHistory;
+                splitArchiveTools.Panel2Collapsed = Properties.Settings.Default.HideOptions;
                 txtMessage.Font = Properties.Settings.Default.TextFont;
                 txtMessage.ForeColor = Properties.Settings.Default.TextColor;
                 if (Properties.Settings.Default.HideArchive)
@@ -863,6 +863,18 @@ namespace ADD
                     imgOpenUp.Visible = false;
                     imgOpenDown.Visible = true;
                 }
+
+                if (Properties.Settings.Default.HideOptions)
+                {
+                    imgOptionsOpen.Visible = true;
+                    imgOptionsClose.Visible = false;
+                }
+                else
+                {
+                    imgOptionsOpen.Visible = false;
+                    imgOptionsClose.Visible = true;
+                }
+
 
                 if (Properties.Settings.Default.HideHistory)
                 {
@@ -1197,7 +1209,7 @@ namespace ADD
             }
             lblCoinTotal.Text = "0.00000000";
             cmbWalletLabel.Items.Clear();
-            cmbWalletLabel.Items.Add("Active Accounts");
+            cmbWalletLabel.Items.Add("Select Account");
             cmbWalletLabel.SelectedIndex = 0;
             cmbFolder.Items.Clear();
             cmbFolder.Items.Add("Active Profiles");
@@ -2604,6 +2616,9 @@ namespace ADD
                                 StreamWriter writeFollowList = new StreamWriter("Follow.txt", true);
                                 writeFollowList.WriteLine(searchString);
                                 writeFollowList.Close();
+                                cmbFollow.Items.Add(searchString);
+                                cmbFollow.SelectedIndex = cmbFollow.FindString(searchString);
+                                
                             }
                         }
                         else

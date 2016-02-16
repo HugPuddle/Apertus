@@ -52,7 +52,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("508")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1024")]
         public int AppHeight {
             get {
                 return ((int)(this["AppHeight"]));
@@ -64,7 +64,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("676")]
+        [global::System.Configuration.DefaultSettingValueAttribute("768")]
         public int AppWidth {
             get {
                 return ((int)(this["AppWidth"]));
@@ -76,7 +76,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("203")]
+        [global::System.Configuration.DefaultSettingValueAttribute("595")]
         public int BrowserPanel {
             get {
                 return ((int)(this["BrowserPanel"]));
@@ -88,7 +88,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("313")]
+        [global::System.Configuration.DefaultSettingValueAttribute("255")]
         public int ArchivePanel {
             get {
                 return ((int)(this["ArchivePanel"]));
@@ -100,7 +100,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool HideArchive {
             get {
                 return ((bool)(this["HideArchive"]));
@@ -268,7 +268,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool HideOptions {
             get {
                 return ((bool)(this["HideOptions"]));
