@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Profile");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Signature");
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Vault");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Favorites");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Follow");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Profile");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Signature");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Vault");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Favorites");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Follow");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.attachFiles = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -449,22 +449,22 @@
             this.treeView1.Font = new System.Drawing.Font("Arial", 10.875F);
             this.treeView1.Location = new System.Drawing.Point(11, 63);
             this.treeView1.Name = "treeView1";
-            treeNode16.Name = "profile";
-            treeNode16.Text = "Profile";
-            treeNode17.Name = "signature";
-            treeNode17.Text = "Signature";
-            treeNode18.Name = "vault";
-            treeNode18.Text = "Vault";
-            treeNode19.Name = "favorites";
-            treeNode19.Text = "Favorites";
-            treeNode20.Name = "follow";
-            treeNode20.Text = "Follow";
+            treeNode1.Name = "profile";
+            treeNode1.Text = "Profile";
+            treeNode2.Name = "signature";
+            treeNode2.Text = "Signature";
+            treeNode3.Name = "vault";
+            treeNode3.Text = "Vault";
+            treeNode4.Name = "favorites";
+            treeNode4.Text = "Favorites";
+            treeNode5.Name = "follow";
+            treeNode5.Text = "Follow";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode16,
-            treeNode17,
-            treeNode18,
-            treeNode19,
-            treeNode20});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5});
             this.treeView1.Size = new System.Drawing.Size(836, 290);
             this.treeView1.TabIndex = 5;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -514,14 +514,14 @@
             // 
             this.splitArchiveTools.Panel1.Controls.Add(this.imgOptionsOpen);
             this.splitArchiveTools.Panel1.Controls.Add(this.imgEnterMessageHere);
-            this.splitArchiveTools.Panel1.Controls.Add(this.cmbTo);
             this.splitArchiveTools.Panel1.Controls.Add(this.imgOpenDown);
             this.splitArchiveTools.Panel1.Controls.Add(this.cmbWalletLabel);
-            this.splitArchiveTools.Panel1.Controls.Add(this.btnFriendEncryption);
             this.splitArchiveTools.Panel1.Controls.Add(this.txtMessage);
             this.splitArchiveTools.Panel1.Controls.Add(this.btnAttachFile);
+            this.splitArchiveTools.Panel1.Controls.Add(this.cmbTo);
             this.splitArchiveTools.Panel1.Controls.Add(this.btnArchive);
             this.splitArchiveTools.Panel1.Controls.Add(this.txtFileName);
+            this.splitArchiveTools.Panel1.Controls.Add(this.btnFriendEncryption);
             this.splitArchiveTools.Panel1MinSize = 155;
             // 
             // splitArchiveTools.Panel2
@@ -567,9 +567,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imgEnterMessageHere.BackColor = System.Drawing.Color.White;
             this.imgEnterMessageHere.Image = ((System.Drawing.Image)(resources.GetObject("imgEnterMessageHere.Image")));
-            this.imgEnterMessageHere.Location = new System.Drawing.Point(95, 79);
+            this.imgEnterMessageHere.Location = new System.Drawing.Point(97, 74);
             this.imgEnterMessageHere.Name = "imgEnterMessageHere";
-            this.imgEnterMessageHere.Size = new System.Drawing.Size(674, 106);
+            this.imgEnterMessageHere.Size = new System.Drawing.Size(674, 125);
             this.imgEnterMessageHere.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgEnterMessageHere.TabIndex = 29;
             this.imgEnterMessageHere.TabStop = false;
@@ -578,17 +578,17 @@
             // 
             // cmbTo
             // 
-            this.cmbTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.cmbTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTo.Enabled = false;
             this.cmbTo.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbTo.Font = new System.Drawing.Font("Arial", 10.875F);
             this.cmbTo.FormattingEnabled = true;
-            this.cmbTo.Location = new System.Drawing.Point(118, 9);
+            this.cmbTo.Location = new System.Drawing.Point(118, 221);
             this.cmbTo.MaxDropDownItems = 100;
             this.cmbTo.Name = "cmbTo";
-            this.cmbTo.Size = new System.Drawing.Size(690, 41);
+            this.cmbTo.Size = new System.Drawing.Size(729, 41);
             this.cmbTo.TabIndex = 49;
             this.cmbTo.SelectedIndexChanged += new System.EventHandler(this.cmbTo_SelectedIndexChanged_1);
             // 
@@ -607,7 +607,7 @@
             // 
             // cmbWalletLabel
             // 
-            this.cmbWalletLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.cmbWalletLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbWalletLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbWalletLabel.Enabled = false;
@@ -616,17 +616,18 @@
             this.cmbWalletLabel.ItemHeight = 33;
             this.cmbWalletLabel.Items.AddRange(new object[] {
             "Select Funding Source"});
-            this.cmbWalletLabel.Location = new System.Drawing.Point(13, 221);
+            this.cmbWalletLabel.Location = new System.Drawing.Point(11, 9);
             this.cmbWalletLabel.MaxDropDownItems = 100;
             this.cmbWalletLabel.Name = "cmbWalletLabel";
-            this.cmbWalletLabel.Size = new System.Drawing.Size(836, 41);
+            this.cmbWalletLabel.Size = new System.Drawing.Size(797, 41);
             this.cmbWalletLabel.TabIndex = 21;
             this.cmbWalletLabel.SelectedIndexChanged += new System.EventHandler(this.cmbWalletLabel_SelectedIndexChanged);
             // 
             // btnFriendEncryption
             // 
+            this.btnFriendEncryption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnFriendEncryption.Enabled = false;
-            this.btnFriendEncryption.Location = new System.Drawing.Point(13, 9);
+            this.btnFriendEncryption.Location = new System.Drawing.Point(13, 221);
             this.btnFriendEncryption.Name = "btnFriendEncryption";
             this.btnFriendEncryption.Size = new System.Drawing.Size(98, 41);
             this.btnFriendEncryption.TabIndex = 50;
@@ -1058,7 +1059,7 @@
             // 
             // splitHistoryBrowser
             // 
-            this.splitHistoryBrowser.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitHistoryBrowser.BackColor = System.Drawing.Color.White;
             this.splitHistoryBrowser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitHistoryBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitHistoryBrowser.Location = new System.Drawing.Point(0, 37);

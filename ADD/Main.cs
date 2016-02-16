@@ -1212,20 +1212,20 @@ namespace ADD
             cmbWalletLabel.Items.Add("Select Account");
             cmbWalletLabel.SelectedIndex = 0;
             cmbFolder.Items.Clear();
-            cmbFolder.Items.Add("Active Profiles");
+            cmbFolder.Items.Add("Profiles");
             cmbFolder.SelectedIndex = 0;
             cmbSignature.Items.Clear();
-            cmbSignature.Items.Add("Active Signatures");
+            cmbSignature.Items.Add("Signatures");
             cmbSignature.SelectedIndex = 0;
             cmbVault.Items.Clear();
-            cmbVault.Items.Add("Active Vaults");
+            cmbVault.Items.Add("Vaults");
             cmbVault.SelectedIndex = 0;
             cmbFollow.Items.Clear();
             cmbFollow.Items.Add("Refresh Follow");
             cmbFollow.SelectedIndex = 0;
 
             friendTransID = new Dictionary<string, string>();
-            friendTransID.Add("", "Active Friends");
+            friendTransID.Add("", "Friends");
 
             cmbTo.DataSource = new BindingSource(friendTransID, null);
             cmbTo.DisplayMember = "Value";
