@@ -52,7 +52,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1024")]
+        [global::System.Configuration.DefaultSettingValueAttribute("987")]
         public int AppHeight {
             get {
                 return ((int)(this["AppHeight"]));
@@ -64,7 +64,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1285")]
         public int AppWidth {
             get {
                 return ((int)(this["AppWidth"]));
@@ -76,7 +76,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("595")]
+        [global::System.Configuration.DefaultSettingValueAttribute("584")]
         public int BrowserPanel {
             get {
                 return ((int)(this["BrowserPanel"]));
@@ -88,7 +88,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("255")]
+        [global::System.Configuration.DefaultSettingValueAttribute("262")]
         public int ArchivePanel {
             get {
                 return ((int)(this["ArchivePanel"]));
@@ -124,7 +124,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("250")]
+        [global::System.Configuration.DefaultSettingValueAttribute("308")]
         public int MainPanel {
             get {
                 return ((int)(this["MainPanel"]));
