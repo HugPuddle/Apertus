@@ -82,6 +82,7 @@ namespace ADD
         bool Loading = true;
         string PROLinks = "";
         string lastTransID = "";
+        string strProofAddress = "";
 
         public Main()
         {
@@ -513,6 +514,19 @@ namespace ADD
                     }
                 }
 
+                if (strProofAddress != "" && ledgerId != null)
+                {
+                    //added to assist in Proof Lookups by ensuring proof address is included with Ledger etching
+                    if (!addressHash.Contains(strProofAddress))
+                    {
+                        System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                        arcSign.WriteLine(strProofAddress);
+                        addressHash.Add(strProofAddress);
+                        arcSign.Close();
+                    }
+                    
+                }
+               
                 //Folder address should always be the last or second to the last address in the array to allow for Folder Lookups.
                 if (ProfileLabel != "")
                 {
@@ -579,6 +593,7 @@ namespace ADD
                         { transactionId = lastTransactionID; }
                         else
                         {
+                            System.Threading.Thread.Sleep(1000);
                             transactionId = b.SendMany(WalletLabel, toMany);
                         }
 
@@ -601,9 +616,9 @@ namespace ADD
                         tranCount = 0;
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
-                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 10))
+                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
                         {
-                            System.Threading.Thread.Sleep(1000);
+                            System.Threading.Thread.Sleep(5000);
                             transLookup = b.GetTransaction(transactionId);
 
                         }
@@ -616,6 +631,7 @@ namespace ADD
                     if (tranCount == coinTransactionSize[CoinType])
                     {
                         //Breaking transaction file into size specified in wallet settings
+                        System.Threading.Thread.Sleep(1000);
                         transactionId = b.SendMany(WalletLabel, toMany);
                         arcLedger.WriteLine(transactionId);
                         arcLedger.Flush();
@@ -626,9 +642,9 @@ namespace ADD
 
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
-                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 10))
+                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
                         {
-                            System.Threading.Thread.Sleep(1000);
+                            System.Threading.Thread.Sleep(5000);
                             transLookup = b.GetTransaction(transactionId);
                         }
                         if (transLookup.confirmations > 0) { ledgerCount = 0; }
@@ -642,6 +658,7 @@ namespace ADD
                 if (toMany.Count > 0)
                 {
                     //Catching the straglers
+                    System.Threading.Thread.Sleep(1000);
                     transactionId = b.SendMany(WalletLabel, toMany);
                     arcLedger.WriteLine(transactionId);
                     arcLedger.Flush();
@@ -651,9 +668,9 @@ namespace ADD
                     tranCount = 0;
                     GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                     //Wait for the wallet to catch up.
-                    while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 10))
+                    while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
                     {
-                        System.Threading.Thread.Sleep(1000);
+                        System.Threading.Thread.Sleep(5000);
                         transLookup = b.GetTransaction(transactionId);
                     }
 
@@ -829,8 +846,7 @@ namespace ADD
 
         public void LoadUserPref()
         {
-            this.Width = Properties.Settings.Default.AppWidth;
-            this.Height = Properties.Settings.Default.AppHeight;
+            this.Size = new System.Drawing.Size(Properties.Settings.Default.AppWidth, Properties.Settings.Default.AppHeight);
             btnFriendEncryption.Text = Properties.Settings.Default.DirectMessage;
 
 
@@ -2800,9 +2816,9 @@ namespace ADD
                 string strHash = BitConverter.ToString(hashValue).Replace("-", String.Empty);
                 byte[] payLoadBytes = new byte[21];
                 payLoadBytes[0] = coinVersion[CoinType];
-                byte[] hashBytes = Encoding.UTF8.GetBytes(strHash.Substring(0, 20));
+                byte[] hashBytes = Encoding.UTF8.GetBytes(strHash.Substring(0, coinPayloadByteSize[CoinType]));
                 hashBytes.CopyTo(payLoadBytes, 1);
-                string strProofAddress = Base58.EncodeWithCheckSum(payLoadBytes);
+                strProofAddress = Base58.EncodeWithCheckSum(payLoadBytes);
 
                 CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
                 try
@@ -2815,12 +2831,13 @@ namespace ADD
                     DialogResult dialogResult = MessageBox.Show("This blockchain does not support file proof Lookups at this time. Consider setting up a tracking address in the wallet settings BEFORE inserting the proof. Do you wish to continue?", "Limited functions", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.No)
                     {
+                        strProofAddress = "";
                         return;
                     }
                 }
 
                 CreateLedgerFile(coinPayloadByteSize[CoinType], GetRandomBuffer(coinPayloadByteSize[CoinType]), coinIP[CoinType], coinPort[CoinType], coinUser[CoinType], coinPassword[CoinType], WalletLabel, coinVersion[CoinType], coinMinTransaction[CoinType], txtFileName.Text, null, strHash + "\n" + txtMessage.Text);
-
+                strProofAddress = "";
             }
 
         }
