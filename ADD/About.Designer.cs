@@ -57,7 +57,7 @@
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(205, 25);
             this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "Version: v0.3.4-beta";
+            this.lblVersion.Text = "Version: v0.3.5-beta";
             // 
             // label1
             // 
@@ -128,7 +128,6 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About Apertus";
-            this.Load += new System.EventHandler(this.About_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

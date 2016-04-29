@@ -70,6 +70,7 @@
             this.txtTipAmount = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.chkPayloadSIzeVariable = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cmbWallets
@@ -482,11 +483,24 @@
             this.label18.TabIndex = 50;
             this.label18.Text = "( .001 )";
             // 
+            // chkPayloadSIzeVariable
+            // 
+            this.chkPayloadSIzeVariable.AutoSize = true;
+            this.chkPayloadSIzeVariable.Enabled = false;
+            this.chkPayloadSIzeVariable.Location = new System.Drawing.Point(587, 235);
+            this.chkPayloadSIzeVariable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.chkPayloadSIzeVariable.Name = "chkPayloadSIzeVariable";
+            this.chkPayloadSIzeVariable.Size = new System.Drawing.Size(123, 29);
+            this.chkPayloadSIzeVariable.TabIndex = 51;
+            this.chkPayloadSIzeVariable.Text = "Variable";
+            this.chkPayloadSIzeVariable.UseVisualStyleBackColor = true;
+            // 
             // Wallets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 762);
+            this.Controls.Add(this.chkPayloadSIzeVariable);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.txtTipAmount);
             this.Controls.Add(this.label14);
@@ -586,5 +600,6 @@
         private System.Windows.Forms.TextBox txtTipAmount;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.CheckBox chkPayloadSIzeVariable;
     }
 }

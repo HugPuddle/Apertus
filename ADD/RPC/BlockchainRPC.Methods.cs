@@ -41,8 +41,13 @@ namespace BitcoinNET.RPCClient
 				(new RPCRequest("gettransaction", new Object[] { TxID }));
 		}
 
-     		
-		public IDictionary<string, decimal> ListAccounts(int MinConf = 1)
+        public DataCoinGetTransactionResponse DataCoinGetTransaction(string TxID)
+        {
+            return RpcCall<DataCoinGetTransactionResponse>
+                (new RPCRequest("gettransaction", new Object[] { TxID }));
+        }
+
+        public IDictionary<string, decimal> ListAccounts(int MinConf = 1)
 		{
 			return RpcCall<IDictionary<string, decimal>>
 				(new RPCRequest("listaccounts", new Object[] { MinConf }));
@@ -90,6 +95,12 @@ namespace BitcoinNET.RPCClient
 			return RpcCall<string>
 				(new RPCRequest("sendmany", new Object[] { FromAddress, ToBitcoinAddresses, 0 }));
 		}
+
+        public string SendData(string Data)
+        {
+            return RpcCall<string>
+                (new RPCRequest("senddata", new Object[] { Data }));
+        }
 
         public string SendRawTransaction(string Transaction)
         {

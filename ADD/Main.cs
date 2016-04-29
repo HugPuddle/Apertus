@@ -46,6 +46,7 @@ namespace ADD
         public static Dictionary<string, Boolean> coinEnableTracking;
         public static Dictionary<string, string> coinHelperUrl;
         public static Dictionary<string, string> friendTransID;
+        public static Dictionary<string, Boolean> coinVariablePayloadByteSize;
         public static string CoinType = "";
         public static string arcfileName = "";
         public static string arcmessage = "";
@@ -189,7 +190,8 @@ namespace ADD
 
         public void CreateLedgerFile(int PayloadByteSize, string Padding, string WalletRPCIP, string WalletRPCPort, string WalletRPCUser, string WalletRPCPassword, string WalletLabel, byte CoinVersion, decimal CoinMinTransaction, string FilePath = null, string ledgerId = null, string TextMessage = null)
         {
-
+            int HeaderPaddingSize = coinPayloadByteSize[CoinType];
+            if (coinVariablePayloadByteSize[CoinType]) { HeaderPaddingSize = 10; }
             String processId = Guid.NewGuid().ToString();
             byte[] arcPayloadBytes = new byte[PayloadByteSize + 1];
             byte[] arcPadding = UTF8Encoding.UTF8.GetBytes(Padding);
@@ -222,11 +224,15 @@ namespace ADD
                     if (TextMessage.Length > 0)
                     {
                         msgBytes = Encoding.UTF8.GetBytes(TextMessage);
-                        cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(coinPayloadByteSize[CoinType] - 2, '0') + GetRandomDivider();
+                        cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(HeaderPaddingSize - 2, '0') + GetRandomDivider();
                         totalMsgSize = msgBytes.Length + cglText.Length;
                     }
                     //Links the Appropriate Profile if Profile is selected.
-                    if (ProfileID != "" && Path.GetFileName(FilePath) != "SEC" && ledgerId == null){ if (FilePath.Length == 0) { FilePath = ProfileID; } else { FilePath = FilePath + "," + ProfileID; } }
+                    if (ProfileID != "" && Path.GetFileName(FilePath) != "SEC" && ledgerId == null) {
+                        string CoinExtension = "";
+                        if (coinVariablePayloadByteSize[CoinType]) { CoinExtension = "@" + coinShortName[CoinType].Substring(0, coinShortName[CoinType].IndexOf('-')); }
+                        if (FilePath.Length == 0) { FilePath = ProfileID+CoinExtension; } else { FilePath = FilePath + "," + ProfileID+CoinExtension; }
+                    }
 
                     if (FilePath.Length > 0)
                     {
@@ -245,7 +251,7 @@ namespace ADD
                             Match match = Regex.Match(fileName, @"([a-fA-F0-9]{64})");
 
                             if (match.Success)
-                 
+
                             {
                                 if (!isLNKFile)
                                 {
@@ -261,7 +267,7 @@ namespace ADD
 
                                     readFileBytes = Encoding.UTF8.GetBytes(buildLNKFile);
                                     fileName = "C:\\LNK";
-                                   
+
                                 }
 
                             }
@@ -281,10 +287,10 @@ namespace ADD
                                 else
                                 {
                                     int totalFileSize = Path.GetFileName(fileName).Length + readFileBytes.Length.ToString().Length + readFileBytes.Length + 2;
-                                    int filePadding = coinPayloadByteSize[CoinType] - (totalFileSize % coinPayloadByteSize[CoinType]);
+                                    int filePadding = HeaderPaddingSize - (totalFileSize % HeaderPaddingSize);
                                     if (fileCount == mergeFiles.Length && totalMsgSize > 0)
                                     {
-                                        filePadding = filePadding + (coinPayloadByteSize[CoinType] - (totalMsgSize % coinPayloadByteSize[CoinType]));
+                                        filePadding = filePadding + (HeaderPaddingSize - (totalMsgSize % HeaderPaddingSize));
                                     }
 
                                     cglText = Path.GetFileName(fileName) + GetRandomDivider() + readFileBytes.Length.ToString().PadLeft(filePadding + readFileBytes.Length.ToString().Length, '0') + GetRandomDivider();
@@ -308,7 +314,7 @@ namespace ADD
 
                     if (TextMessage.Length > 0)
                     {
-                        cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(coinPayloadByteSize[CoinType] - 2, '0') + GetRandomDivider();
+                        cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(HeaderPaddingSize - 2, '0') + GetRandomDivider();
                         buffer = new byte[cglText.Length + msgBytes.Length];
                         Encoding.UTF8.GetBytes(cglText).CopyTo(buffer, 0);
                         msgBytes.CopyTo(buffer, cglText.Length);
@@ -335,11 +341,21 @@ namespace ADD
                         IEnumerable<string> Address = a.GetAddressesByAccount("~~" + SignatureLabel);
                         string signature = b.SignMessage(Address.First(), BitConverter.ToString(hashValue).Replace("-", String.Empty));
                         var sigBytes = Encoding.UTF8.GetBytes(signature);
-                        int totalSigSize = sigBytes.Length + sigBytes.Length.ToString().Length + 5;
-                        int zeroPadding = coinPayloadByteSize[CoinType] - (totalSigSize % coinPayloadByteSize[CoinType]);
+                       
 
-                        cglText = "SIG" + GetRandomDivider() + sigBytes.Length.ToString().PadLeft(zeroPadding + sigBytes.Length.ToString().Length, '0') + GetRandomDivider();
+                        if (!coinVariablePayloadByteSize[CoinType])
+                        {
+                            int totalSigSize = sigBytes.Length + sigBytes.Length.ToString().Length + 5;
+                            int zeroPadding = HeaderPaddingSize - (totalSigSize % HeaderPaddingSize);
+                            cglText = "SIG" + GetRandomDivider() + sigBytes.Length.ToString().PadLeft(zeroPadding + sigBytes.Length.ToString().Length, '0') + GetRandomDivider();
+                        }
+                        else
+                        {
+                            int totalSigSize = sigBytes.Length + sigBytes.Length.ToString().Length + Address.First().Length + 6;
+                            int zeroPadding = HeaderPaddingSize - (totalSigSize % HeaderPaddingSize);
+                            cglText = Address.First() + ".SIG" + GetRandomDivider() + sigBytes.Length.ToString().PadLeft(zeroPadding + sigBytes.Length.ToString().Length, '0') + GetRandomDivider();
 
+                        }
                         buffer = new byte[cglText.Length + fileBytes.Length + sigBytes.Length];
                         Encoding.UTF8.GetBytes(cglText).CopyTo(buffer, 0);
                         sigBytes.CopyTo(buffer, cglText.Length);
@@ -384,7 +400,7 @@ namespace ADD
                         File.WriteAllBytes("process\\" + processId + "\\SEC", encrypted);
                         CreateLedgerFile(coinPayloadByteSize[CoinType], GetRandomBuffer(coinPayloadByteSize[CoinType]), coinIP[CoinType], coinPort[CoinType], coinUser[CoinType], coinPassword[CoinType], WalletLabel, coinVersion[CoinType], coinMinTransaction[CoinType], System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\process\\" + processId + "\\SEC", null, "");
                         return;
-                        }
+                    }
 
 
 
@@ -393,12 +409,22 @@ namespace ADD
                     for (int arcBytePosition = 0; arcBytePosition < fileBytes.Length; arcBytePosition++)
                     {
 
-                        if (payloadBytePosition > PayloadByteSize)
+                        if (payloadBytePosition > coinPayloadByteSize[CoinType])
                         {
-                            addressHash.Add(Base58.EncodeWithCheckSum(arcPayloadBytes));
-                            arcFile.WriteLine(Base58.EncodeWithCheckSum(arcPayloadBytes));
+                            string EncodedBytes = "";
+                           
+
+
+                            if (!coinVariablePayloadByteSize[CoinType])
+                            {
+                                EncodedBytes = Base58.EncodeWithCheckSum(arcPayloadBytes);
+                            }
+                            else { EncodedBytes = Convert.ToBase64String(arcPayloadBytes); }
+
+                            addressHash.Add(EncodedBytes);
+                            arcFile.WriteLine(EncodedBytes);
                             payloadBytePosition = 1;
-                            arcPayloadBytes = new byte[PayloadByteSize + 1];
+                            arcPayloadBytes = new byte[coinPayloadByteSize[CoinType] + 1];
                             arcPayloadBytes[0] = CoinVersion;
                         }
 
@@ -408,12 +434,27 @@ namespace ADD
 
                     }
 
-                    for (int i = payloadBytePosition; i < PayloadByteSize; i++)
+                    if (!coinVariablePayloadByteSize[CoinType])
                     {
-                        arcPayloadBytes[i] = arcPadding[i];
+                        for (int i = payloadBytePosition; i < PayloadByteSize; i++)
+                        {
+                            arcPayloadBytes[i] = arcPadding[i];
+                        }
+                        string EncodedBytes = Base58.EncodeWithCheckSum(arcPayloadBytes);
+                        addressHash.Add(EncodedBytes);
+                        arcFile.WriteLine(EncodedBytes);
                     }
-                    addressHash.Add(Base58.EncodeWithCheckSum(arcPayloadBytes));
-                    arcFile.WriteLine(Base58.EncodeWithCheckSum(arcPayloadBytes));
+                    else
+                    {
+                        byte[] remainingPayloadBytes = new byte[payloadBytePosition];
+                        Buffer.BlockCopy(arcPayloadBytes, 0, remainingPayloadBytes, 0, remainingPayloadBytes.Length);
+                       // remainingPayloadBytes[0] = CoinVersion;
+                        string EncodedBytes = Convert.ToBase64String(remainingPayloadBytes);
+                        addressHash.Add(EncodedBytes);
+                        arcFile.WriteLine(EncodedBytes);
+
+                    }
+
                     arcFile.Close();
                     lblStatusInfo.ForeColor = System.Drawing.Color.Black;
                     lblStatusInfo.Text = "Encoded " + fileBytes.Length.ToString() + " bytes of data.";
@@ -425,7 +466,7 @@ namespace ADD
                     processId = FilePath.ToUpper().Remove(0, FilePath.Length - 40).Replace(".ADD", "");
                 }
 
-                if (SignatureLabel != "")
+                if (SignatureLabel != "" && !coinVariablePayloadByteSize[CoinType])
                 {
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
                     IEnumerable<string> Address = a.GetAddressesByAccount("~~" + SignatureLabel);
@@ -433,7 +474,7 @@ namespace ADD
                 }
 
 
-                if (chkKeywords.Checked)
+                if (chkKeywords.Checked && !coinVariablePayloadByteSize[CoinType])
                 {
                     var keywords = GetKeyWords(txtMessage.Text, "#");
                     if (keywords != null)
@@ -456,7 +497,7 @@ namespace ADD
                     }
                 }
 
-                if (chkEnableRecipients.Checked)
+                if (chkEnableRecipients.Checked && !coinVariablePayloadByteSize[CoinType])
                 {
                     var keywords = GetKeyWords(txtMessage.Text, "@");
                     if (keywords != null)
@@ -480,7 +521,7 @@ namespace ADD
                     }
                 }
 
-                if (FriendLabel != "")
+                if (FriendLabel != "" && !coinVariablePayloadByteSize[CoinType])
                 {
                     try
                     {
@@ -500,7 +541,7 @@ namespace ADD
                     catch { }
                 }
 
-                if (VaultLabel != "" && chkTrackVault.Checked)
+                if (VaultLabel != "" && chkTrackVault.Checked && !coinVariablePayloadByteSize[CoinType])
                 {
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
                     //allow tracking by putting a signature address on the end of the file
@@ -514,7 +555,7 @@ namespace ADD
                     }
                 }
 
-                if (strProofAddress != "" && ledgerId != null)
+                if (strProofAddress != "" && ledgerId != null && !coinVariablePayloadByteSize[CoinType])
                 {
                     //added to assist in Proof Lookups by ensuring proof address is included with Ledger etching
                     if (!addressHash.Contains(strProofAddress))
@@ -524,26 +565,26 @@ namespace ADD
                         addressHash.Add(strProofAddress);
                         arcSign.Close();
                     }
-                    
+
                 }
-               
+
                 //Folder address should always be the last or second to the last address in the array to allow for Folder Lookups.
-                if (ProfileLabel != "")
+                if (ProfileLabel != "" && !coinVariablePayloadByteSize[CoinType])
                 {
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
 
-                     IEnumerable<string> Address = a.GetAddressesByAccount("~~~~" + ProfileLabel);
-                     if (!addressHash.Contains(Address.First()))
-                     {
-                         System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
-                         arcSign.WriteLine(Address.First());
-                         addressHash.Add(Address.First());
-                         arcSign.Close();
-                     }
+                    IEnumerable<string> Address = a.GetAddressesByAccount("~~~~" + ProfileLabel);
+                    if (!addressHash.Contains(Address.First()))
+                    {
+                        System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
+                        arcSign.WriteLine(Address.First());
+                        addressHash.Add(Address.First());
+                        arcSign.Close();
+                    }
                 }
 
                 //Signing address should always be the last address in the array to allow for Signature Lookups.
-                if (SignatureLabel != "")
+                if (SignatureLabel != "" && !coinVariablePayloadByteSize[CoinType])
                 {
 
                     CoinRPC a = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
@@ -560,77 +601,126 @@ namespace ADD
 
                 System.IO.StreamReader readARC = new System.IO.StreamReader("process\\" + processId + ".ADD");
                 System.IO.StreamWriter arcLedger = new System.IO.StreamWriter("process\\" + processId + ".LGR", true);
+               
 
-
-                while ((line = readARC.ReadLine()) != null)
-                {
-                    try
+                    while ((line = readARC.ReadLine()) != null)
                     {
-                        if (line.Contains('>') && chkEnableTips.Checked)
-                        {
-                            var tip = line.Split('>');
-                            decimal tipAmount = CoinMinTransaction;
+                    if (!coinVariablePayloadByteSize[CoinType])
+                    {
 
-                            try
-                            { 
-                                tipAmount = Convert.ToDecimal(tip[1]);
+                        try
+                        {
+                            if (line.Contains('>') && chkEnableTips.Checked)
+                            {
+                                var tip = line.Split('>');
+                                decimal tipAmount = CoinMinTransaction;
+
+                                try
+                                {
+                                    tipAmount = Convert.ToDecimal(tip[1]);
+                                }
+                                catch { }
+
+                                toMany.Add(tip[0], tipAmount);
                             }
-                            catch {}
+                            else
+                            {
+                                toMany.Add(line, CoinMinTransaction);
+                            }
 
-                            toMany.Add(tip[0], tipAmount);
                         }
-                        else
+                        catch
                         {
-                            toMany.Add(line, CoinMinTransaction);
+                            //Cannot send to the same address more than twice in any transaction
+                            //If data is identical use previous transaction instead of archiving identical data.
+                            if (lastTransaction.SequenceEqual(toMany))
+                            { transactionId = lastTransactionID; }
+                            else
+                            {
+                                System.Threading.Thread.Sleep(1000);
+                                transactionId = b.SendMany(WalletLabel, toMany);
+                            }
+
+                            arcLedger.WriteLine(transactionId);
+                            arcLedger.Flush();
+                            lastTransaction = new Dictionary<string, decimal>(toMany);
+                            lastTransactionID = transactionId;
+                            toMany.Clear();
+
+                            if (line.Contains('>'))
+                            {
+                                var tip = line.Split('>');
+                                toMany.Add(tip[0], Convert.ToDecimal(tip[1]));
+                            }
+                            else
+                            {
+                                toMany.Add(line, CoinMinTransaction);
+                            }
+
+                            tranCount = 0;
+                            GetTransactionResponse transLookup = b.GetTransaction(transactionId);
+                            //Wait for the wallet to catch up.
+                            while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
+                            {
+                                System.Threading.Thread.Sleep(5000);
+                                transLookup = b.GetTransaction(transactionId);
+
+                            }
+                            if (transLookup.confirmations > 0) { ledgerCount = 0; }
+
+
                         }
 
-                    }
-                    catch
-                    {
-                        //Cannot send to the same address more than twice in any transaction
-                        //If data is identical use previous transaction instead of archiving identical data.
-                        if (lastTransaction.SequenceEqual(toMany))
-                        { transactionId = lastTransactionID; }
-                        else
+
+                        if (tranCount == coinTransactionSize[CoinType])
                         {
+                            //Breaking transaction file into size specified in wallet settings
                             System.Threading.Thread.Sleep(1000);
                             transactionId = b.SendMany(WalletLabel, toMany);
-                        }
+                            arcLedger.WriteLine(transactionId);
+                            arcLedger.Flush();
+                            lastTransaction = new Dictionary<string, decimal>(toMany);
+                            lastTransactionID = transactionId;
+                            toMany.Clear();
+                            tranCount = 0;
 
+                            GetTransactionResponse transLookup = b.GetTransaction(transactionId);
+                            //Wait for the wallet to catch up.
+                            while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
+                            {
+                                System.Threading.Thread.Sleep(5000);
+                                transLookup = b.GetTransaction(transactionId);
+                            }
+                            if (transLookup.confirmations > 0) { ledgerCount = 0; }
+
+                        
+
+                        }
+                    }
+                    else
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        transactionId = b.SendData(line);
                         arcLedger.WriteLine(transactionId);
                         arcLedger.Flush();
-                        lastTransaction = new Dictionary<string, decimal>(toMany);
                         lastTransactionID = transactionId;
-                        toMany.Clear();
 
-                        if (line.Contains('>'))
-                        {
-                            var tip = line.Split('>');
-                            toMany.Add(tip[0], Convert.ToDecimal(tip[1]));
-                        }
-                        else
-                        {
-                            toMany.Add(line, CoinMinTransaction);
-                        }
-                        
-                        tranCount = 0;
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
-                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
+                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType]))
                         {
                             System.Threading.Thread.Sleep(5000);
                             transLookup = b.GetTransaction(transactionId);
 
                         }
                         if (transLookup.confirmations > 0) { ledgerCount = 0; }
-
-
                     }
-
-
-                    if (tranCount == coinTransactionSize[CoinType])
+                    tranCount++;
+                    ledgerCount++;
+                    }
+                    if (toMany.Count > 0)
                     {
-                        //Breaking transaction file into size specified in wallet settings
+                        //Catching the straglers
                         System.Threading.Thread.Sleep(1000);
                         transactionId = b.SendMany(WalletLabel, toMany);
                         arcLedger.WriteLine(transactionId);
@@ -639,7 +729,6 @@ namespace ADD
                         lastTransactionID = transactionId;
                         toMany.Clear();
                         tranCount = 0;
-
                         GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
                         while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
@@ -647,40 +736,15 @@ namespace ADD
                             System.Threading.Thread.Sleep(5000);
                             transLookup = b.GetTransaction(transactionId);
                         }
-                        if (transLookup.confirmations > 0) { ledgerCount = 0; }
-
-
 
                     }
-                    tranCount++;
-                    ledgerCount++;
-                }
-                if (toMany.Count > 0)
-                {
-                    //Catching the straglers
-                    System.Threading.Thread.Sleep(1000);
-                    transactionId = b.SendMany(WalletLabel, toMany);
-                    arcLedger.WriteLine(transactionId);
-                    arcLedger.Flush();
-                    lastTransaction = new Dictionary<string, decimal>(toMany);
-                    lastTransactionID = transactionId;
-                    toMany.Clear();
-                    tranCount = 0;
-                    GetTransactionResponse transLookup = b.GetTransaction(transactionId);
-                    //Wait for the wallet to catch up.
-                    while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
-                    {
-                        System.Threading.Thread.Sleep(5000);
-                        transLookup = b.GetTransaction(transactionId);
-                    }
+                    arcLedger.Close();
+                    readARC.Close();
+                    processLedger(processId.ToString());
+
+
 
                 }
-                arcLedger.Close();
-                readARC.Close();
-                processLedger(processId.ToString());
-
-
-            }
             catch (Exception e)
             {
                 lblStatusInfo.ForeColor = System.Drawing.Color.Black;
@@ -689,6 +753,7 @@ namespace ADD
                 tmrProgressBar.Start();
                 return;
             }
+        
             lblStatusInfo.ForeColor = System.Drawing.Color.Black;
             lblStatusInfo.Text = "Encoded " + fileBytes.Length.ToString() + " bytes of data.";
             tmrStatusUpdate.Start();
@@ -1000,6 +1065,7 @@ namespace ADD
                 coinTransactionFee = new Dictionary<string, decimal>();
                 coinMinTransaction = new Dictionary<string, decimal>();
                 coinTipAmount = new Dictionary<string, decimal>();
+                coinVariablePayloadByteSize = new Dictionary<string, bool>();
                 coinTransactionSize = new Dictionary<string, int>();
                 coinPort = new Dictionary<string, string>();
                 coinIP = new Dictionary<string, string>();
@@ -1019,21 +1085,23 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 0 .0000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001");
-                    writeCoinConf.WriteLine("BitcoinTestnet 111 20 0 .0000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001");
-                    writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False   .001");
-                    writeCoinConf.WriteLine("LitecoinTestnet 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC-T False   .001");
-                    writeCoinConf.WriteLine("Dogecoin 30 20 0 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001");
-                    writeCoinConf.WriteLine("Mazacoin 50 20 0 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False   .001");
-                    writeCoinConf.WriteLine("Anoncoin 23 20 0 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False   .001");
-                    writeCoinConf.WriteLine("Devcoin 0 20 0 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False   .001");
-                    writeCoinConf.WriteLine("Potcoin 55 20 0 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False   .001");
-                    writeCoinConf.WriteLine("Florincoin 35 20 0 .00001 330 7317 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  FLC False   .001");
-                    writeCoinConf.WriteLine("Curecoin 25 20 0 .00001 330 19911 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001");
-                    writeCoinConf.WriteLine("Namecoin 52 20 0 .01 330 8336 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  NMC False   .001");
-                    writeCoinConf.WriteLine("Primecoin 23 20 0 .01 330 9912 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM False   .001");
-                    writeCoinConf.WriteLine("PrimecoinTestnet 111 20 0 .01 330 9914 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM-T False   .001");
-                    writeCoinConf.WriteLine("DashTestnet 139 20 0 .0001 330 19998 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  DASH-T False   .001");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 0 .0000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001 False");
+                    writeCoinConf.WriteLine("BitcoinTestnet 111 20 0 .0000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001 False");
+                    writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False   .001 False");
+                    writeCoinConf.WriteLine("LitecoinTestnet 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC-T False   .001 False");
+                    writeCoinConf.WriteLine("Datacoin 30 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False True   DTC    .001 False");
+                    writeCoinConf.WriteLine("Datacoin-V 30 80000 0 4 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False True   DTC-V    .001 True");
+                    writeCoinConf.WriteLine("Dogecoin 30 20 0 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001 False");
+                    writeCoinConf.WriteLine("Mazacoin 50 20 0 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False   .001 False");
+                    writeCoinConf.WriteLine("Anoncoin 23 20 0 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False   .001 False");
+                    writeCoinConf.WriteLine("Devcoin 0 20 0 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False   .001 False");
+                    writeCoinConf.WriteLine("Potcoin 55 20 0 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False   .001 False");
+                    writeCoinConf.WriteLine("Florincoin 35 20 0 .00001 330 7317 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  FLC False   .001 False");
+                    writeCoinConf.WriteLine("Curecoin 25 20 0 .00001 330 19911 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001 False");
+                    writeCoinConf.WriteLine("Namecoin 52 20 0 .01 330 8336 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  NMC False   .001 False");
+                    writeCoinConf.WriteLine("Primecoin 23 20 0 .01 330 9912 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM False   .001 False");
+                    writeCoinConf.WriteLine("PrimecoinTestnet 111 20 0 .01 330 9914 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM-T False   .001 False");
+                    writeCoinConf.WriteLine("DashTestnet 139 20 0 .0001 330 19998 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  DASH-T False   .001 False");
                     writeCoinConf.Close();
                 }
 
@@ -1068,7 +1136,7 @@ namespace ADD
                 System.IO.StreamReader readCoinConf = new System.IO.StreamReader("coin.conf");
                 while ((confLine = readCoinConf.ReadLine()) != null)
                 {
-                    string[] coins = new string[] { "Coin", "0", "20", "0", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "", "False", "", "", ".001" };
+                    string[] coins = new string[] { "Coin", "0", "20", "0", ".00000001", "330", "0000", "127.0.0.1", "RPC_USER_CHANGE_ME", "RPC_PASSWORD_CHANGE_ME", "True", "True", "False", "False", "", "", "False", "", "", ".001", "False" };
                     string[] loadCoin = confLine.Split(' ');
                     int intSetting = 0;
                     foreach (string s in loadCoin)
@@ -1100,10 +1168,12 @@ namespace ADD
                     if (coins[11].ToUpper() == "TRUE") { coinFeePerAddress.Add(coins[0], true); } else { coinFeePerAddress.Add(coins[0], false); }
                     if (coins[12].ToUpper() == "TRUE") { coinEnabled.Add(coins[0], true); } else { coinEnabled.Add(coins[0], false); }
                     if (coins[13].ToUpper() == "TRUE") { coinEnableSigning.Add(coins[0], true); } else { coinEnableSigning.Add(coins[0], false); }
+                    if (coins[20].ToUpper() == "TRUE") { coinVariablePayloadByteSize.Add(coins[0], true); } else { coinVariablePayloadByteSize.Add(coins[0], false); }
                     coinSigningAddress.Add(coins[0], coins[14]);
                     coinTrackingAddress.Add(coins[0], coins[17]);
                     coinHelperUrl.Add(coins[0], coins[18]);
                     coinTipAmount.Add(coins[0], decimal.Parse(coins[19]));
+
                     if (coins[16].ToUpper() == "TRUE") { coinEnableTracking.Add(coins[0], true); } else { coinEnableTracking.Add(coins[0], false); }
                     coinLastMemoryDump.Add(coins[0], null);
 
@@ -1308,17 +1378,20 @@ namespace ADD
                         lblStatusInfo.ForeColor = System.Drawing.Color.Black;
                         lblStatusInfo.Text = "Connected: " + (cmbWalletLabel.Items.Count - 1).ToString() + " suitable account" + itemCountString + " Found";
 
-                        cmbWalletLabel.Enabled = true;
-                        cmbFolder.Enabled = true;
-                        btnAddFolder.Enabled = true;
-                        btnFriendEncryption.Enabled = true;
-                        cmbSignature.Enabled = true;
-                        btnAddSignature.Enabled = true;
-                        cmbVault.Enabled = true;
-                        cmbFollow.Enabled = true;
-                        btnAddVault.Enabled = true;
-                        cmbTo.Enabled = true;
-                        profilesToolStripMenuItem.Enabled = true;
+                       
+
+                            cmbWalletLabel.Enabled = true;
+                            cmbFolder.Enabled = true;
+                            btnAddFolder.Enabled = true;
+                            btnFriendEncryption.Enabled = true;
+                            cmbSignature.Enabled = true;
+                            btnAddSignature.Enabled = true;
+                            cmbVault.Enabled = true;
+                            cmbFollow.Enabled = true;
+                            btnAddVault.Enabled = true;
+                            cmbTo.Enabled = true;
+                            profilesToolStripMenuItem.Enabled = true;
+                   
 
 
                     }
@@ -1473,7 +1546,7 @@ namespace ADD
         private string[] AddressArrayToLedger(string[] AddressArray, string WalletKey)
         {
 
-            byte[] arcPayloadBytes = new byte[20];
+            byte[] arcPayloadBytes = null;
             int intFileSize = 80;
             string strHeader = null;
             Boolean isLedgerFile = false;
@@ -1486,7 +1559,14 @@ namespace ADD
 
             foreach (string line in AddressArray)
             {
-                Base58.DecodeWithCheckSum(line, out arcPayloadBytes);
+
+                if (!coinVariablePayloadByteSize[WalletKey])
+                {
+                    Base58.DecodeWithCheckSum(line, out arcPayloadBytes);
+                }
+                else { arcPayloadBytes = Convert.FromBase64String(line); }
+
+
                 for (int i = 1; i < arcPayloadBytes.Length; i++)
                 {
                     if (f < intFileSize)
@@ -1511,15 +1591,17 @@ namespace ADD
 
                                     try
                                     {
-                                        try
-                                        {
-                                            var transaction = b.GetRawTransaction(headerArray[0], 1);
-                                        }
-                                        catch
-                                        {
-                                            var transaction = b.GetTransaction(headerArray[0]);
-                                        }
+                                       
 
+                                            try
+                                            {
+                                                var transaction = b.GetRawTransaction(headerArray[0], 1);
+                                            }
+                                            catch
+                                            {
+                                                var transaction = b.GetTransaction(headerArray[0]);
+                                            }
+                                       
                                     }
                                     catch
                                     {
@@ -1568,8 +1650,13 @@ namespace ADD
                     foreach (string address in AddressArray)
                     {
                         byte[] arcPayloadBytes = null;
-                        Base58.DecodeWithCheckSum(address, out arcPayloadBytes);
 
+                        if (!coinVariablePayloadByteSize[WalletKey])
+                        {
+                            Base58.DecodeWithCheckSum(address, out arcPayloadBytes);
+                                                            }
+                        else { arcPayloadBytes = Convert.FromBase64String(address); }
+                        
                         //Supporting different Payload Byte Sizes
                         if (RawBytes == null)
                         {
@@ -1907,8 +1994,12 @@ namespace ADD
 
                     if (DisplayResults && !chkMonitorBlockChains.Checked)
                     {
-                        
                         Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/" + TransID + "/index.htm");
+
+                        if (File.Exists("root\\" + TransID + "\\index.html"))
+                        {
+                            BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/" + TransID + "/index.html");
+                        }
                         if (NavigateResults) { webBrowser1.Url = BrowseURL; }
 
                     }
@@ -2050,7 +2141,7 @@ namespace ADD
 
                 if (!foundType)
                 {
-                    if (FileName != "SIG" && FileName != "LNK" && FileName != "PRO")
+                    if (FileName != "SIG" && !FileName.EndsWith(".SIG") && FileName != "LNK" && FileName != "PRO")
                     {
                         strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + HttpUtility.UrlPathEncode(FileName) + "</a></div></div>";
                     }
@@ -2207,7 +2298,12 @@ namespace ADD
 
             if (UseCache && System.IO.Directory.Exists("root\\" + TransactionID))
             {
-                Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/" + TransactionID + "/index.htm");
+                Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/" + TransID + "/index.htm");
+
+                if (File.Exists("root\\" + TransID + "\\index.html"))
+                {
+                    BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/" + TransID + "/index.html");
+                }
                 if (NavigateResults) { webBrowser1.Url = BrowseURL; }
                 return true;
             }
@@ -2277,55 +2373,64 @@ namespace ADD
 
             var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
 
-            try
-            {
-                var transaction = b.GetRawTransaction(TransactionId, 1);
-                lastTransID = TransactionId;
-
-                foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
-                {
-                    if (arcValue > detail.value)
-                    {
-                        arcValue = detail.value;
-                    }
-                }
-
-                foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
-                {
-
-                    if (detail.value == arcValue)
-                    {
-                        addressBuilder = addressBuilder + delimiter + detail.scriptPubKey.addresses[0];
-                        delimiter = ",";
-                    }
-                }
-
-            }
-            catch (Exception e)
+            if (!coinVariablePayloadByteSize[WalletKey])
             {
                 try
                 {
-                    var transaction = b.GetTransaction(TransactionId);
-                    foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
+                    var transaction = b.GetRawTransaction(TransactionId, 1);
+                    lastTransID = TransactionId;
+
+                    foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
                     {
-                        if (arcValue > detail.amount && detail.amount > 0)
+                        if (arcValue > detail.value)
                         {
-                            arcValue = detail.amount;
+                            arcValue = detail.value;
                         }
                     }
 
-                    foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
+                    foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
                     {
-                        if (detail.amount == arcValue && detail.category == "receive")
+
+                        if (detail.value == arcValue)
                         {
-                            addressBuilder = addressBuilder + delimiter + detail.address;
+                            addressBuilder = addressBuilder + delimiter + detail.scriptPubKey.addresses[0];
                             delimiter = ",";
                         }
                     }
-                }
-                catch (Exception f) 
-                { }
 
+                }
+                catch (Exception e)
+                {
+                    try
+                    {
+                        var transaction = b.GetTransaction(TransactionId);
+                        foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
+                        {
+                            if (arcValue > detail.amount && detail.amount > 0)
+                            {
+                                arcValue = detail.amount;
+                            }
+                        }
+
+                        foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
+                        {
+                            if (detail.amount == arcValue && detail.category == "receive")
+                            {
+                                addressBuilder = addressBuilder + delimiter + detail.address;
+                                delimiter = ",";
+                            }
+                        }
+                    }
+                    catch (Exception f)
+                    { }
+
+                }
+            }
+            else
+            {
+                var transaction = b.DataCoinGetTransaction(TransactionId);
+                addressBuilder = addressBuilder + delimiter + transaction.data;
+                delimiter = ",";
             }
 
             return addressBuilder.Split(',');

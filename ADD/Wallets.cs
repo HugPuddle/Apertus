@@ -51,7 +51,8 @@ namespace ADD
                 if (Main.coinEnableMonitoring[cmbWallets.Text]) { chkGetRawSupport.Checked = true; } else { chkGetRawSupport.Checked = false; }
                 if (Main.coinFeePerAddress[cmbWallets.Text]) { chkFeePerAddress.Checked = true; } else { chkFeePerAddress.Checked = false; }
                 if (Main.coinEnabled[cmbWallets.Text]) { chkEnabled.Checked = true; } else { chkEnabled.Checked = false; }
-      
+                if (Main.coinVariablePayloadByteSize[cmbWallets.Text]) { chkPayloadSIzeVariable.Checked = true; } else { chkPayloadSIzeVariable.Checked = false; }
+
 
                 txtName.Enabled = true;
                 txtShortName.Enabled = true;
@@ -69,6 +70,7 @@ namespace ADD
                 chkFeePerAddress.Enabled = true;
                 chkGetRawSupport.Enabled = true;
                 chkEnabled.Enabled = true;
+                chkPayloadSIzeVariable.Enabled = true;
 
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
@@ -94,6 +96,7 @@ namespace ADD
                 chkFeePerAddress.Enabled = false;
                 chkGetRawSupport.Enabled = false;
                 chkEnabled.Enabled = false;
+                chkPayloadSIzeVariable.Enabled = false;
 
 
                 txtName.Text = "";
@@ -113,6 +116,7 @@ namespace ADD
                 chkGetRawSupport.Checked = false;
                 chkFeePerAddress.Checked = false;
                 chkEnabled.Checked = false;
+                chkPayloadSIzeVariable.Checked = false;
 
 
                 btnAdd.Enabled = false;
@@ -142,6 +146,8 @@ namespace ADD
                 if (chkGetRawSupport.Checked) { Main.coinEnableMonitoring.Add(txtName.Text, true); } else { Main.coinEnableMonitoring.Add(txtName.Text, false); }
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress.Add(txtName.Text, true); } else { Main.coinFeePerAddress.Add(txtName.Text, false); }
                 if (chkEnabled.Checked) { Main.coinEnabled.Add(txtName.Text, true); } else { Main.coinEnabled.Add(txtName.Text, false); }
+                if (chkPayloadSIzeVariable.Checked) { Main.coinVariablePayloadByteSize.Add(txtName.Text, true); } else { Main.coinVariablePayloadByteSize.Add(txtName.Text, false); }
+
                 cmbWallets.Items.Add(txtName.Text);
 
                 SaveWallets();
@@ -208,6 +214,7 @@ namespace ADD
                 if (chkGetRawSupport.Checked) { Main.coinEnableMonitoring[cmbWallets.Text] = true; } else { Main.coinEnableMonitoring[cmbWallets.Text] = false; }
                 if (chkFeePerAddress.Checked) { Main.coinFeePerAddress[cmbWallets.Text] = true; } else { Main.coinFeePerAddress[cmbWallets.Text] = false; }
                 if (chkEnabled.Checked) { Main.coinEnabled[cmbWallets.Text] = true; } else { Main.coinEnabled[cmbWallets.Text] = false; }
+                if (chkPayloadSIzeVariable.Checked) { Main.coinVariablePayloadByteSize[cmbWallets.Text] = true; } else { Main.coinVariablePayloadByteSize[cmbWallets.Text] = false; }
 
                 System.IO.File.Copy("coin.conf", "coin.bkp", true);
                 System.IO.File.Delete("coin.conf");
@@ -218,7 +225,7 @@ namespace ADD
                 {
                     if (i != "Select Wallet From List")
                     {
-                        writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinEnableMonitoring[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", "") + " " + " " +  " " + Main.coinShortName[i].ToString().Replace(" ", "") + " " + " " + " " + Main.coinHelperUrl[i].ToString().Replace(" ", ""));
+                        writeCoinConf.WriteLine(i + " " + Main.coinVersion[i].ToString().Replace(" ", "") + " " + Main.coinPayloadByteSize[i].ToString().Replace(" ", "") + " " + Main.coinTransactionFee[i].ToString().Replace(" ", "") + " " + Main.coinMinTransaction[i].ToString().Replace(" ", "") + " " + Main.coinTransactionSize[i].ToString().Replace(" ", "") + " " + Main.coinPort[i].Replace(" ", "") + " " + Main.coinIP[i].Replace(" ", "") + " " + Main.coinUser[i].Replace(" ", "") + " " + Main.coinPassword[i].Replace(" ", "") + " " + Main.coinEnableMonitoring[i].ToString().Replace(" ", "") + " " + Main.coinFeePerAddress[i].ToString().Replace(" ", "") + " " + Main.coinEnabled[i].ToString().Replace(" ", "") + " " + " " +  " " + Main.coinShortName[i].ToString().Replace(" ", "") + " " + " " + " " + Main.coinHelperUrl[i].ToString().Replace(" ", "") + " " + Main.coinTipAmount[i].ToString().Replace(" ", "") + " " + Main.coinVariablePayloadByteSize[i].ToString().Replace(" ", ""));
                     }
                 }
                 writeCoinConf.Close();
@@ -239,7 +246,5 @@ namespace ADD
                 Application.Exit();
             }
         }
-
-
     }
 }
