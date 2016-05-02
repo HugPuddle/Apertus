@@ -1090,7 +1090,7 @@ namespace ADD
                     writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False   .001 False");
                     writeCoinConf.WriteLine("LitecoinTestnet 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC-T False   .001 False");
                     writeCoinConf.WriteLine("Datacoin 30 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False True   DTC    .001 False");
-                    writeCoinConf.WriteLine("Datacoin-V 30 80000 0 4 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False True   DTC-V    .001 True");
+                    writeCoinConf.WriteLine("Datacoin-V 30 80000 0 4.8 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False True   DTC-V    .001 True");
                     writeCoinConf.WriteLine("Dogecoin 30 20 0 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001 False");
                     writeCoinConf.WriteLine("Mazacoin 50 20 0 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False   .001 False");
                     writeCoinConf.WriteLine("Anoncoin 23 20 0 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False   .001 False");
@@ -1128,8 +1128,16 @@ namespace ADD
                     writeIncludes.WriteLine(".main .item .content table {word-break: break-all;word-wrap: break-word;padding: 10px;}");
                     writeIncludes.Close();
 
+
                     writeIncludes = new StreamWriter("root\\includes\\footer.ssi");
                     writeIncludes.WriteLine("");
+                    writeIncludes.Close();
+                }
+
+                if (!System.IO.File.Exists("root\\includes\\monitor.css"))
+                {
+                    System.IO.StreamWriter writeIncludes = new StreamWriter("root\\includes\\monitor.css");
+                    writeIncludes.WriteLine("div{border:1px solid gray;width:auto;margin-left:auto;margin-right:auto;margin-bottom:5px;max-width:1000px;overflow:auto;background-color:#fff;border-radius:10px;padding:4px}div:hover{background-color:#f5f5f5}a{color:gray;text-decoration:none;overflow-wrap:break-word;font-size:xx-small}pro img{border-radius:10px;max-width:90px;max-height:90px;margin-top:3px;margin-left:3px}section img{border-radius:10px;max-width:100%;height:auto;width:auto\\9}pro{float:left;width:96px;margin-top:10px;margin-bottom:10px;margin-left:10px}section{padding:5px;margin:10px 10px 10px 117px}body{background-color:#f5f5f5}");
                     writeIncludes.Close();
                 }
 
@@ -3419,6 +3427,7 @@ namespace ADD
             string msgData = "";
             string lstTransID = "";
             string datTime = null;
+            List<string> followResults = new List<string>();
             if (cmbFolder.SelectedIndex > 0)
             {
                 try
@@ -3448,11 +3457,15 @@ namespace ADD
                                 }
                             }
                             node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
-
+                            followResults.Add(transaction.txid);
                         }
                     }
                     treeView1.Nodes["Profile"].Expand();
                     treeView1.Nodes["Profile"].Nodes[cmbFolder.Text].ExpandAll();
+                    followResults.Reverse();
+                    Search.DisplayResultsByTransactionID(followResults);
+                    var searchURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/follow.htm");
+                    webBrowser1.Url = searchURL;
 
                     if (System.IO.File.Exists("root//" + lstTransID + "//PRO"))
                     {
@@ -3761,6 +3774,7 @@ namespace ADD
             TreeNode node = null;
             string msgData = "";
             string datTime = null;
+            List<string> followResults = new List<string>();
             if (cmbSignature.SelectedIndex > 0)
             {
                 try
@@ -3790,10 +3804,16 @@ namespace ADD
                             }
 
                             node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
+                            followResults.Add(transaction.txid);
                         }
                     }
                     treeView1.Nodes["Signature"].Expand();
                     treeView1.Nodes["Signature"].Nodes[cmbSignature.Text].ExpandAll();
+                    followResults.Reverse();
+                    Search.DisplayResultsByTransactionID(followResults);
+                    var searchURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/follow.htm");
+                    webBrowser1.Url = searchURL;
+
 
                 }
                 catch (Exception b)
@@ -3812,6 +3832,7 @@ namespace ADD
             TreeNode node = null;
             string msgData = "";
             string datTime = null;
+            List<string> followResults = new List<string>();
             if (cmbFollow.SelectedIndex > 0)
             {
                 try
@@ -3839,12 +3860,16 @@ namespace ADD
                                     msgData = reader.ReadLine();
                                 }
                             }
-
+                            followResults.Add(transaction.txid);
                             node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
                         }
                     }
                     treeView1.Nodes["Follow"].Expand();
                     treeView1.Nodes["Follow"].Nodes[cmbFollow.Text].ExpandAll();
+                    followResults.Reverse();
+                    Search.DisplayResultsByTransactionID(followResults);
+                    var searchURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/follow.htm");
+                    webBrowser1.Url = searchURL;
 
                 }
                 catch (Exception b)
@@ -3899,6 +3924,7 @@ namespace ADD
             TreeNode node = null;
             string msgData = "";
             string datTime = null;
+            List<string> followResults = new List<string>();
             if (VaultLabel != "")
             {
                 try
@@ -3932,10 +3958,15 @@ namespace ADD
 
 
                             node.Nodes.Insert(0, datTime.PadRight(20, ' ') + msgData.PadRight(100, ' ').Substring(0, 100)).Tag = transaction.txid;
+                            followResults.Add(transaction.txid);
                         }
                     }
                     treeView1.Nodes["Vault"].Expand();
                     treeView1.Nodes["Vault"].Nodes[VaultLabel].ExpandAll();
+                    followResults.Reverse();
+                    Search.DisplayResultsByTransactionID(followResults);
+                    var searchURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/follow.htm");
+                    webBrowser1.Url = searchURL;
 
                 }
                 catch (Exception b)
