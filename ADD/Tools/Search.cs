@@ -296,12 +296,15 @@ namespace ADD.Tools
                     string strNickName = "";
                     string profileImage = "";
                     string fullName = "";
+
+                if (System.IO.File.Exists(scope + "\\" + s + "\\index.htm"))
+                    {
                     var doc = new HtmlAgilityPack.HtmlDocument();
                     try
                     {
                         doc.Load(scope + "\\" + s + "\\index.htm");
                     }
-                    catch { break; }
+                    catch { }
 
                     searchHTML = searchHTML + "<div>";
 
@@ -368,6 +371,7 @@ namespace ADD.Tools
 
 
                     searchHTML = searchHTML + "</div>";
+                }
 
 
 
