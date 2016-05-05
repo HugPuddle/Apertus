@@ -357,7 +357,7 @@ namespace ADD.Tools
                     {
                         if (msg.Length > 500) { msg = msg.Substring(0, 499) + "..."; }
 
-                        msg = "<b>" + fullName + "</b><a href=\"root/" + s + "/index.htm\">@" + strNickName + " - " + date + "</a><br>" + msg + "<br><a href=\"root/" + s + "/index.htm\">" + s + "/MSG1</a>";
+                        msg = "<b>" + fullName + "</b><a href=\"root/" + s + "/index.htm\"> &nbsp;@" + strNickName + " - " + date + "</a><br>" + msg + "<br><a href=\"root/" + s + "/index.htm\">" + s + "/MSG1</a>";
                         searchHTML = searchHTML + "<section>" + msg + "</section>";
                     }
 

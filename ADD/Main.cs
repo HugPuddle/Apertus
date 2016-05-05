@@ -799,9 +799,9 @@ namespace ADD
             }
             txtMessage.Text = "";
             txtFileName.Text = "";
-            if (cmbFolder.SelectedIndex > 0) { RefreshFolderList(); }
-            else if (cmbSignature.SelectedIndex > 0) { RefreshSignatureList(); }
-            else if (VaultLabel != "") { RefreshVaultList(); }
+            //if (cmbFolder.SelectedIndex > 0) { RefreshFolderList(); }
+            //else if (cmbSignature.SelectedIndex > 0) { RefreshSignatureList(); }
+            //else if (VaultLabel != "") { RefreshVaultList(); }
         }
 
         private void btnAttachFiles_Click(object sender, EventArgs e)
@@ -2639,12 +2639,12 @@ namespace ADD
 
 
                 }
-                if (ModifierKeys == Keys.Control)
-                {
-                    if (cmbFolder.SelectedIndex > 0) { RefreshFolderList(); }
-                    else if (cmbSignature.SelectedIndex > 0) { RefreshSignatureList(); }
-                    else if (VaultLabel != "") { RefreshVaultList(); }
-                }
+                //if (ModifierKeys == Keys.Control)
+                //{
+                //    if (cmbFolder.SelectedIndex > 0) { RefreshFolderList(); }
+                //    else if (cmbSignature.SelectedIndex > 0) { RefreshSignatureList(); }
+                //    else if (VaultLabel != "") { RefreshVaultList(); }
+                //}
 
             }
 
