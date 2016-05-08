@@ -51,7 +51,7 @@ namespace ADD.Tools
                 {
                     var signature = "unsigned";
                     var img = "";
-                  
+                    var vid = "";
                     var msg = "";
                     var date = "";
                     var blockchain = "";
@@ -121,13 +121,20 @@ namespace ADD.Tools
                         monitorHTML = monitorHTML + "<section>" + msg + "</section>";
                     }
 
-                    try { img = doc.GetElementbyId("img0").InnerText; }
+                    try { vid = doc.GetElementbyId("vid0").InnerText; }
                     catch { }
 
-                    if (img != "") { monitorHTML = monitorHTML + "<section><a href =\"root/" + s + "/index.htm\"><img src=\"root/" +s + "/"+ img + "\"></a></section>"; }
+                    if (vid != "") { monitorHTML = monitorHTML + "<section><video controls=\"controls\" width=\"768\" height=\"432\" name=\"" + vid + "\" src=\"root/" + s + "/" + vid + "\"></video></section>"; }
+                    else
+                    {
 
-                    
-                        monitorHTML = monitorHTML + "<section><a href=\"root/" + s + "/index.htm\">" + blockchain + " - " + signature +"</a></section>";
+                        try { img = doc.GetElementbyId("img0").InnerText; }
+                        catch { }
+
+                        if (img != "") { monitorHTML = monitorHTML + "<section><a href =\"root/" + s + "/index.htm\"><img src=\"root/" + s + "/" + img + "\"></a></section>"; }
+                    }
+
+                    monitorHTML = monitorHTML + "<section><a href=\"root/" + s + "/index.htm\">" + blockchain + " - " + signature +"</a></section>";
                  
 
                     monitorHTML = monitorHTML + "</div>";
@@ -183,7 +190,7 @@ namespace ADD.Tools
                   
                     var signature = "unsigned";
                     var img = "";
-
+                    var vid = "";
                     var msg = "";
                     var date = "";
                     var blockchain = "";
@@ -253,11 +260,18 @@ namespace ADD.Tools
                         searchHTML = searchHTML + "<section>" + msg + "</section>";
                     }
 
-                    try { img = doc.GetElementbyId("img0").InnerText; }
+                    try { vid = doc.GetElementbyId("vid0").InnerText; }
                     catch { }
 
-                    if (img != "") { searchHTML = searchHTML + "<section><a href =\"root/" + s + "/index.htm\"><img src=\"root/" + s + "/" + img + "\"></a></section>"; }
+                    if (vid != "") { searchHTML = searchHTML + "<section><video controls=\"controls\" width=\"768\" height=\"432\" name=\"" + vid + "\" src=\"root/" + s + "/" + vid + "\"></video></section>"; }
+                    else
+                    {
 
+                        try { img = doc.GetElementbyId("img0").InnerText; }
+                        catch { }
+
+                        if (img != "") { searchHTML = searchHTML + "<section><a href =\"root/" + s + "/index.htm\"><img src=\"root/" + s + "/" + img + "\"></a></section>"; }
+                    }
 
                     searchHTML = searchHTML + "<section><a href=\"root/" + s + "/index.htm\">" + blockchain + " - " + signature + "</a></section>";
 
@@ -288,7 +302,7 @@ namespace ADD.Tools
 
                     var signature = "unsigned";
                     var img = "";
-
+                    var vid = "";
                     var msg = "";
                     var date = "";
                     var blockchain = "";
@@ -361,10 +375,18 @@ namespace ADD.Tools
                         searchHTML = searchHTML + "<section>" + msg + "</section>";
                     }
 
-                    try { img = doc.GetElementbyId("img0").InnerText; }
+                    try { vid = doc.GetElementbyId("vid0").InnerText; }
                     catch { }
 
-                    if (img != "") { searchHTML = searchHTML + "<section><a href =\"root/" + s + "/index.htm\"><img src=\"root/" + s + "/" + img + "\"></a></section>"; }
+                    if (vid != "") { searchHTML = searchHTML + "<section><video controls=\"controls\" width=\"768\" height=\"432\" name=\"" + vid + "\" src=\"root/" + s + "/" + vid + "\"></video></section>"; }
+                    else
+                    {
+
+                        try { img = doc.GetElementbyId("img0").InnerText; }
+                        catch { }
+
+                        if (img != "") { searchHTML = searchHTML + "<section><a href =\"root/" + s + "/index.htm\"><img src=\"root/" + s + "/" + img + "\"></a></section>"; }
+                    }
 
 
                     searchHTML = searchHTML + "<section><a href=\"root/" + s + "/index.htm\">" + blockchain + " - " + signature + "</a></section>";

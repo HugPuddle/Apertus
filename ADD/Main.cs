@@ -637,7 +637,7 @@ namespace ADD
                             { transactionId = lastTransactionID; }
                             else
                             {
-                                System.Threading.Thread.Sleep(1000);
+                                System.Threading.Thread.Sleep(500);
                                 transactionId = b.SendMany(WalletLabel, toMany);
                             }
 
@@ -699,7 +699,7 @@ namespace ADD
                     }
                     else
                     {
-                        System.Threading.Thread.Sleep(1000);
+                        System.Threading.Thread.Sleep(500);
                         transactionId = b.SendData(line);
                         arcLedger.WriteLine(transactionId);
                         arcLedger.Flush();
@@ -2096,14 +2096,14 @@ namespace ADD
                 HashSet<string> embExtensions =
               new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 {
-                    ".m2ts", ".aac", ".adt", ".adts", ".m4a", ".wmz", ".wms", ".ivf", ".cda", ".wav", ".au", ".snd", ".aif", ".aifc", ".aiff", ".mid", ".midi", ".rmi", ".mp2", ".mp3", ".mpa", ".m3u", ".wmd", ".dvr-ms", ".wpi", ".wax", ".wvx", ".wmx", ".asf", ".wma", ".wm", ".swf", ".pdf", ".3g2", ".3gp2", ".3gp", ".3gpp", ".aaf", ".asf", ".avchd", ".avi", ".cam", ".flv",".m1v", ".m2v", ".m4v",".mov", ".mpg", ".mpeg", ".mpe", ".mp4", ".ogg", ".wmv"
+                    ".m2ts", ".aac", ".adt", ".adts", ".m4a", ".wmz", ".wms", ".ivf", ".cda", ".wav", ".au", ".snd", ".aif", ".aifc", ".aiff", ".mid", ".midi", ".rmi", ".mp2", ".mp3", ".mpa", ".m3u", ".wmd", ".dvr-ms", ".wpi", ".wax", ".wvx", ".wmx", ".asf", ".wma", ".wm", ".swf", ".pdf"
                 };
 
-                //HashSet<string> vidExtensions =
-                //new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-                //{
-                ////    ".3g2", ".3gp2", ".3gp", ".3gpp", ".aaf", ".asf", ".avchd", ".avi", ".cam", ".flv",".m1v", ".m2v", ".m4v",".mov", ".mpg", ".mpeg", ".mpe", ".mp4", ".ogg", ".wmv"
-                //};
+                HashSet<string> vidExtensions =
+                new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                      ".3g2", ".3gp2", ".3gp", ".3gpp", ".aaf", ".asf", ".avchd", ".avi", ".cam", ".flv",".m1v", ".m2v", ".m4v",".mov", ".mpg", ".mpeg", ".mpe", ".mp4", ".ogg", ".wmv"
+                };
 
                 HashSet<string> imgExtensions =
                 new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -2131,14 +2131,12 @@ namespace ADD
                     fileId++;
                 }
 
-                //if (!foundType && vidExtensions.Contains(Path.GetExtension(FileName)))
-                //{
-                //    FileStream fileStream = new FileStream("root\\" + TransID + "\\index.htm", FileMode.Append);
-                //    strPrintLine = "<div class=\"item\"><div class=\"content\"><video controls=\"controls\" width=\"100%\" height=\"100%\" name=\"" + FileName + "\" src=\"" + HttpUtility.UrlPathEncode(FileName) + "\"></video><p><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + FileName + "</a></p></div></div>";
-                //    fileStream.Write(UTF8Encoding.UTF8.GetBytes(strPrintLine), 0, UTF8Encoding.UTF8.GetBytes(strPrintLine).Length);
-                //    fileStream.Close();
-                //    foundType = true;
-                //}
+                if (!foundType && vidExtensions.Contains(Path.GetExtension(FileName)))
+                {
+                    strPrintLine = "<div class=\"item\"><div class=\"content\"><video controls=\"controls\" width=\"1280\" height=\"720\" name=\"" + FileName + "\" src=\"" + HttpUtility.UrlPathEncode(FileName) + "\"></video><p><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\"><div id=\"vid0\">" + FileName + "</div></a></p></div></div>";
+                    foundType = true;
+                    fileId++;
+                }
 
                 if (!foundType && imgExtensions.Contains(Path.GetExtension(FileName)))
                 {
