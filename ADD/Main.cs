@@ -664,7 +664,7 @@ namespace ADD
                             tranCount = 0;
                             
                             //Wait for the wallet to catch up.
-                            while (ledgerCount > 15 )
+                            while (ledgerCount > 7)
                             {
                                 transLookup = b.GetTransaction(transactionId);
                                 if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(5000);}                                
@@ -690,7 +690,7 @@ namespace ADD
                             tranCount = 0;
 
                             //Wait for the wallet to catch up.
-                            while (ledgerCount > 15)
+                            while (ledgerCount > 7)
                             {
                                 transLookup = b.GetTransaction(transactionId);
                                 if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(10000); }
@@ -710,7 +710,7 @@ namespace ADD
                         lastTransactionID = transactionId;
 
                         //Wait for the wallet to catch up.
-                        while (ledgerCount > 15)
+                        while (ledgerCount > 7)
                         {
                             transLookup = b.GetTransaction(transactionId);
                             if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(10000); }

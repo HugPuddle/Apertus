@@ -55,9 +55,9 @@
             this.lblVersion.Location = new System.Drawing.Point(368, 79);
             this.lblVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(205, 25);
+            this.lblVersion.Size = new System.Drawing.Size(217, 25);
             this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "Version: v0.3.9-beta";
+            this.lblVersion.Text = "Version: v0.3.10-beta";
             // 
             // label1
             // 
