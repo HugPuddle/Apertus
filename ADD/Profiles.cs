@@ -217,7 +217,8 @@ namespace ADD
                 {
                     if (transaction.category == "receive")
                     {
-                        var mainForm = Application.OpenForms.OfType<Main>().Single();
+                       
+                            var mainForm = Application.OpenForms.OfType<Main>().Single();
                         if (mainForm.CreateArchive(transaction.txid, Main.CoinType, false, true, null, null, false))
                         {
                             if (System.IO.File.Exists("root//" + transaction.txid + "//PRO"))

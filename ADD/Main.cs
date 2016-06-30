@@ -84,6 +84,7 @@ namespace ADD
         string PROLinks = "";
         string lastTransID = "";
         string strProofAddress = "";
+        decimal totalTransactionCost = 0;
 
         public Main()
         {
@@ -182,6 +183,7 @@ namespace ADD
             {
                 lock (_buildLocker)
                 {
+                    totalTransactionCost = 0;
                     CreateArchive(TransId, CoinType, false, false, null, null, true);
                 }
             }
@@ -601,7 +603,7 @@ namespace ADD
 
                 System.IO.StreamReader readARC = new System.IO.StreamReader("process\\" + processId + ".ADD");
                 System.IO.StreamWriter arcLedger = new System.IO.StreamWriter("process\\" + processId + ".LGR", true);
-               
+                GetTransactionResponse transLookup = null;
 
                     while ((line = readARC.ReadLine()) != null)
                     {
@@ -637,8 +639,10 @@ namespace ADD
                             { transactionId = lastTransactionID; }
                             else
                             {
-                                System.Threading.Thread.Sleep(500);
+                                
                                 transactionId = b.SendMany(WalletLabel, toMany);
+                                System.Threading.Thread.Sleep(1000);
+                                ledgerCount++;
                             }
 
                             arcLedger.WriteLine(transactionId);
@@ -658,15 +662,14 @@ namespace ADD
                             }
 
                             tranCount = 0;
-                            GetTransactionResponse transLookup = b.GetTransaction(transactionId);
+                            
                             //Wait for the wallet to catch up.
-                            while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
+                            while (ledgerCount > 15 )
                             {
-                                System.Threading.Thread.Sleep(5000);
                                 transLookup = b.GetTransaction(transactionId);
-
+                                if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(5000);}                                
                             }
-                            if (transLookup.confirmations > 0) { ledgerCount = 0; }
+                            
 
 
                         }
@@ -675,8 +678,10 @@ namespace ADD
                         if (tranCount == coinTransactionSize[CoinType])
                         {
                             //Breaking transaction file into size specified in wallet settings
-                            System.Threading.Thread.Sleep(1000);
+
                             transactionId = b.SendMany(WalletLabel, toMany);
+                            System.Threading.Thread.Sleep(1000);
+                            ledgerCount++;
                             arcLedger.WriteLine(transactionId);
                             arcLedger.Flush();
                             lastTransaction = new Dictionary<string, decimal>(toMany);
@@ -684,44 +689,40 @@ namespace ADD
                             toMany.Clear();
                             tranCount = 0;
 
-                            GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                             //Wait for the wallet to catch up.
-                            while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
+                            while (ledgerCount > 15)
                             {
-                                System.Threading.Thread.Sleep(5000);
                                 transLookup = b.GetTransaction(transactionId);
+                                if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(10000); }
                             }
-                            if (transLookup.confirmations > 0) { ledgerCount = 0; }
 
-                        
 
                         }
                     }
                     else
                     {
-                        System.Threading.Thread.Sleep(500);
+                       
                         transactionId = b.SendData(line);
+                        System.Threading.Thread.Sleep(1000);
+                        ledgerCount++;
                         arcLedger.WriteLine(transactionId);
                         arcLedger.Flush();
                         lastTransactionID = transactionId;
 
-                        GetTransactionResponse transLookup = b.GetTransaction(transactionId);
                         //Wait for the wallet to catch up.
-                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType]))
+                        while (ledgerCount > 15)
                         {
-                            System.Threading.Thread.Sleep(5000);
                             transLookup = b.GetTransaction(transactionId);
-
+                            if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(10000); }
                         }
-                        if (transLookup.confirmations > 0) { ledgerCount = 0; }
+
                     }
                     tranCount++;
-                    ledgerCount++;
+                    
                     }
                     if (toMany.Count > 0)
                     {
                         //Catching the straglers
-                        System.Threading.Thread.Sleep(1000);
                         transactionId = b.SendMany(WalletLabel, toMany);
                         arcLedger.WriteLine(transactionId);
                         arcLedger.Flush();
@@ -729,14 +730,7 @@ namespace ADD
                         lastTransactionID = transactionId;
                         toMany.Clear();
                         tranCount = 0;
-                        GetTransactionResponse transLookup = b.GetTransaction(transactionId);
-                        //Wait for the wallet to catch up.
-                        while (transLookup.confirmations < 1 && ledgerCount > (coinTransactionSize[CoinType] * 5))
-                        {
-                            System.Threading.Thread.Sleep(5000);
-                            transLookup = b.GetTransaction(transactionId);
-                        }
-
+  
                     }
                     arcLedger.Close();
                     readARC.Close();
@@ -781,7 +775,7 @@ namespace ADD
         {
             if (chkWarnArchive.Checked)
             {
-                DialogResult dialogResult = MessageBox.Show("You are about to permanently etch data on " + CoinType + "." + Environment.NewLine + "            !!! Apertus may lock up during this process !!!" + Environment.NewLine + "       Please be patient.  We will thread it better next time." + Environment.NewLine + Environment.NewLine + "NOTICE: Files or messages with repetitive data will greatly" + Environment.NewLine + "               increase the cost of archivng.", "Confirm Saving", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("You are about to permanently etch data on " + CoinType + "." + Environment.NewLine + "            !!! Apertus may lock up during this process !!!" + Environment.NewLine + "       Please be patient.  We will thread it better next time." + Environment.NewLine + Environment.NewLine + "NOTICE: Files or messages with repetitive data will greatly" + Environment.NewLine + "               increase the cost and time of archivng.", "Confirm Saving", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     CreateLedgerFile(coinPayloadByteSize[CoinType], GetRandomBuffer(coinPayloadByteSize[CoinType]), coinIP[CoinType], coinPort[CoinType], coinUser[CoinType], coinPassword[CoinType], WalletLabel, coinVersion[CoinType], coinMinTransaction[CoinType], txtFileName.Text, null, txtMessage.Text);
@@ -1974,6 +1968,7 @@ namespace ADD
                         strHTML = strHTML + "<tr><td>VERSION</td></tr><tr><td>" + transaction.version + "</td></tr>";
                         strHTML = strHTML + "<tr><td>BLOCKCHAIN</td></tr><tr><td><div id=\"blockchain\">" + WalletKey + "</div></td></tr>";
                         strHTML = strHTML + "<tr><td>ADDRESS FILE</td></tr><tr><td><a href=\"ADD\">Address.dat</a></td></tr>";
+                        strHTML = strHTML + "<tr><td>COST</td></tr><tr><td>"+ totalTransactionCost.ToString()+"</td></tr>";
 
                         if (File.Exists("root\\" + TransID + "\\LNK"))
                         { strHTML = strHTML + "<tr><td>LINK FILE</td></tr><tr><td><a href=\"LNK\">LNK</a></td></tr>"; }
@@ -2385,7 +2380,7 @@ namespace ADD
                 {
                     var transaction = b.GetRawTransaction(TransactionId, 1);
                     lastTransID = TransactionId;
-
+                     
                     foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
                     {
                         if (arcValue > detail.value)
@@ -2396,9 +2391,10 @@ namespace ADD
 
                     foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
                     {
-
+                        
                         if (detail.value == arcValue)
                         {
+                            totalTransactionCost = totalTransactionCost + detail.value;
                             addressBuilder = addressBuilder + delimiter + detail.scriptPubKey.addresses[0];
                             delimiter = ",";
                         }
@@ -2410,6 +2406,7 @@ namespace ADD
                     try
                     {
                         var transaction = b.GetTransaction(TransactionId);
+                        totalTransactionCost = totalTransactionCost + transaction.amount + transaction.fee;
                         foreach (BitcoinNET.RPCClient.GetTransactionResponse.Details detail in transaction.details)
                         {
                             if (arcValue > detail.amount && detail.amount > 0)
@@ -2532,6 +2529,7 @@ namespace ADD
                             {
                                 lock (_buildLocker)
                                 {
+                                    totalTransactionCost = 0;
                                     CreateArchive(s, i.Key, true, false, null, null, true);
                                 }
 
@@ -2827,6 +2825,7 @@ namespace ADD
                 {
                     lock (_buildLocker)
                     {
+                        totalTransactionCost = 0;
                         isFound = CreateArchive(transID, i, true, useCache, null, null, true);
                     }
 
@@ -2979,6 +2978,7 @@ namespace ADD
                         string transID = f.Replace("root\\", "");
                         lock (_buildLocker)
                         {
+                            totalTransactionCost = 0;
                             isFound = CreateArchive(transID, i, true, false, null, null, true);
                         }
                         if (isFound)
@@ -3039,6 +3039,7 @@ namespace ADD
                 {
                     lock (_buildLocker)
                     {
+                        totalTransactionCost = 0;
                         CreateArchive(transArray[0], transArray[1], false, false, null, null, true);
                     }
                 }
@@ -3484,22 +3485,26 @@ namespace ADD
                     {
                         if (transaction.category == "receive")
                         {
-                            var mainForm = Application.OpenForms.OfType<Main>().Single();
-                            if (mainForm.CreateArchive(transaction.txid, Main.CoinType, false, true, null, null, false))
+                            lock (_buildLocker)
                             {
-                                if (System.IO.File.Exists("root//" + transaction.txid + "//PRO"))
+                                totalTransactionCost = 0;
+                                var mainForm = Application.OpenForms.OfType<Main>().Single();
+                                if (mainForm.CreateArchive(transaction.txid, Main.CoinType, false, true, null, null, false))
                                 {
-
-                                    var doc = new HtmlAgilityPack.HtmlDocument();
-                                    doc.Load("root\\" + transaction.txid + "\\index.htm");
-                                    if (doc.GetElementbyId("signature") != null)
+                                    if (System.IO.File.Exists("root//" + transaction.txid + "//PRO"))
                                     {
 
-                                        var signature = doc.GetElementbyId("signature").InnerText;
-                                        if (transaction.address == signature)
+                                        var doc = new HtmlAgilityPack.HtmlDocument();
+                                        doc.Load("root\\" + transaction.txid + "\\index.htm");
+                                        if (doc.GetElementbyId("signature") != null)
                                         {
-                                            ProfileID = transaction.txid;
-                                            break;
+
+                                            var signature = doc.GetElementbyId("signature").InnerText;
+                                            if (transaction.address == signature)
+                                            {
+                                                ProfileID = transaction.txid;
+                                                break;
+                                            }
                                         }
                                     }
                                 }
