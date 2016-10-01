@@ -117,7 +117,8 @@ namespace ADD.Tools
                     {
                         if (msg.Length > 500) { msg = msg.Substring(0, 499) + "..."; }
 
-                        msg = "<b>" + fullName + "</b><a href=\"root/" + s + "/index.htm\">@" + strNickName + " - " + date + "</a><br>" + msg + "<br><a href=\"root/" + s + "/index.htm\">" + s + "/MSG1</a>";
+
+                        msg = "<b>" + fullName + "</b><a href=\"root/" + s + "/index.htm\"> &nbsp;@" + strNickName + " - " + date + "</a><br><a href=\"root/" + s + "/index.htm\">" + msg + "</a><br>&nbsp;<br>";
                         monitorHTML = monitorHTML + "<section>" + msg + "</section>";
                     }
 
@@ -256,7 +257,8 @@ namespace ADD.Tools
                     {
                         if (msg.Length > 500) { msg = msg.Substring(0, 499) + "..."; }
 
-                        msg = "<b>" + fullName + "</b><a href=\"root/" + s + "/index.htm\">@" + strNickName + " - " + date + "</a><br>" + msg + "<br><a href=\"root/" + s + "/index.htm\">" + s + "/MSG1</a>";
+
+                        msg = "<b>" + fullName + "</b><a href=\"root/" + s + "/index.htm\"> &nbsp;@" + strNickName + " - " + date + "</a><br><a href=\"root/" + s + "/index.htm\">" + msg + "</a><br>&nbsp;<br>";
                         searchHTML = searchHTML + "<section>" + msg + "</section>";
                     }
 
@@ -371,7 +373,7 @@ namespace ADD.Tools
                     {
                         if (msg.Length > 500) { msg = msg.Substring(0, 499) + "..."; }
 
-                        msg = "<b>" + fullName + "</b><a href=\"root/" + s + "/index.htm\"> &nbsp;@" + strNickName + " - " + date + "</a><br>" + msg + "<br><a href=\"root/" + s + "/index.htm\">" + s + "/MSG1</a>";
+                        msg = "<b>" + fullName + "</b><a href=\"root/" + s + "/index.htm\"> &nbsp;@" + strNickName + " - " + date + "</a><br><a href=\"root/" + s + "/index.htm\">" + msg + "</a><br>&nbsp;<br>";
                         searchHTML = searchHTML + "<section>" + msg + "</section>";
                     }
 

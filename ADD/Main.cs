@@ -225,6 +225,7 @@ namespace ADD
                 {
                     if (TextMessage.Length > 0)
                     {
+                        if (chkNoMessage.Checked) { TextMessage = ""; }
                         msgBytes = Encoding.UTF8.GetBytes(TextMessage);
                         cglText = GetRandomDivider() + msgBytes.Length.ToString().PadLeft(HeaderPaddingSize - 2, '0') + GetRandomDivider();
                         totalMsgSize = msgBytes.Length + cglText.Length;
@@ -1637,7 +1638,7 @@ namespace ADD
 
         }
 
-        private Boolean ConvertAddressArrayToFile(string[] AddressArray, byte[] RawBytes, string TransID, string WalletKey, bool DisplayResults, bool? TrustLink, bool NavigateResults)
+        public Boolean ConvertAddressArrayToFile(string[] AddressArray, byte[] RawBytes, string TransID, string WalletKey, bool DisplayResults, bool? TrustLink, bool NavigateResults)
         {
             try
             {
@@ -1686,6 +1687,7 @@ namespace ADD
                 Boolean isSigned = false;
                 Boolean trustContent = false;
                 var buildFiles = new Dictionary<string, byte[]>();
+                string INQHTML = "";
 
 
 
@@ -1949,8 +1951,136 @@ namespace ADD
                             dateTime = dateTime.ToLocalTime();
                             printDate = dateTime.ToShortDateString() + " " + dateTime.ToShortTimeString();
                         }
+                      
+                        // START CODE TO DISPLAY RESULTS OF INQ FILE
 
-                        strHTML = "<div class=\"item\"><div class=\"content\"><table>";
+                        if (System.IO.File.Exists("root\\"+TransID + "\\INQ"))
+                        {
+                            string readFile = File.ReadAllText("root\\" + TransID + "\\INQ");
+
+                            string[] INQLines = readFile.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+                            string Inquiry = "";
+                            string i = CoinType;
+                            ValidateAddressResponse result = null;
+                            Dictionary<string, int> inqCount = new Dictionary<string, int>();
+                            Dictionary<string, string> inqLabels = new Dictionary<string, string>();
+
+                            try
+                            {
+
+
+                                    string rootAddress = INQLines[0].Substring(0, INQLines[0].IndexOf('='));
+                                    result = b.ValidateAddress(rootAddress);
+                                    Inquiry = INQLines[0].Substring(INQLines[0].IndexOf('=') + 1).TrimEnd(new char[] { '\n', '\r' });
+
+
+
+
+                                    if (result != null && result.isvalid)
+                                    {
+
+
+                                        foreach (string line in INQLines)
+                                        {
+
+                                            inqCount.Add(line.Substring(0, line.IndexOf('=')), 0);
+                                            inqLabels.Add(line.Substring(0, line.IndexOf('=')), line.Substring(line.IndexOf('=') + 1).TrimEnd(new char[] { '\n', '\r' }));
+                                        }
+
+                                        if (result.account != null)
+                                        {
+
+                                            IEnumerable<ListTransactionsResponse> transactions;
+                                            try { transactions = (IEnumerable<ListTransactionsResponse>)b.ListTransactions(inqLabels[rootAddress], 999999999, 0, true); }
+                                            catch { transactions = (IEnumerable<ListTransactionsResponse>)b.ListTransactions(inqLabels[rootAddress], 999999999, 0); }
+
+
+                                            foreach (var transact in transactions)
+                                            {
+
+                                                if (transact.category == "receive")
+                                                {
+                                                    var details = b.GetRawTransaction(transact.txid, 1);
+
+                                                    foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in details.vout)
+                                                    {
+                                                        try { inqCount[detail.scriptPubKey.addresses[0]]++; } catch { }
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            DialogResult prompt = MessageBox.Show("A full index scan is required to include previously etched data. Do you want to perform a full index scan?", "Confirmation", MessageBoxButtons.YesNoCancel);
+                                            if (prompt == DialogResult.Yes)
+                                            {
+                                                try
+                                                {
+                                                    b.ImportAddress(rootAddress, Inquiry, true);
+
+                                                }
+                                                catch (NullReferenceException)
+                                                {
+                                                    MessageBox.Show("A full index scan has begun. Press CTRL-ENTER to rebuild results once it has completed.", "Apertus",
+                                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+
+                                                }
+                                                catch (Exception e)
+                                                {
+                                                    MessageBox.Show("This Blockchain does not support address importing.", "Apertus",
+                                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                try
+                                                {
+                                                    b.ImportAddress(rootAddress, Inquiry, false);
+                                                    
+                                                }
+                                                catch { }
+
+                                            }
+                                        }
+                                    }
+                                                             
+
+                            }
+                            catch (NullReferenceException)
+                            {
+                                MessageBox.Show("The " + i + " Blockchain is not responding. Please try again later.", "Apertus",
+                                MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                            }
+                            catch (Exception d)
+                            {
+                                lblStatusInfo.ForeColor = System.Drawing.Color.Black;
+                                lblStatusInfo.Text = "Error: " + d.Message;
+                                tmrStatusUpdate.Start();
+                            }
+
+                            INQHTML = "<div class=\"item\"><div class=\"content\"><table>";
+                            foreach (var pair in inqLabels)
+                            {
+                                var key = pair.Key;
+                                var value = pair.Value;
+                                INQHTML = INQHTML + "<tr><td>"+  value  +"</td><td>" + inqCount[key].ToString()  + "</td></tr>";
+
+                            }
+                            INQHTML = INQHTML + "</table></div></div>";
+
+
+
+                        }
+
+
+
+
+
+
+                        //END CODE TO DISPLAY INQ FILE
+
+                        strHTML = INQHTML + "<div class=\"item\"><div class=\"content\"><table>";
                         if (coinHelperUrl[WalletKey] != "")
                         { strHTML = strHTML + "<tr><td>ROOT ID</td></tr><tr><td><a href=\"" + coinHelperUrl[WalletKey].Replace("%s", transaction.txid) + "\">" + transaction.txid + "</a></td></tr>"; }
                         else
@@ -1975,6 +2105,7 @@ namespace ADD
 
                         if (Properties.Settings.Default.ReportAbuseUrl != "")
                         { strHTML = strHTML + "<tr><td align=right><a href=\"" + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid) + "\">report abuse</a></td></tr>"; }
+                        strHTML = strHTML + "<tr><td>BUILD DATE</td></tr><tr><td nowrap><div id=\"build-date\">" + DateTime.Now + "</div></td></tr>";
                         strHTML = strHTML + "</table></div></div>";
                         strHTML = strHTML + "<!--#include file=\"..\\includes\\footer.ssi\" --></div></body></html>";
                     }
@@ -2107,7 +2238,7 @@ namespace ADD
                 };
 
 
-                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "PRO" && FileName != "SIG" && FileName != "LNK")
+                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "PRO" && FileName != "SIG" && FileName != "LNK" && FileName != "INQ")
                 {
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file" + fileId + "\">[ " + FileName + " ]</div></div></div>";
                     foundType = true;
@@ -2142,13 +2273,13 @@ namespace ADD
 
                 if (!foundType)
                 {
-                    if (FileName != "SIG" && !FileName.EndsWith(".SIG") && FileName != "LNK" && FileName != "PRO")
+                    if (FileName != "SIG" && !FileName.EndsWith(".SIG") && FileName != "LNK" && FileName != "PRO" && FileName != "INQ")
                     {
                         strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + HttpUtility.UrlPathEncode(FileName) + "</a></div></div>";
                     }
                 }
 
-                if (FileName == "PRO" || FileName == "SIG" || FileName == "LNK")
+                if (FileName == "PRO" || FileName == "SIG" || FileName == "LNK" || FileName == "INQ")
                 {
                     string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length);
                     readFile = WebUtility.HtmlEncode(readFile);
@@ -2191,6 +2322,10 @@ namespace ADD
 
 
                     }
+
+
+
+
 
 
                 }
