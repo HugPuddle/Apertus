@@ -2059,24 +2059,30 @@ namespace ADD
                                 tmrStatusUpdate.Start();
                             }
 
-                            INQHTML = "<div class=\"item\"><div class=\"content\"><table>";
+                            INQHTML = "<div class=\"item\"><div class=\"content\"><form name=\"inqForm\"><table cellpadding=10>";
+                            string strRootINQ = "";
                             foreach (var pair in inqLabels)
                             {
                                 var key = pair.Key;
                                 var value = pair.Value;
-                                INQHTML = INQHTML + "<tr><td>"+  value  +"</td><td>" + inqCount[key].ToString()  + "</td></tr>";
+                                if (strRootINQ == "")
+                                {
+                                    strRootINQ = key;
+                                    INQHTML = INQHTML + "<tr><td colspan=2>"+ value +"</td></tr>";
 
+                                }
+                                else
+                                {
+                                    INQHTML = INQHTML + "<tr><td><input type=\"radio\" name=\"vote\" onClick=\"document.inqForm.votescript.value = this.value;\" value = \"@" + strRootINQ + " @" + key + "\">"+ value +"</td><td>" + inqCount[key].ToString() + "</td></tr>";
+                                }
                             }
-                            INQHTML = INQHTML + "</table></div></div>";
+                            INQHTML = INQHTML + "<tr><td>TOTAL TRANSACTIONS</td><td>" + inqCount[strRootINQ] + "</td></tr><tr><td colspan=2>ETCH THIS TO ANSWER<br><textarea name=\"votescript\" style=\"width: 100%\"></textarea></td></tr></table></form></div></div>";
 
 
 
                         }
 
-
-
-
-
+               
 
                         //END CODE TO DISPLAY INQ FILE
 
@@ -2238,7 +2244,7 @@ namespace ADD
                 };
 
 
-                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "PRO" && FileName != "SIG" && FileName != "LNK" && FileName != "INQ")
+                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "PRO" && FileName != "SIG" && FileName != "LNK")
                 {
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file" + fileId + "\">[ " + FileName + " ]</div></div></div>";
                     foundType = true;
