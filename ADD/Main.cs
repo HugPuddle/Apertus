@@ -75,6 +75,7 @@ namespace ADD
         HashSet<string> hashFollowedList = new HashSet<string>(StringComparer.Ordinal);
         HashSet<string> hashFavoritedList = new HashSet<string>(StringComparer.Ordinal);
         HashSet<string> hashFriendList = new HashSet<string>(StringComparer.Ordinal);
+        List<string> batchList = new List<string>();
         static readonly object _batchLocker = new object();
         static readonly object _buildLocker = new object();
         GlyphTypeface glyphTypeface = new GlyphTypeface(new Uri("file:///C:\\WINDOWS\\Fonts\\Arial.ttf"));
@@ -1931,21 +1932,21 @@ namespace ADD
                         {
                             lock (_batchLocker)
                             {
-                                if (!System.IO.File.Exists("root\\batch.txt"))
+                                if (!batchList.Contains(TransID + "@" + WalletKey))
                                 {
-                                    System.IO.File.AppendAllText("root\\batch.txt", TransID + "@" + WalletKey + Environment.NewLine);
+                                    batchList.Add(TransID + "@" + WalletKey);
                                 }
-                                else
-                                {
-                                    if (!System.IO.File.ReadAllText("root\\batch.txt").Contains(TransID))
-                                    {
-                                        System.IO.File.AppendAllText("root\\batch.txt", TransID + "@" + WalletKey + Environment.NewLine);
-                                    }
-                                }
+                             
                             }
                         }
                         else
                         {
+                            lock (_batchLocker)
+                            {
+                                batchList.Remove(TransID + "@" + WalletKey);
+
+                            }
+
                             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
                             dateTime = dateTime.AddSeconds(transaction.blocktime);
                             dateTime = dateTime.ToLocalTime();
@@ -2228,13 +2229,13 @@ namespace ADD
                 HashSet<string> embExtensions =
               new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 {
-                    ".m2ts", ".aac", ".adt", ".adts", ".m4a", ".wmz", ".wms", ".ivf", ".cda", ".wav", ".au", ".snd", ".aif", ".aifc", ".aiff", ".mid", ".midi", ".rmi", ".mp2", ".mp3", ".mpa", ".m3u", ".wmd", ".dvr-ms", ".wpi", ".wax", ".wvx", ".wmx", ".asf", ".wma", ".wm", ".swf", ".pdf"
+                    ".m2ts", ".aac", ".adt", ".adts", ".m4a", ".wmz", ".wms", ".ivf", ".cda", ".wav", ".au", ".snd", ".aif", ".aifc", ".aiff", ".mid", ".midi", ".rmi", ".ogg", ".mp2", ".mpa", ".m3u", ".wmd", ".dvr-ms", ".wpi", ".wax", ".wvx", ".wmx", ".asf", ".wma", ".wm", ".swf", ".pdf"
                 };
 
                 HashSet<string> vidExtensions =
                 new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 {
-                      ".3g2", ".3gp2", ".3gp", ".3gpp", ".aaf", ".asf", ".avchd", ".avi", ".cam", ".flv",".m1v", ".m2v", ".m4v",".mov", ".mpg", ".mpeg", ".mpe", ".mp4", ".ogg", ".wmv"
+                      ".3g2", ".3gp2", ".3gp", ".3gpp", ".aaf", ".asf", ".avchd", ".avi", ".cam", ".flv",".m1v", ".m2v", ".m4v",".mov", ".mpg", ".mpeg", ".mpe", ".mp4", ".wmv",".mp3"
                 };
 
                 HashSet<string> imgExtensions =
@@ -3155,7 +3156,7 @@ namespace ADD
         private void tmrProcessBatch_Tick(object sender, EventArgs e)
         {
             var batchLine = "";
-            List<string> batchList = new List<string>();
+         
 
             lock (_batchLocker)
             {
@@ -3172,8 +3173,8 @@ namespace ADD
                 catch { }
             }
 
-
-            foreach (string transIDKey in batchList)
+            List<string> batchBatchList = new List<string>(batchList);
+            foreach (string transIDKey in batchBatchList)
             {
                 var transArray = transIDKey.Split('@');
                 try
