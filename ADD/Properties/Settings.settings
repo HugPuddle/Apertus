@@ -68,17 +68,8 @@
     <Setting Name="HideOptions" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="RootFolderLocation" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ProcessFolderLocation" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="BatchFileLocation" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="BatchProcessTime" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">300</Value>
+    <Setting Name="EnableMonitor" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -278,39 +278,15 @@ namespace ADD.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RootFolderLocation {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableMonitor {
             get {
-                return ((string)(this["RootFolderLocation"]));
+                return ((bool)(this["EnableMonitor"]));
             }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ProcessFolderLocation {
-            get {
-                return ((string)(this["ProcessFolderLocation"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BatchFileLocation {
-            get {
-                return ((string)(this["BatchFileLocation"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300")]
-        public int BatchProcessTime {
-            get {
-                return ((int)(this["BatchProcessTime"]));
+            set {
+                this["EnableMonitor"] = value;
             }
         }
     }

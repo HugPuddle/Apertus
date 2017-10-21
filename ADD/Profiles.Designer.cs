@@ -68,12 +68,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAddress3.Enabled = false;
             this.txtAddress3.Location = new System.Drawing.Point(334, 408);
-            this.txtAddress3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtAddress3.Margin = new System.Windows.Forms.Padding(4);
             this.txtAddress3.MaximumSize = new System.Drawing.Size(498, 30);
             this.txtAddress3.MaxLength = 20;
             this.txtAddress3.Name = "txtAddress3";
-            this.txtAddress3.Size = new System.Drawing.Size(347, 30);
-            this.txtAddress3.TabIndex = 10;
+            this.txtAddress3.Size = new System.Drawing.Size(347, 31);
+            this.txtAddress3.TabIndex = 11;
             // 
             // txtAddress2
             // 
@@ -81,12 +81,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAddress2.Enabled = false;
             this.txtAddress2.Location = new System.Drawing.Point(334, 365);
-            this.txtAddress2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtAddress2.Margin = new System.Windows.Forms.Padding(4);
             this.txtAddress2.MaximumSize = new System.Drawing.Size(498, 30);
             this.txtAddress2.MaxLength = 20;
             this.txtAddress2.Name = "txtAddress2";
-            this.txtAddress2.Size = new System.Drawing.Size(347, 30);
-            this.txtAddress2.TabIndex = 9;
+            this.txtAddress2.Size = new System.Drawing.Size(347, 31);
+            this.txtAddress2.TabIndex = 10;
             // 
             // txtAddress1
             // 
@@ -94,12 +94,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAddress1.Enabled = false;
             this.txtAddress1.Location = new System.Drawing.Point(334, 323);
-            this.txtAddress1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtAddress1.Margin = new System.Windows.Forms.Padding(4);
             this.txtAddress1.MaximumSize = new System.Drawing.Size(498, 30);
             this.txtAddress1.MaxLength = 20;
             this.txtAddress1.Name = "txtAddress1";
-            this.txtAddress1.Size = new System.Drawing.Size(347, 30);
-            this.txtAddress1.TabIndex = 8;
+            this.txtAddress1.Size = new System.Drawing.Size(347, 31);
+            this.txtAddress1.TabIndex = 9;
             // 
             // label8
             // 
@@ -137,12 +137,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSuffix.Enabled = false;
             this.txtSuffix.Location = new System.Drawing.Point(334, 279);
-            this.txtSuffix.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSuffix.Margin = new System.Windows.Forms.Padding(4);
             this.txtSuffix.MaximumSize = new System.Drawing.Size(498, 30);
             this.txtSuffix.MaxLength = 20;
             this.txtSuffix.Name = "txtSuffix";
-            this.txtSuffix.Size = new System.Drawing.Size(347, 30);
-            this.txtSuffix.TabIndex = 7;
+            this.txtSuffix.Size = new System.Drawing.Size(347, 31);
+            this.txtSuffix.TabIndex = 8;
             // 
             // txtLastName
             // 
@@ -150,12 +150,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLastName.Enabled = false;
             this.txtLastName.Location = new System.Drawing.Point(334, 238);
-            this.txtLastName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtLastName.Margin = new System.Windows.Forms.Padding(4);
             this.txtLastName.MaximumSize = new System.Drawing.Size(498, 30);
             this.txtLastName.MaxLength = 20;
             this.txtLastName.Name = "txtLastName";
-            this.txtLastName.Size = new System.Drawing.Size(347, 30);
-            this.txtLastName.TabIndex = 6;
+            this.txtLastName.Size = new System.Drawing.Size(347, 31);
+            this.txtLastName.TabIndex = 7;
             // 
             // label4
             // 
@@ -183,12 +183,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMiddleName.Enabled = false;
             this.txtMiddleName.Location = new System.Drawing.Point(334, 194);
-            this.txtMiddleName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMiddleName.Margin = new System.Windows.Forms.Padding(4);
             this.txtMiddleName.MaximumSize = new System.Drawing.Size(498, 30);
             this.txtMiddleName.MaxLength = 20;
             this.txtMiddleName.Name = "txtMiddleName";
-            this.txtMiddleName.Size = new System.Drawing.Size(347, 30);
-            this.txtMiddleName.TabIndex = 5;
+            this.txtMiddleName.Size = new System.Drawing.Size(347, 31);
+            this.txtMiddleName.TabIndex = 6;
             // 
             // txtFirstName
             // 
@@ -196,12 +196,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFirstName.Enabled = false;
             this.txtFirstName.Location = new System.Drawing.Point(334, 152);
-            this.txtFirstName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtFirstName.Margin = new System.Windows.Forms.Padding(4);
             this.txtFirstName.MaximumSize = new System.Drawing.Size(498, 30);
             this.txtFirstName.MaxLength = 20;
             this.txtFirstName.Name = "txtFirstName";
-            this.txtFirstName.Size = new System.Drawing.Size(347, 30);
-            this.txtFirstName.TabIndex = 4;
+            this.txtFirstName.Size = new System.Drawing.Size(347, 31);
+            this.txtFirstName.TabIndex = 5;
             // 
             // txtPrefix
             // 
@@ -209,12 +209,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPrefix.Enabled = false;
             this.txtPrefix.Location = new System.Drawing.Point(334, 110);
-            this.txtPrefix.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPrefix.Margin = new System.Windows.Forms.Padding(4);
             this.txtPrefix.MaximumSize = new System.Drawing.Size(498, 30);
             this.txtPrefix.MaxLength = 20;
             this.txtPrefix.Name = "txtPrefix";
-            this.txtPrefix.Size = new System.Drawing.Size(347, 30);
-            this.txtPrefix.TabIndex = 3;
+            this.txtPrefix.Size = new System.Drawing.Size(347, 31);
+            this.txtPrefix.TabIndex = 4;
             // 
             // txtNickName
             // 
@@ -222,12 +222,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNickName.Enabled = false;
             this.txtNickName.Location = new System.Drawing.Point(334, 67);
-            this.txtNickName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNickName.Margin = new System.Windows.Forms.Padding(4);
             this.txtNickName.MaximumSize = new System.Drawing.Size(498, 30);
             this.txtNickName.MaxLength = 20;
             this.txtNickName.Name = "txtNickName";
-            this.txtNickName.Size = new System.Drawing.Size(347, 30);
-            this.txtNickName.TabIndex = 2;
+            this.txtNickName.Size = new System.Drawing.Size(347, 31);
+            this.txtNickName.TabIndex = 3;
             // 
             // txtTransID
             // 
@@ -235,7 +235,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTransID.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
             this.txtTransID.Location = new System.Drawing.Point(3, 508);
-            this.txtTransID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTransID.Margin = new System.Windows.Forms.Padding(4);
             this.txtTransID.MaximumSize = new System.Drawing.Size(818, 30);
             this.txtTransID.Name = "txtTransID";
             this.txtTransID.ReadOnly = true;
@@ -257,7 +257,7 @@
             this.btnTipAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnTipAddress.Enabled = false;
             this.btnTipAddress.Location = new System.Drawing.Point(158, 452);
-            this.btnTipAddress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTipAddress.Margin = new System.Windows.Forms.Padding(4);
             this.btnTipAddress.Name = "btnTipAddress";
             this.btnTipAddress.Size = new System.Drawing.Size(42, 48);
             this.btnTipAddress.TabIndex = 114;
@@ -306,17 +306,17 @@
             this.cmbTipAddress.Items.AddRange(new object[] {
             "Select Funding Source"});
             this.cmbTipAddress.Location = new System.Drawing.Point(262, 454);
-            this.cmbTipAddress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbTipAddress.Margin = new System.Windows.Forms.Padding(4);
             this.cmbTipAddress.MaximumSize = new System.Drawing.Size(634, 0);
             this.cmbTipAddress.Name = "cmbTipAddress";
             this.cmbTipAddress.Size = new System.Drawing.Size(419, 35);
-            this.cmbTipAddress.TabIndex = 111;
+            this.cmbTipAddress.TabIndex = 13;
             this.cmbTipAddress.SelectedIndexChanged += new System.EventHandler(this.cmbTipAddress_SelectedIndexChanged);
             // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(14, 19);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(42, 48);
             this.button2.TabIndex = 101;
@@ -332,11 +332,11 @@
             this.cmbProfileAddress.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbProfileAddress.FormattingEnabled = true;
             this.cmbProfileAddress.Location = new System.Drawing.Point(64, 19);
-            this.cmbProfileAddress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbProfileAddress.Margin = new System.Windows.Forms.Padding(4);
             this.cmbProfileAddress.MaximumSize = new System.Drawing.Size(778, 0);
             this.cmbProfileAddress.Name = "cmbProfileAddress";
             this.cmbProfileAddress.Size = new System.Drawing.Size(516, 35);
-            this.cmbProfileAddress.TabIndex = 100;
+            this.cmbProfileAddress.TabIndex = 1;
             this.cmbProfileAddress.SelectedIndexChanged += new System.EventHandler(this.cmbProfileAddress_SelectedIndexChanged);
             // 
             // label9
@@ -356,7 +356,7 @@
             this.imgProfilePhoto.Image = global::ADD.Properties.Resources.Profile;
             this.imgProfilePhoto.InitialImage = global::ADD.Properties.Resources.Profile;
             this.imgProfilePhoto.Location = new System.Drawing.Point(30, 88);
-            this.imgProfilePhoto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.imgProfilePhoto.Margin = new System.Windows.Forms.Padding(4);
             this.imgProfilePhoto.Name = "imgProfilePhoto";
             this.imgProfilePhoto.Size = new System.Drawing.Size(136, 140);
             this.imgProfilePhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -374,7 +374,7 @@
             this.btnArchive.Margin = new System.Windows.Forms.Padding(8, 6, 8, 6);
             this.btnArchive.Name = "btnArchive";
             this.btnArchive.Size = new System.Drawing.Size(87, 42);
-            this.btnArchive.TabIndex = 130;
+            this.btnArchive.TabIndex = 2;
             this.btnArchive.Tag = "12345678901234567890";
             this.btnArchive.Text = "Save";
             this.btnArchive.UseVisualStyleBackColor = true;
@@ -384,20 +384,21 @@
             // 
             this.txtTipAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtTipAddress.Location = new System.Drawing.Point(268, 454);
-            this.txtTipAddress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTipAddress.Margin = new System.Windows.Forms.Padding(4);
             this.txtTipAddress.Name = "txtTipAddress";
             this.txtTipAddress.Size = new System.Drawing.Size(390, 31);
-            this.txtTipAddress.TabIndex = 137;
+            this.txtTipAddress.TabIndex = 12;
             this.txtTipAddress.Visible = false;
             this.txtTipAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTipAddress_KeyDown);
             // 
             // txtProfileAddress
             // 
             this.txtProfileAddress.Location = new System.Drawing.Point(64, 21);
-            this.txtProfileAddress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtProfileAddress.Margin = new System.Windows.Forms.Padding(4);
             this.txtProfileAddress.Name = "txtProfileAddress";
+            this.txtProfileAddress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtProfileAddress.Size = new System.Drawing.Size(482, 31);
-            this.txtProfileAddress.TabIndex = 999;
+            this.txtProfileAddress.TabIndex = 0;
             this.txtProfileAddress.TabStop = false;
             this.txtProfileAddress.Visible = false;
             this.txtProfileAddress.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProfileAddress_KeyDown);
@@ -412,7 +413,7 @@
             this.btnExportTip.Enabled = false;
             this.btnExportTip.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportTip.Location = new System.Drawing.Point(210, 452);
-            this.btnExportTip.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnExportTip.Margin = new System.Windows.Forms.Padding(6);
             this.btnExportTip.Name = "btnExportTip";
             this.btnExportTip.Size = new System.Drawing.Size(42, 48);
             this.btnExportTip.TabIndex = 1000;
@@ -455,7 +456,7 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.imgProfilePhoto);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximumSize = new System.Drawing.Size(720, 609);
             this.MinimumSize = new System.Drawing.Size(720, 609);
             this.Name = "Profiles";

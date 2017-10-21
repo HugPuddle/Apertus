@@ -14,7 +14,7 @@ namespace ADD.Tools
 {
     class Search
     {
-        public static void GetLatestArchives()
+        public static void GetLatestArchives(int totalItems)
         {
 
             string scope = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\root";
@@ -29,7 +29,7 @@ namespace ADD.Tools
 
             OleDbConnection connection = new OleDbConnection(connectionString);
 
-            string query = @"SELECT TOP 50 System.ItemFolderPathDisplay FROM SystemIndex WHERE scope ='file:" + scope + "' AND System.FileName = 'index.htm' ORDER BY System.DateModified DESC";
+            string query = @"SELECT TOP " + totalItems + " System.ItemFolderPathDisplay FROM SystemIndex WHERE scope ='file:" + scope + "' AND System.FileName = 'index.htm' ORDER BY System.DateModified DESC";
             OleDbCommand command = new OleDbCommand(query, connection);
             connection.Open();
             HashSet<string> result = new HashSet<string>();
@@ -154,7 +154,7 @@ namespace ADD.Tools
 
         }
 
-        public static void GetWindowsSearchResults(string searchEntry)
+        public static void GetWindowsSearchResults(string searchEntry, int totalItems)
     {
            string scope = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root";
            string searchHTML = "<html><head><meta charset=\"UTF-8\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"root\\includes\\monitor.css\"></head><body>";
@@ -166,7 +166,7 @@ namespace ADD.Tools
                 };
 
             OleDbConnection connection = new OleDbConnection(connectionString);
-            string query = @"SELECT TOP 1000 System.ItemFolderPathDisplay FROM SystemIndex WHERE scope ='file:" + scope + "' and FREETEXT('" + searchEntry.Replace("'", "").Replace("\"", "").Replace("\\", "") + "')";
+            string query = @"SELECT TOP "+ totalItems +" System.ItemFolderPathDisplay FROM SystemIndex WHERE scope ='file:" + scope + "' and FREETEXT('" + searchEntry.Replace("'", "").Replace("\"", "").Replace("\\", "") + "')";
             OleDbCommand command = new OleDbCommand(query, connection);
             connection.Open();
             HashSet<string> result = new HashSet<string>();

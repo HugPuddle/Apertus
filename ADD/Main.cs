@@ -666,7 +666,7 @@ namespace ADD
                             tranCount = 0;
                             
                             //Wait for the wallet to catch up.
-                            while (ledgerCount > 7)
+                            while (ledgerCount > 5)
                             {
                                 transLookup = b.GetTransaction(transactionId);
                                 if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(5000);}                                
@@ -692,7 +692,7 @@ namespace ADD
                             tranCount = 0;
 
                             //Wait for the wallet to catch up.
-                            while (ledgerCount > 7)
+                            while (ledgerCount > 5)
                             {
                                 transLookup = b.GetTransaction(transactionId);
                                 if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(10000); }
@@ -712,7 +712,7 @@ namespace ADD
                         lastTransactionID = transactionId;
 
                         //Wait for the wallet to catch up.
-                        while (ledgerCount > 7)
+                        while (ledgerCount > 5)
                         {
                             transLookup = b.GetTransaction(transactionId);
                             if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(10000); }
@@ -751,7 +751,15 @@ namespace ADD
             }
         
             lblStatusInfo.ForeColor = System.Drawing.Color.Black;
-            lblStatusInfo.Text = "Encoded " + fileBytes.Length.ToString() + " bytes of data.";
+            if (fileBytes != null)
+            {
+                lblStatusInfo.Text = "Encoded " + fileBytes.Length.ToString() + " bytes of data.";
+            }
+            else
+            {
+                lblStatusInfo.Text = "Encoded something extra special.";
+            }
+
             tmrStatusUpdate.Start();
             tmrProgressBar.Start();
             if (!chkMonitorBlockChains.Checked)
@@ -918,6 +926,7 @@ namespace ADD
                 splitMain.SplitterDistance = Properties.Settings.Default.MainPanel;
                 chkEnableRecipients.Checked = Properties.Settings.Default.EnableRecipients;
                 chkKeywords.Checked = Properties.Settings.Default.EnableKeyWords;
+                chkMonitorBlockChains.Checked = Properties.Settings.Default.EnableMonitor;
                 chkTrackVault.Checked = Properties.Settings.Default.EnableTrackVault;
                 chkWarnArchive.Checked = Properties.Settings.Default.EnableSaveWarning;
                 chkSaveOnEnter.Checked = Properties.Settings.Default.EnableEnterEqualsSave;
@@ -1081,14 +1090,17 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 0 .0000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC False   .001 False");
-                    writeCoinConf.WriteLine("BitcoinTestnet 111 20 0 .0000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  BTC-T False   .001 False");
-                    writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC False   .001 False");
-                    writeCoinConf.WriteLine("LitecoinTestnet 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  LTC-T False   .001 False");
-                    writeCoinConf.WriteLine("Datacoin 30 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False True   DTC    .001 False");
-                    writeCoinConf.WriteLine("Datacoin-V 30 80000 0 4.8 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False True   DTC-V    .001 True");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 0 .0000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True False  BTC False   .001 False");
+                    writeCoinConf.WriteLine("Bitcoin-T 111 20 0 .0000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False True False  BTC-T False   .001 False");
+                    writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  LTC False   .001 False");
+                    writeCoinConf.WriteLine("Litecoin-T 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  LTC-T False   .001 False");
+                    writeCoinConf.WriteLine("Mazacoin 50 20 0 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  MZC False   .001 False");
+                    writeCoinConf.WriteLine("Mazacoin-T 50 20 0 .000055 330 11832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  MZC-T False   .001 False");
+                    writeCoinConf.WriteLine("Datacoin 30 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False   DTC    .001 False");
+                    writeCoinConf.WriteLine("Datacoin-V 30 90000 0 4.8 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False   DTC-V    .001 True");
+                    writeCoinConf.WriteLine("Datacoin-T 70 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False   DTC-T    .001 False");
+                    writeCoinConf.WriteLine("Datacoin-TV 30 90000 0 4.8 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False   DTC-TV    .001 True");
                     writeCoinConf.WriteLine("Dogecoin 30 20 0 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001 False");
-                    writeCoinConf.WriteLine("Mazacoin 50 20 0 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  MZC False   .001 False");
                     writeCoinConf.WriteLine("Anoncoin 23 20 0 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False   .001 False");
                     writeCoinConf.WriteLine("Devcoin 0 20 0 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False   .001 False");
                     writeCoinConf.WriteLine("Potcoin 55 20 0 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False   .001 False");
@@ -1096,8 +1108,8 @@ namespace ADD
                     writeCoinConf.WriteLine("Curecoin 25 20 0 .00001 330 19911 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001 False");
                     writeCoinConf.WriteLine("Namecoin 52 20 0 .01 330 8336 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  NMC False   .001 False");
                     writeCoinConf.WriteLine("Primecoin 23 20 0 .01 330 9912 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM False   .001 False");
-                    writeCoinConf.WriteLine("PrimecoinTestnet 111 20 0 .01 330 9914 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM-T False   .001 False");
-                    writeCoinConf.WriteLine("DashTestnet 139 20 0 .0001 330 19998 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  DASH-T False   .001 False");
+                    writeCoinConf.WriteLine("Primecoin-T 111 20 0 .01 330 9914 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM-T False   .001 False");
+                    writeCoinConf.WriteLine("Dash-T 139 20 0 .0001 330 19998 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  DASH-T False   .001 False");
                     writeCoinConf.Close();
                 }
 
@@ -1708,7 +1720,7 @@ namespace ADD
                         if (intHeaderPosition == 2)
                         {   
                             var containsFileSize = int.TryParse(header[1], out intFileSize);
-                            if (!containsFileSize || ((RawBytes.Length - i) < intFileSize) || header[0].Count() > 255 || header[0].IndexOfAny(Path.GetInvalidFileNameChars()) > -1 || (header[0].Count() == 0 && intFileSize == 0)) {
+                            if (!containsFileSize || ((RawBytes.Length - i) < intFileSize) || header[0].Count() > 555 || header[0].IndexOfAny(Path.GetInvalidFileNameChars()) > -1 || (header[0].Count() == 0 && intFileSize == 0)) {
                                 if (!containsData)
                                 {
                                     return false;
@@ -2113,6 +2125,7 @@ namespace ADD
                         if (Properties.Settings.Default.ReportAbuseUrl != "")
                         { strHTML = strHTML + "<tr><td align=right><a href=\"" + Properties.Settings.Default.ReportAbuseUrl.Replace("%s", transaction.txid) + "\">report abuse</a></td></tr>"; }
                         strHTML = strHTML + "<tr><td>BUILD DATE</td></tr><tr><td nowrap><div id=\"build-date\">" + DateTime.Now + "</div></td></tr>";
+                        strHTML = strHTML + "<tr><td>BUILD MACHINE</td></tr><tr><td nowrap><div id=\"build-machine\">" + Environment.MachineName + "</div></td></tr>";
                         strHTML = strHTML + "</table></div></div>";
                         strHTML = strHTML + "<!--#include file=\"..\\includes\\footer.ssi\" --></div></body></html>";
                     }
@@ -2389,7 +2402,7 @@ namespace ADD
 
             if (SendToMonitor)
             {
-                Search.GetLatestArchives();
+                Search.GetLatestArchives((int)totalResults.Value);
                 var monitorURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/monitor.htm");
                 webBrowser1.Url = monitorURL;
                 tmrPauseBeforeRefreshingMonitor.Start();
@@ -2522,15 +2535,33 @@ namespace ADD
                 {
                     var transaction = b.GetRawTransaction(TransactionId, 1);
                     lastTransID = TransactionId;
-                     
-                    foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
+
+                     if (transaction.vout.Length == 2)
                     {
-                        if (arcValue > detail.value)
+                        if (coinMinTransaction[WalletKey] == transaction.vout[1].value) { arcValue = coinMinTransaction[WalletKey]; }
+                        if (coinMinTransaction[WalletKey] == transaction.vout[0].value) { arcValue = coinMinTransaction[WalletKey]; }
+                        if (arcValue == (decimal)999999999) { arcValue = transaction.vout[1].value; }
+                     }
+                    else
+                    {
+                        Dictionary<decimal, int> arcValues = new Dictionary<decimal, int>();
+                        foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
                         {
-                            arcValue = detail.value;
+
+                            if (!arcValues.ContainsKey(detail.value))
+                            {
+                                arcValues.Add(detail.value, 1);
+
+                                if (detail.value == coinMinTransaction[WalletKey]) { arcValue = detail.value; }
+                            }
+                            else
+                            { arcValues[detail.value] = arcValues[detail.value] + 1; }
                         }
+
+                        if (arcValue == (decimal)999999999) { arcValue = arcValues.FirstOrDefault(x => x.Value == arcValues.Values.Max()).Key; }
                     }
 
+                  
                     foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
                     {
                         
@@ -2573,7 +2604,7 @@ namespace ADD
             }
             else
             {
-                var transaction = b.DataCoinGetTransaction(TransactionId);
+                var transaction = b.GetRawDataTransaction(TransactionId, 1);
                 addressBuilder = addressBuilder + delimiter + transaction.data;
                 delimiter = ",";
             }
@@ -2584,6 +2615,9 @@ namespace ADD
 
         private void chkMonitorBlockChains_CheckedChanged(object sender, EventArgs e)
         {
+            Properties.Settings.Default.EnableMonitor = chkMonitorBlockChains.Checked;
+            Properties.Settings.Default.Save();
+
             var coinCount = 0;
             foreach (var i in coinIP)
             {
@@ -2769,7 +2803,7 @@ namespace ADD
                     }
                     else
                     {
-                        Search.GetWindowsSearchResults(TransIDSearch);
+                        Search.GetWindowsSearchResults(TransIDSearch, (int)totalResults.Value);
                         var searchURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/search.htm");
                         
                         webBrowser1.Url = searchURL;
@@ -2840,8 +2874,8 @@ namespace ADD
                         {
                             isFound = true;
                             IEnumerable<ListTransactionsResponse> transactions;
-                            try { transactions = (IEnumerable<ListTransactionsResponse>)b.ListTransactions(result.account, 100, 0, true); }
-                            catch { transactions = (IEnumerable<ListTransactionsResponse>)b.ListTransactions(result.account, 100, 0); }
+                            try { transactions = (IEnumerable<ListTransactionsResponse>)b.ListTransactions(result.account, 500, 0, true); }
+                            catch { transactions = (IEnumerable<ListTransactionsResponse>)b.ListTransactions(result.account, 500, 0); }
 
                             if (treeView1.Nodes["Follow"].Nodes.ContainsKey(searchString)) { treeView1.Nodes["Follow"].Nodes.RemoveByKey(searchString); }
                             node = treeView1.Nodes["Follow"].Nodes.Add(searchString);
@@ -3306,7 +3340,7 @@ namespace ADD
             Match match = Regex.Match(webBrowser1.Url.OriginalString, @"/([a-fA-F0-9]{64})", RegexOptions.RightToLeft);
             if (match.Success && webBrowser1.Url.OriginalString.StartsWith("file"))
             {
-                txtTransIDSearch.Text = webBrowser1.Url.OriginalString.Substring(match.Index + 1).Replace(@"/index.htm","");
+                txtTransIDSearch.Text = webBrowser1.Url.OriginalString.Substring(match.Index + 1).Replace(@"/index.html", "").Replace(@"/index.htm", "");
 
             }
             else {
@@ -3417,7 +3451,7 @@ namespace ADD
             //Uri BrowseURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/root/catalog.htm");
             //webBrowser1.Url = BrowseURL;
 
-            Search.GetLatestArchives();
+            Search.GetLatestArchives((int)totalResults.Value);
             var monitorURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/monitor.htm");
             webBrowser1.Url = monitorURL;
         }
@@ -3574,7 +3608,7 @@ namespace ADD
                 try
                 {
                     var b = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                    var transactions = b.ListTransactions("~~~~" + cmbFolder.Text, 100, 0);
+                    var transactions = b.ListTransactions("~~~~" + cmbFolder.Text, 500, 0);
                     if (treeView1.Nodes["Profile"].Nodes.ContainsKey(cmbFolder.Text)) { treeView1.Nodes["Profile"].Nodes.RemoveByKey(cmbFolder.Text); }
                     node = treeView1.Nodes["Profile"].Nodes.Add(cmbFolder.Text);
                     node.Name = cmbFolder.Text;
@@ -3925,7 +3959,7 @@ namespace ADD
                 try
                 {
                     var b = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                    var transactions = b.ListTransactions("~~" + cmbSignature.Text, 100, 0);
+                    var transactions = b.ListTransactions("~~" + cmbSignature.Text, 500, 0);
                     if (treeView1.Nodes["Signature"].Nodes.ContainsKey(cmbSignature.Text)) { treeView1.Nodes["Signature"].Nodes.RemoveByKey(cmbSignature.Text); }
                     node = treeView1.Nodes["Signature"].Nodes.Add(cmbSignature.Text);
                     node.Name = cmbSignature.Text;
@@ -3983,7 +4017,7 @@ namespace ADD
                 try
                 {
                     var b = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                    var transactions = b.ListTransactions("~~~~~~" + cmbFollow.Text, 100, 0, true);
+                    var transactions = b.ListTransactions("~~~~~~" + cmbFollow.Text, 500, 0, true);
                     if (treeView1.Nodes["Follow"].Nodes.ContainsKey(cmbFollow.Text)) { treeView1.Nodes["Follow"].Nodes.RemoveByKey(cmbFollow.Text); }
                     node = treeView1.Nodes["Follow"].Nodes.Add(cmbFollow.Text);
                     node.Name = cmbFollow.Text;
@@ -4075,7 +4109,7 @@ namespace ADD
                 try
                 {
                     var b = new CoinRPC(new Uri(GetURL(coinIP[CoinType]) + ":" + coinPort[CoinType]), new NetworkCredential(coinUser[CoinType], coinPassword[CoinType]));
-                    var transactions = b.ListTransactions("~~~" + VaultLabel, 100, 0);
+                    var transactions = b.ListTransactions("~~~" + VaultLabel, 500, 0);
                     if (treeView1.Nodes["Vault"].Nodes.ContainsKey(VaultLabel)) { treeView1.Nodes["Vault"].Nodes.RemoveByKey(VaultLabel); }
                     node = treeView1.Nodes["Vault"].Nodes.Add(VaultLabel);
                     node.Name = VaultLabel;
@@ -4371,7 +4405,7 @@ namespace ADD
 
         private void tmrPauseBeforeRefreshingMonitor_Tick(object sender, EventArgs e)
         {
-            Search.GetLatestArchives();
+            Search.GetLatestArchives((int)totalResults.Value);
             var monitorURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/monitor.htm");
             webBrowser1.Url = monitorURL;
             tmrPauseBeforeRefreshingMonitor.Stop();

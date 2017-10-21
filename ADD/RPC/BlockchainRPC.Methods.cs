@@ -41,10 +41,10 @@ namespace BitcoinNET.RPCClient
 				(new RPCRequest("gettransaction", new Object[] { TxID }));
 		}
 
-        public DataCoinGetTransactionResponse DataCoinGetTransaction(string TxID)
+        public GetRawDataTransactionResponse GetRawDataTransaction(string TxID, int Verbose = 0)
         {
-            return RpcCall<DataCoinGetTransactionResponse>
-                (new RPCRequest("gettransaction", new Object[] { TxID }));
+            return RpcCall<GetRawDataTransactionResponse>
+                (new RPCRequest("getrawtransaction", new Object[] { TxID, Verbose }));
         }
 
         public IDictionary<string, decimal> ListAccounts(int MinConf = 1)
