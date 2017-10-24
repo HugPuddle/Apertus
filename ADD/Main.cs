@@ -1305,6 +1305,8 @@ namespace ADD
             searchToolStripMenuItem.Enabled = false;
             CoinType = cmbCoinType.Text;
 
+            
+
             if (fileSize > 0 || txtMessage.TextLength > 0)
             {
                 updateEstimatedCost();
@@ -1398,7 +1400,16 @@ namespace ADD
 
                             cmbWalletLabel.Enabled = true;
                             cmbFolder.Enabled = true;
+                        if (!coinVariablePayloadByteSize[CoinType])
+                        {
                             btnAddFolder.Enabled = true;
+                            profilesToolStripMenuItem.Enabled = true;
+                        }
+                        else
+                        {
+                            btnAddFolder.Enabled = false;
+                            profilesToolStripMenuItem.Enabled = false;
+                        }
                             btnFriendEncryption.Enabled = true;
                             cmbSignature.Enabled = true;
                             btnAddSignature.Enabled = true;
@@ -1406,7 +1417,7 @@ namespace ADD
                             cmbFollow.Enabled = true;
                             btnAddVault.Enabled = true;
                             cmbTo.Enabled = true;
-                            profilesToolStripMenuItem.Enabled = true;
+
                    
 
 
@@ -1611,7 +1622,7 @@ namespace ADD
 
                                             try
                                             {
-                                                var transaction = b.GetRawTransaction(headerArray[0], 1);
+                                                var transaction = b.GetRawDataTransaction(headerArray[0], 1);
                                             }
                                             catch
                                             {
@@ -1937,7 +1948,7 @@ namespace ADD
                     try
                     {
                         var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
-                        var transaction = b.GetRawTransaction(TransID, 1);
+                        var transaction = b.GetRawDataTransaction(TransID, 1);
                         printDate = "PENDING";
                         //place in batch queue to be tried again later.
                         if (transaction.blocktime == 0)
@@ -2013,9 +2024,9 @@ namespace ADD
 
                                                 if (transact.category == "receive")
                                                 {
-                                                    var details = b.GetRawTransaction(transact.txid, 1);
+                                                    var details = b.GetRawDataTransaction(transact.txid, 1);
 
-                                                    foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in details.vout)
+                                                    foreach (BitcoinNET.RPCClient.GetRawDataTransactionResponse.Output detail in details.vout)
                                                     {
                                                         try { inqCount[detail.scriptPubKey.addresses[0]]++; } catch { }
                                                     }
@@ -2258,7 +2269,7 @@ namespace ADD
                 };
 
 
-                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "PRO" && FileName != "SIG" && FileName != "LNK")
+                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "PRO" && FileName != "SIG" && !FileName.EndsWith(".SIG") && FileName != "LNK")
                 {
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file" + fileId + "\">[ " + FileName + " ]</div></div></div>";
                     foundType = true;
@@ -2342,11 +2353,6 @@ namespace ADD
 
 
                     }
-
-
-
-
-
 
                 }
 
@@ -2529,12 +2535,16 @@ namespace ADD
 
             var b = new CoinRPC(new Uri(GetURL(coinIP[WalletKey]) + ":" + coinPort[WalletKey]), new NetworkCredential(coinUser[WalletKey], coinPassword[WalletKey]));
 
-            if (!coinVariablePayloadByteSize[WalletKey])
-            {
-                try
+              try
                 {
-                    var transaction = b.GetRawTransaction(TransactionId, 1);
+                    var transaction = b.GetRawDataTransaction(TransactionId, 1);
                     lastTransID = TransactionId;
+
+                if (transaction.data != null && transaction.data.Length > 0)
+                {
+                    addressBuilder = addressBuilder + delimiter + transaction.data;
+                    return addressBuilder.Split(',');
+                }
 
                      if (transaction.vout.Length == 2)
                     {
@@ -2545,7 +2555,7 @@ namespace ADD
                     else
                     {
                         Dictionary<decimal, int> arcValues = new Dictionary<decimal, int>();
-                        foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
+                        foreach (BitcoinNET.RPCClient.GetRawDataTransactionResponse.Output detail in transaction.vout)
                         {
 
                             if (!arcValues.ContainsKey(detail.value))
@@ -2562,7 +2572,7 @@ namespace ADD
                     }
 
                   
-                    foreach (BitcoinNET.RPCClient.GetRawTransactionResponse.Output detail in transaction.vout)
+                    foreach (BitcoinNET.RPCClient.GetRawDataTransactionResponse.Output detail in transaction.vout)
                     {
                         
                         if (detail.value == arcValue)
@@ -2601,13 +2611,6 @@ namespace ADD
                     { }
 
                 }
-            }
-            else
-            {
-                var transaction = b.GetRawDataTransaction(TransactionId, 1);
-                addressBuilder = addressBuilder + delimiter + transaction.data;
-                delimiter = ",";
-            }
 
             return addressBuilder.Split(',');
 

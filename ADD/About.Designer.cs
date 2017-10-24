@@ -57,7 +57,7 @@
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(217, 25);
             this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "Version: v0.3.12-beta";
+            this.lblVersion.Text = "Version: v0.3.13-beta";
             // 
             // label1
             // 
@@ -67,7 +67,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(364, 25);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Copyright ©  2013 - 2016 HugPuddle";
+            this.label1.Text = "Copyright ©  2013 - 2017 HugPuddle";
             // 
             // textBox1
             // 

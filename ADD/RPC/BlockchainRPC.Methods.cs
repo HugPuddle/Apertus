@@ -22,19 +22,6 @@ namespace BitcoinNET.RPCClient
 				(new RPCRequest("getrawmempool"));
 		}
 
-		public GetRawTransactionResponse GetRawTransaction(string TxId, int Verbose = 0)
-		{
-			return RpcCall<GetRawTransactionResponse>
-				(new RPCRequest("getrawtransaction", new Object[] { TxId, Verbose }));
-		}
-
-        ////Keep For Future Use
-        //public decimal GetReceivedByAddress(string BitcoinAddress, int MinConf = 1)
-        //{
-        //    return RpcCall<decimal>
-        //        (new RPCRequest("getreceivedbyaddress", new Object[] { BitcoinAddress, MinConf }));
-        //}
-
 		public GetTransactionResponse GetTransaction(string TxID)
 		{
 			return RpcCall<GetTransactionResponse>
