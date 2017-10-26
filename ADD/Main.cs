@@ -18,6 +18,7 @@ using System.Numerics;
 using Microsoft.Win32;
 using System.ComponentModel;
 using System.Drawing.Imaging;
+using System.Diagnostics;
 
 
 namespace ADD
@@ -91,39 +92,21 @@ namespace ADD
         {
             InitializeComponent();
             Startup();
-            FixBrowser();
             backgroundWorker1.WorkerReportsProgress = true;
             splitArchiveTools.SplitterWidth = 10;
         }
 
-        private void FixBrowser()
-        {
-            RegistryKey key;
-            decimal keyValueDecimal = 11000;
-            string subKey = "SOFTWARE\\Microsoft\\Internet Explorer\\MAIN\\FeatureControl\\FEATURE_BROWSER_EMULATION";
-
-
-            try
-            {
-                key = Registry.CurrentUser.CreateSubKey(subKey);
-                key.SetValue(Path.GetFileName(Application.ExecutablePath), keyValueDecimal, RegistryValueKind.DWord);
-                key.SetValue("ADD.vshost.exe", keyValueDecimal, RegistryValueKind.DWord);
-
-                key.Close();
-
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
+        
 
         public void Startup()
         {
+            Tools.WebBrowserHelper.FixBrowserVersion();
             tmrProcessBatch.Start();
             characterMap = glyphTypeface.CharacterToGlyphMap;
             infoArray = "Apertus immutably stores and interprets data on blockchains.|Never build files or click links from sources you do not trust.|Send a direct message by using @ followed by Address.|Click Help, then info for assistance.|Create a Profile and start sharing your thoughts.|#keywords allow people to discover and follow your causes.|Encrypt items by creating and selecting a Vault.|Signing your archives allows people to trust you.|This is beta software use at your own risk!|Press CTRL while submitting a search to rebuild the cache.|Search by Trans ID, Address, Free Text or #Keyword|Publish your work using a profile, signature, & tip address".Split('|');
             URLSecurityZoneAPI.InternetSetFeatureEnabled(URLSecurityZoneAPI.InternetFeaturelist.DISABLE_NAVIGATION_SOUNDS, URLSecurityZoneAPI.SetFeatureOn.PROCESS, true);
+
+
 
         }
 
@@ -890,6 +873,7 @@ namespace ADD
             tmrStatusUpdate.Start();
             LoadUserPref();
             LoadFavorites();
+            
 
         }
 
@@ -4469,6 +4453,14 @@ namespace ADD
             splitArchiveTools.Panel2Collapsed = false;
             Properties.Settings.Default.HideOptions = false;
             Properties.Settings.Default.Save();
+        }
+
+        private void imgOpenInBrowserButton_Click(object sender, EventArgs e)
+        {
+            if (webBrowser1.Url.ToString() != null)
+            {
+                Process.Start(webBrowser1.Url.ToString());
+            }
         }
     }
 

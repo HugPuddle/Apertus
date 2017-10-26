@@ -114,6 +114,7 @@
     <Compile Include="RPC\Response\ListTransactionsResponse.cs" />
     <Compile Include="RPC\Response\ValidateAddressResponse.cs" />
     <Compile Include="Tools\Search.cs" />
+    <Compile Include="Tools\WebBrowserHelper.cs" />
     <Compile Include="Trust.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,6 +228,7 @@
     <None Include="Resources\Link.png" />
     <None Include="Resources\LinkDisabled.png" />
     <None Include="Resources\loading.gif" />
+    <None Include="Resources\OpenInWeb.png" />
     <Content Include="Resources\Splash.png" />
     <None Include="Resources\Profile.png" />
     <Content Include="Resources\file-icon.png" />
