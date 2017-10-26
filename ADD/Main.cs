@@ -4457,7 +4457,7 @@ namespace ADD
 
         private void imgOpenInBrowserButton_Click(object sender, EventArgs e)
         {
-            if (webBrowser1.Url.ToString() != null)
+            if (webBrowser1.Url != null)
             {
                 Process.Start(webBrowser1.Url.ToString());
             }
