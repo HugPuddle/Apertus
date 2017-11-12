@@ -1127,15 +1127,15 @@ namespace ADD
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
                     writeCoinConf.WriteLine("Bitcoin 0 20 0 .0000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True False  BTC False   .001 False");
-                    writeCoinConf.WriteLine("Bitcoin-T 111 20 0 .0000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False True False  BTC-T False   .001 False");
-                    writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  LTC False   .001 False");
-                    writeCoinConf.WriteLine("Litecoin-T 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  LTC-T False   .001 False");
+                    writeCoinConf.WriteLine("Bitcoin-T 111 20 0 .0000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True False  BTC-T False   .001 False");
+                    writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False False  LTC False   .001 False");
+                    writeCoinConf.WriteLine("Litecoin-T 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False False  LTC-T False   .001 False");
                     writeCoinConf.WriteLine("Mazacoin 50 20 0 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  MZC False   .001 False");
                     writeCoinConf.WriteLine("Mazacoin-T 50 20 0 .000055 330 11832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  MZC-T False   .001 False");
-                    writeCoinConf.WriteLine("Datacoin 30 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False   DTC    .001 False");
-                    writeCoinConf.WriteLine("Datacoin-V 30 90000 0 4.8 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False   DTC-V    .001 True");
-                    writeCoinConf.WriteLine("Datacoin-T 70 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False   DTC-T    .001 False");
-                    writeCoinConf.WriteLine("Datacoin-TV 30 90000 0 4.8 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False   DTC-TV    .001 True");
+                    writeCoinConf.WriteLine("Datacoin 30 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True   DTC    .001 False");
+                    writeCoinConf.WriteLine("Datacoin-V 30 90000 0 4.8 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True   DTC-V    .001 True");
+                    writeCoinConf.WriteLine("Datacoin-T 70 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True   DTC-T    .001 False");
+                    writeCoinConf.WriteLine("Datacoin-TV 30 90000 0 4.8 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True   DTC-TV    .001 True");
                     writeCoinConf.WriteLine("Dogecoin 30 20 0 .00000001 330 22555 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DOGE False   .001 False");
                     writeCoinConf.WriteLine("Anoncoin 23 20 0 .00000001 330 9376 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  ANC False   .001 False");
                     writeCoinConf.WriteLine("Devcoin 0 20 0 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False   .001 False");
