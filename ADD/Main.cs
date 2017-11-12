@@ -189,6 +189,8 @@ namespace ADD
             string cglText = "";
             Dictionary<string, decimal> toMany = new Dictionary<string, decimal>();
             Dictionary<string, decimal> lastTransaction = new Dictionary<string, decimal>();
+            string lastT = null;
+            string curT = null;
             string lastTransactionID = null;
             HashSet<string> addressHash = new HashSet<string>(StringComparer.Ordinal);
             string signingAddress = null;
@@ -618,13 +620,28 @@ namespace ADD
                         }
                         catch
                         {
-                            //Cannot send to the same address more than twice in any transaction
+                            //Cannot send to the same address more than twice in any one transaction
                             //If data is identical use previous transaction instead of archiving identical data.
                             if (lastTransaction.SequenceEqual(toMany))
                             { transactionId = lastTransactionID; }
                             else
                             {
-                                
+                                if (lastTransaction.Count > 0 && toMany.Count > 0)
+                                {
+                                    lastT = lastTransaction.Last().Key;
+                                    curT = toMany.Last().Key;
+                                    //Wait for the wallet to catch up if sending to exact same address in a row.
+                                    if (lastT == curT)
+                                    {
+                                        ledgerCount = 1;
+                                        while (ledgerCount > 0)
+                                        {
+                                            transLookup = b.GetTransaction(lastTransactionID);
+                                            if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(5000); }
+                                        }
+                                    }
+                                }
+
                                 transactionId = b.SendMany(WalletLabel, toMany);
                                 System.Threading.Thread.Sleep(1000);
                                 ledgerCount++;
@@ -663,6 +680,24 @@ namespace ADD
                         if (tranCount == coinTransactionSize[CoinType])
                         {
                             //Breaking transaction file into size specified in wallet settings
+
+
+                            if (lastTransaction.Count > 0 && toMany.Count > 0)
+                            {
+                                lastT = lastTransaction.Last().Key;
+                                curT = toMany.Last().Key;
+                                //Wait for the wallet to catch up if sending to exact same address in a row.
+                                if (lastT == curT)
+                                {
+                                    ledgerCount = 1;
+                                    while (ledgerCount > 0)
+                                    {
+                                        transLookup = b.GetTransaction(lastTransactionID);
+                                        if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(5000); }
+                                    }
+                                }
+                            }
+
 
                             transactionId = b.SendMany(WalletLabel, toMany);
                             System.Threading.Thread.Sleep(1000);
@@ -707,8 +742,25 @@ namespace ADD
                     }
                     if (toMany.Count > 0)
                     {
-                        //Catching the straglers
-                        transactionId = b.SendMany(WalletLabel, toMany);
+
+                    if (lastTransaction.Count > 0 && toMany.Count > 0)
+                    {
+                        lastT = lastTransaction.Last().Key;
+                        curT = toMany.Last().Key;
+                        //Wait for the wallet to catch up if sending to exact same address in a row.
+                        if (lastT == curT)
+                        {
+                            ledgerCount = 1;
+                            while (ledgerCount > 0)
+                            {
+                                transLookup = b.GetTransaction(lastTransactionID);
+                                if (transLookup.confirmations > 0) { ledgerCount = 0; } else { System.Threading.Thread.Sleep(5000); }
+                            }
+                        }
+                    }
+
+                    //Catching the straglers
+                    transactionId = b.SendMany(WalletLabel, toMany);
                         arcLedger.WriteLine(transactionId);
                         arcLedger.Flush();
                         lastTransaction = new Dictionary<string, decimal>(toMany);
