@@ -3,7 +3,7 @@ Apertus
 
 Apertus immutably stores and interprets data on blockchains in a process we call Etching.
 
-Apertus is an open source client that enables basic data read-write, communication and search functionality on cryptocoin wallets that supports 0.10.X - 0.13.X Bitcoin standard RPC commands. (ex BTC, LTC ), and can archive on Datacoin using it's native technique.
+Apertus is an open source client that enables basic data read-write, communication and search functionality on cryptocoin wallets that support 0.10.X - 0.13.X Bitcoin standard RPC commands. (ex BTC, LTC ), and can archive on Datacoin using it's native technique.
 Apertus includes publishing and social networking features such as User or Group profiles, #Hash tagging, Polls, Following and Sharing.  
 When connected to a wallet ADD monitors and creates a coin agnostic, web browseable index of any data stored by other ADD clients in near realtime. Saved Data can be a combination of plain UTF8 Text and 1 or many binary files such as images, documents or even complete websites with no file size or file count limits. 
 Data saved on a blockchain in this manner can later be retrieved from the blockchain and viewed in a browser by entering a single transaction ID in the ADD client.
