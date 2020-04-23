@@ -10,7 +10,7 @@ Data saved on a blockchain in this manner can later be retrieved from the blockc
 
 NOTE: Coins used in the saving process are not recoverable. 
 
-Copyright ©  2013 - 2019 HugPuddle
+Copyright ©  2013 - 2020 HugPuddle
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
