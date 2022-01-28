@@ -57,7 +57,7 @@
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(217, 25);
             this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "Version: v0.3.17-beta";
+            this.lblVersion.Text = "Version: v0.3.18-beta";
             // 
             // label1
             // 
@@ -67,7 +67,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(364, 25);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Copyright ©  2013 - 2017 HugPuddle";
+            this.label1.Text = "Copyright ©  2013 - 2022 HugPuddle";
+ 
             // 
             // textBox1
             // 
@@ -79,7 +80,7 @@
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(654, 262);
+            this.textBox1.Size = new System.Drawing.Size(655, 262);
             this.textBox1.TabIndex = 4;
             this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
@@ -88,11 +89,11 @@
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
             this.textBox2.Enabled = false;
             this.textBox2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(26, 454);
+            this.textBox2.Location = new System.Drawing.Point(25, 436);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(998, 173);
+            this.textBox2.Size = new System.Drawing.Size(990, 147);
             this.textBox2.TabIndex = 5;
             this.textBox2.Text = resources.GetString("textBox2.Text");
             // 
@@ -111,7 +112,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1036, 608);
+            this.ClientSize = new System.Drawing.Size(1036, 607);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
@@ -121,9 +122,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1062, 679);
+            this.MaximumSize = new System.Drawing.Size(1062, 678);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1062, 679);
+            this.MinimumSize = new System.Drawing.Size(1062, 678);
             this.Name = "About";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

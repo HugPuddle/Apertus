@@ -1142,6 +1142,7 @@ namespace ADD
                     writeCoinConf.WriteLine("Potcoin 55 20 0 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False   .001 False");
                     writeCoinConf.WriteLine("Florincoin 35 20 0 .00001 330 7317 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  FLC False   .001 False");
                     writeCoinConf.WriteLine("Curecoin 25 20 0 .00001 330 19911 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001 False");
+                    writeCoinConf.WriteLine("Curecoin-T 111 20 0 .0001 330 18600 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE-T False   .001 False");
                     writeCoinConf.WriteLine("Namecoin 52 20 0 .01 330 8336 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  NMC False   .001 False");
                     writeCoinConf.WriteLine("Primecoin 23 20 0 .01 330 9912 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM False   .001 False");
                     writeCoinConf.WriteLine("Primecoin-T 111 20 0 .01 330 9914 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM-T False   .001 False");
@@ -1321,13 +1322,13 @@ namespace ADD
             if (txtMessage.Text == "")
             {
                 txtMessage.ScrollBars = ScrollBars.None;
-                imgEnterMessageHere.Visible = true;
+    
                 if (txtFileName.TextLength < 1) { btnArchive.Enabled = false; }
             }
             else
             {
                 txtMessage.ScrollBars = ScrollBars.Both;
-                imgEnterMessageHere.Visible = false;
+
 
             }
             updateEstimatedCost();
@@ -1555,7 +1556,7 @@ namespace ADD
                 btnAttachFile.Enabled = true;
                 proofToolStripMenuItem.Enabled = true;
                 txtMessage.Select();
-                if (txtMessage.TextLength < 1) { imgEnterMessageHere.Visible = true; }
+
                 if (WalletLabel == "")
                 {
                     MessageBox.Show("Accounts without a label are not supported. Assign a label using your wallet software and retry.");
@@ -1569,7 +1570,6 @@ namespace ADD
                 txtFileName.Enabled = false;
                 btnAttachFile.Enabled = false;
                 proofToolStripMenuItem.Enabled = false;
-                imgEnterMessageHere.Visible = false;
                 btnArchive.Enabled = false;
                 imgLink.Enabled = false;
                 imgLink.Image = Properties.Resources.LinkDisabled;
@@ -3270,11 +3270,7 @@ namespace ADD
                              .ToArray();
         }
 
-        private void tmrUpdateInfoText_Tick(object sender, EventArgs e)
-        {
-            Random random = new Random();
-            txtInfoBox.Text = infoArray[random.Next(0, infoArray.Count())];
-        }
+        
 
         private void webBrowser1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -3453,15 +3449,13 @@ namespace ADD
 
             if (webBrowser1.DocumentText == "")
             {
-                imgApertusSplash.Visible = true;
-                txtInfoBox.Visible = true;
+
                 txtTransIDSearch.ForeColor = System.Drawing.Color.Gray;
                 txtTransIDSearch.Text = "ENTER SEARCH STRING";
             }
             else
             {
-                txtInfoBox.Visible = false;
-                imgApertusSplash.Visible = false;
+
                 txtTransIDSearch.ForeColor = System.Drawing.Color.Black;
             }
 
@@ -3965,11 +3959,7 @@ namespace ADD
             catch { }
         }
 
-        private void imgApertusSplash_Resize(object sender, EventArgs e)
-        {
-            if (imgApertusSplash.Height < 50) { imgApertusSplash.Visible = false; }
-            else { if (webBrowser1.DocumentText == "") { imgApertusSplash.Visible = true; } }
-        }
+        
 
         private void cmbSignature_SelectedIndexChanged(object sender, EventArgs e)
         {
