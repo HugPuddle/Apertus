@@ -93,7 +93,7 @@ namespace ADD
             InitializeComponent();
             Startup();
             backgroundWorker1.WorkerReportsProgress = true;
-            splitArchiveTools.SplitterWidth = 10;
+
         }
 
         
@@ -293,11 +293,6 @@ namespace ADD
                             }
                         }
 
-                        //progressBar.Maximum = fileBytes.Length;
-                        //progressBar.Value = 1;
-                        //progressBar.Visible = true;
-                        //lblStatusInfo.ForeColor = System.Drawing.Color.Black;
-                        //lblStatusInfo.Text = "Encoding data.";
 
                     }
 
@@ -861,31 +856,7 @@ namespace ADD
                         DialogResult dialogResult = MessageBox.Show("One or more filename(s) contains special characters such as (/,). Please rename before etching.", "Notice", MessageBoxButtons.OK);
                         break;
                     }                    
-                    if (chkCompressImages.Checked)
-                    {
-
-                        try
-                        {
-                            Bitmap bmp1 = new Bitmap(fileName);
-                            if (processID == ""){ processID = Guid.NewGuid().ToString();}
-                            Directory.CreateDirectory("process//" + processID);
-                            ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
-                            System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
-                            EncoderParameters myEncoderParameters = new EncoderParameters(1);
-                            EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 70L);
-                            myEncoderParameters.Param[0] = myEncoderParameter;
-                            
-                            fileName = Path.GetDirectoryName(Application.ExecutablePath) + @"\process\" + processID + @"\" + Path.GetFileNameWithoutExtension(f) + ".jpg";
-                            bmp1.Save(fileName, jgpEncoder, myEncoderParameters);
-                            FileInfo f1 = new FileInfo(f);
-                            FileInfo f2 = new FileInfo(fileName);
-
-                            //Files aren't always smaller especially when converting png files
-                            if (f2.Length > f1.Length) { fileName = f;}
-                        }
-                        catch { }
-
-                    }
+                   
                     
                     
                     if (fileNames != "") { fileNames = fileNames + ","; }
@@ -959,55 +930,21 @@ namespace ADD
             {
                 System.Drawing.Point windowLocation = new System.Drawing.Point(Convert.ToInt16(Properties.Settings.Default.AppLocation.Split(',').First()), Convert.ToInt16(Properties.Settings.Default.AppLocation.Split(',').Last()));
                 this.DesktopLocation = windowLocation;
-                splitMain.SplitterDistance = Properties.Settings.Default.MainPanel;
+             
                 chkEnableRecipients.Checked = Properties.Settings.Default.EnableRecipients;
                 chkKeywords.Checked = Properties.Settings.Default.EnableKeyWords;
                 chkMonitorBlockChains.Checked = Properties.Settings.Default.EnableMonitor;
                 chkTrackVault.Checked = Properties.Settings.Default.EnableTrackVault;
                 chkWarnArchive.Checked = Properties.Settings.Default.EnableSaveWarning;
-                chkSaveOnEnter.Checked = Properties.Settings.Default.EnableEnterEqualsSave;
-                chkCompressImages.Checked = Properties.Settings.Default.EnableImageCompression;
+                chkSaveOnEnter.Checked = Properties.Settings.Default.EnableEnterEqualsSave;              
                 chkEnableTips.Checked = Properties.Settings.Default.EnableTips;
-                splitArchiveTools.SplitterDistance = Properties.Settings.Default.ArchivePanel;
-                splitHistoryBrowser.SplitterDistance = Properties.Settings.Default.BrowserPanel;
-                splitMain.Panel2Collapsed = Properties.Settings.Default.HideArchive;
-                splitHistoryBrowser.Panel1Collapsed = Properties.Settings.Default.HideHistory;
-                splitArchiveTools.Panel2Collapsed = Properties.Settings.Default.HideOptions;
+                chkBackLinks.Checked = Properties.Settings.Default.EnableBackLinks;
                 txtMessage.Font = Properties.Settings.Default.TextFont;
                 txtMessage.ForeColor = Properties.Settings.Default.TextColor;
-                if (Properties.Settings.Default.HideArchive)
-                {
-                    imgOpenUp.Visible = true;
-                    imgOpenDown.Visible = false;
-                }
-                else
-                {
-                    imgOpenUp.Visible = false;
-                    imgOpenDown.Visible = true;
-                }
-
-                if (Properties.Settings.Default.HideOptions)
-                {
-                    imgOptionsOpen.Visible = true;
-                    imgOptionsClose.Visible = false;
-                }
-                else
-                {
-                    imgOptionsOpen.Visible = false;
-                    imgOptionsClose.Visible = true;
-                }
+              
 
 
-                if (Properties.Settings.Default.HideHistory)
-                {
-                    imgOpenRight.Visible = true;
-                    imgOpenLeft.Visible = false;
-                }
-                else
-                {
-                    imgOpenRight.Visible = false;
-                    imgOpenLeft.Visible = true;
-                }
+
             }
             catch { }
         }
@@ -1126,12 +1063,12 @@ namespace ADD
                 if (!System.IO.File.Exists("coin.conf"))
                 {
                     System.IO.StreamWriter writeCoinConf = new StreamWriter("coin.conf");
-                    writeCoinConf.WriteLine("Bitcoin 0 20 0 .0000548 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True False  BTC False   .001 False");
-                    writeCoinConf.WriteLine("Bitcoin-T 111 20 0 .0000548 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True False  BTC-T False   .001 False");
+                    writeCoinConf.WriteLine("Bitcoin 0 20 0 .00000546 330 8332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True False  BTC False   .001 False");
+                    writeCoinConf.WriteLine("Bitcoin-T 111 20 0 .00000546 330 18332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True False  BTC-T False   .001 False");
                     writeCoinConf.WriteLine("Litecoin 48 20 0 .00000001 330 9332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False False  LTC False   .001 False");
                     writeCoinConf.WriteLine("Litecoin-T 111 20 0 .00001 330 19332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True False False  LTC-T False   .001 False");
-                    writeCoinConf.WriteLine("Mazacoin 50 20 0 .000055 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  MZC False   .001 False");
-                    writeCoinConf.WriteLine("Mazacoin-T 50 20 0 .000055 330 11832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  MZC-T False   .001 False");
+                    writeCoinConf.WriteLine("Mazacoin 50 20 0 .00000546 330 12832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  MZC False   .001 False");
+                    writeCoinConf.WriteLine("Mazacoin-T 50 20 0 .00000546 330 11832 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False True True False  MZC-T False   .001 False");
                     writeCoinConf.WriteLine("Datacoin 30 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True   DTC    .001 False");
                     writeCoinConf.WriteLine("Datacoin-V 30 90000 0 4.8 15 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True   DTC-V    .001 True");
                     writeCoinConf.WriteLine("Datacoin-T 70 20 0 0.05 330 11777 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME False False True   DTC-T    .001 False");
@@ -1141,8 +1078,8 @@ namespace ADD
                     writeCoinConf.WriteLine("Devcoin 0 20 0 .0000548 330 52332 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  DVC False   .001 False");
                     writeCoinConf.WriteLine("Potcoin 55 20 0 .0000548 330 42000 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True True False False  POT False   .001 False");
                     writeCoinConf.WriteLine("Florincoin 35 20 0 .00001 330 7317 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  FLC False   .001 False");
-                    writeCoinConf.WriteLine("Curecoin 25 20 0 .00001 330 19911 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001 False");
-                    writeCoinConf.WriteLine("Curecoin-T 111 20 0 .0001 330 18600 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE-T False   .001 False");
+                    writeCoinConf.WriteLine("Curecoin 25 20 0 .0001 330 19911 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001 False");
+                    writeCoinConf.WriteLine("Curecoin-T 111 20 0 .0001 330 18600 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  CURE False   .001 False");
                     writeCoinConf.WriteLine("Namecoin 52 20 0 .01 330 8336 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  NMC False   .001 False");
                     writeCoinConf.WriteLine("Primecoin 23 20 0 .01 330 9912 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM False   .001 False");
                     writeCoinConf.WriteLine("Primecoin-T 111 20 0 .01 330 9914 127.0.0.1 RPC_USER_CHANGE_ME RPC_PASSWORD_CHANGE_ME True False False False  XPM-T False   .001 False");
@@ -1322,13 +1259,13 @@ namespace ADD
             if (txtMessage.Text == "")
             {
                 txtMessage.ScrollBars = ScrollBars.None;
-    
+                imgEnterMessageHere.Visible = true;
                 if (txtFileName.TextLength < 1) { btnArchive.Enabled = false; }
             }
             else
             {
                 txtMessage.ScrollBars = ScrollBars.Both;
-
+                imgEnterMessageHere.Visible = false;
 
             }
             updateEstimatedCost();
@@ -1556,7 +1493,7 @@ namespace ADD
                 btnAttachFile.Enabled = true;
                 proofToolStripMenuItem.Enabled = true;
                 txtMessage.Select();
-
+                if (txtMessage.TextLength < 1) { imgEnterMessageHere.Visible = true; }
                 if (WalletLabel == "")
                 {
                     MessageBox.Show("Accounts without a label are not supported. Assign a label using your wallet software and retry.");
@@ -1570,6 +1507,7 @@ namespace ADD
                 txtFileName.Enabled = false;
                 btnAttachFile.Enabled = false;
                 proofToolStripMenuItem.Enabled = false;
+                imgEnterMessageHere.Visible = false;
                 btnArchive.Enabled = false;
                 imgLink.Enabled = false;
                 imgLink.Image = Properties.Resources.LinkDisabled;
@@ -2191,7 +2129,8 @@ namespace ADD
                     fileStream.Write(UTF8Encoding.UTF8.GetBytes(strHTML), 0, strHTML.Length);
                     fileStream.Close();
 
-                    BuildBackLinks(TransID);
+                    if (Properties.Settings.Default.EnableBackLinks) { BuildBackLinks(TransID); }
+                    
 
                     if (DisplayResults && !chkMonitorBlockChains.Checked)
                     {
@@ -2239,7 +2178,7 @@ namespace ADD
                 {
                     fileText = streamReader.ReadToEnd();
                 }
-                Match match = Regex.Match(fileText, @"([a-fA-F0-9]{64})");
+                Match match = Regex.Match(fileText, @"(\/[a-fA-F0-9]{64})");
                 if (match.Success)
                 {
                     do
@@ -2253,7 +2192,7 @@ namespace ADD
                                 {
                                     lock (_buildLocker)
                                     {
-                                        isFound = CreateArchive(match.ToString(), i, false, true, null, null, false);
+                                        isFound = CreateArchive(match.ToString().Replace("/",""), i, false, true, null, null, false);
                                     }
 
                                     if (isFound)
@@ -2582,30 +2521,35 @@ namespace ADD
                     return addressBuilder.Split(',');
                 }
 
-                     if (transaction.vout.Length == 2)
-                    {
-                        if (coinMinTransaction[WalletKey] == transaction.vout[1].value) { arcValue = coinMinTransaction[WalletKey]; }
-                        if (coinMinTransaction[WalletKey] == transaction.vout[0].value) { arcValue = coinMinTransaction[WalletKey]; }
-                        if (arcValue == (decimal)999999999) { arcValue = transaction.vout[1].value; }
-                     }
-                    else
-                    {
+                    // if (transaction.vout.Length == 2)
+                   // {
+                    //    if (coinMinTransaction[WalletKey] == transaction.vout[1].value) { arcValue = coinMinTransaction[WalletKey]; }
+                   //     if (coinMinTransaction[WalletKey] == transaction.vout[0].value) { arcValue = coinMinTransaction[WalletKey]; }
+                    //    if (arcValue == (decimal)999999999) { arcValue = transaction.vout[1].value; }
+                   //  }
+                   // else
+                  //  {
                         Dictionary<decimal, int> arcValues = new Dictionary<decimal, int>();
                         foreach (BitcoinNET.RPCClient.GetRawDataTransactionResponse.Output detail in transaction.vout)
                         {
 
-                            if (!arcValues.ContainsKey(detail.value))
-                            {
-                                arcValues.Add(detail.value, 1);
-
-                                if (detail.value == coinMinTransaction[WalletKey]) { arcValue = detail.value; }
-                            }
-                            else
-                            { arcValues[detail.value] = arcValues[detail.value] + 1; }
-                        }
-
-                        if (arcValue == (decimal)999999999) { arcValue = arcValues.FirstOrDefault(x => x.Value == arcValues.Values.Max()).Key; }
+                    if (arcValue > detail.value && detail.value > 0)
+                    {
+                        arcValue = detail.value;
                     }
+
+                    // if (!arcValues.ContainsKey(detail.value))
+                    // {
+                    //     arcValues.Add(detail.value, 1);
+
+                    //     if (detail.value == coinMinTransaction[WalletKey]) { arcValue = detail.value; }
+                    // }
+                    // else
+                    // { arcValues[detail.value] = arcValues[detail.value] + 1; }
+                }
+
+                       // if (arcValue == (decimal)999999999) { arcValue = arcValues.FirstOrDefault(x => x.Value == arcValues.Values.Max()).Key; }
+                   // }
 
                   
                     foreach (BitcoinNET.RPCClient.GetRawDataTransactionResponse.Output detail in transaction.vout)
@@ -3270,7 +3214,11 @@ namespace ADD
                              .ToArray();
         }
 
-        
+        private void tmrUpdateInfoText_Tick(object sender, EventArgs e)
+        {
+            Random random = new Random();
+            txtInfoBox.Text = infoArray[random.Next(0, infoArray.Count())];
+        }
 
         private void webBrowser1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -3335,23 +3283,9 @@ namespace ADD
             webBrowser1.Url = BrowseURL;
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            imgOpenLeft.Visible = false;
-            imgOpenRight.Visible = true;
-            splitHistoryBrowser.Panel1Collapsed = true;
-            Properties.Settings.Default.HideHistory = true;
-            Properties.Settings.Default.Save();
-        }
+       
 
-        private void imgOpenRight_Click(object sender, EventArgs e)
-        {
-            imgOpenLeft.Visible = true;
-            imgOpenRight.Visible = false;
-            splitHistoryBrowser.Panel1Collapsed = false;
-            Properties.Settings.Default.HideHistory = false;
-            Properties.Settings.Default.Save();
-        }
+        
 
         private void imgBackButton_Click(object sender, EventArgs e)
         {
@@ -3364,8 +3298,7 @@ namespace ADD
         }
         private void RefreshNavBtn()
         {
-            imgOpenUp.Refresh();
-            imgOpenRight.Refresh();
+           
             if (webBrowser1.CanGoBack == true) { imgBackButton.Image = Properties.Resources.OpenLeft; }
             else { imgBackButton.Image = Properties.Resources.OpenLeftDisabled; }
 
@@ -3449,35 +3382,23 @@ namespace ADD
 
             if (webBrowser1.DocumentText == "")
             {
-
+                imgApertusSplash.Visible = true;
+                txtInfoBox.Visible = true;
                 txtTransIDSearch.ForeColor = System.Drawing.Color.Gray;
                 txtTransIDSearch.Text = "ENTER SEARCH STRING";
             }
             else
             {
-
+                txtInfoBox.Visible = false;
+                imgApertusSplash.Visible = false;
                 txtTransIDSearch.ForeColor = System.Drawing.Color.Black;
             }
 
         }
 
-        private void imgOpenUp_Click(object sender, EventArgs e)
-        {
-            imgOpenUp.Visible = false;
-            imgOpenDown.Visible = true;
-            splitMain.Panel2Collapsed = false;
-            Properties.Settings.Default.HideArchive = false;
-            Properties.Settings.Default.Save();
-        }
+       
 
-        private void imgOpenDown_Click(object sender, EventArgs e)
-        {
-            imgOpenUp.Visible = true;
-            imgOpenDown.Visible = false;
-            splitMain.Panel2Collapsed = true;
-            Properties.Settings.Default.HideArchive = true;
-            Properties.Settings.Default.Save();
-        }
+        
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
@@ -3762,14 +3683,7 @@ namespace ADD
             }
         }
 
-        private void splitContainer5_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            if (!Loading)
-            {
-                Properties.Settings.Default.ArchivePanel = splitArchiveTools.SplitterDistance;
-                Properties.Settings.Default.Save();
-            }
-        }
+       
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -3928,23 +3842,7 @@ namespace ADD
             }
         }
 
-        private void splitContainer2_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            if (!Loading)
-            {
-                Properties.Settings.Default.BrowserPanel = splitHistoryBrowser.SplitterDistance;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            if (!Loading)
-            {
-                Properties.Settings.Default.MainPanel = splitMain.SplitterDistance;
-                Properties.Settings.Default.Save();
-            }
-        }
+       
 
         private void Main_Shown(object sender, EventArgs e)
         {
@@ -3959,7 +3857,11 @@ namespace ADD
             catch { }
         }
 
-        
+        private void imgApertusSplash_Resize(object sender, EventArgs e)
+        {
+            if (imgApertusSplash.Height < 50) { imgApertusSplash.Visible = false; }
+            else { if (webBrowser1.DocumentText == "") { imgApertusSplash.Visible = true; } }
+        }
 
         private void cmbSignature_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -4440,11 +4342,7 @@ namespace ADD
             tmrPauseBeforeRefreshingMonitor.Stop();
         }
 
-        private void chkCompressImages_CheckedChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.EnableImageCompression = chkCompressImages.Checked;
-            Properties.Settings.Default.Save();
-        }
+       
 
         private void chkEnableTips_CheckedChanged(object sender, EventArgs e)
         {
@@ -4479,23 +4377,7 @@ namespace ADD
             btnFriendEncryption.Text = Properties.Settings.Default.DirectMessage;
         }
 
-        private void pictureBox1_Click_1(object sender, EventArgs e)
-        {
-            imgOptionsOpen.Visible = true;
-            imgOptionsClose.Visible = false;
-            splitArchiveTools.Panel2Collapsed= true;
-            Properties.Settings.Default.HideOptions = true;
-            Properties.Settings.Default.Save();
-        }
-
-        private void imgOptionsOpen_Click(object sender, EventArgs e)
-        {
-            imgOptionsClose.Visible = true;
-            imgOptionsOpen.Visible = false;
-            splitArchiveTools.Panel2Collapsed = false;
-            Properties.Settings.Default.HideOptions = false;
-            Properties.Settings.Default.Save();
-        }
+  
 
         private void imgOpenInBrowserButton_Click(object sender, EventArgs e)
         {
@@ -4503,6 +4385,14 @@ namespace ADD
             {
                 Process.Start(webBrowser1.Url.ToString());
             }
+        }
+
+        private void chkBackLinks_CheckedChanged(object sender, EventArgs e)
+        {
+
+            Properties.Settings.Default.EnableBackLinks = chkBackLinks.Checked;
+            Properties.Settings.Default.Save();
+
         }
     }
 

@@ -52,7 +52,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("996")]
+        [global::System.Configuration.DefaultSettingValueAttribute("993")]
         public int AppHeight {
             get {
                 return ((int)(this["AppHeight"]));
@@ -64,73 +64,13 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1930")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1247")]
         public int AppWidth {
             get {
                 return ((int)(this["AppWidth"]));
             }
             set {
                 this["AppWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("650")]
-        public int BrowserPanel {
-            get {
-                return ((int)(this["BrowserPanel"]));
-            }
-            set {
-                this["BrowserPanel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("269")]
-        public int ArchivePanel {
-            get {
-                return ((int)(this["ArchivePanel"]));
-            }
-            set {
-                this["ArchivePanel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool HideArchive {
-            get {
-                return ((bool)(this["HideArchive"]));
-            }
-            set {
-                this["HideArchive"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool HideHistory {
-            get {
-                return ((bool)(this["HideHistory"]));
-            }
-            set {
-                this["HideHistory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("159")]
-        public int MainPanel {
-            get {
-                return ((int)(this["MainPanel"]));
-            }
-            set {
-                this["MainPanel"] = value;
             }
         }
         
@@ -208,18 +148,6 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EnableImageCompression {
-            get {
-                return ((bool)(this["EnableImageCompression"]));
-            }
-            set {
-                this["EnableImageCompression"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool EnableTips {
             get {
@@ -269,24 +197,24 @@ namespace ADD.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool HideOptions {
-            get {
-                return ((bool)(this["HideOptions"]));
-            }
-            set {
-                this["HideOptions"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool EnableMonitor {
             get {
                 return ((bool)(this["EnableMonitor"]));
             }
             set {
                 this["EnableMonitor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableBackLinks {
+            get {
+                return ((bool)(this["EnableBackLinks"]));
+            }
+            set {
+                this["EnableBackLinks"] = value;
             }
         }
     }

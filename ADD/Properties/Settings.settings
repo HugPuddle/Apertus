@@ -12,25 +12,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="AppHeight" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">996</Value>
+      <Value Profile="(Default)">993</Value>
     </Setting>
     <Setting Name="AppWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1930</Value>
-    </Setting>
-    <Setting Name="BrowserPanel" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">650</Value>
-    </Setting>
-    <Setting Name="ArchivePanel" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">269</Value>
-    </Setting>
-    <Setting Name="HideArchive" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="HideHistory" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="MainPanel" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">159</Value>
+      <Value Profile="(Default)">1247</Value>
     </Setting>
     <Setting Name="AppLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)">1,1</Value>
@@ -50,9 +35,6 @@
     <Setting Name="EnableEnterEqualsSave" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="EnableImageCompression" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="EnableTips" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -65,10 +47,10 @@
     <Setting Name="TextFont" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)">Microsoft Sans Serif, 10.2pt, style=Bold</Value>
     </Setting>
-    <Setting Name="HideOptions" Type="System.Boolean" Scope="User">
+    <Setting Name="EnableMonitor" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="EnableMonitor" Type="System.Boolean" Scope="User">
+    <Setting Name="EnableBackLinks" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

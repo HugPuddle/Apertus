@@ -73,11 +73,10 @@
     <p>3. Copy the following code:<br>
 	server=1<br>
 	rpcuser=<br>
-	rpcpassword=<br>
-    txindex=1<br></p>
+	rpcpassword=</p>
     <p>4. Paste into your Notepad file. Make sure they are left-justified, with no spaces on the left.</p>
     <p>5. After rpcuser= put any user name you want (spaces are not allowed).</p>
-    <p>6. After prcpassword= put any password you want (spaces are not allowed, cannot match or be a subset of the user name).</p>
+    <p>6. After prcpassword= put any password you want (spaces are not allowed).</p>
     <p>7. The configuration file must be placed into a special folder associated with your wallet. (go to 8 if you haven’t done this before) <br>
        Example: C:\Users\[your user name]\AppData\Roaming\Bitcoin\bitcoin.conf<br>
        Example: C:\Users\[your user name]\AppData\Roaming\Litecoin\litecoin.conf</p>
@@ -139,7 +138,7 @@
 Data is referenced and retrieved by Apertus using the final transaction id of the process; the Root ID.<br>
 Using root ID's, one can navigate the data on blockchains like one does on the internet.<br>
 <br>
-Caution: As stated prior, Apertus attempts to filter out all unsafe content. Apertus allows basic text and picture, but filters out code that could be malicious until you "Trust" the signature, or click "Filter Content." <br>
+Caution: As stated prior, Apertus attempts to filter out all unsafe content. Apertus allows basic text and picture, but filters out code that could be malicious until you "Trust" the signature, or uncheck "Filter" option <br>
 Always treat any etchings you see with the same caution you would use with unknown emails. When navigating blockchains, do not download or run executable files from sources you have not verified.</p>
 To look at data on a blockchain for the first time we suggest you either choose one of the root id's below, or go to <a href="http://www.bitfossil.com">bitFossil.com</a> and search for something to take a look at, or click "recent" and see what is available.<br>
 (note that bitFossil.com is an aggregation of Apertus-style data (and noise) from various blockchains put onto a standard webpage)<br>
@@ -153,6 +152,10 @@ Mazacoin - Fort Laramie Treaty, 1868 (rtf file) - f1a37b1c85bed3f561137789407735
 Bitcoin Testnet - "Flowers of War - US Bombs the World" by Allen Vandever - 7b9987b58b372bf491cc0703672a02a74d8a24a8d20d57d22ab32c23851eefec<br>
 
 You're now viewing data straight from a blockchain :) <br><br><br>
+
+Back Links Option <br />
+~ Check this box to build any backlinks that may be a part of the archive. as an example if you see broken image links.. try checking this box and rebuilding by pressing CTRL-ENTER in the search box with transaction ID.<br><br>
+     <br><br><br>
 
 If you wish to navigate the web through Apertus, it may give you some errors.<br>
 Here's one we know about, and how to fix it.<br>
@@ -188,7 +191,9 @@ Here's one we know about, and how to fix it.<br>
     <p>You’ve just put immutable data on a Blockchain :)
     <p>But there are a shit-ton more ways to use Apertus - keep rollin...</p>
 
-    <p>Note: Apertus currently doesn't update how much coin you have in your wallet after an etching - you'll need to reboot Apertus to see your new amount.<br>
+     <p>no message option - checking the no message option box will cause apertus to only interpret the commands sent in the message box. it will not etch the message box text itself.  this is usefull when assigning keywords in conjuction with the link feature. when checked #keywords can be assigned without having to etch the keyword text itself. </p>
+
+    <p>Note: Apertus currently doesn't update how much coin you have in your wallet after an etching - you'll need to reselect the wallet to see your new amount.<br>
        (can you code better threading? wallet amount updates? other funky things? free hugz & credit to whomever can do it! Find us at <a href="https://github.com/HugPuddle/Apertus">Github - Apertus</a>).</p>
    <A href="#index">Back to Index</A>
    <br><br><br>
@@ -490,7 +495,7 @@ The PGP Web of Trust may be well-suited on a blockchain. Limited, important info
    This anchors the creation to you AND gives a unique identifier to the creation itself.<br>
    This is a token - it's been created and defined by the data, metadata, and associated signatures.<br>
    The data entry field in Apertus (what I've been calling the meta-data) can give additional meaning to associated signature combinations by giving instruction on what they are doing.<br> 
-   Theoretically, Apertus can move around the asset around using the @ feature and additional metadata - and if one wants - use Vault functions to transfer keys. But, one can rely on the data transmitted with the etching to determine how it is to be interpreted as well.<br>  
+   Theoretically, Apertus can move around the asset using the @ feature and additional metadata - and if one wants - use Vault functions to transfer keys. But, one can rely on the data transmitted with the etching to determine how it is to be interpreted as well.<br>  
    This is a work-in-progress, and the direction Apertus is going. Authenticated publishing on indelible, long-lived platforms is our primary thrust - social-media capabilities is a side-effect.<br>
    Things are subject to change - right now 0.4.0 will have some new layers that may not be backward compatible with 0.3.0 entirely.<br>
    Apertus currently (0.3.0) has many elements of token creation - it just isn't a fully automated and layered at this time.<br>

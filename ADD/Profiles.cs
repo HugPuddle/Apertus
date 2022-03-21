@@ -337,34 +337,6 @@ namespace ADD
             {
                 string fileName = openFileDialog1.FileName;
                 string processID = "";
-
-                if (Properties.Settings.Default.EnableImageCompression)
-                {
-                    try
-                    {
-
-                        Bitmap bmp1 = new Bitmap(fileName);
-                        if (processID == "") { processID = Guid.NewGuid().ToString(); }
-                        Directory.CreateDirectory("process//" + processID);
-                        ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
-                        System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
-                        EncoderParameters myEncoderParameters = new EncoderParameters(1);
-                        EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 70L);
-                        myEncoderParameters.Param[0] = myEncoderParameter;
-
-                        fileName = Path.GetDirectoryName(Application.ExecutablePath) + @"\process\" + processID + @"\" + Path.GetFileNameWithoutExtension(openFileDialog1.FileName) + ".jpg";
-                        bmp1.Save(fileName, jgpEncoder, myEncoderParameters);
-                        FileInfo f1 = new FileInfo(openFileDialog1.FileName);
-                        FileInfo f2 = new FileInfo(fileName);
-
-                        //Files aren't always smaller especially when converting png files
-                        if (f2.Length < f1.Length) { openFileDialog1.FileName = fileName; }
-
-
-                    }
-                    catch { }
-                }
-
                 imgProfilePhoto.Image = Image.FromFile(openFileDialog1.FileName);
 
 
