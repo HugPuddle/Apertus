@@ -3751,7 +3751,11 @@ namespace ADD
                         if (txtAddSignature.Text.LastIndexOf('~') > 0)
                         { label = txtAddSignature.Text; }
                         else { label = "~~" + txtAddSignature.Text; }
-                        label = a.GetNewAddress(label);
+
+                        try { label = a.GetNewLegacyAddress(label); }
+                        catch { label = a.GetNewAddress(label); }
+
+
                         cmbSignature.Items.Add(txtAddSignature.Text);
                         txtAddSignature.Visible = false;
                         cmbSignature.Visible = true;

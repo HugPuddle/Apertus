@@ -101,7 +101,8 @@ namespace ADD
                         if (txtProfileAddress.Text.LastIndexOf('~') > 0)
                         { label = txtProfileAddress.Text; }
                         else { label = "~~~~" + txtProfileAddress.Text; }
-                        label = a.GetNewAddress(label);
+                        try { label = a.GetNewLegacyAddress(label); }
+                        catch { label = a.GetNewAddress(label); }
                         cmbProfileAddress.Items.Add(txtProfileAddress.Text);
                         txtProfileAddress.Visible = false;
                         cmbProfileAddress.Visible = true;

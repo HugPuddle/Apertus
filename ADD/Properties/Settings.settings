@@ -12,10 +12,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="AppHeight" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">993</Value>
+      <Value Profile="(Default)">987</Value>
     </Setting>
     <Setting Name="AppWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1247</Value>
+      <Value Profile="(Default)">1243</Value>
     </Setting>
     <Setting Name="AppLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)">1,1</Value>

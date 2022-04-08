@@ -52,7 +52,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("993")]
+        [global::System.Configuration.DefaultSettingValueAttribute("987")]
         public int AppHeight {
             get {
                 return ((int)(this["AppHeight"]));
@@ -64,7 +64,7 @@ namespace ADD.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1247")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1243")]
         public int AppWidth {
             get {
                 return ((int)(this["AppWidth"]));

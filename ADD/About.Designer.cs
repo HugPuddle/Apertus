@@ -57,7 +57,7 @@
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(217, 25);
             this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "Version: v0.3.19-beta";
+            this.lblVersion.Text = "Version: v0.3.20-beta";
             // 
             // label1
             // 
@@ -88,11 +88,11 @@
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
             this.textBox2.Enabled = false;
             this.textBox2.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(26, 445);
+            this.textBox2.Location = new System.Drawing.Point(26, 433);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(998, 150);
+            this.textBox2.Size = new System.Drawing.Size(998, 162);
             this.textBox2.TabIndex = 5;
             this.textBox2.Text = resources.GetString("textBox2.Text");
             // 

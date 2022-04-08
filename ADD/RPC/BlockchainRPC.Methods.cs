@@ -15,8 +15,14 @@ namespace BitcoinNET.RPCClient
                 (new RPCRequest("getnewaddress", new Object[] { Account }));
         }
 
+        public string GetNewLegacyAddress(string Account = "")
+        {
+            return RpcCall<string>
+                (new RPCRequest("getnewaddress", new Object[] { Account , "legacy"}));
+        }
 
-		public IEnumerable<string> GetRawMemPool()
+
+        public IEnumerable<string> GetRawMemPool()
 		{
 			return RpcCall<IEnumerable<string>>
 				(new RPCRequest("getrawmempool"));
