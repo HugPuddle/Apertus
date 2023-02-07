@@ -10,7 +10,7 @@ Data saved on a blockchain in this manner can later be retrieved from the blockc
 
 NOTE: Coins used in the saving process are not recoverable. 
 
-### NOTICE: traditional apertus.io profiles sare not recognized by Sup!? see the sample transactions files located here for details on how to register a Sup!? profile with urn registration - https://github.com/embiimob/Sup/tree/master/P2FK/samples
+### NOTICE: traditional apertus.io profiles are not recognized by Sup!? see the sample transactions files located here for details on how to register a Sup!? profile with urn registration - https://github.com/embiimob/Sup/tree/master/P2FK/samples
 
 Copyright ©  2013 - 2022 HugPuddle
 
