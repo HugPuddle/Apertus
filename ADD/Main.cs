@@ -19,7 +19,7 @@ using Microsoft.Win32;
 using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.Diagnostics;
-
+using ECPoint = Secp256k1.ECPoint;
 
 namespace ADD
 {
@@ -350,7 +350,7 @@ namespace ADD
 
                     if (ledgerId == null && Path.GetFileName(FilePath) != "SEC" && (VaultLabel != "" || (FriendLabel != "" && btnFriendEncryption.Text == "Private")))
                     {
-                        ECPoint publicKey = null;
+                        Secp256k1.ECPoint publicKey = null;
 
                         if (VaultLabel != "")
                         {
@@ -362,22 +362,7 @@ namespace ADD
                             publicKey = Secp256k1.Secp256k1.G.Multiply(privateKey);
 
                         }
-                        else
-                        {
 
-                            if (System.IO.File.Exists("root\\" + FriendLabel + "\\PRO"))
-                            {
-                                string readFile = System.IO.File.ReadAllText("root//" + FriendLabel + "//PRO");
-                                int startx = readFile.IndexOf("PKX=") + 4;
-                                int lengthx = readFile.IndexOf(Environment.NewLine, startx);
-                                int starty = readFile.IndexOf("PKY=") + 4;
-                                int lengthy = readFile.IndexOf(Environment.NewLine, starty);
-                                if (lengthx > 10 && lengthy > 10)
-                                {
-                                    publicKey = new ECPoint(Hex.HexToBigInteger(readFile.Substring(startx, lengthx - startx)), Hex.HexToBigInteger(readFile.Substring(starty, lengthy - starty)));
-                                }
-                            }
-                        }
                         ECEncryption encryption = new ECEncryption();
                         byte[] encrypted = encryption.Encrypt(publicKey, fileBytes);
                         Directory.CreateDirectory("process\\" + processId);
@@ -505,25 +490,7 @@ namespace ADD
                     }
                 }
 
-                if (FriendLabel != "" && !coinVariablePayloadByteSize[CoinType])
-                {
-                    try
-                    {
-                        string readFile = System.IO.File.ReadAllText("root//" + cmbTo.SelectedValue + "//PRO");
-                        int start = readFile.IndexOf("MSG=") + 4;
-                        int length = readFile.IndexOf(Environment.NewLine, start);
-                        string sendToAddress = readFile.Substring(start, length - start);
-                        if (!addressHash.Contains(sendToAddress))
-                        {
-                            System.IO.StreamWriter arcSign = new System.IO.StreamWriter("process\\" + processId + ".ADD", true);
-                            arcSign.WriteLine(sendToAddress);
-                            addressHash.Add(sendToAddress);
-                            arcSign.Close();
-                        }
-
-                    }
-                    catch { }
-                }
+              
 
                 if (VaultLabel != "" && chkTrackVault.Checked && !coinVariablePayloadByteSize[CoinType])
                 {
@@ -1373,11 +1340,11 @@ namespace ADD
                        
 
                             cmbWalletLabel.Enabled = true;
-                            cmbFolder.Enabled = true;
+                            //cmbFolder.Enabled = true;
                         if (!coinVariablePayloadByteSize[CoinType])
                         {
-                            btnAddFolder.Enabled = true;
-                            profilesToolStripMenuItem.Enabled = true;
+                            //btnAddFolder.Enabled = true;
+                           // profilesToolStripMenuItem.Enabled = true;
                         }
                         else
                         {
@@ -2090,11 +2057,6 @@ namespace ADD
                         else
                         { strHTML = strHTML + "<tr><td>ROOT ID</td></tr><tr><td>" + transaction.txid + "</td></tr>"; }
                        
-                        if (PROLinks != "")
-                        { strHTML = strHTML + "<tr><td>PROFILES</td></tr><tr><td><div id=\"profiles\">" + PROLinks + "</div></td></tr>";
-                        PROLinks = "";
-                        }
-
                         if (isSigned)
                         { strHTML = strHTML + "<tr><td>SIGNED BY</td></tr><tr><td><a href=\"SIG\"><div id=\"signature\">" + strSigAddress + "</div></a></td></tr>"; }
                 
@@ -2244,7 +2206,7 @@ namespace ADD
                 };
 
 
-                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "PRO" && FileName != "SIG" && !FileName.EndsWith(".SIG") && FileName != "LNK")
+                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "SIG" && !FileName.EndsWith(".SIG") && FileName != "LNK")
                 {
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file" + fileId + "\">[ " + FileName + " ]</div></div></div>";
                     foundType = true;
@@ -2279,61 +2241,23 @@ namespace ADD
 
                 if (!foundType)
                 {
-                    if (FileName != "SIG" && !FileName.EndsWith(".SIG") && FileName != "LNK" && FileName != "PRO" && FileName != "INQ")
+                    if (FileName != "SIG" && !FileName.EndsWith(".SIG") && FileName != "LNK" && FileName != "INQ" && FileName != "PRO")
                     {
                         strPrintLine = "<div class=\"item\"><div class=\"content\"><a href=\"" + HttpUtility.UrlPathEncode(FileName) + "\">" + HttpUtility.UrlPathEncode(FileName) + "</a></div></div>";
                     }
                 }
 
-                if (FileName == "PRO" || FileName == "SIG" || FileName == "LNK" || FileName == "INQ")
+                if ( FileName == "SIG" || FileName == "LNK" || FileName == "INQ")
                 {
                     string readFile = Encoding.UTF8.GetString(ByteData, 0, ByteData.Length);
                     readFile = WebUtility.HtmlEncode(readFile);
                     ByteData = Encoding.UTF8.GetBytes(readFile);
 
-                    if (FileName == "PRO")
-                    {
-
-                        string strTipAddress = "";
-                        string strNickName = "";
-                        string strProfileImage = "";
-                        int start = 0;
-                        int length = 0;
-
-                        start = readFile.IndexOf("NIK=") + 4;
-                        if (start > 3)
-                        {
-                            length = readFile.IndexOf(Environment.NewLine, start);
-                            strNickName = readFile.Substring(start, length - start);
-                        }
-
-                        start = readFile.IndexOf("IMG=") + 4;
-                        if (start > 3)
-                        {
-                            length = readFile.IndexOf(Environment.NewLine, start);
-                            strProfileImage = readFile.Substring(start, length - start);
-                        }
-
-                        start = readFile.IndexOf("TIP=") + 4;
-                        if (start > 3)
-                        {
-                            length = readFile.IndexOf(Environment.NewLine, start);
-                            strTipAddress = readFile.Substring(start, length - start);
-                        }
-                        string newPro = "<div class=\"profile\"><font size=2>" + strNickName + "</font><br><img  width=80 height=80 src=\"" + strProfileImage + "\"><br><font size=1>" + strTipAddress + "</font></div>";
-                        if (!PROLinks.Contains(newPro) && PROLinks.Length < 1000)
-                        {
-                            PROLinks = PROLinks + newPro;
-                        }
-
-
-                    }
-
                 }
 
         
 
-                if (TrustContent || FileName == "PRO" || FileName == "SIG")
+                if (TrustContent ||  FileName == "SIG")
                 {
                     FileStream attachStream = null;
                     if (FileName == "LNK")
@@ -2392,10 +2316,6 @@ namespace ADD
 
         }
 
-        private void DisplayRecentTransactions()
-        {
-
-        }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
@@ -3353,32 +3273,6 @@ namespace ADD
                 imgLink.Enabled = false;
             }
 
-            if (match.Success && System.IO.File.Exists("root\\" + transID + "\\PRO") && cmbCoinType.SelectedIndex > 0)
-            {
-                string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
-                int start = readFile.IndexOf("TIP=") + 4;
-                int length = readFile.IndexOf(Environment.NewLine, start);
-                if (length > 10)
-                {
-                    imgTip.Image = Properties.Resources.Tip;
-                    imgTip.Enabled = true;
-                }
-                else
-                {
-                    imgTip.Image = Properties.Resources.TipDisabled;
-                    imgTip.Enabled = false;
-                }
-
-                imgFriend.Image = Properties.Resources.Friend;
-                imgFriend.Enabled = true;
-            }
-            else
-            {
-                imgTip.Image = Properties.Resources.TipDisabled;
-                imgTip.Enabled = false;
-                imgFriend.Image = Properties.Resources.FriendDisabled;
-                imgFriend.Enabled = false;
-            }
 
             if (webBrowser1.DocumentText == "")
             {
@@ -3499,31 +3393,7 @@ namespace ADD
                         }
                         else { strKeyWordAddress = strKeyWordAddress + "," + token.Substring(1); }
                     }
-                    else
-                    {
-                        
-                        if (friendTransID.ContainsValue(token.Substring(1)))
-                        {
-                            var keysWithMatchingValues = friendTransID.Where(p => p.Value == token.Substring(1)).Select(p => p.Key);
-                            string TransId = "";
-                            foreach (var key in keysWithMatchingValues)
-                            { TransId = key;
-                            break;
-                            }
-                             
-                            
-                            string readFile = System.IO.File.ReadAllText("root//" + TransId + "//PRO");
-                            int start = readFile.IndexOf("MSG=") + 4;
-                            int length = readFile.IndexOf(Environment.NewLine, start);
-                            string sendToAddress = readFile.Substring(start, length - start);
-                            if (strKeyWordAddress == null)
-                            {
-                                strKeyWordAddress = sendToAddress;
-                            }
-                            else { strKeyWordAddress = strKeyWordAddress + "," + sendToAddress; }
-
-                        }
-                    }
+                    
 
                 }
             }
@@ -3596,18 +3466,7 @@ namespace ADD
                     var searchURL = new Uri(System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "/follow.htm");
                     webBrowser1.Url = searchURL;
 
-                    if (System.IO.File.Exists("root//" + lstTransID + "//PRO"))
-                    {
-                        imgTip.Image = Properties.Resources.Tip;
-                        imgTip.Enabled = true;
-
-                    }
-                    else
-                    {
-                        imgTip.Image = Properties.Resources.TipDisabled;
-                        imgTip.Enabled = false;
-                    }
-
+                   
 
                     transactions = b.ListTransactions("~~~~" + cmbFolder.Text, 1000, 0);
 
@@ -3621,22 +3480,6 @@ namespace ADD
                                 var mainForm = Application.OpenForms.OfType<Main>().Single();
                                 if (mainForm.CreateArchive(transaction.txid, Main.CoinType, false, true, null, null, false))
                                 {
-                                    if (System.IO.File.Exists("root//" + transaction.txid + "//PRO"))
-                                    {
-
-                                        var doc = new HtmlAgilityPack.HtmlDocument();
-                                        doc.Load("root\\" + transaction.txid + "\\index.htm");
-                                        if (doc.GetElementbyId("signature") != null)
-                                        {
-
-                                            var signature = doc.GetElementbyId("signature").InnerText;
-                                            if (transaction.address == signature)
-                                            {
-                                                ProfileID = transaction.txid;
-                                                break;
-                                            }
-                                        }
-                                    }
                                 }
                             }
                         }
@@ -4210,21 +4053,7 @@ namespace ADD
 
         private void imgTip_Click(object sender, EventArgs e)
         {
-            Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
-             if (match.Success)
-             {
-                 if (File.Exists("root//" + match.Value + "//PRO"))
-            {
-                string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
-
-                int start = readFile.IndexOf("TIP=") + 4;
-                if (start > 3)
-                {
-                    int length = readFile.IndexOf(Environment.NewLine, start);
-                    txtMessage.Text = txtMessage.Text + Environment.NewLine + " A Tip @" + readFile.Substring(start, length - start) + ">" + coinTipAmount[CoinType];
-                }
-            }
-             }
+         
         }
 
 
@@ -4239,38 +4068,6 @@ namespace ADD
             Match match = Regex.Match(TransIDSearch, @"([a-fA-F0-9]{64})");
             if (match.Success)
             {
-                if (File.Exists("root//" + match.Value + "//PRO"))
-                {
-
-                    var doc = new HtmlAgilityPack.HtmlDocument();
-                    doc.Load("root\\" + match.Value + "\\index.htm");
-                    var blockchain = doc.GetElementbyId("blockchain").InnerText;
-                    var fileName = match.Value + "@" + coinShortName[blockchain];
-
-
-                    string readFile = System.IO.File.ReadAllText("root//" + match.Value + "//PRO");
-                    int start = readFile.IndexOf("NIK=") + 4;
-                    int length = readFile.IndexOf(Environment.NewLine, start);
-                    string strNickName = readFile.Substring(start, length - start);
-
-
-                    if (!hashFriendList.Contains(strNickName + "@" + fileName))
-                    {
-                        hashFriendList.Add(strNickName + "@" + fileName);
-                        StreamWriter writeFriendList = new StreamWriter("Friend.txt", true);
-                        writeFriendList.WriteLine(strNickName + "@" + fileName);
-                        writeFriendList.Close();
-
-                        friendTransID.Add(fileName.Substring(0,fileName.IndexOf('@')), strNickName);
-                        cmbTo.DataSource = new BindingSource(friendTransID, null);
-                        cmbTo.DisplayMember = "Value";
-                        cmbTo.ValueMember = "Key";
-
-                    }
-                    //select what was clicked on.
-                    cmbTo.SelectedIndex = cmbTo.FindString(strNickName);
-
-                }
             }
         }
         public void AddProfile(string label)
