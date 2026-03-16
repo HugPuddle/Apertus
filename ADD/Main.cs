@@ -2205,8 +2205,13 @@ namespace ADD
                     ".jpg", ".jpeg", ".jpe", ".gif", ".png", ".tiff", ".tif", ".svg", ".svgz", ".xbm", ".bmp", ".ico"
                 };
 
+                HashSet<string> filterBypassFileNames =
+                new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    "SIG", "LNK", "SEC", "OBJ", "GIV", "LST", "BRN", "INQ", "BUY"
+                };
 
-                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && FileName != "SIG" && !FileName.EndsWith(".SIG") && FileName != "LNK")
+                if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && !filterBypassFileNames.Contains(FileName) && !FileName.EndsWith(".SIG"))
                 {
                     strPrintLine = "<div class=\"item\"><div class=\"content\"><div id=\"file" + fileId + "\">[ " + FileName + " ]</div></div></div>";
                     foundType = true;
