@@ -176,4 +176,5 @@ ehthumbs.db
 Desktop.ini
 
 # Recycle Bin used on file shares
-$RECYCLE.BIN/.nuget/
+$RECYCLE.BIN/
+.nuget/

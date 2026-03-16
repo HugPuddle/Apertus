@@ -2208,7 +2208,7 @@ namespace ADD
                 HashSet<string> filterBypassFileNames =
                 new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 {
-                    "SIG", "LNK", "SEC", "OBJ", "GIV", "LST", "BRN", "INQ"
+                    "SIG", "LNK", "SEC", "OBJ", "GIV", "LST", "BRN", "INQ", "BUY"
                 };
 
                 if (chkFilterUnSafeContent.Checked && !TrustContent && !safeExtensions.Contains(Path.GetExtension(FileName)) && !filterBypassFileNames.Contains(FileName) && !FileName.EndsWith(".SIG"))
