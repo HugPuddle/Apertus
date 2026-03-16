@@ -12,6 +12,7 @@ NOTE: Coins used in the saving process are not recoverable.
 NOTE: traditional apertus.io profiles and links are not recognized by Sup!? see the sample transactions files located here for details on how to register a Sup!? profile with urn registration - https://github.com/embiimob/Sup/tree/master/P2FK/samples
 
 RELEASE NOTES
+
 UPDATE: The following extensionless transaction files have been added to the system transactions group which bypasses default file filtering... SEC, OBJ, GIV, LST, BUY, BRN
 
 Copyright ©  2013 - 2026 HugPuddle
