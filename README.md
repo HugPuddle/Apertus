@@ -9,11 +9,10 @@ When connected to a wallet ADD monitors and creates a coin agnostic, web browsea
 Data saved on a blockchain in this manner can later be retrieved from the blockchain and viewed in a browser by entering a single transaction ID in the ADD client.
 
 NOTE: Coins used in the saving process are not recoverable. 
-
-### NOTICE: traditional apertus.io profiles are not recognized by Sup!? see the sample transactions files located here for details on how to register a Sup!? profile with urn registration - https://github.com/embiimob/Sup/tree/master/P2FK/samples
+NOTE: traditional apertus.io profiles and links are not recognized by Sup!? see the sample transactions files located here for details on how to register a Sup!? profile with urn registration - https://github.com/embiimob/Sup/tree/master/P2FK/samples
 
 RELEASE NOTES
-UPDATE: the following extensionless transaction files bypass default file filtering similar... SEC, OBJ, GIV, LST, BUY, BRN
+UPDATE: The following extensionless transaction files have been added to the system transactions group which bypasses default file filtering... SEC, OBJ, GIV, LST, BUY, BRN
 
 Copyright ©  2013 - 2026 HugPuddle
 
